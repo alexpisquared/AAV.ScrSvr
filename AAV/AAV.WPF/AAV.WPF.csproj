@@ -62,9 +62,6 @@
     <Content Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AavCore\AAV.Sys\AAV.Sys.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\..\Lgc\ScrSvrs\AAV.ScrSvr\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
     <Analyzer Include="..\..\Lgc\ScrSvrs\AAV.ScrSvr\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.8\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
     <Analyzer Include="..\..\Lgc\ScrSvrs\AAV.ScrSvr\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Humanizer.dll" />
