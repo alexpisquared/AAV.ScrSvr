@@ -80,9 +80,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="..\..\..\AsLink\IsoStorage\IsoHelper.cs">
-      <Link>AsLink\IsoHelper.cs</Link>
-    </Compile>
     <Compile Include="C:\c\AsLink\IsoStorage.cs">
       <Link>AsLink\IsoStorage.cs</Link>
     </Compile>
@@ -123,19 +120,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AavCore\AAV.Sys\AAV.Sys.csproj">
-      <Project>{145848da-4875-4a93-929c-7c31a1d0fb00}</Project>
+    <ProjectReference Include="..\..\AavCore\AAV.Sys\AAV.Sys.csproj">
+      <Project>{b7674675-6871-44bb-b080-72a39d3374f8}</Project>
       <Name>AAV.Sys</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\AAV\AAV.WPF\AAV.WPF.csproj">
-      <Project>{6d51fed2-4250-4db3-9625-24c348e86aaf}</Project>
+    <ProjectReference Include="..\..\AAV\AAV.WPF\AAV.WPF.csproj">
+      <Project>{1ce2c02f-5fa8-41ca-ac2e-ba91ab283a02}</Project>
       <Name>AAV.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Scraping\RadarPicCollect\RadarPicCollect.csproj">
+    <ProjectReference Include="..\..\Lgc\Scraping\RadarPicCollect\RadarPicCollect.csproj">
       <Project>{61A2DBC2-53FD-4AD7-93E2-697A42B2C485}</Project>
       <Name>RadarPicCollect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Scraping\WebScrap\WebScrap.csproj">
+    <ProjectReference Include="..\..\Lgc\Scraping\WebScrap\WebScrap.csproj">
       <Project>{80c1edc5-ecc1-4178-8a83-dfb40d766ab4}</Project>
       <Name>WebScrap</Name>
     </ProjectReference>
