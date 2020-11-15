@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style TargetType="DataGridColumnHeader" x:Key="ColumnHeaderStyle_Aav0" >
+    <!--
+    <Setter Property="Height"         Value="30"/>
+		<Setter Property="Background"     Value="LightBlue"/>        -->
+    <Setter Property="FontSize"       Value="12" />
+    <Setter Property="Foreground"     Value="{DynamicResource InfoForegroundBrush}"/>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="ToolTip"    Value="Click to sort."/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ColumnHeaderStyle_Aav0}" x:Key="ColumnHeaderStyle_Bold0" >
+    <Setter Property="Foreground"     Value="Red"/>
+    <Setter Property="FontWeight"     Value="Bold"/>
+  </Style>
+
+  <Style TargetType="{x:Type DataGrid}" >
+    <Setter Property="AlternatingRowBackground" Value="{DynamicResource ButnBackgroundBrush}" />
+    <Setter Property="AutoGenerateColumns"		  Value="False"  />
+    <Setter Property="Background"			          Value="Transparent" />
+    <Setter Property="BorderThickness"			    Value="1" />
+    <Setter Property="BorderBrush"			        Value="{DynamicResource ButnBackgroundBrush}" />
+    <Setter Property="CanUserAddRows"			      Value="False" />
+    <Setter Property="ColumnHeaderStyle"		    Value="{StaticResource ColumnHeaderStyle_Aav0}"/>
+    <Setter Property="EnableRowVirtualization"	Value="True"  />
+    <!--<Setter Property="Foreground"               Value="{DynamicResource BackBackgrounddBrush}"/>-->
+    <Setter Property="Foreground"               Value="{StaticResource MainForegroundBrush}" />
+    <Setter Property="GridLinesVisibility"		  Value="None" />
+    <Setter Property="HeadersVisibility"		    Value="Column" />
+    <Setter Property="IsReadOnly"				        Value="True"  />
+    <Setter Property="RowBackground"			      Value="{DynamicResource TextBackgroundBrush}" />
+    <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"  />
+    <Setter Property="VerticalAlignment"		    Value="Top"  />
+  </Style>
+
+
+  <Style x:Key="CenterAlignStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="TextAlignment" Value="Center" />
+  </Style>
+  <Style x:Key="RightAlignStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="TextAlignment" Value="Right"  />
+    <Setter Property="Margin" Value="6 0"  />
+  </Style>
+  <Style x:Key="LeftAlignStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="TextAlignment" Value="Left" />
+  </Style>
+
+</ResourceDictionary>

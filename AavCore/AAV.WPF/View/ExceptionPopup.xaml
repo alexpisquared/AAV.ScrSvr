@@ -1,0 +1,74 @@
+﻿<lnk:WindowBase xmlns:lnk="clr-namespace:AAV.WPF.Base" x:Name="wnd" x:Class="AAV.WPF.View.ExceptionPopup" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:local="clr-namespace:AAV.WPF.View"
+        Title="ExceptionPopup" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource WindowStyle_Aav0}" Loaded="onLoaded">
+  <lnk:WindowBase.Resources>
+    <ResourceDictionary >
+      <ResourceDictionary.MergedDictionaries>
+        <!--
+        <ResourceDictionary Source="/AAV.WPF;component/AsLink/Theme.Color.Lite.VaporWave.xaml" />-->
+        <ResourceDictionary Source="/AAV.WPF;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
+        <ResourceDictionary Source="/AAV.WPF;component/Base/DataGrid.Base.xaml" />
+        <ResourceDictionary Source="/AAV.WPF;component/Base/BasicDefaultsLayout.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </lnk:WindowBase.Resources>
+
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
+  </WindowChrome.WindowChrome>
+  <Border Style="{StaticResource BorderStyle_Aav0}">
+    <Grid Margin="25 0 0 0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"  />
+        <RowDefinition Height="2*"    />
+        <RowDefinition Height="1*"    />
+        <RowDefinition Height="1*"  />
+        <RowDefinition Height="Auto"    />
+        <RowDefinition Height="Auto"  />
+        <RowDefinition Height="Auto"  />
+      </Grid.RowDefinitions>
+      <Grid.Resources>
+        <Style TargetType="Label" >
+          <Setter Property="HorizontalAlignment" Value="Left" />
+          <Setter Property="VerticalAlignment" Value="Top" />
+          <Setter Property="FontSize" Value="12" />
+          <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="tb" >
+          <Setter Property="FontSize" Value="16" />
+          <Setter Property="Foreground" Value="#eee" />
+          <Setter Property="VerticalAlignment" Value="Center" />
+          <Setter Property="Margin" Value="20 10 0 0" />
+        </Style>
+      </Grid.Resources>
+
+      <TextBlock Grid.Row="0" HorizontalAlignment="Center" Foreground="#d01" FontSize="26" VerticalAlignment="Top"    Text="Exception ORG!!!" Margin="0 0 0 20"  x:Name="ExType"                />
+      <TextBlock Grid.Row="0" HorizontalAlignment="Center" Foreground="#070" FontSize="14" VerticalAlignment="Bottom" Text="Press any key to continue, or any other key to quit" />
+      <TextBlock Grid.Row="0" HorizontalAlignment="Right"  Foreground="#0a0" FontSize="10" VerticalAlignment="Center" Text="Will Ignore in 3 min automatically...  " />
+
+      <Rectangle Grid.Row="1" Fill="#181818" />
+      <Rectangle Grid.Row="4" Fill="#181818" />
+
+      <Label Grid.Row="1" Content="file:" />
+      <Label Grid.Row="2" Content="func:" />
+      <Label Grid.Row="4" Content="expn:" />
+
+      <TextBlock Grid.Row="1" Style="{StaticResource tb}" x:Name="innrMsgs" Text="Exception message" MouseDown="T4_MouseDown" ToolTip="Click to copy to clipboard." TextWrapping="Wrap" />
+      <TextBlock Grid.Row="2" Style="{StaticResource tb}" x:Name="callerFL" Text="C:\c\folder\file.cs: 12" />
+      <TextBlock Grid.Row="3" Style="{StaticResource tb}" x:Name="methodNm" Text="MethodName()" />
+      <TextBlock Grid.Row="4" Style="{StaticResource tb}" x:Name="optnlMsg" Text="[optnl text]" Foreground="#ee0" />
+
+
+      <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" >
+        <Button Content="_Abort"  IsDefault="False"   Click="onShutdown"  Foreground="#06f" FontSize="16" Margin="5" ToolTip="Shutdown the application"/>
+        <Button Content="_Ignore" IsDefault="True"    Click="onCopyClose" Foreground="#0b0" FontSize="16" Margin="5" ToolTip="Copy to clipboard and close"/>
+        <Button Content="  X  "    IsCancel="True"    Click="onCloseAndContinueExecution"     Foreground="#c00" FontSize="16" Margin="5" ToolTip="Close" FontWeight="Bold" />
+      </StackPanel>
+
+      <Image Height="80" Width="80" VerticalAlignment="Top" HorizontalAlignment="Left"  Source="/Assets/error.gif" />
+
+    </Grid>
+  </Border>
+</lnk:WindowBase>

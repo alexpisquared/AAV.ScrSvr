@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rss version="2.0">
+
+	<!--
+This is a data file that is meant to be read by RSS readers or aggregators.
+See http://www.ec.gc.ca/meteo-weather/default.asp?lang=En&n=11703207-1 to learn more about our RSS service.
+-->
+
+	<channel>
+		<title>Vaughan - Weather - Environment Canada</title>
+		<link>http://www.weatheroffice.gc.ca</link>
+		<description>Current weather conditions, forecasts and warnings for: Vaughan</description>
+		<language>en-ca</language>
+		<copyright>Copyright 2013, Environment Canada</copyright>
+		<item>
+			<title>No watches or warnings in effect, Vaughan</title>
+			<link>http://www.weatheroffice.gc.ca/warnings/warnings_e.html</link>
+			<description>No watches or warnings in effect.</description>
+			<category>Warnings and Watches</category>
+			<guid isPermaLink="false">on-64_w1 12 Apr 2013 16:00:00 GMT</guid>
+			<pubDate>12 Apr 2013 16:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Current Conditions: Cloudy, 1.7&#xB0;C</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>
+				<![CDATA[<b>Observed at:</b> Toronto Buttonville Municipal Airport 1:00 PM EDT Saturday 20 April 2013 <br/>
+<b>Condition:</b> Cloudy <br/>
+<b>Temperature:</b> 1.7&deg;C <br/>
+<b>Pressure / Tendency:</b> 101.7 kPa rising<br/>
+<b>Visibility:</b> 24.1 km<br/>
+<b>Humidity:</b> 50 %<br/>
+<b>Dewpoint:</b> -7.6&deg;C <br/>
+<b>Wind:</b> W 30 km/h gust 46 km/h<br/>
+<b>Air Quality Health Index:</b> N/A <br/>
+]]>
+			</description>
+			<category>Current Conditions</category>
+			<guid isPermaLink="false">on-64_cc 20 Apr 2013 17:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 17:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Saturday: Chance of flurries. Temperature steady near plus 1. POP 60%</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>A mix of sun and cloud with 60 percent chance of flurries. Wind west 30 km/h gusting to 50. Temperature steady near plus 1. UV index 7 or high. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc1 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Saturday night: A few clouds. Low minus 5.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>A few clouds. Wind west 30 km/h gusting to 50 becoming light near midnight. Low minus 5. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc2 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Sunday: Sunny. High 7.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Sunny. High 7. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc3 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Monday: Sunny. Low zero. High 13.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Sunny. Low zero. High 13. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc4 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Tuesday: Sunny. Low plus 3. High 12.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Sunny. Low plus 3. High 12. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc5 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Wednesday: Showers. Low plus 5. High 8.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Showers. Windy. Low plus 5. High 8. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc6 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Thursday: Sunny. Low plus 1. High 9.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Sunny. Low plus 1. High 9. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc7 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>Friday: Sunny. Low plus 1. High 10.</title>
+			<link>http://www.weatheroffice.gc.ca/city/pages/on-64_metric_e.html</link>
+			<description>Sunny. Low plus 1. High 10. Forecast issued 11:00 AM EDT Saturday 20 April 2013</description>
+			<category>Weather Forecasts</category>
+			<guid isPermaLink="false">on-64_fc8 20 Apr 2013 15:00:00 GMT</guid>
+			<pubDate>20 Apr 2013 15:00:00 GMT</pubDate>
+		</item>
+	</channel>
+</rss>
+

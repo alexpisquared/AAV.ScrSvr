@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EnvironmentCanadaScrap.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="LightWindMaximum" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="SiteList" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">45151,smc,Lake Simcoe,1|45137,ngb,North Georgian Bay,0|45143,sgb,South Georgian Bay,1|45139,wlo,West Lake Ontario,1|45135,elo,East Lake Ontario,0|45149,slh,South Lake Huron,0|45008,msh,Mid South Huron,1|45003,nlh,North Lake Huron,1|45132,wle,West Lake Erie,0|45142,ele,East Lake Erie,0</Value>
+    </Setting>
+    <Setting Name="ECUrl24hourTemplate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://text.www.weatheroffice.gc.ca/marine/weatherConditions-24hrObsHistory_e.html?mapID=10&amp;siteID=08300&amp;stationID={0}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

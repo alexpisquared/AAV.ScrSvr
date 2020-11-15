@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Color x:Key="BackBackgroundColor">#222</Color>
+  <Color x:Key="ButnBackgroundColor">#333</Color>
+  <Color x:Key="TextBackgroundColor">#444</Color>
+  <Color x:Key="TextForegroundColor">#ddd</Color>
+  <Color x:Key="InfoForegroundColor">#aaa</Color>
+  <Color x:Key="LablForegroundColor">#555</Color>
+  <Color x:Key="ErorForegroundColor">#d30</Color>
+  <Color x:Key="___Color">#EDA</Color>
+
+</ResourceDictionary>
+<!--
+  https://www.color-hex.com/color-palette/5452
+  -->

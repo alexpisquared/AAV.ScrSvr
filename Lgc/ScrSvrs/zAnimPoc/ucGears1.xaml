@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="AAV.SS.UsrCtrls.ucGears1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:System="clr-namespace:System;assembly=mscorlib" 
+             xmlns:local="clr-namespace:AAV.SS.UsrCtrls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="900">
+    <UserControl.Resources>
+
+        <System:Double x:Key="r0m">-260</System:Double>
+        <System:Double x:Key="r0p">+260</System:Double>
+        <System:Double x:Key="R3"  >738</System:Double>
+        <System:Double x:Key="R0"  >480</System:Double>
+        <System:Double x:Key="D0"  >482</System:Double>
+
+        <sys:TimeSpan   x:Key="GearDelayBefore" >0:10:00</sys:TimeSpan>
+        <Duration       x:Key="GearDurtnOpacty" >0:00:10</Duration>
+        <sys:TimeSpan   x:Key="GearDelay__MAin" >0:10:10</sys:TimeSpan>
+        <Duration       x:Key="GearDurn_1min2x" >0:01:00</Duration>
+        <RepeatBehavior x:Key="GearRpeat"            >1x</RepeatBehavior>
+        <sys:TimeSpan   x:Key="GearDelay_After" >0:12:10</sys:TimeSpan>
+        
+        <CubicEase   x:Key="ceio"     EasingMode="EaseInOut" />
+        <SineEase    x:Key="seio"     EasingMode="EaseInOut" />
+        <CubicEase   x:Key="ceo"      EasingMode="EaseOut" />
+        <ElasticEase x:Key="eei"      EasingMode="EaseIn" />
+        <ElasticEase x:Key="eeo"      EasingMode="EaseOut" />
+        <ElasticEase x:Key="eeio"     EasingMode="EaseInOut" />
+        <ElasticEase x:Key="eeo1s5"   EasingMode="EaseOut" Oscillations="1" Springiness="5" />
+        <ElasticEase x:Key="eeo2s5"   EasingMode="EaseOut" Oscillations="2" Springiness="5" />
+
+        <Storyboard Timeline.DesiredFrameRate="20" x:Key="sb10MinGear" >
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" From="0"   To="+360"  Storyboard.TargetName="s4"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" From="0"   To="-360"  Storyboard.TargetName="s3"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" From="0"   To="+360"  Storyboard.TargetName="s2"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="0"   To="+180"  Storyboard.TargetName="g1"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="+09" To="+2169" Storyboard.TargetName="p1a" EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="-26" To="+2134" Storyboard.TargetName="p1b" EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="+28" To="+2188" Storyboard.TargetName="p1c" EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="-09" To="+2151" Storyboard.TargetName="p1d" EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="+09" To="-4311" Storyboard.TargetName="p2"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" From="+09" To="+4329" Storyboard.TargetName="p3"  EasingFunction="{StaticResource ceio}" AutoReverse="True" Duration="{StaticResource GearDurn_1min2x}" RepeatBehavior="{StaticResource GearRpeat}" BeginTime="{StaticResource GearDelay__MAin}" />
+
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="c1"  EasingFunction="{StaticResource ceio}" Duration="{StaticResource GearDurtnOpacty}" BeginTime="{StaticResource GearDelayBefore}" />
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="c1"  EasingFunction="{StaticResource ceio}" Duration="{StaticResource GearDurtnOpacty}" BeginTime="{StaticResource GearDelay_After}" />
+        </Storyboard>
+
+        <Style TargetType="Ellipse" BasedOn="{StaticResource AniClrElipStrokeSolidStyle}" />
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource sb10MinGear}" />
+        </EventTrigger>
+    </UserControl.Triggers>
+    <Grid Height="900" Width="900" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="c1" Opacity="0" >
+
+        <Ellipse StrokeDashArray=".004 1.19805" RenderTransformOrigin="0.5,0.5" Width="{StaticResource R3}" Height="{StaticResource R3}" StrokeDashOffset="0.002" StrokeThickness="132" Style="{StaticResource devOnlyStyle}" />
+
+        <!--<Ellipse StrokeDashArray="1 11.828" RenderTransformOrigin="0.5,0.5" Width="{StaticResource R3}" Height="{StaticResource R3}" StrokeDashOffset="6.7" x:Name="s4" >-->
+        <Ellipse StrokeDashArray=".8 6.89664"  RenderTransformOrigin="0.5,0.5" Width="740" Height="740" StrokeDashOffset="4.15" StrokeThickness="5" x:Name="s4" >
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="0" />
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <!--<Ellipse StrokeDashArray="1 10.3258" RenderTransformOrigin="0.5,0.5" Width="652" Height="652" StrokeDashOffset="0.5" x:Name="s3"  >-->
+        <Ellipse StrokeDashArray=".8 5.996" RenderTransformOrigin="0.5,0.5" Width="654" Height="654" StrokeDashOffset="0.42" StrokeThickness="5" x:Name="s3"  >
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="0" />
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <!--<Ellipse StrokeDashArray="1 8.8257" RenderTransformOrigin="0.5,0.5" Width="566" Height="566" StrokeDashOffset="5.4" x:Name="s2" >-->
+        <Ellipse StrokeDashArray=".8 5.079" RenderTransformOrigin="0.5,0.5" Width="568" Height="565" StrokeDashOffset="3.4" StrokeThickness="5" x:Name="s2" >
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="0" />
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <!--<Ellipse StrokeDashArray=".8 3.37953" RenderTransformOrigin="0.5,0.5" Width="485" Height="485" StrokeDashOffset="0.49" StrokeThickness="6" />-->
+        <Ellipse StrokeDashArray=".8 4.21540" RenderTransformOrigin="0.5,0.5" Width="484" Height="484" StrokeDashOffset="0.4" StrokeThickness="5" />
+        <!--<Ellipse StrokeDashArray="10.4" RenderTransformOrigin="0.5,0.5" Stroke="#8f44" Width="{StaticResource R0}" Height="{StaticResource R0}" />    <Ellipse StrokeDashArray="1 7.324046" RenderTransformOrigin="0.5,0.5" Width="{StaticResource R0}" Height="{StaticResource R0}" StrokeDashOffset="0.44" />    <Ellipse StrokeDashArray="1 3.9945" RenderTransformOrigin="0.5,0.5" Width="{StaticResource D0}" Height="{StaticResource D0}" StrokeDashOffset="0.448" StrokeThickness="5" Stroke="#888" />    -->
+
+
+        <Grid RenderTransformOrigin="0.5,0.5" x:Name="g1">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0" />
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <local:ucGear1 RenderTransformOrigin="0.5,0.5" x:Name="p1a" >
+                <local:ucGear1.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="9"/>
+                        <TranslateTransform X="{StaticResource r0m}"/>
+                    </TransformGroup>
+                </local:ucGear1.RenderTransform>
+            </local:ucGear1>
+            <local:ucGear1 RenderTransformOrigin="0.5,0.5" x:Name="p1b" >
+                <local:ucGear1.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-26"/>
+                        <TranslateTransform X="{StaticResource r0p}"/>
+                    </TransformGroup>
+                </local:ucGear1.RenderTransform>
+            </local:ucGear1>
+            <local:ucGear1 RenderTransformOrigin="0.5,0.5" x:Name="p1c" >
+                <local:ucGear1.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="+28"/>
+                        <TranslateTransform Y="{StaticResource r0m}"/>
+                    </TransformGroup>
+                </local:ucGear1.RenderTransform>
+            </local:ucGear1>
+            <local:ucGear1 RenderTransformOrigin="0.5,0.5" x:Name="p1d" >
+                <local:ucGear1.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-9"/>
+                        <TranslateTransform Y="{StaticResource r0p}"/>
+                    </TransformGroup>
+                </local:ucGear1.RenderTransform>
+            </local:ucGear1>
+        </Grid>
+
+        <local:ucGear1  RenderTransformOrigin="0.5,0.5" x:Name="p3" >
+            <local:ucGear1.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="9"/>
+                    <TranslateTransform X="-347"/>
+                </TransformGroup>
+            </local:ucGear1.RenderTransform>
+        </local:ucGear1>
+
+        <local:ucGear1 RenderTransformOrigin="0.5,0.5" x:Name="p2" >
+            <local:ucGear1.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="9"/>
+                    <TranslateTransform X="+303"/>
+                </TransformGroup>
+            </local:ucGear1.RenderTransform>
+        </local:ucGear1>
+
+    </Grid>
+</UserControl>

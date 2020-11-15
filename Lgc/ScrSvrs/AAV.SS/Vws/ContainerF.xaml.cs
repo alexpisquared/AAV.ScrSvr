@@ -1,0 +1,1 @@
+﻿namespace AAV.SS.Vws { public partial class ContainerF : TopmostUnCloseableWindow { public ContainerF(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent(); } }

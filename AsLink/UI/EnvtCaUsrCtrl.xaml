@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="ToRunOr.WPF.UCs.EnvtCaUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
+             xmlns:local="clr-namespace:ToRunOr.WPF.UCs"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             d:DesignHeight="600" d:DesignWidth="600" Loaded="onLoaded">
+  <UserControl.Resources>
+    <Style TargetType="lvc:CartesianChart">
+      <Setter Property="Margin"               Value="0 80 0 5" />
+      <Setter Property="Background"           Value="{DynamicResource DarkBlueGrad}" />
+    </Style>
+    <Style TargetType="Label">
+      <Setter Property="Margin"               Value="0" />
+      <Setter Property="Foreground"           Value="#888" />
+      <Setter Property="HorizontalAlignment"  Value="Center" />
+    </Style>
+    <Style TargetType="TextBlock">
+      <Setter Property="Margin"               Value="5 0" />
+      <Setter Property="Foreground"           Value="#fff" />
+      <Setter Property="HorizontalAlignment"  Value="Center" />
+      <Setter Property="TextAlignment"        Value="Center" />
+    </Style>
+    <Style TargetType="Button">
+      <Setter Property="Margin"               Value="5 0" />
+      <Setter Property="Foreground"           Value="#fff" />
+      <Setter Property="HorizontalAlignment"  Value="Center" />
+      <Setter Property="Background"           Value="Transparent" />
+      <Setter Property="BorderThickness"      Value="0" />
+      <Setter Property="HorizontalContentAlignment"      Value="Center" />
+    </Style>
+    <LinearGradientBrush x:Key="RedBlueOnlyGrad" EndPoint="0.5,1" StartPoint="0.5,0">
+      <GradientStop Color="#f00" Offset="0"/>
+      <GradientStop Color="#00f" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="RedTransBluGrad" EndPoint="0.5,1" StartPoint="0.5,0">
+      <GradientStop Color="#4d00" Offset="0"/>
+      <GradientStop Color="#2d00" Offset=".30"/>
+      <GradientStop Color="#1808" Offset=".50"/>
+      <GradientStop Color="#200d" Offset=".70"/>
+      <GradientStop Color="#400d" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="DarkBlueGrad" EndPoint="0.5,1" StartPoint="0.5,0">
+      <GradientStop Color="#2000" Offset="0"/>
+      <GradientStop Color="#2006" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="DodgerBlue0Grad" EndPoint="0.5,1" StartPoint="0.5,0">
+      <GradientStop Color="#002E8B57" Offset="0"/>
+      <GradientStop Color="#002E8B57" Offset="1"/>
+    </LinearGradientBrush>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="3*"/>
+      <RowDefinition Height="0"/>
+      <RowDefinition Height="0"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="4*"/>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+
+    <lvc:CartesianChart Grid.Row="1" x:Name="cChartFore24" Margin="5 140 -10 5" >
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis MinValue="{Binding XMin, Mode=OneWay, FallbackValue=43100}" MaxValue="{Binding XMax, Mode=OneWay, FallbackValue=43101}" LabelFormatter="{Binding XFormatter_ProperWay}" Foreground="White" FontSize="14">
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#444" StrokeDashArray="3" Step=".25" x:Name="lvcSeparator" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="{Binding YMin, Mode=OneWay}" MaxValue="{Binding YMax, Mode=OneWay}" Foreground="White" FontSize="14">
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#444" StrokeDashArray="3" Step="10" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+    </lvc:CartesianChart>
+
+    <lvc:CartesianChart Grid.Row="1" x:Name="cChartForeXX" Margin="-10 140 5 5" Grid.Column="1">
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis Foreground="White" FontSize="14" Labels="{Binding WkLables}">
+          <!--
+                <lvc:Axis Title="Month" Labels="{Binding WkLables}">
+                <lvc:Axis Foreground="White" FontSize="14">
+                -->
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#444" StrokeDashArray="3" Step="4" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="{Binding YMin, Mode=OneWay}" MaxValue="{Binding YMax, Mode=OneWay}" Foreground="White" FontSize="14" Position="RightTop">
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#444" StrokeDashArray="3" Step="10" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+    </lvc:CartesianChart>
+
+    <lvc:CartesianChart Grid.Row="2" x:Name="cChart2" >
+      <lvc:CartesianChart.AxisX>
+        <lvc:Axis MinValue="{Binding XMin, Mode=OneWay, FallbackValue=43100}" MaxValue="{Binding XMax, Mode=OneWay, FallbackValue=43101}" LabelFormatter="{Binding XFormatter_ProperWay}" Foreground="White" FontSize="14">
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#888" StrokeDashArray="8" Step=".25" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisX>
+      <lvc:CartesianChart.AxisY>
+        <lvc:Axis MinValue="{Binding YMin, Mode=OneWay}" MaxValue="100" Foreground="White" FontSize="14">
+          <lvc:Axis.Separator>
+            <lvc:Separator StrokeThickness="1" Stroke="#888" StrokeDashArray="8" Step="10" />
+          </lvc:Axis.Separator>
+        </lvc:Axis>
+      </lvc:CartesianChart.AxisY>
+    </lvc:CartesianChart>
+
+    <lvc:CartesianChart Grid.Row="3" >
+      <lvc:CartesianChart.Series>
+        <lvc:StepLineSeries Values="9,6,5,7,8,9,7,6,7,5"
+                                    PointGeometry="{x:Null}" StrokeThickness="3" Fill="#FFE41F1F" Foreground="#FFE8DE0C" PointForeground="#FF0FEA19" Stroke="#FF04F5DF" 
+                                    />
+        <lvc:LineSeries Values="1,4,3,1,4,-2,1,2,3,-1" 
+                                    PointGeometry="{x:Null}" StrokeThickness="3" Fill="#8444" Foreground="#ff8" PointForeground="#ff0" Stroke="#ff0" 
+                                    />
+      </lvc:CartesianChart.Series>
+    </lvc:CartesianChart>
+
+    <StackPanel Grid.RowSpan="2" Width="140" VerticalAlignment="Top" HorizontalAlignment="Left" ToolTip="RightClick to cycle through locations" MouseLeftButtonUp="onMouseUp" MouseRightButtonUp="onMouseUp" Margin="5">
+      <StackPanel.Background>
+        <RadialGradientBrush>
+          <GradientStop Color="#0ddd"   Offset="1.0"/>
+          <GradientStop Color="#8104"   Offset="0.8"/>
+        </RadialGradientBrush>
+      </StackPanel.Background>
+
+      <TextBlock FontSize="16" Text="-15°"    Margin="0,15,0,0"   Name="tbTempReal" />
+      <Label Content="Feels like"             Margin="0"          FontSize="9" />
+      <TextBlock FontSize="52" Text=" -25° "  Margin="0,-17,0,0"  Name="tbTempFeel" />
+      <TextBlock FontSize="16" Text="@ 17:00" Margin="0 -9 0 20"   Name="tbMeasurAt" />
+
+    </StackPanel>
+
+    <StackPanel Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" ToolTip="RightClick to cycle through locations" MouseLeftButtonUp="onMouseUp" MouseRightButtonUp="onMouseUp" >
+      <Grid HorizontalAlignment="Center" >
+        <Grid.Background>
+          <RadialGradientBrush>
+            <GradientStop Color="#cfff"         Offset="0.6"/>
+            <GradientStop Color="#0fff"         Offset="1.0"/>
+          </RadialGradientBrush>
+        </Grid.Background>
+        <Image Source="https://weather.gc.ca/weathericons/08.gif" Width="102" Height="120" HorizontalAlignment="Center" Name="img1" Margin="19 10" />
+      </Grid>
+    </StackPanel>
+    <!--
+        <Button  Grid.ColumnSpan="2" FontSize="12" Grid.RowSpan="3" VerticalAlignment="Top"     ToolTip="Click to cycle through locations" Click="onLoaded" >-->
+    <StackPanel Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10" VerticalAlignment="Top"     ToolTip="Click to cycle through locations" >
+      <TextBlock FontSize="12"    Text="Loading ..."  Name="tbTimePlce" HorizontalAlignment="Center" />
+      <!--<TextBlock FontSize="24" Text="Loading Loading Loading Loading Loading Loading Loading ..."  Name="tbConditns" Margin="0 -10 0 10" TextWrapping="WrapWithOverflow" MaxWidth="180" />-->
+    </StackPanel>
+
+    <TextBlock Grid.ColumnSpan="2" FontSize="16" Grid.RowSpan="3" Text="Loading ..."  Name="tbExn"       Margin="10" VerticalAlignment="Center" />
+    <TextBlock Grid.ColumnSpan="2" FontSize="06" Grid.RowSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Right">Go to <Hyperlink RequestNavigate="onGoTo" Name="hLnk1"  >LINK</Hyperlink> :here.</TextBlock>
+  </Grid>
+</UserControl>

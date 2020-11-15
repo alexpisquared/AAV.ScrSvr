@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Color x:Key="BackBackgroundColor">#f1f1f1</Color>
+  <Color x:Key="ButnBackgroundColor">#f6f6f6</Color>
+  <Color x:Key="TextBackgroundColor">#ffffff</Color>
+  
+  <Color x:Key="LablForegroundColor">#888</Color>
+  <Color x:Key="InfoForegroundColor">#444</Color>
+  <Color x:Key="TextForegroundColor">#111</Color>
+  <Color x:Key="ErorForegroundColor">#d30</Color>
+
+  <Color x:Key="___Color">#e70</Color>
+
+</ResourceDictionary>

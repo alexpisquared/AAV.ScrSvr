@@ -1,0 +1,14 @@
+﻿<Window x:Class="AAV.SS.MiniScrSvrWindow" x:Name="ww"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:UsrCtrls="clr-namespace:AAV.SS.UsrCtrls" 
+        Title="MiniScrSvrWindow" 
+        MinHeight="130" MinWidth="152"
+        MaxHeight="260" MaxWidth="304"
+        >
+  <Grid Background="#468" x:Name="LayoutRoot">
+    <Viewbox>
+      <UsrCtrls:FxTogglesUC />
+    </Viewbox>
+  </Grid>
+</Window>

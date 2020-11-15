@@ -1,0 +1,335 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--<Application.Resources x:Uid="Latest AS A RD">-->
+
+
+
+  <!-- <<< RX -->
+  <LinearGradientBrush x:Key="WindowBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF111113" Offset="1" />
+    <GradientStop Color="#FF15181B" Offset="0.68" />
+    <GradientStop Color="#FF191C20" Offset="0.337" />
+    <GradientStop Color="#FF1C2227" Offset="0.177" />
+    <GradientStop Color="#FF1C2227" Offset="0.116" />
+    <GradientStop Color="#FF1D2328" Offset="0.039" />
+    <GradientStop Color="#FF494D50" Offset="0" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="WindowBorderGlassBrush" EndPoint="0.20,0" StartPoint="0.8,1" >
+    <GradientStop Color="#FF6E6E6E" Offset="1.0" />
+    <GradientStop Color="#FFE6E6E6" Offset="0.75" />
+    <GradientStop Color="#FF646464" Offset="0.50" />
+    <GradientStop Color="#FFEAEAEA" Offset="0.25" />
+    <GradientStop Color="#FF666666" Offset="0.0" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="ApPanelBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF646464" Offset="0" />
+    <GradientStop Color="#FF272D32" Offset="0.9" />
+    <GradientStop Color="#FF1F262B" Offset="1" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="ApPanelBackgroundReverse" EndPoint="0.5,0" StartPoint="0.5,1">
+    <GradientStop Color="#FF1F262B" Offset="1" />
+    <GradientStop Color="#FF373D42" Offset="0.8" />
+    <GradientStop Color="#FF646464" Offset="0" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="EduHomeBackground2" EndPoint="0.04,1.0" StartPoint="0.0,0.0">
+    <GradientStop Color="#222" Offset="0" />
+    <GradientStop Color="#444" Offset="1" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="EduAwayBackground2" EndPoint="0.80,1.0" StartPoint="1.0,0.0">
+    <GradientStop Color="#222" Offset="0" />
+    <GradientStop Color="#444" Offset="1" />
+  </LinearGradientBrush>
+
+  <!--
+	<GradientStop Color="#4EABD2" Offset="0.431" />
+	<GradientStop Color="#0286BF" Offset="1" />-->
+
+
+  <LinearGradientBrush x:Key="ShevronFill0" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FFA9D4E7" />
+    <GradientStop Color="#FFF1F8FC" Offset="0.056" />
+    <GradientStop Color="#FF97CDE5" Offset="0.125" />
+    <GradientStop Color="#FF4EABD2" Offset="0.431" />
+    <GradientStop Color="#FF0286BF" Offset="1" />
+  </LinearGradientBrush>
+
+  <Color x:Key="LabelClr">#888</Color>
+  <Color x:Key="SemiHideClr">#a000</Color>
+  <Color x:Key="BmoBlueClr">#FF0079C2</Color>
+  <Color x:Key="BmoRed_Clr">#FFED1C24</Color>
+  <Color x:Key="TextColor0">#fff</Color>
+  <Color x:Key="TextColor1">#ddd</Color>
+
+  <SolidColorBrush x:Key="LabelBsh"   Color="{StaticResource LabelClr}" />
+  <SolidColorBrush x:Key="SemiHide"   Color="{StaticResource SemiHideClr}" />
+  <SolidColorBrush x:Key="BmoBlueBsh" Color="{StaticResource BmoBlueClr}" />
+  <SolidColorBrush x:Key="TextBrush0" Color="{StaticResource TextColor0}" />
+  <SolidColorBrush x:Key="TextBrush1" Color="{StaticResource TextColor1}" />
+
+  <Color x:Key="HeaderClrCyannish0">#FF00C3FF</Color>
+  <Color x:Key="HeaderClrCyannish1">#FFE0F8FF</Color>
+  <Color x:Key="HeaderClrCyannish2">#FF60D9FF</Color>
+  <Color x:Key="HeaderClrCyannish_">#FF008DB8</Color>
+
+  <Color x:Key="HeaderClrCyannish">#00C3FF</Color>
+  <Color x:Key="HeaderClrOrangish">#FF7700</Color>
+  <Color x:Key="HeaderClrGreenish">#60e0a0</Color>
+  <Color x:Key="HeaderClrWhiteish">#e0e0e0</Color>
+
+  <Color x:Key="DarkClrCyannish">#0084aa</Color>
+  <Color x:Key="DarkClrOrangish">#aa4400</Color>
+  <Color x:Key="DarkClrGreenish">#308050</Color>
+  <Color x:Key="DarkClrWhiteish">#a0a0a0</Color>
+
+  <SolidColorBrush x:Key="DarkCyannish" Color="{StaticResource DarkClrCyannish}" />
+  <SolidColorBrush x:Key="DarkOrangish" Color="{StaticResource DarkClrOrangish}" />
+  <SolidColorBrush x:Key="DarkGreenish" Color="{StaticResource DarkClrGreenish}" />
+  <SolidColorBrush x:Key="DarkWhiteish" Color="{StaticResource DarkClrWhiteish}" />
+
+  <SolidColorBrush x:Key="HeaderCyannish" Color="{StaticResource HeaderClrCyannish}" />
+  <SolidColorBrush x:Key="HeaderOrangish" Color="{StaticResource HeaderClrOrangish}" />
+  <SolidColorBrush x:Key="HeaderGreenish" Color="{StaticResource HeaderClrGreenish}" />
+  <SolidColorBrush x:Key="HeaderWhiteish" Color="{StaticResource HeaderClrWhiteish}" />
+
+  <Color x:Key="DepostColorKey">#FF00c8FF</Color>
+  <Color x:Key="IntrstColorKey">#FF09dF40</Color>
+  <Color x:Key="IntrstColorKe2">#FF2FE72F</Color>
+  <Color x:Key="DBrhtEdgColorKey">#05f</Color>
+  <Color x:Key="DDarkEdgColorKey">#049</Color>
+  <Color x:Key="IDarkEdgColorKey">#040</Color>
+  <Color x:Key="IBrhtEdgColorKey">#060</Color>
+  <Color x:Key="GrantsColorKey">#FFFF7C7C</Color>
+  <Color x:Key="TaxIntColorKey">#FFFF6D00</Color>
+  <Color x:Key="TDarkEdgColorKey">#830</Color>
+  <Color x:Key="TBrhtEdgColorKey">#840</Color>
+  <Color x:Key="GDarkEdgColorKey">#710</Color>
+  <Color x:Key="GBrhtEdgColorKey">#820</Color>
+  <SolidColorBrush x:Key="DepostBrushKey" Color="{StaticResource DepostColorKey}" />
+  <SolidColorBrush x:Key="IntrstBrushKey" Color="{StaticResource IntrstColorKey}" />
+  <SolidColorBrush x:Key="GrantsBrushKey" Color="{StaticResource GrantsColorKey}" />
+  <LinearGradientBrush x:Key="GrantsBackground1" EndPoint="1,0.5" StartPoint="0,0.5">
+    <GradientStop Color="{StaticResource GDarkEdgColorKey}" Offset="1"/>
+    <GradientStop Color="{StaticResource GrantsColorKey}" Offset="0.1"/>
+    <GradientStop Color="{StaticResource GrantsColorKey}" Offset="0.9"/>
+    <GradientStop Color="{StaticResource GBrhtEdgColorKey}" Offset="0"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="InterestBackground1" EndPoint="1,0.5" StartPoint="0,0.5">
+    <GradientStop Color="{StaticResource IDarkEdgColorKey}" Offset="1"/>
+    <GradientStop Color="{StaticResource IntrstColorKey}" Offset="0.1"/>
+    <GradientStop Color="{StaticResource IntrstColorKey}" Offset="0.9"/>
+    <GradientStop Color="{StaticResource IBrhtEdgColorKey}" Offset="0"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="TtlDepBackground1" EndPoint="1,0.5" StartPoint="0,0.5">
+    <GradientStop Color="{StaticResource DDarkEdgColorKey}" Offset="1"/>
+    <GradientStop Color="{StaticResource DepostColorKey}" Offset="0.1"/>
+    <GradientStop Color="{StaticResource DepostColorKey}" Offset="0.9"/>
+    <GradientStop Color="{StaticResource DBrhtEdgColorKey}" Offset="0"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="TtlTaxBackground1" EndPoint="1,0.5" StartPoint="0,0.5">
+    <GradientStop Color="{StaticResource TDarkEdgColorKey}" Offset="1" />
+    <GradientStop Color="{StaticResource TBrhtEdgColorKey}" Offset="0" />
+    <GradientStop Color="{StaticResource TaxIntColorKey}" Offset="0.1" />
+    <GradientStop Color="{StaticResource TaxIntColorKey}" Offset="0.9" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="DiagInsetBorderBrush1" EndPoint="0.5,1" StartPoint="0.5,0">
+    <LinearGradientBrush.RelativeTransform>
+      <TransformGroup>
+        <ScaleTransform CenterX="0.5" CenterY="0.5" />
+        <SkewTransform CenterX="0.5" CenterY="0.5" />
+        <RotateTransform Angle="-39" CenterX="0.5" CenterY="0.5" />
+        <TranslateTransform />
+      </TransformGroup>
+    </LinearGradientBrush.RelativeTransform>
+    <GradientStop Color="#000" Offset="0.431" />
+    <GradientStop Color="#aaa" Offset="0.625" />
+  </LinearGradientBrush>
+  <!-- >>> RX -->
+
+  <LinearGradientBrush x:Key="ShevronFill1" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="{StaticResource HeaderClrCyannish0}" />
+    <GradientStop Color="{StaticResource HeaderClrCyannish1}" Offset="0.056" />
+    <GradientStop Color="{StaticResource HeaderClrCyannish2}" Offset="0.125" />
+    <GradientStop Color="{StaticResource HeaderClrCyannish}" Offset="0.431" />
+    <GradientStop Color="{StaticResource HeaderClrCyannish_}" Offset="1" />
+  </LinearGradientBrush>
+
+
+  <LinearGradientBrush x:Key="BrushVertGrad333to666" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#333" Offset="0"/>
+    <GradientStop Color="#666" Offset="1"/>
+  </LinearGradientBrush>
+
+
+  <Style TargetType="{x:Type Slider}">
+    <Style.Triggers>
+      <EventTrigger RoutedEvent="Control.MouseEnter">
+        <BeginStoryboard>
+          <Storyboard >
+            <DoubleAnimation Duration="0:0:.3" To=".51" Storyboard.TargetProperty="Opacity"/>
+          </Storyboard>
+        </BeginStoryboard>
+      </EventTrigger>
+      <EventTrigger RoutedEvent="Control.MouseLeave">
+        <BeginStoryboard>
+          <Storyboard >
+            <DoubleAnimation Duration="0:0:.3" To="0.01" Storyboard.TargetProperty="Opacity"/>
+          </Storyboard>
+        </BeginStoryboard>
+      </EventTrigger>
+    </Style.Triggers>
+  </Style>
+
+  <!--<Style TargetType="stb:HighlightableTextBlock">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="stb:HighlightableTextBlock">
+						<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+							<TextBlock x:Name="PART_TEXT"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>-->
+
+
+  <Style x:Key="RightAlignStyle"	TargetType="{x:Type TextBlock}">
+    <Setter Property="TextAlignment" Value="Right"	/>
+  </Style>
+  <Style x:Key="CenterAlignStyle"	TargetType="{x:Type TextBlock}">
+    <Setter Property="TextAlignment" Value="Center" />
+  </Style>
+
+  <!--</Application.Resources>-->
+
+  <!--Named brushes to share between XRS and WFS-->
+  <LinearGradientBrush x:Key="PageTopHeaderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF00BDF4" Offset="0.032"/>
+    <GradientStop Color="#FF00AEED" Offset="0.217"/>
+    <GradientStop Color="#FF004988" Offset="0.999"/>
+  </LinearGradientBrush>
+  <SolidColorBrush x:Key="TopMenuBrush"     Color="#FF00B4E6"/>
+  <SolidColorBrush x:Key="TopMenuBrushDark" Color="#FF008AB3"/>
+  <LinearGradientBrush x:Key="BottomCommandsBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF373737" Offset="0.407"/>
+    <GradientStop Color="#FF1B1B1B" Offset="0.496"/>
+    <GradientStop Color="#FF010101" Offset="0.999"/>
+  </LinearGradientBrush>
+
+  <Style TargetType="RadioButton">
+    <Setter Property="Foreground" Value="{StaticResource TopMenuBrush}" />
+    <Setter Property="Background" Value="#444" />
+  </Style>
+  <!--WFS-specific styles: Copy to window reosources if needed.
+	<Style TargetType="Button">
+		<Setter Property="Foreground" Value="{StaticResource TopMenuBrush}" />
+		<Setter Property="Background" Value="#444" />
+	</Style>
+	<Style TargetType="Label">
+		<Setter Property="Foreground" Value="{StaticResource BmoBlueDk2}" />
+		<Setter Property="FontWeight" Value="Bold" />
+	</Style>
+	-->
+
+  <Style x:Key="WindowStyle_Aav0" TargetType="{x:Type Window}" >
+    <Setter Property="WindowStyle"        Value="None"        />
+    <Setter Property="Background"         Value="Transparent" />
+    <Setter Property="AllowsTransparency" Value="True"        />
+    <Setter Property="ResizeMode"         Value="CanResize"   />
+  </Style>
+
+  <!--<Style TargetType="FrameworkElement">
+		NOGO
+		<Setter Property="ToolTipService.ShowDuration" Value="333" />
+	</Style>-->
+
+  <Style x:Key="m5" TargetType="FrameworkElement">
+    <Setter Property="Margin" Value="0"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="ToolTipService.ShowDuration" Value="29000" />
+  </Style>
+
+  <!-- NOGO		<Style TargetType="{x:Type Border}" BasedOn="{StaticResource m5}" />-->
+
+  <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource m5}" x:Key="DataGridStyle_Aav0" />
+  <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource m5}">
+    <Setter Property="AlternatingRowBackground" Value="#444" />
+    <Setter Property="AutoGenerateColumns"		  Value="False"  />
+    <Setter Property="Background"			          Value="Transparent" />
+    <Setter Property="BorderThickness"			    Value="1" />
+    <Setter Property="BorderBrush"			        Value="#666" />
+    <Setter Property="CanUserAddRows"			      Value="False" />
+    <Setter Property="ColumnHeaderStyle"		    Value="{DynamicResource ColumnHeaderStyle_Aav0}"/>
+    <Setter Property="EnableRowVirtualization"	Value="True"  />
+    <Setter Property="Foreground"               Value="#eee"/>
+    <Setter Property="GridLinesVisibility"		  Value="None" />
+    <Setter Property="HeadersVisibility"		    Value="Column" />
+    <Setter Property="IsReadOnly"				        Value="True"  />
+    <Setter Property="RowBackground"			      Value="#555" />
+    <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"  />
+    <Setter Property="VerticalAlignment"		    Value="Top"  />
+  </Style>
+  <Style TargetType="DataGridColumnHeader" x:Key="ColumnHeaderStyle_Aav0" >
+    <!--<Setter Property="Height" Value="30"/>
+			<Setter Property="Background" Value="LightBlue"/>
+        -->
+    <Setter Property="FontSize"   Value="8.5" />
+    <Setter Property="Foreground" Value="{StaticResource LabelBsh}"/>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="ToolTip" Value="Click to sort."/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource ColumnHeaderStyle_Aav0}" x:Key="ColumnHeaderStyle_Bold0" >
+    <Setter Property="Foreground" Value="Red"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+  </Style>
+
+
+  <Style TargetType="Button" BasedOn="{StaticResource m5}">
+    <Setter Property="Foreground" Value="#4c4cff"/>
+  </Style>
+
+  <Style TargetType="ListBox" BasedOn="{StaticResource m5}">
+    <Setter Property="VerticalAlignment" Value="Top" />
+  </Style>
+  <Style TargetType="ComboBox" BasedOn="{StaticResource m5}" >
+    <Setter Property="Margin" Value="3 0" />
+    <Setter Property="Foreground" Value="{StaticResource BmoBlueDk2}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <!--<Setter Property="FontSize" Value="14" />-->
+    <Setter Property="IsEditable" Value="True" />
+    <Setter Property="IsTextSearchEnabled" Value="True" />
+    <!--<Style.Triggers>
+			<Trigger Property="IsKeyboardFocusWithin" Value="True">
+				<Setter Property="IsDropDownOpen" Value="true" />
+			</Trigger>
+		</Style.Triggers>-->
+  </Style>
+  <!--<Style TargetType="TextBlock" BasedOn="{StaticResource m5}"/>-->
+  <Style TargetType="TextBlock" >
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style TargetType="TextBox" BasedOn="{StaticResource m5}">
+    <Setter Property="Foreground" Value="#3232ff"/>
+  </Style>
+  <Style TargetType="Label" >
+    <Setter Property="Foreground"           Value="{StaticResource LabelBsh}"/>
+    <Setter Property="FontSize" Value="16"/>
+    <Setter Property="Margin" Value="0 0 0 -5"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="HorizontalAlignment" Value="Right"/>
+  </Style>
+  <Style TargetType="CheckBox"  BasedOn="{StaticResource m5}">
+    <Setter Property="Foreground" Value="DarkGray"/>
+    <Setter Property="FontSize" Value="16"/>
+    <Setter Property="Margin" Value="6 5 0 0" />
+  </Style>
+
+  <Style TargetType="GridSplitter">
+    <Setter Property="Background" Value="#e000" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment"   Value="Stretch" />
+  </Style>
+
+</ResourceDictionary>
