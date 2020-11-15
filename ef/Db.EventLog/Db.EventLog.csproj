@@ -18,9 +18,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Security" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\..\aslink\EvOfIntEnum.cs">
       <Link>AsLink\EvOfIntEnum.cs</Link>
     </Compile>
