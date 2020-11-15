@@ -26,16 +26,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AavCore\AAV.Sys\AAV.Sys.csproj" />
-    <ProjectReference Include="..\..\..\AAV\AAV.WPF\AAV.WPF.csproj" />
-    <ProjectReference Include="..\..\..\ef\Db.EventLog\Db.EventLog.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
     <PackageReference Include="Microsoft.Expression.Drawing" Version="3.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AavCore\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\..\..\AavCore\AAV.WPF\AAV.WPF.csproj" />
+    <ProjectReference Include="..\..\..\ef\Db.EventLog\Db.EventLog.csproj" />
   </ItemGroup>
 </Project>
