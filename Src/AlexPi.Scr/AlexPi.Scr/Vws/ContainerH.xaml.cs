@@ -1,4 +1,4 @@
-﻿using AAV.SS.AltBpr;
+﻿using AlexPi.Scr.AltBpr;
 using AsLink;
 using System;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class ContainerH : TopmostUnCloseableWindow
   {
@@ -17,7 +17,7 @@ namespace AAV.SS.Vws
       _trn = new SolidColorBrush(Colors.Transparent);
     readonly DispatcherTimer _timer;
 
-    public ContainerH(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
+    public ContainerH(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
       InitializeComponent();
       _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, new EventHandler((s, e) => updateClock()), Dispatcher.CurrentDispatcher); //tu: prevent screensaver; //tu: one-line timer

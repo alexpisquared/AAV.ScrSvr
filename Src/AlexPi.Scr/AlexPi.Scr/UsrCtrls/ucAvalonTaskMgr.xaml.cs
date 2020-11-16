@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace AAV.SS.UsrCtrls
+namespace AlexPi.Scr.UsrCtrls
 {
   public partial class ucAvalonTaskMgr : UserControl
   {

@@ -1,9 +1,9 @@
-﻿using AAV.SS.Logic;
+﻿using AlexPi.Scr.Logic;
 using System.Windows.Input;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
-  public partial class UnCloseableWindow : WPF.Base.WindowBase // <- black bacground bottommost window to save on heating.
+  public partial class UnCloseableWindow : AAV.WPF.Base.WindowBase // <- black bacground bottommost window to save on heating.
   {
     protected readonly GlobalEventHandler _GlobalEventHandler;
 

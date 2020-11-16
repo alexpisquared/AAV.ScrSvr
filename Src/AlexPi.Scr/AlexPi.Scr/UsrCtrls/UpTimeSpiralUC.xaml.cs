@@ -1,4 +1,4 @@
-﻿using AAV.SS.Logic;
+﻿using AlexPi.Scr.Logic;
 using Microsoft.Expression.Shapes;
 using System;
 using System.Diagnostics;
@@ -9,8 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Db.EventLog.Main;
+using AsLink;
 
-namespace AAV.SS.UsrCtrls
+namespace AlexPi.Scr.UsrCtrls
 {
   public partial class UpTimeSpiralUC : UserControl
   {

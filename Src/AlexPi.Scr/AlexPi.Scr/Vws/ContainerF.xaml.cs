@@ -1,1 +1,1 @@
-﻿namespace AAV.SS.Vws { public partial class ContainerF : TopmostUnCloseableWindow { public ContainerF(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent(); } }
+﻿namespace AlexPi.Scr.Vws { public partial class ContainerF : TopmostUnCloseableWindow { public ContainerF(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent(); } }

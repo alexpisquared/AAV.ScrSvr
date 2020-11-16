@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace AAV.SS.UsrCtrls
+namespace AlexPi.Scr.UsrCtrls
 {
     public partial class GaugeWeek : UserControl
     {

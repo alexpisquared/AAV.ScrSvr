@@ -19,7 +19,7 @@ namespace AAV.Sys.Helpers
     {
 #if RegistryPkgAdded
       var _key = @"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Control Panel\Desktop";
-      Registry.SetValue(_key, "SCRNSAVE.EXE", "C:\\Users\\alex.pigida\\OneDrive\\Public\\bin\\AAV.SS.scr");
+      Registry.SetValue(_key, "SCRNSAVE.EXE", "C:\\Users\\alex.pigida\\OneDrive\\Public\\bin\\AlexPi.Scr.scr");
       Registry.SetValue(_key, "SCRNSAVE.EXE`", "rundll32 user32.dll,LockWorkStation");
       Registry.SetValue(_key, "ScreenSaveActive", "1");
       Registry.SetValue(_key, "ScreenSaverIsSecure", "0");

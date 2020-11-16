@@ -3,11 +3,11 @@ using MailInfoWpfUsrCtrlLib;
 using System.Drawing;
 using System.Windows.Controls;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class ContainerG : TopmostUnCloseableWindow
   {
-    public ContainerG(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
+    public ContainerG(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
       InitializeComponent();
 

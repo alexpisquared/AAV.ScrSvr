@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AAV.SS.Logic
+namespace AlexPi.Scr.Logic
 {
   public class DailyBurn : TimeSplit
   {

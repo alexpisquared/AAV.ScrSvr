@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AAV.SS.Logic
+namespace AlexPi.Scr.Logic
 {
   public class GlobalEventHandler
   {

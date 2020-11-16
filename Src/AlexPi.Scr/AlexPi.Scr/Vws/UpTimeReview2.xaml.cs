@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class UpTimeReview2 : AAV.WPF.Base.WindowBase
   {

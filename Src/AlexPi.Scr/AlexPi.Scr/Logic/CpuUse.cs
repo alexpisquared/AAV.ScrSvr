@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace AAV.SS.Logic
+namespace AlexPi.Scr.Logic
 {
   class CpuUse
   {

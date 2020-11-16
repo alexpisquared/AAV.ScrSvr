@@ -4,7 +4,7 @@ using System.Linq;
 using AAV.Sys.Ext;
 using AsLink;
 
-namespace AAV.SS.Logic
+namespace AlexPi.Scr.Logic
 {
     public class PerformanceCounterHelper
     {

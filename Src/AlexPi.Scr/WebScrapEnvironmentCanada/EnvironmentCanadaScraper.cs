@@ -267,7 +267,7 @@ namespace EnvironmentCanadaScrap
         //for (int i = 0; i < ecdList.Count; i++)				Console.WriteLine("{0,2}) {1}", i, ecdList[i].ToString());
       }
 
-      lst.SaveToSql();
+      //todo: uncomment if SQL datasets in 2020 is still a thing lst.SaveToSql();
     }
 
     static int addDistinctEtriesToList(string html, EnvironmentCanadaDataList lst, string siteID)
@@ -431,7 +431,7 @@ namespace EnvironmentCanadaScrap
 
         var badEntryCount = addDistinctEtriesToList(html, lst, url[0]);
 
-        lst.SaveToSql();
+        //todo: uncomment if SQL datasets in 2020 is still a thing lst.SaveToSql();
       }
       catch (Exception ex)
       {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Media;
 using System.Threading.Tasks;
 
-namespace AAV.SS.AltBpr
+namespace AlexPi.Scr.AltBpr
 {
   public static class Bpr
   {

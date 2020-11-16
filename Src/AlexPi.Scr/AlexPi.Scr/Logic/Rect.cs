@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace AAV.SS
+namespace AlexPi.Scr
 {
 	[Serializable, StructLayout(LayoutKind.Sequential)]
 	public struct RECT

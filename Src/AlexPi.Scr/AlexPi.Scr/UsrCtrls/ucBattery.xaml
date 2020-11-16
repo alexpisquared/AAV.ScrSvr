@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="AAV.SS.UsrCtrls.ucBattery" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
-             xmlns:local="clr-namespace:AAV.SS.UsrCtrls"
+﻿<UserControl x:Class="AlexPi.Scr.UsrCtrls.ucBattery" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
+             xmlns:local="clr-namespace:AlexPi.Scr.UsrCtrls"
              d:DesignHeight="250" d:DesignWidth="500" >
   <UserControl.Resources>
 
@@ -40,6 +40,6 @@
               A 45,40 0 0 1 160,-60
               L 100,45
               A 45,40 0 0 0 0,0 "/>
-    <Image Source="/AAV.SS;component/Images/BatteryHorizCylinder.png" Stretch="None" Opacity=".2"/>
+    <Image Source="/AlexPi.Scr;component/Images/BatteryHorizCylinder.png" Stretch="None" Opacity=".2"/>
   </Grid>
 </UserControl>

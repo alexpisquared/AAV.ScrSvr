@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace AAV.SS
+namespace AlexPi.Scr
 {
     /// <summary>
     /// Interaction logic for zDev.xaml

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
     public partial class DeleteMePopup : AAV.WPF.Base.WindowBase
   {

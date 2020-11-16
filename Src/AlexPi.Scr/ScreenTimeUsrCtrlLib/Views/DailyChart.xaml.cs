@@ -243,7 +243,7 @@ namespace UpTimeChart
     public static readonly DependencyProperty TrgDateCProperty = DependencyProperty.Register("TrgDateC", typeof(DateTime), typeof(DailyChart)); public DateTime TrgDateC { get => (DateTime)GetValue(TrgDateCProperty); set => SetValue(TrgDateCProperty, value); }
 
 
-    #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AAV.SS\App.xaml.cs
+    #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AlexPi.Scr\App.xaml.cs
     const int GraceEvLogAndLockPeriodSec = 60;
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {

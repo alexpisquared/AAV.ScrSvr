@@ -1,8 +1,8 @@
-﻿using AAV.SS.Logic;
+﻿using AlexPi.Scr.Logic;
 using AsLink;
 using System.Windows;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class TopmostUnCloseableWindow : UnCloseableWindow 
   {

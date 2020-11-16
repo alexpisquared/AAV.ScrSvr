@@ -1,14 +1,15 @@
-﻿using AAV.SS.AltBpr;
+﻿using AlexPi.Scr.AltBpr;
 using AAV.Sys.Helpers;
+using AlexPi.Scr;
 using AsLink;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Windows.Threading;
 
-namespace AAV.SS
+namespace AlexPi.Scr
 {
   public partial class SettingsWindow : Window
   {
@@ -52,34 +53,34 @@ namespace AAV.SS
              * 2 - open the designer of the form you want to add the icon to.
              * 3 - append the InitializeComponent function.
             */
-      _ni.Icon = AAV.SS.Properties.Resources.icon; //tu: ni.Icon = new Icon(@"C:\c\Lgc\ScrSvrs\AAV.SS\icon.ico"); //todo: unhardcode 			
+      //_ni.Icon = AlexPi.Scr.Properties.Resources.icon; //tu: ni.Icon = new Icon(@"C:\c\Lgc\ScrSvrs\AlexPi.Scr\icon.ico"); //todo: unhardcode 			
 
-      _ni.Visible = true;
-      _ni.DoubleClick += delegate (object s, EventArgs args)
-          {
-            Show();
-            WindowState = WindowState.Normal;
-          };
+      //_ni.Visible = true;
+      //_ni.DoubleClick += delegate (object s, EventArgs args)
+      //    {
+      //      Show();
+      //      WindowState = WindowState.Normal;
+      //    };
 
-      var ctxTrayMenu = new ContextMenuStrip
-      {
-        ShowImageMargin = false,
-        ShowCheckMargin = false
-      };
+      //var ctxTrayMenu = new ContextMenuStrip
+      //{
+      //  ShowImageMargin = false,
+      //  ShowCheckMargin = false
+      //};
 
-      var mnuSets = new ToolStripMenuItem { Text = "Settings" };
-      var mnuPrev = new ToolStripMenuItem { Text = "Preview" };
-      var mnuExit = new ToolStripMenuItem { Text = "Exit" };
+      //var mnuSets = new ToolStripMenuItem { Text = "Settings" };
+      //var mnuPrev = new ToolStripMenuItem { Text = "Preview" };
+      //var mnuExit = new ToolStripMenuItem { Text = "Exit" };
 
-      mnuSets.Click += mnuSets_Click;
-      mnuPrev.Click += new EventHandler(mnuPrev_Click);
-      mnuExit.Click += new EventHandler(mnuExit_Click);
+      //mnuSets.Click += mnuSets_Click;
+      //mnuPrev.Click += new EventHandler(mnuPrev_Click);
+      //mnuExit.Click += new EventHandler(mnuExit_Click);
 
-      ctxTrayMenu.Items.Add(mnuSets);
-      ctxTrayMenu.Items.Add(mnuPrev);
-      ctxTrayMenu.Items.Add(new ToolStripSeparator());
-      ctxTrayMenu.Items.Add(mnuExit);
-      _ni.ContextMenuStrip = ctxTrayMenu;
+      //ctxTrayMenu.Items.Add(mnuSets);
+      //ctxTrayMenu.Items.Add(mnuPrev);
+      //ctxTrayMenu.Items.Add(new ToolStripSeparator());
+      //ctxTrayMenu.Items.Add(mnuExit);
+      //_ni.ContextMenuStrip = ctxTrayMenu;
 
       dlg.Title = "Please select the folder where your images are stored :";
       dlg.OKButtonText = "OK!";
@@ -120,7 +121,7 @@ namespace AAV.SS
     {
       if (_manual)
       {
-        _ni.Visible = false;
+        //_ni.Visible = false;
       }
       else
       {
@@ -192,9 +193,9 @@ namespace AAV.SS
 
     void onClose(object s, RoutedEventArgs e)
     {
-      _ni.Visible = false;
-      _ni.Icon = null;
-      _ni.Dispose();
+      //_ni.Visible = false;
+      //_ni.Icon = null;
+      //_ni.Dispose();
       { Close(); /*System.Diagnostics.Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();1");*/ System.Windows.Application.Current.Shutdown(); }
       App.Current.Shutdown();
     }

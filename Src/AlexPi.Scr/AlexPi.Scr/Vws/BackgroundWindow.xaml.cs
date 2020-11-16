@@ -3,21 +3,21 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using frm = System.Windows.Forms;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class BackgroundWindow : UnCloseableWindow
   {
-    public BackgroundWindow(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
+    public BackgroundWindow(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
       InitializeComponent();
       DataContext = this;
       Name = "ths";
     }
-    public void ShowOnTargetScreen(frm.Screen trgScreen/*, int waitMs*/)
+    public void ShowOnTargetScreen(Screen trgScreen/*, int waitMs*/)
     {
       //Task.Run(async () => await Task.Delay(waitMs)).ContinueWith(_ =>  {
       Show();
@@ -42,7 +42,7 @@ namespace AAV.SS.Vws
     void TextBlock_MouseLeave(object s, System.Windows.Input.MouseEventArgs e) => ((TextBlock)s).Opacity = 0;
     void TextBlock_MouseLeftButtonDown(object s, MouseButtonEventArgs e) { WindowState = WindowState.Normal; Left = Top = Height = Width = 200; }
 
-    //? public BackgroundWindow() : this(new AAV.SS.Logic.GlobalEventHandler()) { } // The type 'UnCloseableWindow' cannot have a Name attribute. Value types and types without a default constructor can be used as items within a ResourceDictionary
+    //? public BackgroundWindow() : this(new AlexPi.Scr.Logic.GlobalEventHandler()) { } // The type 'UnCloseableWindow' cannot have a Name attribute. Value types and types without a default constructor can be used as items within a ResourceDictionary
   }
 }
 

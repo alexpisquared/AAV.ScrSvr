@@ -1,5 +1,6 @@
 ﻿#define VisEna//Visi // see verdict at the bottom.
 //using AsLink.Standard.Helpers;
+using AsLink.Standard.Helpers;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace AAV.SS.UsrCtrls
+namespace AlexPi.Scr.UsrCtrls
 {
   public partial class RadarMultiImgUsrCtrl : UserControl
   {

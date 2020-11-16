@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RadarLib", "RadarLib\RadarL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailInfoWpfUsrCtrlLib", "MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj", "{39F4C6FE-F5DC-4C1B-953A-3A7BBE38A7BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenTimeUsrCtrlLib", "ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj", "{370C26E1-87E2-48BE-A4C0-07AA520F7038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenTimeUsrCtrlLib", "ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj", "{370C26E1-87E2-48BE-A4C0-07AA520F7038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp", "WindowsFormsApp\WindowsFormsApp.csproj", "{88258F46-29D1-4BB8-9E73-4C8289024449}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88258F46-29D1-4BB8-9E73-4C8289024449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88258F46-29D1-4BB8-9E73-4C8289024449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88258F46-29D1-4BB8-9E73-4C8289024449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88258F46-29D1-4BB8-9E73-4C8289024449}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

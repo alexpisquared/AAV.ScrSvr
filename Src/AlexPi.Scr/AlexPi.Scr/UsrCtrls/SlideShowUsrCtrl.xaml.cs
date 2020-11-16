@@ -1,4 +1,4 @@
-﻿using AAV.SS.Vws;
+﻿using AlexPi.Scr.Vws;
 using AAV.Sys.Ext;
 using AAV.Sys.Helpers;
 using AsLink;
@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace AAV.SS.UsrCtrls
+namespace AlexPi.Scr.UsrCtrls
 {
   public partial class SlideShowUsrCtrl : UserControl
   {

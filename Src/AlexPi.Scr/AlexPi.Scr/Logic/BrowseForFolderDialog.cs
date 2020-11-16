@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace AAV.SS
+namespace AlexPi.Scr
 {
 	public class BrowseForFolderDialog // Represents a common dialog box (Win32::SHBrowseForFolder()) that allows a user to select a folder.
 	{

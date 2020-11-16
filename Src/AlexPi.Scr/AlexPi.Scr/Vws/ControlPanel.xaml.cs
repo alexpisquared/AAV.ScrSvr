@@ -1,4 +1,4 @@
-﻿using AAV.SS.Logic;
+﻿using AlexPi.Scr.Logic;
 using AsLink;
 using System.Threading.Tasks;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class ControlPanel : TopmostUnCloseableWindow
   {

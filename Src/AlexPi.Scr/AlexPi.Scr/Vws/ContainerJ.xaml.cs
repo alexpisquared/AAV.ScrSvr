@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class ContainerJ : TopmostUnCloseableWindow
   {
-    public ContainerJ(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent();
+    public ContainerJ(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent();
     async void onManualUpdateRequested(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; App.SpeakAsync($"{await EvLogHelper.UpdateEvLogToDb(15, "ContainerJ.onManualUpdateRequested()")} rows saved"); }
   }
 }

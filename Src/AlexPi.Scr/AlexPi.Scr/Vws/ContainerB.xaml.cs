@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public partial class ContainerB : TopmostUnCloseableWindow
   {
     PerformanceCounter
-            //_perfCountAA = new PerformanceCounter("Memory", "Available MBytes"), // new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "AAV.SS.scr"),
+            //_perfCountAA = new PerformanceCounter("Memory", "Available MBytes"), // new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "AlexPi.Scr.scr"),
             //_perfCountEx = new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "Explorer"),
             //_perfCounGPU = new PerformanceCounter("GPU", "% GPU Time", "_Total"), // % GPU Time-Base - https://github.com/Alexey-Kamenev/GpuPerfCounters/blob/master/src/GpuPerfCounters/PerfCounterService.cs
             //_ramCounterr = new PerformanceCounter("Memory", "Available MBytes")
@@ -17,11 +17,11 @@ namespace AAV.SS.Vws
     double sum;
     int cnt;
 
-    public ContainerB(AAV.SS.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
+    public ContainerB(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
       InitializeComponent();
 
-      //_perfCountAA = new PerformanceCounter("Memory", "Available MBytes"), // new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "AAV.SS.scr"),
+      //_perfCountAA = new PerformanceCounter("Memory", "Available MBytes"), // new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "AlexPi.Scr.scr"),
       //_perfCountEx = new PerformanceCounter(categoryName: "Process", counterName: "Private Bytes", instanceName: "Explorer"),
       ////_perfCounGPU = new PerformanceCounter("GPU", "% GPU Time", "_Total"), // % GPU Time-Base - https://github.com/Alexey-Kamenev/GpuPerfCounters/blob/master/src/GpuPerfCounters/PerfCounterService.cs
       //_ramCounterr = new PerformanceCounter("Memory", "Available MBytes");

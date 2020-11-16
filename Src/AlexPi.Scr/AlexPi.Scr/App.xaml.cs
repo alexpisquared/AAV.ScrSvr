@@ -1,6 +1,6 @@
-﻿using AAV.SS.AltBpr;
-using AAV.SS.Logic;
-using AAV.SS.Vws;
+﻿using AlexPi.Scr.AltBpr;
+using AlexPi.Scr.Logic;
+using AlexPi.Scr.Vws;
 using AAV.Sys.Helpers;
 using AAV.WPF.Ext;
 using AsLink;
@@ -21,7 +21,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using AAV.SS;
+using AlexPi.Scr;
+using WindowsFormsApp;
 
 namespace AlexPi.Scr
 {
@@ -60,13 +61,13 @@ namespace AlexPi.Scr
 #if DEBUG_
         await AltBpr.ChimerAlt.FreqWalk(70, 40, 50, 1.07);
         Debugger.Break();
-        //await AAV.SS.AltBpr.ChimerAlt.FreqWalk();
-        //for (var i = 3; i < 14; i++) { await AAV.SS.AltBpr.ChimerAlt.Chime(i); }
+        //await AlexPi.Scr.AltBpr.ChimerAlt.FreqWalk();
+        //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
         CurTraceLevel = AppTraceLevel_inCode; // cfg seems to be not available for ScrSvr launches?
 #else
         CurTraceLevel = AppTraceLevel_Config;
 #endif
-        Tracer.SetupTracingOptions("AAV.SS", CurTraceLevel);
+        Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
         //Tracer.ReportErrorLevel(AppTraceLevel_Config, "App.CFG");
         //Tracer.ReportErrorLevel(AppTraceLevel_inCode, "App.app");
         //Tracer.ReportErrorLevel(AppTraceLevel_Warnng, "App.wrn"); // Trace.WriteLine("<= while app cfg=Verb, inc=Info, wrn=Warn, from App=Verb, .CFG=Verb");
@@ -158,7 +159,7 @@ namespace AlexPi.Scr
 
       Trace.WriteIf(CurTraceLevel.TraceWarning, $"\n");
 
-      Sys.Helpers.Bpr.BeepEnd3();
+      AAV.Sys.Helpers.Bpr.BeepEnd3();
     }
 
     void showMiniScrSvr(string args1)
@@ -199,7 +200,7 @@ namespace AlexPi.Scr
     {
       Task.Run(async () => await ChimerAlt.FreqRunUpHiPh());
 
-      foreach (var screen in frm.Screen.AllScreens) new BackgroundWindow(_GlobalEventHandler).ShowOnTargetScreen(screen);
+      foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_GlobalEventHandler).ShowOnTargetScreen(screen);
 
       new ControlPanel(_GlobalEventHandler).Show();
 

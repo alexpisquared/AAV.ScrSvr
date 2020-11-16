@@ -54,13 +54,13 @@
 		</Border>
 
 		<Rectangle HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="50" Fill="#eee" />
-		<Image     HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="weaImg" Stretch="None" Source="/AAV.SS;component/Images/09.gif"  />
+		<Image     HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="weaImg" Stretch="None" Source="/AlexPi.Scr;component/Images/09.gif"  />
 
 		<ed:Arc StrokeDashArray=".02 2.645"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="88" Width="88" Margin="0" Stroke="#fff" EndAngle="360" StrokeThickness="20"   />
 		<ed:Arc StrokeDashArray=".02 2.018" HorizontalAlignment="Right" VerticalAlignment="Top" Height="88" Width="88" Margin="0" Stroke="#fff" EndAngle="360" StrokeThickness="10"   />
 		<ed:Arc ArcThickness="999" Fill="#44f" HorizontalAlignment="Right" VerticalAlignment="Top" 
 						Height="88" Width="88" Margin="0" Stretch="None" Stroke="#ddf" 
 						StartAngle="140" EndAngle="150" StrokeThickness="0" Name="arc__"/>
-		<!--<Image     HorizontalAlignment="Left" Name="image2" Stretch="None" VerticalAlignment="Top" Source="/AAV.SS;component/Images/31.png"  />-->
+		<!--<Image     HorizontalAlignment="Left" Name="image2" Stretch="None" VerticalAlignment="Top" Source="/AlexPi.Scr;component/Images/31.png"  />-->
 	</Grid>
 </UserControl>

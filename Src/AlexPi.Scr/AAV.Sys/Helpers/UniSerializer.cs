@@ -139,7 +139,7 @@ namespace AAV.Sys.Helpers
           }
       }
       catch (InvalidOperationException /**/ ex) { if (ex.HResult != -2146233079) { ex.Log(); throw; } }  // "Root element is missing." ==> create new at the bottom
-      catch (SerializationException    /**/ ex) { if (ex.HResult != -2146233076) { ex.Log(); throw; } }  // "There was an error deserializing the object of type AAV.SS.Logic.AppSettings. End element 'LastSave' from namespace '' expected. Found element 'DateTimeOffset' from namespace ''."	string
+      catch (SerializationException    /**/ ex) { if (ex.HResult != -2146233076) { ex.Log(); throw; } }  // "There was an error deserializing the object of type AlexPi.Scr.Logic.AppSettings. End element 'LastSave' from namespace '' expected. Found element 'DateTimeOffset' from namespace ''."	string
       catch (Exception                 /**/ ex) { ex.Log(typeof(T).Name); throw; }
 
       return (T)(Activator.CreateInstance(typeof(T)) ?? new T());

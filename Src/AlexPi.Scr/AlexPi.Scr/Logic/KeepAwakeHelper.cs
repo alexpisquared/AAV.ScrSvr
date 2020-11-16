@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AAV.SS.Logic
+namespace AlexPi.Scr.Logic
 {
   [Obsolete("AAV-> Hangs the app...?", true)]
   public class KeepAwakeHelper

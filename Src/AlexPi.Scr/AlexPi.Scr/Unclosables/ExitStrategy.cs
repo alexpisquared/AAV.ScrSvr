@@ -1,4 +1,4 @@
-﻿using AAV.SS.Logic;
+﻿using AlexPi.Scr.Logic;
 using AsLink;
 using System;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
-namespace AAV.SS.Vws
+namespace AlexPi.Scr.Vws
 {
   public static class ExitStrategy
   {

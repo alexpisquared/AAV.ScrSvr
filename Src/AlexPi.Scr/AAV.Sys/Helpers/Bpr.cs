@@ -44,7 +44,7 @@ namespace AAV.Sys.Helpers
     public static void BeepEnd3() { var v = 300; beep(v + 300, _minDurn); beep(v + 200, _minDurn); beep(v + 100, _minDurn * 6); }
     public static void BeepEnd6() { var v = 999; beep(v + 300, _minDurn); beep(v + 200, _minDurn); beep(v + 100, _minDurn); beep(v, _minDurn); beep(v + 300, _minDurn); beep(v + 300, _minDurn); }
 
-    [Obsolete("await AAV.SS.AltBpr.ChimerAlt.Chime()", false)]
+    [Obsolete("await AlexPi.Scr.AltBpr.ChimerAlt.Chime()", false)]
     public static void Chime(int min)
     {
       switch (min)
