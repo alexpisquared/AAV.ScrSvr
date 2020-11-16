@@ -682,7 +682,7 @@ namespace AsLink
         return 1;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
 
   public class QuestionTypeToVisibilityConverter : IValueConverter
@@ -716,7 +716,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
   public class QuestionTypeToBoolConverter : IValueConverter
   {
@@ -749,7 +749,7 @@ namespace AsLink
         return true;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
 
   public class SectionVsQuestionTypeToVisibilityConverter : IValueConverter
@@ -765,7 +765,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
   public class SectionVsQuestionTypeToFontStyleConverter : IValueConverter
   {
@@ -780,7 +780,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
   public class SectionVsQuestionTypeToFontWeightConverter : IValueConverter
   {
@@ -795,7 +795,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
   public class SectionVsQuestionTypeToBoolConverter : IValueConverter
   {
@@ -826,7 +826,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
   public class UserLanguageFrToVisibilityConverter : IValueConverter
   {
@@ -841,7 +841,7 @@ namespace AsLink
         return Visibility.Visible;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
 
   public class DGridHeightConverter : IValueConverter
@@ -862,7 +862,7 @@ namespace AsLink
 
       return 44;
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
   }
 
 
@@ -913,7 +913,7 @@ namespace AsLink
   {
     public Clr4() { }
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => value == null ? Colors.Red : Colors.Green;
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
   public class Equals3 : MarkupExtension, IValueConverter
@@ -921,7 +921,7 @@ namespace AsLink
     public Equals3() { }
     bool _InvertValue = false; public bool InvertValue { get => _InvertValue; set => _InvertValue = value; }
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => _InvertValue ? value == null : value != null;
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
 
@@ -960,7 +960,7 @@ namespace AsLink
       return result;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
 
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
@@ -989,7 +989,7 @@ namespace AsLink
 
       return result;
     }
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
   public class Bool : MarkupExtension, IValueConverter
@@ -1055,7 +1055,7 @@ namespace AsLink
       return result;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
   public class MultiBoolean : MarkupExtension, IMultiValueConverter
@@ -1081,7 +1081,7 @@ namespace AsLink
       return result.Value;
     }
 
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
 }
