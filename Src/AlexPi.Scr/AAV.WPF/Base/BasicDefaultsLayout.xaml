@@ -1,0 +1,137 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <SolidColorBrush x:Key="BackBackgroundBrush" Color="{DynamicResource BackBackgroundColor}"/>
+  <SolidColorBrush x:Key="ButnBackgroundBrush" Color="{DynamicResource ButnBackgroundColor}"/>
+  <SolidColorBrush x:Key="TextBackgroundBrush" Color="{DynamicResource TextBackgroundColor}"/>
+
+  <SolidColorBrush x:Key="LablForegroundBrush" Color="{DynamicResource LablForegroundColor}"/>
+  <SolidColorBrush x:Key="InfoForegroundBrush" Color="{DynamicResource InfoForegroundColor}"/>
+  <SolidColorBrush x:Key="MainForegroundBrush" Color="{DynamicResource TextForegroundColor}"/>
+  <SolidColorBrush x:Key="ErorForegroundBrush" Color="{DynamicResource ErorForegroundColor}"/>
+  <SolidColorBrush x:Key="___Brush" Color="{DynamicResource ___Color}"/>
+
+  <Style TargetType="{x:Type TextBlock}" >
+    <!-- WARNING: tbk affects all derived controls:
+    <Setter Property="Background"           Value="{StaticResource ButnBackgroundBrush}" />-->
+    <Setter Property="Foreground"           Value="{StaticResource InfoForegroundBrush}" />
+    <Setter Property="VerticalAlignment"    Value="Center" />
+    <Setter Property="Margin"               Value="3 0" />
+  </Style>
+
+  <Style TargetType="{x:Type AccessText}">
+    <!-- INFO: Label without '_' acquires the style from the TextBlock; to overcome, use AccessText; in case Label's Target functionality needed, use:       <AccessText Text="_AccessText:"  AccessKeyManager.AccessKeyPressed="onAccessKeyPressed_focusT2" /> -->
+    <Setter Property="Foreground"           Value="{StaticResource LablForegroundBrush}" />
+    <Setter Property="VerticalAlignment"    Value="Center" />
+    <Setter Property="HorizontalAlignment"  Value="Right" />
+  </Style>
+
+  <Style TargetType="{x:Type Label}" >
+    <Setter Property="Foreground"           Value="{StaticResource LablForegroundBrush}" />
+    <Setter Property="VerticalAlignment"    Value="Center" />
+    <Setter Property="HorizontalAlignment"  Value="Right" />
+  </Style>
+
+  <Style TargetType="{x:Type Control}"      x:Key="CrlBase" >
+    <Setter Property="Foreground"           Value="{StaticResource MainForegroundBrush}" />
+    <Setter Property="Background"           Value="{StaticResource TextBackgroundBrush}" />
+    <Setter Property="BorderThickness"      Value="0" />
+    <Setter Property="VerticalAlignment"    Value="Center" />
+    <Setter Property="Padding"              Value="2" />
+  </Style>
+  <Style TargetType="{x:Type TextBox}"      BasedOn="{StaticResource CrlBase}" />
+  <Style TargetType="{x:Type PasswordBox}"  BasedOn="{StaticResource CrlBase}" />
+  <Style TargetType="{x:Type ComboBox}"     BasedOn="{StaticResource CrlBase}" />
+  <Style TargetType="{x:Type CheckBox}"     BasedOn="{StaticResource CrlBase}" />
+  <Style TargetType="{x:Type DatePicker}"   BasedOn="{StaticResource CrlBase}" />
+  <Style TargetType="{x:Type ToolTip}"      BasedOn="{StaticResource CrlBase}">
+    <Setter Property="FontSize"             Value="15" />
+    <Setter Property="ToolTipService.ShowDuration" Value="180000" />
+  </Style>
+
+  <Style TargetType="{x:Type Button}"       x:Key="BtnBase">
+    <Setter Property="Foreground"           Value="{StaticResource MainForegroundBrush}" />
+    <Setter Property="Background"           Value="{StaticResource ButnBackgroundBrush}" />
+    <Setter Property="Margin"               Value="6 6 0 0" />
+    <Setter Property="Padding"              Value="6 3" />
+  </Style>
+  <Style TargetType="{x:Type Button}"       x:Key="BtnRaised" BasedOn="{StaticResource BtnBase}">
+    <Setter Property="Effect">
+      <Setter.Value>
+        <DropShadowEffect ShadowDepth="4" Color="{StaticResource InfoForegroundColor}" BlurRadius="8" Opacity=".5" />
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style TargetType="{x:Type Button}"       BasedOn="{StaticResource BtnBase}" />
+
+  <Style TargetType="{x:Type GridSplitter}" >
+    <Setter Property="Background"           Value="{StaticResource ButnBackgroundBrush}" />
+    <Setter Property="HorizontalAlignment"  Value="Stretch" />
+    <Setter Property="VerticalAlignment"    Value="Stretch" />
+  </Style>
+
+  <Style TargetType="{x:Type Border}"       x:Key="BorderStyle_Aav0">
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+    <Setter Property="BorderBrush"          Value="{DynamicResource MainForegroundBrush}" />
+    <Setter Property="BorderThickness"      Value="1" />
+    <Setter Property="CornerRadius"         Value="6" />
+    <Setter Property="Padding"              Value="6" />
+  </Style>
+  <Style TargetType="{x:Type Border}"       BasedOn="{StaticResource BorderStyle_Aav0}" x:Key="BorderStyle_Aav0_0thick">
+    <Setter Property="BorderThickness"      Value="0" />
+  </Style>
+
+  <Style TargetType="{x:Type ListBox}"      >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+    <Setter Property="BorderBrush"          Value="{DynamicResource MainForegroundBrush}" />
+    <Setter Property="BorderThickness"      Value="1" />
+    <Setter Property="Padding"              Value="6" />
+  </Style>
+
+  <Style TargetType="{x:Type ListView}"      >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+    <Setter Property="BorderBrush"          Value="{DynamicResource MainForegroundBrush}" />
+    <Setter Property="BorderThickness"      Value=".4" />
+    <Setter Property="Padding"              Value="6" />
+  </Style>
+
+  <Style TargetType="{x:Type ListViewItem}"      >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+    <Setter Property="Padding"              Value="6" />
+  </Style>
+
+  <Style TargetType="{x:Type Menu}"      >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+  </Style>
+
+  <Style TargetType="{x:Type MenuItem}"      >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+    <Setter Property="BorderBrush"          Value="{DynamicResource BackBackgroundBrush}" />
+  </Style>
+
+  <Style TargetType="{x:Type TabControl}" >
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+  </Style>
+
+  <Style TargetType="{x:Type TabItem}" >
+    <Setter Property="Foreground"           Value="#777" />
+    <Setter Property="Background"           Value="{DynamicResource BackBackgroundBrush}" />
+  </Style>
+
+
+  <Style TargetType="{x:Type Window}"       x:Key="WindowStyle_Aav0" >
+    <Setter Property="WindowStyle"          Value="None"        />
+    <Setter Property="Background"           Value="Transparent" />
+    <Setter Property="AllowsTransparency"   Value="True"        />
+    <Setter Property="ResizeMode"           Value="CanResize"   />
+  </Style>
+  <Style TargetType="Window" BasedOn="{StaticResource WindowStyle_Aav0}" x:Key="MouseOverMakesOpagueStyle">
+    <Setter Property="Opacity"              Value=".3"/>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver"       Value="true">
+        <Setter Property="Window.Opacity"   Value=".9" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  <Style TargetType="Window" BasedOn="{StaticResource WindowStyle_Aav0}" />
+
+</ResourceDictionary>

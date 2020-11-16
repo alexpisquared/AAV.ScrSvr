@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="climatedata">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="lang" type="xs:string" minOccurs="0" />
+              <xs:element name="stationinformation" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent msdata:ColumnName="stationinformation_Text" msdata:Ordinal="2">
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="climateid" type="xs:string" />
+                      <xs:attribute name="wmoid" type="xs:string" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="month" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="day" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="temperature" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:simpleContent msdata:ColumnName="temperature_Text" msdata:Ordinal="5">
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="ecClass" type="xs:string" />
+                                  <xs:attribute name="units" type="xs:string" />
+                                  <xs:attribute name="unitType" type="xs:string" />
+                                  <xs:attribute name="year" type="xs:string" />
+                                  <xs:attribute name="period" type="xs:string" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="precipitation" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:simpleContent msdata:ColumnName="precipitation_Text" msdata:Ordinal="5">
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="ecClass" type="xs:string" />
+                                  <xs:attribute name="units" type="xs:string" />
+                                  <xs:attribute name="unitType" type="xs:string" />
+                                  <xs:attribute name="year" type="xs:string" />
+                                  <xs:attribute name="period" type="xs:string" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="pop" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:simpleContent msdata:ColumnName="pop_Text" msdata:Ordinal="1">
+                                <xs:extension base="xs:string">
+                                  <xs:attribute name="units" type="xs:string" />
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="index" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="index" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

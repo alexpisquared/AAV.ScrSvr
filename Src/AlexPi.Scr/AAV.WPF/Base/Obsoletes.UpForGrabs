@@ -1,0 +1,94 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:AAV.WPF.Base">
+
+  <!-- //TU: DataGrid styling LIGHT -->
+  <Style TargetType="wcp:DataGridColumnHeader" x:Key="DataGridColumnHeaderStyle">
+    <Setter Property="FontSize"   Value="13" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#eee" />
+            <GradientStop Offset="1" Color="#ddd" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Foreground" Value="#777" />
+    <Setter Property="Padding"    Value="3 0" />
+  </Style>
+  <Style x:Key="ThreeDish" TargetType="{x:Type DataGridRow}">
+    <Setter Property="Background">
+      <Setter.Value>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0" Color="#fff" />
+            <GradientStop Offset="1" Color="#eee" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="CustomSelectedItemBackground" >
+    <!--//tu: Custom Selected Item/Row  Background-->
+    <Style.Resources>
+      <!-- Background of selected item when focussed -->
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.HighlightBrushKey}" >
+        <GradientStop Color="#64c8ff" Offset="0" />
+        <GradientStop Color="#1164ff" Offset="1" />
+      </LinearGradientBrush>
+      <!-- Background of selected item when not focussed -->
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" >
+        <GradientStop Color="#64c8ff" Offset="0" />
+        <GradientStop Color="#1164ff" Offset="1" />
+      </LinearGradientBrush>
+    </Style.Resources>
+  </Style>
+
+  <Style TargetType="{x:Type ListBox}">
+    <Style.Resources>
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" >
+        <GradientStop Color="#FF6FDEFF" Offset="0" />
+        <GradientStop Color="#f00" Offset="0.5" />
+        <GradientStop Color="#FF216FFF" Offset="1" />
+      </LinearGradientBrush>
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.HighlightBrushKey}" >
+        <GradientStop Color="#64c8ff" Offset="0" />
+        <GradientStop Color="#1164ff" Offset="1" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White" />
+    </Style.Resources>
+    <Setter Property="Margin" Value="6 0 6 12" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <!--//tu: Custom Selected Item/Row  Background-->
+  <Style TargetType="{x:Type DataGrid}" >
+    <Style.Resources>
+      <!-- Background of selected item when focussed -->
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.HighlightBrushKey}" >
+        <GradientStop Color="#64c8ff" Offset="0" />
+        <GradientStop Color="#1164ff" Offset="1" />
+      </LinearGradientBrush>
+      <!-- Background of selected item when not focussed -->
+      <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" >
+        <GradientStop Color="#64c8ff" Offset="0" />
+        <GradientStop Color="#1164ff" Offset="1" />
+      </LinearGradientBrush>
+    </Style.Resources>
+
+    <Setter Property="Margin"                   Value="6" />
+    <Setter Property="AutoGenerateColumns"      Value="False" />
+    <Setter Property="EnableRowVirtualization"  Value="True" />
+    <Setter Property="GridLinesVisibility"      Value="Vertical" />
+    <Setter Property="VerticalGridLinesBrush"   Value="#FFE6D9D9" />
+    <Setter Property="HeadersVisibility"        Value="Column" />
+    <Setter Property="Margin"                   Value="6" />
+    <Setter Property="RowBackground"            Value="#fff" />
+    <Setter Property="AlternatingRowBackground" Value="#f0f0f8" />
+    <Setter Property="Background"               Value="Transparent" />
+    <Setter Property="BorderBrush"              Value="#ccc" />
+    <!--<EventSetter Event="MouseDoubleClick" Handler="btnOK_Click" />-->
+  </Style>
+
+</ResourceDictionary>
