@@ -95,7 +95,7 @@ namespace EnvironmentCanadaScrap
 			}
 			catch (Exception ex)
 			{
-				ex.Log(); // AAV.CustomControlLibrary.Logger.LogException(ex, System.Reflection.MethodInfo.GetCurrentMethod());
+				ex.Log(); // ex.Log(); // AAV.CustomControlLibrary.Logger.LogException(ex, System.Reflection.MethodInfo.GetCurrentMethod());
 
 				_EnvironmentCanadaData = null;
 			}
@@ -113,7 +113,7 @@ namespace EnvironmentCanadaScrap
 			}
 			catch (Exception ex)
 			{
-				ex.Log(); // AAV.CustomControlLibrary.Logger.LogException(ex, System.Reflection.MethodInfo.GetCurrentMethod());
+				ex.Log(); // ex.Log(); // AAV.CustomControlLibrary.Logger.LogException(ex, System.Reflection.MethodInfo.GetCurrentMethod());
 
 				return false;
 			}

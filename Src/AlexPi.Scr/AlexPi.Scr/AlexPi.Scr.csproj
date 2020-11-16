@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
     <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing" Version="1.0.0" />
   </ItemGroup>
@@ -21,6 +23,8 @@
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
     <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
+    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
+    <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
   </ItemGroup>
 
 </Project>
