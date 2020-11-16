@@ -1,5 +1,4 @@
 ﻿using AAV.SS.Logic;
-using AsLink;
 using Microsoft.Expression.Shapes;
 using System;
 using System.Diagnostics;
@@ -9,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Db.EventLog.Main;
 
 namespace AAV.SS.UsrCtrls
 {
@@ -102,7 +102,7 @@ namespace AAV.SS.UsrCtrls
         }
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
-    void add_________Time(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB)
+    void add_________Time(DateTime timeA, DateTime timeB, Db.EventLog.Main.EvOfIntFlag eoiA, EvOfIntFlag eoiB)
     {
       if (eoiA == EvOfIntFlag.ScreenSaverrDn || eoiA == EvOfIntFlag.BootAndWakeUps)
         ts.WorkedFor += (timeB - timeA);

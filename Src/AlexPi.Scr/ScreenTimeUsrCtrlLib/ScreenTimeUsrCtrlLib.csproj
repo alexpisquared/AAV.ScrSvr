@@ -1,9 +1,6 @@
-﻿<!--
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">-->
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -18,9 +15,6 @@
     <ProjectReference Include="..\AAV.Sys\AAV.Sys.csproj" />
     <ProjectReference Include="..\AAV.WPF\AAV.WPF.csproj" />
     <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
-    <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
-    <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
-    <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
   </ItemGroup>
 
 </Project>
