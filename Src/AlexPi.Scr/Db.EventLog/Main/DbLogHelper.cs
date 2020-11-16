@@ -1,6 +1,6 @@
-﻿using AAV.Sys.Ext;
+﻿using Db.EventLog.Ext;
+using AAV.Sys.Ext;
 using AAV.Sys.Helpers;
-using AsLink;
 using Db.EventLog.DbModel;
 using Db.EventLog.Main;
 using System;
@@ -17,14 +17,14 @@ namespace Db.EventLog
   {
     public const string _dbSubP = @"Public\AppData\EventLogDb\";
     static readonly string _dbPath = OneDrive.Folder(_dbSubP);
-    static List<PcLogic> _PcLogics;
+    static List<PcLogic> _pcLogics;
     static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = new Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>>();
 
     public static List<PcLogic> AllPCsSynch()
     {
-      if (_PcLogics != null) return _PcLogics;
+      if (_pcLogics != null) return _pcLogics;
 
-      _PcLogics = new List<PcLogic>();
+      _pcLogics = new List<PcLogic>();
       //,,Trace.WriteLine($"-->AllPCs():\t");
 
       foreach (var dbpf in Directory.GetFiles(_dbPath, @"LocalDb(*).mdf", SearchOption.TopDirectoryOnly))
@@ -34,24 +34,22 @@ namespace Db.EventLog
         FileAttributeHelper.AddAttribute(dbpf, FileAttributes.ReadOnly);
         try
         {
-          using (var db = A0DbModel.GetLclFl(dbpf))
-          {
-            //,,
-            Trace.WriteLine($"{db.PcLogics.Count()} rows.");
-            _PcLogics.AddRange(db.PcLogics.Where(r => dbpf.ToUpper().Contains(r.MachineName.ToUpper())).ToList());
-          }
+          using var db = A0DbModel.GetLclFl(dbpf);
+          //,,
+          Trace.WriteLine($"{db.PcLogics.Count()} rows.");
+          _pcLogics.AddRange(db.PcLogics.Where(r => dbpf.ToUpper().Contains(r.MachineName.ToUpper())).ToList());
         }
         catch (Exception ex) { ex.Log(Path.GetFileNameWithoutExtension(dbpf)); }
       }
 
       //,,Trace.WriteLine("");
-      return _PcLogics;
+      return _pcLogics;
     }
     public static async Task<List<PcLogic>> AllPCsAsync()
     {
-      if (_PcLogics != null) return _PcLogics;
+      if (_pcLogics != null) return _pcLogics;
 
-      _PcLogics = new List<PcLogic>();
+      _pcLogics = new List<PcLogic>();
       //,,Trace.WriteLine($"-->AllPCs():\t");
 
       var mdfs = Directory.GetFiles(_dbPath, @"LocalDb(*).mdf", SearchOption.TopDirectoryOnly);
@@ -63,19 +61,17 @@ namespace Db.EventLog
         FileAttributeHelper.AddAttribute(dbpf, FileAttributes.ReadOnly);
         try
         {
-          using (var db = A0DbModel.GetLclFl(dbpf))
-          {
-            await db.PcLogics.LoadAsync();
-            //,,Trace.WriteLine($"{db.PcLogics.Local.Count()} rows.");
-            _PcLogics.AddRange(db.PcLogics.Local.Where(r => dbpf.ToUpper().Contains(r.MachineName.ToUpper())).ToList());
-          }
+          using var db = A0DbModel.GetLclFl(dbpf);
+          await db.PcLogics.LoadAsync();
+          //,,Trace.WriteLine($"{db.PcLogics.Local.Count()} rows.");
+          _pcLogics.AddRange(db.PcLogics.Local.Where(r => dbpf.ToUpper().Contains(r.MachineName.ToUpper())).ToList());
         }
         catch (Exception ex) { ex.Log(Path.GetFileNameWithoutExtension(dbpf)); }
         //finally { FileAttributeHelper.AddAttribute(dbpf, FileAttributes.ReadOnly); }
       }
 
       //,,Trace.WriteLine("");
-      return _PcLogics;
+      return _pcLogics;
     }
     public static SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b, string pcname)
     {
@@ -106,11 +102,9 @@ namespace Db.EventLog
       {
         FileAttributeHelper.RmvAttribute(localdb, FileAttributes.ReadOnly);
 
-        using (var db = A0DbModel.GetLclFl(localdb))
-        {
-          if (FindNewEventsToSaveToDb(evlst, pcname, note, db) > 0)
-            return (await db.TrySaveReportAsync()).rowsSavedCnt;
-        }
+        using var db = A0DbModel.GetLclFl(localdb);
+        if (FindNewEventsToSaveToDb(evlst, pcname, note, db) > 0)
+          return (await db.TrySaveReportAsync()).rowsSavedCnt;
       }
       catch (Exception ex) { ex.Log(); }
       finally { FileAttributeHelper.AddAttribute(localdb, FileAttributes.ReadOnly); }

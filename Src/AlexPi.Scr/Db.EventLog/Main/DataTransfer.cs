@@ -1,4 +1,4 @@
-﻿using AsLink;
+﻿using Db.EventLog.Ext;
 using Db.EventLog.DbModel;
 using System;
 using System.Data.Entity;

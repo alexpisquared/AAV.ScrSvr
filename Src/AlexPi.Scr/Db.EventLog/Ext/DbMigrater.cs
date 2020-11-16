@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using Db.EventLog.DbModel;
-using AsLink;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AAV.Sys.Ext;
