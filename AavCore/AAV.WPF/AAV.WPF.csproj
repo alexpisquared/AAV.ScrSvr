@@ -1,17 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <Platforms>AnyCPU;x64;x86</Platforms>
-  </PropertyGroup>
+
   <PropertyGroup>
-    <!--<OutputType>WinExe</OutputType>-->
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>aavwpf.snk</AssemblyOriginatorKeyFile>
 
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
