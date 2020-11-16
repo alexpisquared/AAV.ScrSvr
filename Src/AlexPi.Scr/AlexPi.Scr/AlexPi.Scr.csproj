@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\AAV.WPF\AAV.WPF.csproj" />
+  </ItemGroup>
+
+</Project>
