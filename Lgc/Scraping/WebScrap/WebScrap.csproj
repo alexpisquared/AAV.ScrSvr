@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectType>Local</ProjectType>
     <AssemblyKeyContainerName></AssemblyKeyContainerName>
     <AssemblyOriginatorKeyFile>WpfChartCtrlApp_1_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
@@ -131,9 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.8.11" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="WebScraper.cs" />
   </ItemGroup>
   <PropertyGroup />
 </Project>
