@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="AAV.SS.UsrCtrls.ucTimeOutArc" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 	             
+             x:Name="w1" >
+  <UserControl.Resources>
+
+    <BounceEase  x:Key="z"        EasingMode="EaseOut" Bounciness="5" />
+    <SineEase    x:Key="seio"     EasingMode="EaseInOut" />
+    <CubicEase   x:Key="ceio"     EasingMode="EaseInOut" />
+    <CubicEase   x:Key="ceo"      EasingMode="EaseOut" />
+    <ElasticEase x:Key="eeio"     EasingMode="EaseInOut" />
+    <ElasticEase x:Key="eei"      EasingMode="EaseIn"  />
+    <ElasticEase x:Key="eeo"      EasingMode="EaseOut" Springiness="5" />
+    <ElasticEase x:Key="eeo1s5"   EasingMode="EaseOut" Oscillations="1" Springiness="5" />
+    <ElasticEase x:Key="eeo2s5"   EasingMode="EaseIn"  Oscillations="2" Springiness="5" />
+
+    <LinearGradientBrush x:Key="fg1" EndPoint="0.5,1" StartPoint="0.5,0">
+      <GradientStop Color="#f00" Offset="0"/>
+      <GradientStop Color="#00f" Offset="0.5"/>
+      <GradientStop Color="#0f0" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Storyboard x:Key="sbarc1">
+      <DoubleAnimation                   Duration="0:0:15" From="+3.141" To="-1.5707" Storyboard.TargetProperty="StartAngle" />
+    </Storyboard>
+
+  </UserControl.Resources>
+  <Viewbox>
+    <Grid Height="300" Width="300" Grid.Row="1" >
+
+      <ed:Arc  Stroke="#ccc" StrokeThickness="2" StartAngle="+0" EndAngle="+340" x:Name="arc2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Stretch="None" >
+        <ed:Arc.Triggers>
+          <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard>
+              <Storyboard Timeline.DesiredFrameRate="60"  >
+                <DoubleAnimation       Storyboard.TargetProperty="EndAngle" Duration="0:0:56" From="340" To="0" />
+              </Storyboard>
+            </BeginStoryboard>
+          </EventTrigger>
+        </ed:Arc.Triggers>
+      </ed:Arc>
+
+    </Grid>
+  </Viewbox>
+</UserControl>
