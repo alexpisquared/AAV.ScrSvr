@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\WebScrap\WebScrap.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Almanac\WholeYear_WriteXmlSchema.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WholeYear_WriteXmlSchema.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Almanac\WholeYear_WriteXmlSchema.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>WholeYear_WriteXmlSchema.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

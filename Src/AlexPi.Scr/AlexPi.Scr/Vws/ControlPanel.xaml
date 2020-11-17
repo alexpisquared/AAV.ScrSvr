@@ -1,0 +1,50 @@
+﻿<lnk:TopmostUnCloseableWindow Width="280" Height="500" x:Class="AlexPi.Scr.Vws.ControlPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
+                Title="ControlPanel" 
+                xmlns:lnk="clr-namespace:AlexPi.Scr.Vws" 
+                Style="{StaticResource MouseEnterableSlowShowWindow}">
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
+  </WindowChrome.WindowChrome>
+  <Grid>
+    <Viewbox Margin="10">
+      <StackPanel x:Name="sp1">
+        <StackPanel.Resources>
+
+          <Style TargetType="FrameworkElement"  x:Key="fe0" >
+            <Setter Property="Margin"           Value="20 1" />
+          </Style>
+          <Style TargetType="Control"           BasedOn="{StaticResource fe0}" x:Key="cl0">
+            <Setter Property="Background"       Value="Transparent" />
+            <Setter Property="BorderBrush"      Value="Transparent" />
+            <Setter Property="Foreground"       Value="#000" />
+          </Style>
+          <Style TargetType="ContentControl"    BasedOn="{StaticResource cl0}" x:Key="cc0">
+          </Style>
+          <Style TargetType="ToggleButton"      BasedOn="{StaticResource cc0}" x:Key="tb0">
+            <EventSetter Event="Checked"        Handler="onChkUnC" />
+            <EventSetter Event="Unchecked"      Handler="onChkUnC" />
+          </Style>
+
+          <Style TargetType="ToggleButton"      BasedOn="{StaticResource tb0}" />
+          <Style TargetType="CheckBox"          BasedOn="{StaticResource tb0}" />
+          <Style TargetType="Button"            BasedOn="{StaticResource cl0}" />
+
+        </StackPanel.Resources>
+        
+        <CheckBox  Content="All - F12 "   x:Name="cbAll"  Click="onTglAll"  FontWeight="Bold" IsThreeState="True" IsChecked="{x:Null}" />
+        <CheckBox  Content="F1  - Meteo " x:Name="ContainerA" />
+        <CheckBox  Content="F2  - CPU   " x:Name="ContainerB" />
+        <CheckBox  Content="F3  - Radar " x:Name="ContainerC" />
+        <CheckBox  Content="F4  - Clock " x:Name="ContainerD" />
+        <CheckBox  Content="F5  - BrnOut" x:Name="ContainerE" />
+        <CheckBox  Content="F6  - Stngs " x:Name="ContainerF" />
+        <CheckBox  Content="F7  - Mail  " x:Name="ContainerG" />
+        <CheckBox  Content="F8  - Prgrs " x:Name="ContainerH" />
+        <CheckBox  Content="F9  - 3gage " x:Name="ContainerI" />
+        <CheckBox  Content="F10 - ? ? ? " x:Name="ContainerJ" />
+        <CheckBox  Content="F11 - Photos" x:Name="ContainerK" />
+      </StackPanel>
+    </Viewbox>
+    <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
+  </Grid>
+</lnk:TopmostUnCloseableWindow>

@@ -1,19 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8BCACD85-6224-413C-90B9-4BA17BAD15F2}</ProjectGuid>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AAV.SS</RootNamespace>
-    <AssemblyName>AAV.SS</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -33,45 +21,17 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -86,67 +46,9 @@
     <ManifestKeyFile>AAV.SS_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Speech" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
     <Compile Include="..\..\..\AAV\AAV.Sys\AsLink\SpeechSynth.cs">
       <Link>AsLink\SpeechSynth.cs</Link>
     </Compile>
@@ -158,10 +60,6 @@
     </Compile>
     <Compile Include="..\..\..\AsLink\PlatformNeutral\MediaHelper.cs">
       <Link>AsLink\MediaHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\AsLink\UI\EnvtCaUsrCtrl.xaml.cs">
-      <Link>AsLink\EnvtCaUsrCtrl.xaml.cs</Link>
-      <DependentUpon>EnvtCaUsrCtrl.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\..\..\AsLink\WebSvcTypes\EnvtCa.SiteData.cs">
       <Link>AsLink\EnvtCa.SiteData.cs</Link>
@@ -178,346 +76,12 @@
     <Compile Include="..\..\..\xPlat\ToRunOr\AsLink.Standard\Helpers\EnvtCanRadarHelper.cs">
       <Link>AsLink\EnvtCanRadarHelper.cs</Link>
     </Compile>
-    <Compile Include="..\zAnimPoc\ucGear1.xaml.cs">
-      <Link>UsrCtrls\ucGear1.xaml.cs</Link>
-      <DependentUpon>ucGear1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\zAnimPoc\ucGears1.xaml.cs">
-      <Link>UsrCtrls\ucGears1.xaml.cs</Link>
-      <DependentUpon>ucGears1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="..\..\..\AsLink\PlatformNeutral\EnvCanRadarUrlHelper.cs">
       <Link>AsLink\EnvCanRadarUrlHelper.cs</Link>
     </Compile>
-    <Compile Include="AltBpr\Bpr.cs" />
-    <Compile Include="AltBpr\ChimerAlt.cs" />
-    <Compile Include="Logic\BrowseForFolderDialog.cs" />
-    <Compile Include="Logic\AppSettings.cs" />
-    <Compile Include="Logic\CpuUse.cs" />
-    <Compile Include="Logic\GlobalEventHandler.cs" />
-    <Compile Include="Logic\KeepAwakeHelper.cs" />
-    <Compile Include="Logic\PerformanceCounterHelper.cs" />
-    <Compile Include="Logic\Times.cs" />
-    <Compile Include="Unclosables\ExitStrategy.cs" />
-    <Compile Include="Unclosables\TopmostUnCloseableWindow.cs" />
-    <Compile Include="Unclosables\UnCloseableWindow.cs" />
-    <Compile Include="UsrCtrls\ArcAnimUC.xaml.cs">
-      <DependentUpon>ArcAnimUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\CpuHistogram.xaml.cs">
-      <DependentUpon>CpuHistogram.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\DeleteFileUsrCtrl.xaml.cs">
-      <DependentUpon>DeleteFileUsrCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\FxTogglesUC.xaml.cs">
-      <DependentUpon>FxTogglesUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GaugeBar.xaml.cs">
-      <DependentUpon>GaugeBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GaugeArrowOne.xaml.cs">
-      <DependentUpon>GaugeArrowOne.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GaugeSpeedometer.xaml.cs">
-      <DependentUpon>GaugeSpeedometer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GaugeWeek.xaml.cs">
-      <DependentUpon>GaugeWeek.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GaugeTor.xaml.cs">
-      <DependentUpon>GaugeTor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\GlobeSpin.xaml.cs">
-      <DependentUpon>GlobeSpin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\RadarMultiImgUsrCtrl.xaml.cs">
-      <DependentUpon>RadarMultiImgUsrCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\SlideShowUsrCtrl.xaml.cs">
-      <DependentUpon>SlideShowUsrCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\ucAvalonTaskMgr.xaml.cs">
-      <DependentUpon>ucAvalonTaskMgr.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\ucBattery.xaml.cs">
-      <DependentUpon>ucBattery.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\ucTimeOutArc.xaml.cs">
-      <DependentUpon>ucTimeOutArc.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\UpTimeSpiralUC.xaml.cs">
-      <DependentUpon>UpTimeSpiralUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\WeeklyBurnUC.xaml.cs">
-      <DependentUpon>WeeklyBurnUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\BackgroundWindow.xaml.cs">
-      <DependentUpon>BackgroundWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\BrowserWindow.xaml.cs">
-      <DependentUpon>BrowserWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerK.xaml.cs">
-      <DependentUpon>ContainerK.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\DeleteMePopup.xaml.cs">
-      <DependentUpon>DeleteMePopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\UpTimeReview2.xaml.cs">
-      <DependentUpon>UpTimeReview2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ControlPanel.xaml.cs">
-      <DependentUpon>ControlPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerF.xaml.cs">
-      <DependentUpon>ContainerF.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerI.xaml.cs">
-      <DependentUpon>ContainerI.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerH.xaml.cs">
-      <DependentUpon>ContainerH.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerG.xaml.cs">
-      <DependentUpon>ContainerG.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerJ.xaml.cs">
-      <DependentUpon>ContainerJ.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerE.xaml.cs">
-      <DependentUpon>ContainerE.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerA.xaml.cs">
-      <DependentUpon>ContainerA.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerC.xaml.cs">
-      <DependentUpon>ContainerC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerB.xaml.cs">
-      <DependentUpon>ContainerB.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\ContainerD.xaml.cs">
-      <DependentUpon>ContainerD.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Logic\Rect.cs" />
-    <Compile Include="Vws\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\AndroidClockUsrCtrl.xaml.cs">
-      <DependentUpon>AndroidClockUsrCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UsrCtrls\WeatherInfoUsrCtrl.xaml.cs">
-      <DependentUpon>WeatherInfoUsrCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vws\zDev.xaml.cs">
-      <DependentUpon>zDev.xaml</DependentUpon>
-    </Compile>
-    <Page Include="..\..\..\AsLink\UI\EnvtCaUsrCtrl.xaml">
-      <Link>AsLink\EnvtCaUsrCtrl.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\zAnimPoc\ucGear1.xaml">
-      <Link>UsrCtrls\ucGear1.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\zAnimPoc\ucGears1.xaml">
-      <Link>UsrCtrls\ucGears1.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\ArcAnimUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\CpuHistogram.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\DeleteFileUsrCtrl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\FxTogglesUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\GaugeBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\GaugeArrowOne.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\GaugeSpeedometer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\GaugeWeek.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\GaugeTor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\GlobeSpin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\RadarMultiImgUsrCtrl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\SlideShowUsrCtrl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\ucAvalonTaskMgr.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\ucBattery.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\ucTimeOutArc.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\UpTimeSpiralUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\WeeklyBurnUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vws\BackgroundWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vws\BrowserWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vws\ContainerK.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\DeleteMePopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vws\UpTimeReview2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ControlPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerF.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerH.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerG.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerJ.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerE.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerA.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerB.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\ContainerD.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vws\MiniScrSvrWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Vws\MiniScrSvrWindow.xaml.cs">
-      <DependentUpon>MiniScrSvrWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Vws\SettingsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UsrCtrls\AndroidClockUsrCtrl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UsrCtrls\WeatherInfoUsrCtrl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vws\zDev.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="AAV.SS_TemporaryKey.pfx" />
-    <None Include="MiscExt\WebBrowser control enabler.reg" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico">
@@ -525,38 +89,14 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AavCore\AAV.Sys\AAV.Sys.csproj">
-      <Project>{b7674675-6871-44bb-b080-72a39d3374f8}</Project>
-      <Name>AAV.Sys</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\AAV\AAV.WPF\AAV.WPF.csproj">
-      <Project>{6d51fed2-4250-4db3-9625-24c348e86aaf}</Project>
-      <Name>AAV.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ef\Db.EventLog\Db.EventLog.csproj">
-      <Project>{1c3d27f8-20b8-4d22-9f41-87787a7bc614}</Project>
-      <Name>Db.EventLog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Scraping\RadarPicCollect\RadarPicCollect.csproj">
-      <Project>{61a2dbc2-53fd-4ad7-93e2-697a42b2c485}</Project>
-      <Name>RadarPicCollect</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Scraping\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj">
-      <Project>{dcccdab2-3a37-4ef0-b129-39903c85e001}</Project>
-      <Name>WebScrapEnvironmentCanada</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WpfChart\RadarLib\RadarLib.csproj">
-      <Project>{d7aa0309-ff83-4ab0-8cf9-5cda4f6ee65f}</Project>
-      <Name>RadarLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj">
-      <Project>{32b3b674-4ec3-42e8-b8bc-8aec827e0132}</Project>
-      <Name>MailInfoWpfUsrCtrlLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj">
-      <Project>{9e5021aa-a768-447b-a731-3c81375bd5a9}</Project>
-      <Name>ScreenTimeUsrCtrlLib</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\..\AavCore\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\..\..\AAV\AAV.WPF\AAV.WPF.csproj" />
+    <ProjectReference Include="..\..\..\ef\Db.EventLog\Db.EventLog.csproj" />
+    <ProjectReference Include="..\..\Scraping\RadarPicCollect\RadarPicCollect.csproj" />
+    <ProjectReference Include="..\..\Scraping\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
+    <ProjectReference Include="..\..\WpfChart\RadarLib\RadarLib.csproj" />
+    <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
+    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\00.gif" />
@@ -604,7 +144,23 @@
     <Resource Include="Images\RbcLogo\rbc-shield-logo-png-transparent.png" />
     <Resource Include="Images\RbcLogo\rbc.gif" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Expression.Drawing" Version="3.0.0" />
+    <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AsLink\EnvCanRadarUrlHelper.cs" />
+    <Compile Remove="Vws\GadgetsBinWindow.xaml.cs" />
+    <Compile Remove="Vws\SlideShowWindow.xaml.cs" />
+    <Compile Remove="Vws\Window1.xaml.cs" />
+  </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>IF EXIST $(TargetDir)$(TargetName).scr          (DEL $(TargetDir)$(TargetName).scr) ELSE echo OK1
 IF EXIST $(TargetDir)$(TargetName).scr.config   (DEL $(TargetDir)$(TargetName).scr.config) ELSE echo OK1
@@ -613,11 +169,4 @@ IF $(ConfigurationName)==Release IF EXIST $(TargetPath).config              (COP
 
 </PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

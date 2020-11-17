@@ -1,0 +1,221 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 	
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+             xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" x:Name="uc1" x:Class="UsrCtrlPOCs.AndroidClockUsrCtrl" 
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Cursor="Hand" 
+             >
+  <UserControl.Resources>
+    <!--<ufc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />-->
+
+    <Style TargetType="{x:Type ed:Arc}">
+      <Setter Property="Stretch"                Value="None" />
+      <!--
+      <Setter Property="ArcThickness"           Value=".5" />
+      <Setter Property="ArcThicknessUnit"       Value="Percent" />
+      <Setter Property="Stroke"                 Value="#0f0" />
+      <Setter Property="StrokeThickness"        Value="0" />
+      <Setter Property="Fill"                   Value="#ff0" />
+      <Setter Property="Width"                  Value="20" />
+      <Setter Property="Height"                 Value="20" />
+      <Setter Property="HorizontalAlignment"    Value="Center" />
+      <Setter Property="VerticalAlignment"      Value="Center" />
+      <Setter Property="RenderTransformOrigin"  Value="0.5,0.5" />
+      -->
+      <Setter Property="StartAngle"             Value="15" />
+      <Setter Property="EndAngle"               Value="45" />
+    </Style>
+
+    <Style x:Key="MouseOverShowHideAnimStyle" TargetType="{x:Type Border}">
+
+      <Setter Property="Opacity" Value="1" />
+
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Trigger.EnterActions>
+            <BeginStoryboard Storyboard="{StaticResource Opacity_FastLowCpu}" />
+          </Trigger.EnterActions>
+          <Trigger.ExitActions>
+            <BeginStoryboard Storyboard="{StaticResource Opacity_1SecLowCpu}" />
+          </Trigger.ExitActions>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+
+    <SineEase    x:Key="seio"     EasingMode="EaseInOut" />
+    <CubicEase   x:Key="ceio"     EasingMode="EaseInOut" />
+    <CubicEase   x:Key="ceo"      EasingMode="EaseOut" />
+    <ElasticEase x:Key="eei"      EasingMode="EaseIn" />
+    <ElasticEase x:Key="eeo"      EasingMode="EaseOut" />
+    <ElasticEase x:Key="eeio"     EasingMode="EaseInOut" />
+    <ElasticEase x:Key="eeo1s5"   EasingMode="EaseOut" Oscillations="1" Springiness="5" />
+    <ElasticEase x:Key="eeo2s5"   EasingMode="EaseOut" Oscillations="2" Springiness="5" />
+
+    <!--<DoubleAnimation x:Key="da1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandSec"  RepeatBehavior="Forever" From="0" To="360" Duration="00:1:0" />-->
+
+    <Storyboard Timeline.DesiredFrameRate="60" x:Key="sbMoveSecondHandAnlg" >
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandSec" From="{Binding S_0, ElementName=uc1}" To="{Binding S_1, ElementName=uc1}" Duration="00:0:.750" EasingFunction="{StaticResource eeo2s5}" />
+    </Storyboard>
+    <Storyboard Timeline.DesiredFrameRate="60" x:Key="sbMoveSecondHandImdt" >
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandSec" From="{Binding S_0, ElementName=uc1}" To="{Binding S_1, ElementName=uc1}" Duration="00:0:.001" />
+    </Storyboard>
+    <!--
+    <Storyboard Timeline.DesiredFrameRate="3" x:Key="sbMoveHands_" Duration="24:0:0" >
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandSec"  RepeatBehavior="Forever" From="{Binding S_0, ElementName=uc1}" To="{Binding S_1, ElementName=uc1}" Duration="00:0:.5" BeginTime="00:0:.5" x:Name="da1" />
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandSec"  RepeatBehavior="Forever" From="{Binding S_0, ElementName=uc1}" To="{Binding S60, ElementName=uc1}" Duration="00:1:0" x:Name="da1" />
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandMin"  RepeatBehavior="Forever" From="0" To="360" Duration="01:0:0" />
+      <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="HandHou"  RepeatBehavior="Forever" From="0" To="360" Duration="12:0:0" />
+    </Storyboard>
+    -->
+
+    <Storyboard Timeline.DesiredFrameRate="3" x:Key="sbBlur_On" >
+      <DoubleAnimation Storyboard.TargetProperty="BlurRaduis" Storyboard.TargetName="uc1" Duration="0:0:1" From="0" To="20" />
+    </Storyboard>
+    <Storyboard Timeline.DesiredFrameRate="3" x:Key="sbBlur_Of" >
+      <DoubleAnimation Storyboard.TargetProperty="BlurRaduis" Storyboard.TargetName="uc1" Duration="0:0:1" From="20" To="0" />
+    </Storyboard>
+
+    <RadialGradientBrush x:Key="wday" >
+      <GradientStop Color="#248" Offset="0.84"/>
+      <GradientStop Color="#236" Offset="1"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="wday2" >
+      <GradientStop Color="#248" Offset="0.5"/>
+      <GradientStop Color="#236" Offset="1"/>
+    </RadialGradientBrush>
+
+  </UserControl.Resources>
+  <!--<i:Interaction.Triggers>
+		<ei:TimerTrigger MillisecondsPerTick="1010" TotalTicks="60">
+			<ei:PlaySoundAction x:Name="TickingSound2" Source="tick.wma" Volume="0.1" />
+			/*<ei:CallMethodAction  TargetObject="{Binding ElementName=MainWindow1}" MethodName="CallMethodActionTargetMethod" IsEnabled="True" /> */
+		</ei:TimerTrigger>
+		<i:EventTrigger EventName="MouseEnter">
+			<ei:PlaySoundAction Source="pusher.wma" Volume="1" />
+			/*<ei:GoToStateAction StateName="VisualState3"/>*/
+		</i:EventTrigger>
+	</i:Interaction.Triggers>-->
+  <Grid Height="300" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="c1">
+
+    <!-- gen bkgrnd
+    <Ellipse Stroke="{StaticResource wday2}" StrokeThickness="215" Margin="-210" d:IsHidden="False" />-->
+
+
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut0" Margin="005.0" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut1" Margin="029.3" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut2" Margin="049.3" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut3" Margin="065.3" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut4" Margin="078.5" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut5" Margin="089.3" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut6" Margin="098.5" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut7" Margin="106.5" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut8" Margin="113.4" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="ut9" Margin="118.5" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="utA" Margin="123.4" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="utB" Margin="127.4" d:IsHidden="True" />
+    <UsrCtrls:UpTimeSpiralUC x:Name="utC" Margin="130.5" d:IsHidden="True" />
+
+    <ed:Arc StartAngle="{Binding StartMin, ElementName=uc1}" EndAngle="{Binding CurntMin, ElementName=uc1}" Margin="32" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="#6affffff" d:IsHidden="True"        />
+    <!--<ed:Arc StartAngle="{Binding StartHou, ElementName=uc1}" EndAngle="{Binding CurntHou, ElementName=uc1}" Margin="50" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="#def"        />-->
+    <ed:Arc StartAngle="{Binding StartHou, ElementName=uc1}" EndAngle="{Binding CurntHou, ElementName=uc1}" Margin="15" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="DodgerBlue" d:IsHidden="True"  />
+
+    <Grid x:Name="Hands" Height="300" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" >
+      <Grid.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+          <BeginStoryboard Storyboard="{StaticResource Opacity_1MinLowCpu}" />
+        </EventTrigger>
+      </Grid.Triggers>
+
+      <Grid RenderTransformOrigin="0.5,0.5" x:Name="HandHou">
+        <Grid.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform Angle="-60" x:Name="HandHouAngle"/>
+            <TranslateTransform/>
+          </TransformGroup>
+        </Grid.RenderTransform>
+        <Path Data="M150,55 L150,135 M150,165 L150,180" Stroke="#6a80C0Ff" StrokeThickness="16" RenderTransformOrigin="0.5,0.5" Fill="#04FFEE">
+          <Path.Effect>
+            <BlurEffect x:Name="beHou" Radius="{Binding BlurRaduis, ElementName=uc1}"/>
+          </Path.Effect>
+        </Path>
+        <Path Data="M150,55 L150,135 M150,165 L150,180" Stroke="#6affffff" StrokeThickness="16" RenderTransformOrigin="0.5,0.5" Fill="#04FFEE"/>
+
+        <!-- gray thin ext-n - too clattery
+        <Path Data="M150,0  L150,25" Stroke="#999" StrokeThickness="1" RenderTransformOrigin="0.5,0.5" Fill="#fff"/>
+        -->
+      </Grid>
+
+      <Grid RenderTransformOrigin="0.5,0.5" x:Name="HandMin">
+        <Grid.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform Angle="60" x:Name="HandMinAngle"/>
+            <TranslateTransform/>
+          </TransformGroup>
+        </Grid.RenderTransform>
+        <Path  Data="M150,32 L150,134 M150,166 L150,185" Stroke="#6a80C0Ff" StrokeThickness="6" RenderTransformOrigin="0.5,0.5">
+          <Path.Effect>
+            <BlurEffect Radius="{Binding BlurRaduis, ElementName=uc1}"/>
+          </Path.Effect>
+        </Path>
+        <Path  Data="M150,32 L150,134 M150,166 L150,185" Stroke="#6affffff" StrokeThickness="6" RenderTransformOrigin="0.5,0.5"/>
+      </Grid>
+
+      <Ellipse Stroke="#6a80C0Ff" Margin="133" StrokeThickness="4" x:Name="CentrRing">
+        <Ellipse.Effect>
+          <BlurEffect Radius="{Binding BlurRaduis, ElementName=uc1}"/>
+        </Ellipse.Effect>
+      </Ellipse>
+      <Ellipse Stroke="#abc" Margin="133" StrokeThickness="4" x:Name="CentrRing0"/>
+
+      <Grid RenderTransformOrigin="0.5,0.5" x:Name="HandSec" Visibility="{Binding SecHandVis, ElementName=uc1}" >
+        <Grid.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform Angle="180" x:Name="HandSecAngle" />
+            <TranslateTransform/>
+          </TransformGroup>
+        </Grid.RenderTransform>
+        <Path Data="M150,5 L150,137 M150,163 L150,190" Stroke="#d44" StrokeThickness="2" RenderTransformOrigin="0.5,0.5" />
+      </Grid>
+
+      <!--<Border BorderBrush="#0af" Background="#444" BorderThickness="2" CornerRadius="60" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MouseOverShowHideAnimStyle}">
+				<Grid >
+					<StackPanel Orientation="Vertical">
+						<CheckBox HorizontalAlignment="Left"  VerticalAlignment="Center" Content="Glow " FontSize="22" Background="Silver" Foreground="#08f" IsTabStop="False" FocusVisualStyle="{x:Null}"  Margin="22 11" IsChecked="{Binding ElementName=uc1, Path=IsHeaterOn}"       />
+						<CheckBox HorizontalAlignment="Right" VerticalAlignment="Center" Content="Sec "  FontSize="22" Background="Silver" Foreground="#08f" IsTabStop="False" FocusVisualStyle="{x:Null}"  Margin="22 11" IsChecked="{Binding ElementName=uc1, Path=IsSecHndOn}" />
+					</StackPanel>
+				</Grid>
+			</Border>-->
+
+      <!--<Ellipse Stroke="#259" Margin="0" StrokeDashOffset=".009" StrokeThickness="25" StrokeDashArray=".01 2.87" />-->
+      <Ellipse Stroke="#f88" StrokeDashOffset="0.5" StrokeThickness=".5" StrokeDashArray="1 10.759" Margin="15" />
+    </Grid>
+
+    <!--
+    <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" Height="40" >
+      <Border x:Name="ControlPanel" Style="{StaticResource MouseOverShowHideAnimStyle}" CornerRadius="45" RenderTransformOrigin="0.5,0.5" >
+        <Border.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform Angle="-0"/>
+            <TranslateTransform/>
+          </TransformGroup>
+        </Border.RenderTransform>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" >
+          <Slider Name="g0" Value="{Binding ElementName=uc1, Path=BlurRaduis}" Minimum="0" Maximum="50"  Background="#888" Focusable="False" SmallChange="5" TickFrequency="10" TickPlacement="Both" LargeChange="25" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Width="238" />
+          <CheckBox Content="Sec"  FontSize="22" Background="Silver" Foreground="#77C0FE" FontWeight="Black" IsTabStop="False" FocusVisualStyle="{x:Null}"  Margin="11" IsChecked="{Binding ElementName=uc1, Path=IsSecHndOn}" />
+          <TextBlock         Text="{Binding ElementName=uc1, Path=BlurRaduis, StringFormat='{}{0:N1}'}" HorizontalAlignment="Center" />
+          <CheckBox Content="_Heat" FontSize="12" Foreground="#77C0FE" FontWeight="Black" IsTabStop="False" FocusVisualStyle="{x:Null}"  Margin="20 40" IsChecked="{Binding IsHeaterOn, ElementName=uc1}"       />
+        </StackPanel>
+      </Border>
+    </Viewbox>
+    -->
+
+    <TextBlock Text="{Binding ElementName=uc1, Path=CurentMM, StringFormat='{}{0:N0}', FallbackValue=58}" Foreground="#e80" HorizontalAlignment="Center" FontSize="20" Margin="0 0 0 3" />
+
+  </Grid>
+</UserControl>

@@ -1,0 +1,66 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="UsrCtrlPOCs.WeatherInfoUsrCtrl" 
+             mc:Ignorable="d" Height="250" Width="350" VerticalAlignment="Top" >
+	<Grid >
+		<Border CornerRadius="6" Height="86" Margin="70,88,10,0" VerticalAlignment="Top" >
+			<Border.Background>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FF5083CD" Offset="0" />
+					<GradientStop Color="#FF5083CD" Offset="0.957" />
+					<GradientStop Color="#FFA3BEE8" Offset="0.057" />
+					<GradientStop Color="#FFA1BFEA" Offset="0.107" />
+					<GradientStop Color="#FF6695DB" Offset="0.490" />
+					<GradientStop Color="#FF588BD7" Offset="0.5" />
+					<GradientStop Color="#FF3A75CE" Offset="0.864" />
+				</LinearGradientBrush>
+			</Border.Background>
+			<Grid>
+				<StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" >
+					<TextBlock x:Name="tbExH" Text="9.8°"   Margin="0" Foreground="#F84"  HorizontalAlignment="Right"  FontSize="12" FontWeight="Bold" FontFamily="Constantia"  />
+					<TextBlock x:Name="tbHih" Text="9°"     Margin="0" Foreground="#F40"  HorizontalAlignment="Right"  FontSize="16" FontWeight="Bold" FontFamily="Constantia"  />
+					<TextBlock x:Name="tbLow" Text="-5°"    Margin="0" Foreground="#04F"  HorizontalAlignment="Right"  FontSize="16" FontWeight="Bold" FontFamily="Constantia"  />
+					<TextBlock x:Name="tbExL" Text="-15.5°" Margin="0" Foreground="#48F"  HorizontalAlignment="Right"  FontSize="12" FontWeight="Bold" FontFamily="Constantia"  />
+				</StackPanel>
+				<TextBlock x:Name="tbCur" Text="+25.5°c" Foreground="#fff"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="44" FontWeight="Bold" FontFamily="Constantia" Margin="62,10,72,22" />
+				<TextBlock x:Name="tbRea" Text="~44"    Margin="0,-3,22,0" Foreground="#fcc"  HorizontalAlignment="Right" FontSize="26" FontWeight="Bold" FontFamily="Constantia" VerticalAlignment="Top" />
+
+				<TextBlock x:Name="tbWhn" Text="18:00"  Margin="0,0,-25,3" Foreground="#def"  HorizontalAlignment="Right" FontSize="14" FontWeight="Bold" FontFamily="Calibri" VerticalAlignment="Bottom" Height="18" Width="46">
+					<TextBlock.RenderTransform>
+						<RotateTransform Angle="-90"/>
+					</TextBlock.RenderTransform>
+				</TextBlock>
+			</Grid>
+		</Border>
+
+		<Border Height="39" Width="200" VerticalAlignment="Bottom" Margin="75,0"  >
+			<Border.Background>
+				<RadialGradientBrush GradientOrigin="0.5,1.3" Center="0.5,1.3" RadiusY="1.3" RadiusX="0.4">
+					<GradientStop Color="#FF13A5B5" Offset="0.3"/>
+					<GradientStop Color="#FF0AE5FE" Offset="0.336"/>
+					<GradientStop Color="#FF0CA3FB" Offset="0.379"/>
+					<GradientStop Color="#FF0C35AB" Offset="0.632"/>
+					<GradientStop Color="#FF0C1584" Offset="0.85"/>
+					<GradientStop Color="#FF1B0D49" Offset="0.996"/>
+					<GradientStop Color="#000" Offset="1"/>
+				</RadialGradientBrush>
+			</Border.Background>
+			<Grid>
+				<TextBlock x:Name="tbSun" Text="☼   6:00        18:00   ☼"   Foreground="#fff"   FontSize="18" FontWeight="Bold" FontFamily="Constantia" TextAlignment="Center" VerticalAlignment="Center" />
+			</Grid>
+		</Border>
+
+		<Rectangle HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="50" Fill="#eee" />
+		<Image     HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="weaImg" Stretch="None" Source="/AlexPi.Scr;component/Images/09.gif"  />
+
+		<ed:Arc StrokeDashArray=".02 2.645"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="88" Width="88" Margin="0" Stroke="#fff" EndAngle="360" StrokeThickness="20"   />
+		<ed:Arc StrokeDashArray=".02 2.018" HorizontalAlignment="Right" VerticalAlignment="Top" Height="88" Width="88" Margin="0" Stroke="#fff" EndAngle="360" StrokeThickness="10"   />
+		<ed:Arc ArcThickness="999" Fill="#44f" HorizontalAlignment="Right" VerticalAlignment="Top" 
+						Height="88" Width="88" Margin="0" Stretch="None" Stroke="#ddf" 
+						StartAngle="140" EndAngle="150" StrokeThickness="0" Name="arc__"/>
+		<!--<Image     HorizontalAlignment="Left" Name="image2" Stretch="None" VerticalAlignment="Top" Source="/AlexPi.Scr;component/Images/31.png"  />-->
+	</Grid>
+</UserControl>

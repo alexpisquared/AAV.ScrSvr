@@ -1,0 +1,27 @@
+﻿<lnk:UnCloseableWindow x:Class="AlexPi.Scr.Vws.BackgroundWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+                       xmlns:lnk="clr-namespace:AlexPi.Scr.Vws" 
+                       Title="Background Topmost(!) Window" 
+                       WindowStartupLocation="Manual"
+                       WindowStyle="None" 
+                       AllowsTransparency="True" Background="#000" Topmost="False">
+  <!--
+                       x:Name="ths" 
+  
+  Aug 2019: Demo only: No need as the background is just a custom theme color.
+  <lnk:UnCloseableWindow.Triggers>
+    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+      <BeginStoryboard>
+        <Storyboard>
+          <DoubleAnimation Storyboard.TargetName="ths" From="0" To="1" Duration="0:0:15" Storyboard.TargetProperty="Opacity" />
+        </Storyboard>
+      </BeginStoryboard>
+    </EventTrigger>
+  </lnk:UnCloseableWindow.Triggers>
+  -->
+
+  <TextBlock Foreground="#ea4" Background="#004" Margin="8" FontSize="20" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" VerticalAlignment="Top" HorizontalAlignment="Left"
+             MouseEnter="TextBlock_MouseEnter" MouseLeave="TextBlock_MouseLeave"
+             MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" 
+             Opacity="0.1"/>
+
+</lnk:UnCloseableWindow>

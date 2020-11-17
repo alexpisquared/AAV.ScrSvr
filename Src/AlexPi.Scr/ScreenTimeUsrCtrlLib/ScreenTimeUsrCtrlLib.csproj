@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
+    <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
+    <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\AAV.WPF\AAV.WPF.csproj" />
+    <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
+  </ItemGroup>
+
+</Project>
