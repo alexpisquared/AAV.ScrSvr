@@ -39,7 +39,7 @@ namespace WebScrap
       return wr;
     }
     protected static ICredentials getICredentials(Uri uri) =>
-      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("connect.garmin.com/proxy/download-service") ? new NetworkCredential("pigida", sABC + sABC + "6NG") :
+      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("connect.garmin.com/proxy/download-service") ? new NetworkCredential("pigida", sABC + sABC + "6NG") : // is it still available (Nov 2020)
       WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("aavproltd") ? new NetworkCredential("apigida", sABC + " " + s123.ToString(), "AAVproLtd") :
       WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.0.10.") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
       WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.1.0.1") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
@@ -50,8 +50,8 @@ namespace WebScrap
       catch (Exception ex) { ex.Log(file); }
     }
 
-    const string sABC = ";lkj";
-    const int s123 = 345;
+    const string sABC = "are you crazy!"; // from old <-- 4+4 <--
+    const int s123 = 345; 
   }
 
   public partial class WebScraper : WebScraperBase

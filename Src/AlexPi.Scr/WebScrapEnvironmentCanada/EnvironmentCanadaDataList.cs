@@ -174,11 +174,11 @@ namespace EnvironmentCanadaScrap
   //      switch (Environment.MachineName)
   //      {
   //        default: File.AppendAllText(OneDrive.Root, @"\web.cache\New PC for ConStrProvider.cs .txt", DateTime.Now.ToString("dd-MMM-yyyy HH:mm") + " " + Environment.MachineName + "\r\n"); break;
-  //        case "HP1": return string.Format(@"Data Source=HP1\SQL05;Initial Catalog={0};Persist Security Info=True;User ID=UniReadOnly;password=kjldfs;Connect Timeout=3", dbName);
+  //        case "HP1": return string.Format(@"Data Source=HP1\SQL05;Initial Catalog={0};Persist Security Info=True;User ID=UniReadOnly;password=oldPassword;Connect Timeout=3", dbName);
   //#if DEBU G
   //        case "DELL2": return string.Format(@"Data Source=DELL2\SQL05;Initial Catalog={0};Integrated Security=True;Connect Timeout=3", dbName);
   //#else
-  //        case "DELL2": return string.Format(@"Data Source=HP1\SQL05;Initial Catalog={0};Persist Security Info=True;User ID=UniReadOnly;password=kjldfs;Connect Timeout=3", dbName);
+  //        case "DELL2": return string.Format(@"Data Source=HP1\SQL05;Initial Catalog={0};Persist Security Info=True;User ID=UniReadOnly;password=oldPassword;Connect Timeout=3", dbName);
   //#endif
   //        case "CON-AHRAPACH": return string.Format("Data Source=localhost;Initial Catalog={0};Integrated Security=True;Connect Timeout=3", dbName);
   //      }
