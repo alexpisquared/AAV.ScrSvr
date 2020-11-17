@@ -25,8 +25,13 @@
     <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
+    <ProjectReference Include="..\SpeechSynth\SpeechSynth.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
     <ProjectReference Include="..\WindowsFormsApp\WindowsFormsApp.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="rem move $(OutDir)$(TargetName).exe $(OutDir)$(TargetName)" />
+  </Target>
 
 </Project>

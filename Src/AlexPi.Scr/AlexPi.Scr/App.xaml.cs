@@ -1,9 +1,10 @@
-﻿using AlexPi.Scr.AltBpr;
+﻿using AAV.Sys.Helpers;
+using AAV.WPF.Ext;
+using AlexPi.Scr.AltBpr;
 using AlexPi.Scr.Logic;
 using AlexPi.Scr.Vws;
-using AAV.Sys.Helpers;
-using AAV.WPF.Ext;
 using AsLink;
+using SpeechSynthLib;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,15 +14,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
-//using frm = System.Windows.Forms;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using AlexPi.Scr;
 using WindowsFormsApp;
 
 namespace AlexPi.Scr
@@ -46,13 +38,18 @@ namespace AlexPi.Scr
       _ScrSvrShowDelayMs = 10000;
 #endif
 
-    static readonly SpeechSynth _synth = new SpeechSynth(AppSettings.Instance.IsSpeechOn);
+    static readonly SpeechSynth _synth;
     public static void SpeakSynch(string msg) => _synth.SpeakSynch(msg);
     public static void SpeakAsync(string msg) => _synth.SpeakAsync(msg);
 
+    static App()
+    {
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    Ctor()     0/n     {Environment.CurrentDirectory}");
+      _synth = new SpeechSynth(AppSettings.Instance.IsSpeechOn);
+    }
     protected override async void OnStartup(StartupEventArgs sea)
     {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  1/2");
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  1/2     {Environment.CurrentDirectory}");
       try
       {
         base.OnStartup(sea);
