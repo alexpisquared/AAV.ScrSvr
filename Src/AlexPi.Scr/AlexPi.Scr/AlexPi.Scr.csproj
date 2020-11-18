@@ -25,7 +25,7 @@
     <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
-    <ProjectReference Include="..\SpeechSynth\SpeechSynth.csproj" />
+    <ProjectReference Include="..\SpeechSynthLib\SpeechSynthLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
     <ProjectReference Include="..\WindowsFormsApp\WindowsFormsApp.csproj" />
   </ItemGroup>

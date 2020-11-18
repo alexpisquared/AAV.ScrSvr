@@ -39,13 +39,13 @@ namespace AlexPi.Scr
 #endif
 
     static readonly SpeechSynth _synth;
-    public static void SpeakSynch(string msg) => _synth.SpeakSynch(msg);
-    public static void SpeakAsync(string msg) => _synth.SpeakAsync(msg);
+    public static void SpeakSynch(string msg) => _synth.SpeakAsync(msg).Wait();
+    public static void SpeakAsync(string msg) => _synth.SpeakAsync(msg).Wait();
 
     static App()
     {
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    Ctor()     0/n     {Environment.CurrentDirectory}");
-      _synth = new SpeechSynth(AppSettings.Instance.IsSpeechOn);
+      _synth = new SpeechSynth();
     }
     protected override async void OnStartup(StartupEventArgs sea)
     {
