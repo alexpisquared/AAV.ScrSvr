@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -20,8 +21,11 @@ namespace AAV.Sys.Helpers
 
 
     #region Win32 API declarations to set and get window placement
-    [DllImport("user32.dll")] public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
-    [DllImport("user32.dll")] public static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
+    public static bool SetWindowPlacement_(IntPtr hWnd, [In] ref WindowPlacement lpwndpl) => SetWindowPlacement(hWnd, ref lpwndpl);
+    public static bool GetWindowPlacement_(IntPtr hWnd, out WindowPlacement lpwndpl) => GetWindowPlacement(hWnd, out lpwndpl);
+
+    [DllImport("user32.dll")] static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
+    [DllImport("user32.dll")] static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
@@ -33,6 +37,17 @@ namespace AAV.Sys.Helpers
       public Point minPosition;
       public Point maxPosition;
       public Rect normalPosition;
+
+      public override bool Equals(object? obj) => obj is WindowPlacement placement && length == placement.length && flags == placement.flags && showCmd == placement.showCmd && EqualityComparer<Point>.Default.Equals(minPosition, placement.minPosition) && EqualityComparer<Point>.Default.Equals(maxPosition, placement.maxPosition) && EqualityComparer<Rect>.Default.Equals(normalPosition, placement.normalPosition);
+
+      public static bool operator ==(WindowPlacement left, WindowPlacement right) => left.Equals(right);
+
+      public static bool operator !=(WindowPlacement left, WindowPlacement right) => !(left == right);
+
+      public override int GetHashCode()
+      {
+        throw new NotImplementedException();
+      }
     }
 
     [Serializable]

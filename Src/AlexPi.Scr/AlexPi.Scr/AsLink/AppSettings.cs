@@ -2,11 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AsLink // namespace AlexPi.Scr.AsLink
 {
@@ -61,7 +56,7 @@ namespace AsLink // namespace AlexPi.Scr.AsLink
           {
             if (_instance == null)
             {
-              _instance = JsonFileSerializer.Load<AppSettings>(_pathfile) as AppSettings;
+              _instance = JsonFileSerializer.Load<AppSettings>(_pathfile);
               //_storMode == StorageMode.IsoProgDt ? JsonIsoFileSerializer.Load<AppSettings>() as AppSettings :
               //_storMode == StorageMode.IsoUsrLcl ? JsonIsoFileSerializer.Load<AppSettings>(null, IsoConst.ULocA) as AppSettings :
               //_storMode == StorageMode.IsoUsrRoa ? JsonIsoFileSerializer.Load<AppSettings>(null, IsoConst.URoaA) as AppSettings :

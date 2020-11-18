@@ -64,6 +64,7 @@ namespace AlexPi.Scr.Logic
         //case Key.F7: onIsSayMinOnF7(); break;
         //case Key.F8: onAutoSleep_F8(); break;
         //case Key.F9: onAutoLocke_F9(); break;
+        case Key.F12: break;
         default: return;
       }
 
