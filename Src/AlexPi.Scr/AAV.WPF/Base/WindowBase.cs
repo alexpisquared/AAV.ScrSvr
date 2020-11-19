@@ -1,8 +1,4 @@
-﻿#if MockingCore3
-#else
-using Microsoft.Extensions.Logging;
-//using AAV.Sys.Core3Ext;
-#endif
+﻿using Microsoft.Extensions.Logging;
 using AAV.Sys.Ext;
 using AAV.Sys.Helpers;
 using AAV.WPF.Ext;
@@ -28,22 +24,11 @@ namespace AAV.WPF.Base
     protected bool IgnoreWindowPlacement { get; set; } = false;
     string _isoFilenameONLY => $"{GetType().Name}.xml";
 
-#if MockingCore3
-    class Logger
-    {
-      internal void LogError(Exception ex, string v) => Trace.WriteLine($"{ex}  {v}");
-    }
-
-    readonly Logger _logger;
-    public WindowBase()
-    {
-#else
     readonly ILogger<WindowBase> _logger;
     public WindowBase() : this(new LoggerFactory().CreateLogger<WindowBase>()) { }
     public WindowBase(ILogger<WindowBase> logger)
     {
       _logger = logger;
-#endif
 
       //todo: use the commented out code below!!!   //mar18: looks like Core 3 is fixed for this bug.
       MouseLeftButtonDown += (s, e) => DragMove();  //jan23: using bad code to catch/recreate/replace it with the commented section below .. no luck yet, at least on Core 3.1 (Mar2020)
@@ -103,13 +88,8 @@ namespace AAV.WPF.Base
         var suri = $"{pref}{themeName}.xaml";
         if (Application.LoadComponent(new Uri(suri, UriKind.RelativeOrAbsolute)) is ResourceDictionary dict)
         {
-          ResourceDictionary rd;
-          while ((rd = Application.Current.Resources.MergedDictionaries.FirstOrDefault(r => ((System.Windows.Markup.IUriContext)r)?.BaseUri?.AbsolutePath?.Contains(pref
-#if Net4
-#else
-            , StringComparison.OrdinalIgnoreCase
-#endif
-            ) == true)) != null)
+          ResourceDictionary? rd;
+          while ((rd = Application.Current.Resources.MergedDictionaries.FirstOrDefault(r => ((System.Windows.Markup.IUriContext)r)?.BaseUri?.AbsolutePath?.Contains(pref, StringComparison.OrdinalIgnoreCase) == true)) != null)
             Application.Current.Resources.MergedDictionaries.Remove(rd);
 
           Application.Current.Resources.MergedDictionaries.Add(dict);

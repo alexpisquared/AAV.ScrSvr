@@ -39,8 +39,8 @@ namespace AlexPi.Scr
 #endif
 
     static readonly SpeechSynth _synth;
-    public static void SpeakSynch(string msg) => _synth.SpeakAsync(msg).Wait();
-    public static void SpeakAsync(string msg) => _synth.SpeakAsync(msg).Wait();
+    public static void SpeakSynch(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg));
+    public static void SpeakAsync(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg));
 
     static App()
     {
