@@ -81,7 +81,7 @@ namespace AlexPi.Scr.AltBpr
     }
 
     [Obsolete]
-    public static async Task Beep(int[][] HzMs, ushort volume = ushort.MaxValue)
+    public static async Task BeepMiliSec(int[][] HzMs, ushort volume = ushort.MaxValue)
     {
       using (var mStrm = new MemoryStream())
       {

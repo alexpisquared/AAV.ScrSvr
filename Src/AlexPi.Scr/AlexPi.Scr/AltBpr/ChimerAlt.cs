@@ -97,29 +97,29 @@ namespace AlexPi.Scr.AltBpr
     {
       switch (min)
       {
-        case 01: await Bpr.Beep(new[] { new[] { _a, _p + _p } }); break;
-        case 02: await Bpr.Beep(new[] { _cd, _p2, _ad }); break;
-        case 03: await Bpr.Beep(new[] { _ad, _bd, _cd, }); break;
+        case 01: await Bpr.BeepMiliSec(new[] { new[] { _a, _p + _p } }); break;
+        case 02: await Bpr.BeepMiliSec(new[] { _cd, _p2, _ad }); break;
+        case 03: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, }); break;
         //se 04: await Bpr.Beep(new[] { _cd, _ad, __1, _cd, _ad }); break;
-        case 04: await Bpr.Beep(new[] { _ad, _bd, _cd, _p1, _cd }); break;
+        case 04: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _p1, _cd }); break;
         //se 05: await Bpr.Beep(new[] { _cd, _ad, __1, _cd, _ad, __1, _cd }); break;
-        case 05: await Bpr.Beep(new[] { _ad, _bd, _cd, _p1, _cd, _ad }); break;
-        case 06: await Bpr.Beep(new[] { _ad, _bd, _cd, _ad, _bd, _cd }); break;
-        case 07: await Bpr.Beep(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad }); break;
-        case 08: await Bpr.Beep(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad, _p1, _bd }); break;
-        case 09: await Bpr.Beep(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad, _p1, _bd, _p1, _cd }); break;
-        case 10: await Bpr.Beep(new[] { _a4 }); ; break;
-        case 11: await Bpr.Beep(new[] { _a4, _p1, _cd }); break;
-        case 12: await Bpr.Beep(new[] { _a4, _p1, _cd, _ad }); break;
-        case 13: await Bpr.Beep(new[] { _a4, _p1, _ad, _bd, _cd }); break;
-        case 14: await Bpr.Beep(new[] { _a4, _p1, _cd, _ad, _p1, _cd, _ad }); break;
-        case 15: await Bpr.Beep(new[] { _a4, _p1, _cd, _ad, _p1, _cd, _ad, _p1, _cd }); break;
-        case 20: await Bpr.Beep(new[] { _a4, _p1, _a4 }); break;
-        case 25: await Bpr.Beep(new[] { _a4, _p1, _a4, _cd, _ad, _p1, _cd, _ad, _p1, _cd }); break;
-        case 30: await Bpr.Beep(new[] { _a4, _p1, _a4, _p1, _a4 }); break;
-        case 40: await Bpr.Beep(new[] { _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
-        case 50: await Bpr.Beep(new[] { _a4, _p1, _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
-        case 60: await Bpr.Beep(new[] { _a4, _p1, _a2, _p1, _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
+        case 05: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _p1, _cd, _ad }); break;
+        case 06: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _ad, _bd, _cd }); break;
+        case 07: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad }); break;
+        case 08: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad, _p1, _bd }); break;
+        case 09: await Bpr.BeepMiliSec(new[] { _ad, _bd, _cd, _ad, _bd, _cd, _p1, _ad, _p1, _bd, _p1, _cd }); break;
+        case 10: await Bpr.BeepMiliSec(new[] { _a4 }); ; break;
+        case 11: await Bpr.BeepMiliSec(new[] { _a4, _p1, _cd }); break;
+        case 12: await Bpr.BeepMiliSec(new[] { _a4, _p1, _cd, _ad }); break;
+        case 13: await Bpr.BeepMiliSec(new[] { _a4, _p1, _ad, _bd, _cd }); break;
+        case 14: await Bpr.BeepMiliSec(new[] { _a4, _p1, _cd, _ad, _p1, _cd, _ad }); break;
+        case 15: await Bpr.BeepMiliSec(new[] { _a4, _p1, _cd, _ad, _p1, _cd, _ad, _p1, _cd }); break;
+        case 20: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a4 }); break;
+        case 25: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a4, _cd, _ad, _p1, _cd, _ad, _p1, _cd }); break;
+        case 30: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a4, _p1, _a4 }); break;
+        case 40: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
+        case 50: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
+        case 60: await Bpr.BeepMiliSec(new[] { _a4, _p1, _a2, _p1, _a4, _p1, _a4, _p1, _a4, _p1, _a4 }); break;
         default: break;
       }
     }
