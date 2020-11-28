@@ -55,11 +55,13 @@ namespace AlexPi.Scr.UsrCtrls
       try
       {
         tbTimePlce.Text /*= tbConditns.Text */= $"Loading {_sites[NextIndex]} ...";
-        hLnk1.NavigateUri = new Uri($"http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/ON/{_sites[CrntIndex]}.xml");
+        
+        hLnk1.NavigateUri = new Uri($"http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/ON/{_sites[CrntIndex]}.xml"); // <= old
+        hLnk1.NavigateUri = new Uri($"https://dd.weather.gc.ca/citypage_weather/xml/ON/{_sites[CrntIndex]}.xml");         // <= new Nov 2020-11-27
 
         var sitedata = await WebSerialHelper.UrlToInstnace<siteData>(hLnk1.NavigateUri.AbsoluteUri); // toronpo 458_e.xml"); markham:s0000585, vaughan:s0000584, RichmondHill:s0000773 (from https://saratoga-weather.org/wxtemplates/Canada/ec-forecast-lookup.txt)
 
-        WkLables = sitedata.forecastGroup.forecast.Select(f => f.period.Value.ToString().Substring(0, 2) + (f.period.Value.ToString().Length > 8 ? "-n" : "")).Skip(2).ToArray();
+        WkLables = sitedata?.forecastGroup.forecast.Select(f => f.period.Value.ToString().Substring(0, 2) + (f.period.Value.ToString().Length > 8 ? "-n" : "")).Skip(2).ToArray();
 
         var hyperlink = new Hyperlink(new Run(sitedata?.currentConditions?.station?.Value)) { NavigateUri = hLnk1.NavigateUri, FontWeight = FontWeights.SemiBold, Foreground = Brushes.White };
         hyperlink.RequestNavigate += onGoTo;
