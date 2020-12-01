@@ -28,6 +28,7 @@
     <ProjectReference Include="..\SpeechSynthLib\SpeechSynthLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
     <ProjectReference Include="..\WindowsFormsApp\WindowsFormsApp.csproj" />
+    <ProjectReference Include="..\WindowsFormsLib\WindowsFormsLib.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
