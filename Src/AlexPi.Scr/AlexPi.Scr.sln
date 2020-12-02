@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailInfoWpfUsrCtrlLib", "Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenTimeUsrCtrlLib", "ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj", "{370C26E1-87E2-48BE-A4C0-07AA520F7038}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsApp", "WindowsFormsApp\WindowsFormsApp.csproj", "{88258F46-29D1-4BB8-9E73-4C8289024449}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechSynthLib", "SpeechSynthLib\SpeechSynthLib.csproj", "{28E860F7-8126-402D-AFAC-8AA7707483D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsLib", "WindowsFormsLib\WindowsFormsLib.csproj", "{E99D92DD-B201-4781-9565-FCC603B5739F}"
@@ -75,10 +73,6 @@ Global
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{370C26E1-87E2-48BE-A4C0-07AA520F7038}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88258F46-29D1-4BB8-9E73-4C8289024449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88258F46-29D1-4BB8-9E73-4C8289024449}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88258F46-29D1-4BB8-9E73-4C8289024449}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88258F46-29D1-4BB8-9E73-4C8289024449}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28E860F7-8126-402D-AFAC-8AA7707483D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28E860F7-8126-402D-AFAC-8AA7707483D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28E860F7-8126-402D-AFAC-8AA7707483D5}.Release|Any CPU.ActiveCfg = Release|Any CPU

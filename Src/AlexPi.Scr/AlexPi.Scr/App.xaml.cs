@@ -56,8 +56,10 @@ namespace AlexPi.Scr
         //Bpr.BeepBgn3();
 
 #if DEBUG_
-        await AltBpr.ChimerAlt.FreqWalk(70, 40, 50, 1.07);
+        await ChimerAlt.Chime(1);
+        await ChimerAlt.Chime(3);
         Debugger.Break();
+        await ChimerAlt.FreqWalk(70, 40, 50, 1.07);
         //await AlexPi.Scr.AltBpr.ChimerAlt.FreqWalk();
         //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
         CurTraceLevel = AppTraceLevel_inCode; // cfg seems to be not available for ScrSvr launches?

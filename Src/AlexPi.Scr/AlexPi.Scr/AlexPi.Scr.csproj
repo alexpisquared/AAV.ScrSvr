@@ -27,7 +27,6 @@
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\SpeechSynthLib\SpeechSynthLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
-    <ProjectReference Include="..\WindowsFormsApp\WindowsFormsApp.csproj" />
     <ProjectReference Include="..\WindowsFormsLib\WindowsFormsLib.csproj" />
   </ItemGroup>
 
