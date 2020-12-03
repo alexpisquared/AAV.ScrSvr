@@ -63,6 +63,8 @@ namespace AlexPi.Scr.Vws
                 await AltBpr.ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
                 App.SpeakAsync($"{idle.Minutes} minutes, that is.");
               }
+              else
+                await Task.Delay(1500); // lest repeat the same on the next tick (2020-12-02)
             }
             _isTalking = false;
 

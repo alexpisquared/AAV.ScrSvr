@@ -1,4 +1,6 @@
 ﻿//using XSD.CLS;
+using AAV.Sys.Ext;
+using AsLink;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
@@ -7,33 +9,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Documents;
-using AsLink;
-using AAV.Sys.Ext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using XSD.CLS;
 using ToRunOr.WPF;
+using XSD.CLS;
 
 namespace AlexPi.Scr.UsrCtrls
 {
   public partial class EnvtCaUsrCtrl : UserControl
   {
-    string[] _sites = new[] { "s0000458_e"/*toronto pearson*/}; //   "s0000785_e"/*toronto island*/        }; //         "s0000773_e",/*richmond hill*/   };       // May 2020: localized to the most informative (with extremums).
+    readonly string[] _sites = new[] { "s0000458_e"/*toronto pearson*/}; //   "s0000785_e"/*toronto island*/        }; //         "s0000773_e",/*richmond hill*/   };       // May 2020: localized to the most informative (with extremums).
     const int _step = 10, _iconHght = 5;
     public EnvtCaUsrCtrl()
     {
@@ -109,14 +95,14 @@ namespace AlexPi.Scr.UsrCtrls
     void onMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) => onLoaded(s, null);
 
     public Func<double, string> XFormatter_ProperWay { get; set; }
-    public static readonly DependencyProperty XMinProperty = DependencyProperty.Register("XMin", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(0m)); public decimal XMin { get { return (decimal)GetValue(XMinProperty); } set { SetValue(XMinProperty, value); } }
-    public static readonly DependencyProperty XMaxProperty = DependencyProperty.Register("XMax", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(1m)); public decimal XMax { get { return (decimal)GetValue(XMaxProperty); } set { SetValue(XMaxProperty, value); } }
-    public static readonly DependencyProperty YMaxProperty = DependencyProperty.Register("YMax", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(1m)); public decimal YMax { get { return (decimal)GetValue(YMaxProperty); } set { SetValue(YMaxProperty, value); } }
-    public static readonly DependencyProperty YMinProperty = DependencyProperty.Register("YMin", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(0m)); public decimal YMin { get { return (decimal)GetValue(YMinProperty); } set { SetValue(YMinProperty, value); } }
+    public static readonly DependencyProperty XMinProperty = DependencyProperty.Register("XMin", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(0m)); public decimal XMin { get => (decimal)GetValue(XMinProperty); set => SetValue(XMinProperty, value); }
+    public static readonly DependencyProperty XMaxProperty = DependencyProperty.Register("XMax", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(1m)); public decimal XMax { get => (decimal)GetValue(XMaxProperty); set => SetValue(XMaxProperty, value); }
+    public static readonly DependencyProperty YMaxProperty = DependencyProperty.Register("YMax", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(1m)); public decimal YMax { get => (decimal)GetValue(YMaxProperty); set => SetValue(YMaxProperty, value); }
+    public static readonly DependencyProperty YMinProperty = DependencyProperty.Register("YMin", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(0m)); public decimal YMin { get => (decimal)GetValue(YMinProperty); set => SetValue(YMinProperty, value); }
 
     int _crntIndex = -1; // start from 0.
-    public int NextIndex { get => (++_crntIndex) % _sites.Length; }
-    public int CrntIndex { get => (_crntIndex) % _sites.Length; }
+    public int NextIndex => (++_crntIndex) % _sites.Length;
+    public int CrntIndex => (_crntIndex) % _sites.Length;
   }
   public static class CartesianChartExt
   {
