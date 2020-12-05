@@ -43,6 +43,7 @@
         <CheckBox  Content="F9  - 3gage " x:Name="ContainerI" />
         <CheckBox  Content="F10 - ? ? ? " x:Name="ContainerJ" />
         <CheckBox  Content="F11 - Photos" x:Name="ContainerK" />
+        <CheckBox  Content="F12 - New   " x:Name="ContainerL" />
       </StackPanel>
     </Viewbox>
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />

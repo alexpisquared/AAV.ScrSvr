@@ -13,6 +13,7 @@
     bool _ctrlI = true; public bool CtrlI { get => _ctrlI; set { if (_ctrlI != value) { _ctrlI = value; Save(); } } }
     bool _ctrlJ = false; public bool CtrlJ { get => _ctrlJ; set { if (_ctrlJ != value) { _ctrlJ = value; Save(); } } }
     bool _ctrlK = false; public bool CtrlK { get => _ctrlK; set { if (_ctrlK != value) { _ctrlK = value; Save(); } } }
+    bool _ctrlL = false; public bool CtrlL { get => _ctrlL; set { if (_ctrlL != value) { _ctrlL = value; Save(); } } }
 
     bool is_KeepAwake; public bool KeepAwake { get => is_KeepAwake; set { if (is_KeepAwake != value) { is_KeepAwake = value; Save(); } } } // = AppSettings.Instance.KeepAwake;
     bool is___Locking; public bool AutoLocke { get => is___Locking; set { if (is___Locking != value) { is___Locking = value; Save(); } } } // = AppSettings.Instance.AutoLocke;

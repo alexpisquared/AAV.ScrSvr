@@ -300,6 +300,7 @@ namespace AlexPi.Scr
     Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
+    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
   }
 
   [Flags]
