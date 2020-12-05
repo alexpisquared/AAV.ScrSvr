@@ -19,6 +19,7 @@
     bool is_AutoSleep; public bool AutoSleep { get => is_AutoSleep; set { if (is_AutoSleep != value) { is_AutoSleep = value; Save(); } } } // = AppSettings.Instance.AutoSleep;
     bool is___Heating; public bool IsHeaterOn { get => is___Heating; set { if (is___Heating != value) { is___Heating = value; Save(); } } } // = AppSettings.Instance.IsHeaterOn;
     bool __isSpeechOn; public bool IsSpeechOn { get => __isSpeechOn; set { if (__isSpeechOn != value) { __isSpeechOn = value; Save(); } } } // = AppSettings.Instance.IsSpeechOn;
+    bool __IsSaySecOn; public bool IsSaySecOn { get => __IsSaySecOn; set { if (__IsSaySecOn != value) { __IsSaySecOn = value; Save(); } } } // = AppSettings.Instance.IsSaySecOn;
     bool __IsSayMinOn; public bool IsSayMinOn { get => __IsSayMinOn; set { if (__IsSayMinOn != value) { __IsSayMinOn = value; Save(); } } } // = AppSettings.Instance.IsSayMinOn;
     bool __IsChimesOn; public bool IsChimesOn { get => __IsChimesOn; set { if (__IsChimesOn != value) { __IsChimesOn = value; Save(); } } } // = AppSettings.Instance.IsChimesOn;
     

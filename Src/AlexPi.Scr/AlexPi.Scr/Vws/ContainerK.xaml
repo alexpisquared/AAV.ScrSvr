@@ -3,7 +3,6 @@
                               xmlns:lnk="clr-namespace:AlexPi.Scr.Vws" 
                               xmlns:UsrCtrlPOCs="clr-namespace:UsrCtrlPOCs" 
                               xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" 
-                              xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib"                               
                               Style="{StaticResource MouseEnterableSlowShowWindow}">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="15" />

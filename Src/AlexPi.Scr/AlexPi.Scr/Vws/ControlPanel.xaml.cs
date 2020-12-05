@@ -10,7 +10,7 @@ namespace AlexPi.Scr.Vws
 {
   public partial class ControlPanel : TopmostUnCloseableWindow
   {
-    const int stepDelayMs = 333;
+    const int _stepDelayMs = 333;
     bool _alreadyCached = false, _cacheA, _cacheB, _cacheC, _cacheD, _cacheE, _cacheF, _cacheG, _cacheH, _cacheI, _cacheJ, _cacheK;
 
     public ControlPanel(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
@@ -23,20 +23,20 @@ namespace AlexPi.Scr.Vws
 
     async void onLoaded(object s, RoutedEventArgs e)
     {
-      await Task.Delay(stepDelayMs * 10); // App.SpeakAsync("Show time");
-      ContainerA.IsChecked = AppSettings.Instance.CtrlA; await Task.Delay(stepDelayMs);
-      ContainerB.IsChecked = AppSettings.Instance.CtrlB; await Task.Delay(stepDelayMs);
-      ContainerC.IsChecked = AppSettings.Instance.CtrlC; await Task.Delay(stepDelayMs);
-      ContainerD.IsChecked = AppSettings.Instance.CtrlD; await Task.Delay(stepDelayMs);
-      ContainerE.IsChecked = AppSettings.Instance.CtrlE; await Task.Delay(stepDelayMs);
-      ContainerF.IsChecked = AppSettings.Instance.CtrlF; await Task.Delay(stepDelayMs);
-      ContainerG.IsChecked = AppSettings.Instance.CtrlG; await Task.Delay(stepDelayMs);
-      ContainerH.IsChecked = AppSettings.Instance.CtrlH; await Task.Delay(stepDelayMs);
-      ContainerI.IsChecked = AppSettings.Instance.CtrlI; await Task.Delay(stepDelayMs);
-      ContainerJ.IsChecked = AppSettings.Instance.CtrlJ; await Task.Delay(stepDelayMs);
-      ContainerK.IsChecked = AppSettings.Instance.CtrlK; await Task.Delay(stepDelayMs);
+      await Task.Delay(_stepDelayMs * 10); // await App.SpeakAsync("Show time");
+      ContainerA.IsChecked = AppSettings.Instance.CtrlA; await Task.Delay(_stepDelayMs);
+      ContainerB.IsChecked = AppSettings.Instance.CtrlB; await Task.Delay(_stepDelayMs);
+      ContainerC.IsChecked = AppSettings.Instance.CtrlC; await Task.Delay(_stepDelayMs);
+      ContainerD.IsChecked = AppSettings.Instance.CtrlD; await Task.Delay(_stepDelayMs);
+      ContainerE.IsChecked = AppSettings.Instance.CtrlE; await Task.Delay(_stepDelayMs);
+      ContainerF.IsChecked = AppSettings.Instance.CtrlF; await Task.Delay(_stepDelayMs);
+      ContainerG.IsChecked = AppSettings.Instance.CtrlG; await Task.Delay(_stepDelayMs);
+      ContainerH.IsChecked = AppSettings.Instance.CtrlH; await Task.Delay(_stepDelayMs);
+      ContainerI.IsChecked = AppSettings.Instance.CtrlI; await Task.Delay(_stepDelayMs);
+      ContainerJ.IsChecked = AppSettings.Instance.CtrlJ; await Task.Delay(_stepDelayMs);
+      ContainerK.IsChecked = AppSettings.Instance.CtrlK; await Task.Delay(_stepDelayMs);
     }
-    void onPreviewKeyUp(object s, KeyEventArgs e)
+    async void onPreviewKeyUp(object s, KeyEventArgs e)
     {
       switch (e.Key)
       {
@@ -59,10 +59,8 @@ namespace AlexPi.Scr.Vws
 
         case Key.F9:
         case Key.F10:
-        case Key.F11:
-          App.SpeakAsync($"{e.Key} is in the list. Handled set to true.");
-          break;
-        default: App.SpeakAsync($"{e.Key} is handled by the default case, but handled is still false!"); return;
+        case Key.F11: await App.SpeakAsync($"{e.Key} is in the list. Handled set to true."); break;
+        default: await App.SpeakAsync($"{e.Key} is handled by the default case, but handled is still false!"); return;
       }
 
       e.Handled = true;
@@ -75,10 +73,10 @@ namespace AlexPi.Scr.Vws
     void setViz_And_ChkBoxVal(bool value)
     {
       foreach (var cb in sp1.Children)
-        if (cb is CheckBox && ((CheckBox)cb).Name.StartsWith("Container"))
+        if (cb is CheckBox box && box.Name.StartsWith("Container"))
         {
-          _GlobalEventHandler.TglContainerVis(((CheckBox)cb).Name, value);
-          ((CheckBox)cb).IsChecked = value;
+          _GlobalEventHandler.TglContainerVis(box.Name, value);
+          box.IsChecked = value;
         }
     }
     void setVizToChkBoxVal() { foreach (var cb in sp1.Children) if (cb is CheckBox) onChkUnC(cb, null); }

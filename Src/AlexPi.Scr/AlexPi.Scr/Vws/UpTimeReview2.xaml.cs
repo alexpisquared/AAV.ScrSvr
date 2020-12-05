@@ -25,7 +25,7 @@ namespace AlexPi.Scr.Vws
     {
       var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
       var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-      App.SpeakSynch(rprt);
+      App.SpeakFaF(rprt);
       await Task.Delay(750);
     }
 

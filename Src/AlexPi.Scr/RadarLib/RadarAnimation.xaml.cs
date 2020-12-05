@@ -24,7 +24,7 @@ namespace RadarLib
                 if (Environment.GetCommandLineArgs()[1] == "ShowIfOnOrComingSoon")
                 {
                   await Task.Delay(180000);
-                  { Close(); System.Diagnostics.Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();g"); Application.Current.Shutdown(); } //App.Current.Shutdown();
+                  { Close(); System.Diagnostics.Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();g"); Application.Current.Shutdown(17); } //App.Current.Shutdown();
                 }
               }
             };

@@ -25,6 +25,7 @@ namespace AlexPi.Scr.UsrCtrls
       chAutoSleep.IsChecked = AppSettings.Instance.AutoSleep;
       chIsSpeechOn.IsChecked = AppSettings.Instance.IsSpeechOn;
       chIsSayMinOn.IsChecked = AppSettings.Instance.IsSayMinOn;
+      chIsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
       chAutoLocke.IsChecked = AppSettings.Instance.AutoLocke;
       srMin2Sleep.Value = Math.Log10(AppSettings.Instance.Min2Sleep);
       srMin2Locke.Value = Math.Log10(AppSettings.Instance.Min2Locke);
@@ -40,6 +41,7 @@ namespace AlexPi.Scr.UsrCtrls
     void onAutoSleep_F8(object s = null, RoutedEventArgs e = null) => chAutoSleep.IsChecked = (AppSettings.Instance.AutoSleep = !AppSettings.Instance.AutoSleep);
     void onIsSpeechOnF6(object s = null, RoutedEventArgs e = null) => chIsSpeechOn.IsChecked = (AppSettings.Instance.IsSpeechOn = !AppSettings.Instance.IsSpeechOn);
     void onIsSayMinOnF7(object s = null, RoutedEventArgs e = null) => chIsSayMinOn.IsChecked = (AppSettings.Instance.IsSayMinOn = !AppSettings.Instance.IsSayMinOn);
+    void onIsSaySecOnF5(object s = null, RoutedEventArgs e = null) => chIsSaySecOn.IsChecked = (AppSettings.Instance.IsSaySecOn = !AppSettings.Instance.IsSaySecOn);
     void onAutoLocke_F9(object s = null, RoutedEventArgs e = null) => chAutoLocke.IsChecked = (AppSettings.Instance.AutoLocke = !AppSettings.Instance.AutoLocke);
     void onMin2Sleep(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Sleep = (int)Math.Pow(10, e.NewValue); tbMin2Sleep.Text = $"{AppSettings.Instance.Min2Sleep:N0}"; }
     void onMin2Locke(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Locke = (int)Math.Pow(10, e.NewValue); tbMin2Locke.Text = $"{AppSettings.Instance.Min2Locke:N0}"; }
