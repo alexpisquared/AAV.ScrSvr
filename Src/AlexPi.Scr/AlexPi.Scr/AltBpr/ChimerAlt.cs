@@ -77,7 +77,7 @@ namespace AlexPi.Scr.AltBpr
 
       await Bpr.BeepMks(fullScale.ToArray());
 
-      void add(int dur, List<int[]> scale, int note)
+      static void add(int dur, List<int[]> scale, int note)
       {
         var hz = (int)Freq(note);
         Debug.WriteLine($"{note,5} => {Freq(note),8:N0}  {dur,8:N0}  ");

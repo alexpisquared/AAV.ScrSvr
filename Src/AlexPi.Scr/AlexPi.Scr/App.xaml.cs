@@ -20,7 +20,7 @@ namespace AlexPi.Scr
 {
   public partial class App : Application
   {
-    readonly GlobalEventHandler _GlobalEventHandler = new GlobalEventHandler();
+    readonly GlobalEventHandler _globalEventHandler = new GlobalEventHandler();
     public static TraceSwitch CurTraceLevel,
       AppTraceLevel_Config = new TraceSwitch("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> "),
       AppTraceLevel_inCode = new TraceSwitch("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
@@ -39,8 +39,8 @@ namespace AlexPi.Scr
 #endif
 
     static readonly SpeechSynth _synth;
-    public static void SpeakSynch(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg));
-    public static void SpeakAsync(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg));
+    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
+    public static async Task SpeakAsync(string msg) => await _synth.SpeakAsync(msg);
 
     static App()
     {
@@ -82,7 +82,7 @@ namespace AlexPi.Scr
         //todo: AppSettings.InitStore(storageMode: StorageMode.OneDriveU);
         //? is this one keeping hanging? if (AppSettings.Instance.KeepAwake) KeepAwakeHelper.KeepAwakeForever();
 
-        ShutdownMode = ShutdownMode.OnLastWindowClose; // jan2018
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
         if (sea.Args.Length > 0)
         {
@@ -100,7 +100,7 @@ namespace AlexPi.Scr
                                                                     //Task.Run(async () =>              {
               var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
               var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-              SpeakSynch(rprt);
+              SpeakFaF(rprt);
               Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp() - {rprt}");
               //}).ContinueWith(_ => 
               Shutdown()
@@ -118,9 +118,9 @@ namespace AlexPi.Scr
     }
 
 
-    protected override void OnExit(ExitEventArgs e) {                           /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          "); /*Trace.WriteLineIf(TraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()         ");*/ base.OnExit(e); }
-    protected override void OnDeactivated(EventArgs e) {                        /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); /*Trace.WriteLineIf(TraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnDeactivated()  ");*/ base.OnDeactivated(e); }
-    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) {   /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); /*Trace.WriteLineIf(TraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnSessionEnding()");*/ base.OnSessionEnding(e); }
+    protected override void OnExit(ExitEventArgs e) {                           /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()         "); base.OnExit(e); }
+    protected override void OnDeactivated(EventArgs e) {                        /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
+    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) {   /* KeepAwakeHelper.Restore();*/ LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -145,7 +145,7 @@ namespace AlexPi.Scr
         if (_mustLogEORun)
         {
 #if DEBUG
-          SpeakSynch($"no end-up logging.");
+          SpeakFaF($"no end-up logging.");
 #else
           _mustLogEORun = false;
           EvLogHelper.LogScrSvrEnd(App.Started.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
@@ -161,7 +161,7 @@ namespace AlexPi.Scr
       AAV.Sys.Helpers.Bpr.BeepEnd3();
     }
 
-    void showMiniScrSvr(string args1)
+    static void showMiniScrSvr(string args1)
     {
       var whndl = long.TryParse(args1, out var tempLong) ? new IntPtr(tempLong) : IntPtr.Zero;
 
@@ -199,10 +199,10 @@ namespace AlexPi.Scr
     {
       Task.Run(async () => await ChimerAlt.FreqRunUpHiPh());
 
-      foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_GlobalEventHandler).ShowOnTargetScreen(screen);
+      foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
-      new ControlPanel(_GlobalEventHandler).Show();
-      if (AppSettings.Instance.IsSayMinOn)
+      new ControlPanel(_globalEventHandler).Show();
+      if (AppSettings.Instance.IsSaySecOn)
       {
 #if DEBUG
         Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
@@ -211,11 +211,11 @@ namespace AlexPi.Scr
         Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
         Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
 #else
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"a 50"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"a 40"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"a 30"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"a 20"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"a 10"));      //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
+        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"a 50"));
+        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"a 40"));
+        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"a 30"));
+        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"a 20"));
+        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"a 10"));      //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
 #endif
       }
 
@@ -227,7 +227,7 @@ namespace AlexPi.Scr
       _mustLogEORun = true;
 
 #if DEBUG
-      SpeakAsync($"no start-up event logging");
+      SpeakFaF($"no start-up event logging");
 #else
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 #endif
@@ -249,18 +249,18 @@ namespace AlexPi.Scr
     {
       if (VerHelper.IsVIP && !AppSettings.Instance.AutoSleep)
       {
-        App.SpeakSynch("Armed! Sleepless mode.");
+        App.SpeakFaF("Armed! Sleepless mode.");
       }
       else
       {
 #if DEBUG
-        App.SpeakSynch($"Armed!");
+        App.SpeakFaF($"Armed!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
-        App.SpeakSynch($"                    {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        App.SpeakFaF($"                    {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await ChimerAlt.FreqWalkUp();
         await Task.Delay(TimeSpan.FromMinutes(1));
-        App.SpeakSynch($"Enforcing sleep now.");
+        App.SpeakFaF($"Enforcing sleep now.");
         await ChimerAlt.FreqWalkDn();
 
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
@@ -280,26 +280,27 @@ namespace AlexPi.Scr
       }
       else
       {
-        App.SpeakSynch($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
+        App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        App.SpeakAsync($"                    {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        await App.SpeakAsync($"                    {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await Task.Delay(TimeSpan.FromSeconds(60));
-        App.SpeakSynch($"Enforcing lock down now.");
+        App.SpeakFaF($"Enforcing lock down now.");
 
         LockWorkStation();
       }
     }
-    Window _CntrA; public Window CntrA => _CntrA ?? (_CntrA = new ContainerA(_GlobalEventHandler));
-    Window _CntrB; public Window CntrB => _CntrB ?? (_CntrB = new ContainerB(_GlobalEventHandler));
-    Window _CntrC; public Window CntrC => _CntrC ?? (_CntrC = new ContainerC(_GlobalEventHandler));
-    Window _CntrD; public Window CntrD => _CntrD ?? (_CntrD = new ContainerD(_GlobalEventHandler));
-    Window _CntrE; public Window CntrE => _CntrE ?? (_CntrE = new ContainerE(_GlobalEventHandler));
-    Window _CntrF; public Window CntrF => _CntrF ?? (_CntrF = new ContainerF(_GlobalEventHandler));
-    Window _CntrG; public Window CntrG => _CntrG ?? (_CntrG = new ContainerG(_GlobalEventHandler));
-    Window _CntrH; public Window CntrH => _CntrH ?? (_CntrH = new ContainerH(_GlobalEventHandler));
-    Window _CntrI; public Window CntrI => _CntrI ?? (_CntrI = new ContainerI(_GlobalEventHandler));
-    Window _CntrJ; public Window CntrJ => _CntrJ ?? (_CntrJ = new ContainerJ(_GlobalEventHandler));
-    Window _CntrK; public Window CntrK => _CntrK ?? (_CntrK = new ContainerK(_GlobalEventHandler));
+    Window _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
+    Window _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
+    Window _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
+    Window _cntrD; public Window CntrD => _cntrD ??= new ContainerD(_globalEventHandler);
+    Window _cntrE; public Window CntrE => _cntrE ??= new ContainerE(_globalEventHandler);
+    Window _cntrF; public Window CntrF => _cntrF ??= new ContainerF(_globalEventHandler);
+    Window _cntrG; public Window CntrG => _cntrG ??= new ContainerG(_globalEventHandler);
+    Window _cntrH; public Window CntrH => _cntrH ??= new ContainerH(_globalEventHandler);
+    Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
+    Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
+    Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
+    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
   }
 
   [Flags]

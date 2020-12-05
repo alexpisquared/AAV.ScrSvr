@@ -1,6 +1,5 @@
-﻿using AlexPi.Scr.AltBpr;
-using AAV.Sys.Helpers;
-using AlexPi.Scr;
+﻿using AAV.Sys.Helpers;
+using AlexPi.Scr.AltBpr;
 using AsLink;
 using System;
 using System.Diagnostics;
@@ -15,8 +14,8 @@ namespace AlexPi.Scr
   {
     bool _manual = false;
     readonly NotifyIcon _ni = new NotifyIcon();
-    readonly BrowseForFolderDialog dlg = new BrowseForFolderDialog();
-    readonly DispatcherTimer timer = new DispatcherTimer();
+    readonly BrowseForFolderDialog _dlg = new BrowseForFolderDialog();
+    readonly DispatcherTimer _timer = new DispatcherTimer();
     double _delay;
     int _seconds;
 
@@ -42,9 +41,9 @@ namespace AlexPi.Scr
 
       UpdateSeconds();
 
-      timer.Interval = TimeSpan.FromSeconds(1);
-      timer.Tick += new EventHandler(timer_Tick);
-      timer.Start();
+      _timer.Interval = TimeSpan.FromSeconds(1);
+      _timer.Tick += new EventHandler(timer_Tick);
+      _timer.Start();
 
 
 
@@ -82,15 +81,15 @@ namespace AlexPi.Scr
       //ctxTrayMenu.Items.Add(mnuExit);
       //_ni.ContextMenuStrip = ctxTrayMenu;
 
-      dlg.Title = "Please select the folder where your images are stored :";
-      dlg.OKButtonText = "OK!";
+      _dlg.Title = "Please select the folder where your images are stored :";
+      _dlg.OKButtonText = "OK!";
 
       Hide();
 
       tbd.Text = $"CurDir: \t{Environment.CurrentDirectory}";
     }
 
-    void mnuPrev_Click(object s, EventArgs e) => App.SpeakAsync("Retired piece."); //var ss = new SlideShowWindow();////??CurrentIsfNameShowDialog();
+    async void mnuPrev_Click(object s, EventArgs e) => await App.SpeakAsync("Retired piece."); //var ss = new SlideShowWindow();////??CurrentIsfNameShowDialog();
 
     void UpdateSeconds()
     {
@@ -152,22 +151,22 @@ namespace AlexPi.Scr
 
     void Button_Click(object s, RoutedEventArgs e)
     {
-      if (true == dlg.ShowDialog(this))
+      if (true == _dlg.ShowDialog(this))
       {
-        txtPath.Text = dlg.SelectedFolder;
+        txtPath.Text = _dlg.SelectedFolder;
       }
     }
 
 
 
-    void timer_Tick(object s, EventArgs e)
+    async void timer_Tick(object s, EventArgs e)
     {
       var lastinput = GetLastInputTime();
       if (lastinput >= _seconds)
       {
-        timer.Stop();
-        App.SpeakAsync("Retired piece #2."); //var ss = new SlideShowWindow(); ////??CurrentIsfNameShowDialog();
-        timer.Start();
+        _timer.Stop();
+        await App.SpeakAsync("Retired piece #2."); //var ss = new SlideShowWindow(); ////??CurrentIsfNameShowDialog();
+        _timer.Start();
       }
       Console.WriteLine(lastinput.ToString() + "/" + _seconds.ToString() + "secondes");
 

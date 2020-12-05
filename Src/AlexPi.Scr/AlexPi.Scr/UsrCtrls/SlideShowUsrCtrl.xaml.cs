@@ -1,6 +1,6 @@
-﻿using AlexPi.Scr.Vws;
-using AAV.Sys.Ext;
+﻿using AAV.Sys.Ext;
 using AAV.Sys.Helpers;
+using AlexPi.Scr.Vws;
 using AsLink;
 using System;
 using System.Collections.Generic;
@@ -20,8 +20,11 @@ namespace AlexPi.Scr.UsrCtrls
   public partial class SlideShowUsrCtrl : UserControl
   {
 #if DEBUG
-    int _showtimeMs = 4000, _inOutMs = 2000, _initlDelay = 250, _take = 5;
-    string _wildcard = "*.jpg";
+    private readonly int _showtimeMs = 4000;
+    private readonly int _inOutMs = 2000;
+    private readonly int _initlDelay = 250;
+    private int _take = 5;
+    readonly string _wildcard = "*.jpg";
 #else
     readonly string _wildcard = "*.*";
     readonly int _showtimeMs = 48000;
@@ -77,7 +80,7 @@ namespace AlexPi.Scr.UsrCtrls
       catch (Exception ex) { ex.Log(); }
     }
 
-    async Task continueWithTheShow(string msg, int i, bool b) { Debug.WriteLine($"{msg} {i} {b}"); ctrlPanel.IsEnabled = true; await runMainLoop(_allFiles.Count()); }
+    async Task continueWithTheShow(string msg, int i, bool b) { Debug.WriteLine($"{msg} {i} {b}"); ctrlPanel.IsEnabled = true; await runMainLoop(_allFiles.Length); }
 
     void onPreviewKeyUp(object s, System.Windows.Input.KeyEventArgs e)
     {
@@ -109,7 +112,7 @@ namespace AlexPi.Scr.UsrCtrls
           var allFiles = await getFileNamesAsync(_currentFolder, _wildcard);
           sw.Stop();
 
-          ttlAvail = allFiles.Count();
+          ttlAvail = allFiles.Length;
           if (ttlAvail <= _take)
           {
             _take = ttlAvail / 5;
@@ -136,7 +139,7 @@ namespace AlexPi.Scr.UsrCtrls
 #endif
         }
 
-        tbbr.Text = $"Finished loading {filesToShow.Count()} files for the show starting from {skip} / {ttlAvail:N0}.";
+        tbbr.Text = $"Finished loading {filesToShow.Count} files for the show starting from {skip} / {ttlAvail:N0}.";
 
         btnPlay.Visibility = Visibility.Hidden;
 
@@ -152,7 +155,7 @@ namespace AlexPi.Scr.UsrCtrls
           }
 
           tbbl.Text = $"{(File.Exists(file) ? "" : "!Exists!")}";
-          tbbl.Text = $"{++currentIdx} / {filesToShow.Count()}";
+          tbbl.Text = $"{++currentIdx} / {filesToShow.Count}";
 
           me1.Source = new Uri(file);
           _sbin.Begin();
@@ -189,7 +192,7 @@ namespace AlexPi.Scr.UsrCtrls
 
         btnPlay.Visibility = Visibility.Visible;
 
-        tbbr.Text = tbtr.Text = $"Finished {filesToShow.Count()} file show starting from {skip} / {ttlAvail:N0}.";
+        tbbr.Text = tbtr.Text = $"Finished {filesToShow.Count} file show starting from {skip} / {ttlAvail:N0}.";
       }
       catch (Exception ex) { tbtl.Foreground = new SolidColorBrush(Colors.Orange); tbtl.Text = ex.Log(); }
     }
@@ -219,7 +222,7 @@ namespace AlexPi.Scr.UsrCtrls
 
         sw.Stop();
 
-        var ttlAvail = _allFiles.Count();
+        var ttlAvail = _allFiles.Length;
 
         tbtl.Text = $"Loaded  {ttlAvail:N0}  files in  {sw.Elapsed:m\\:ss\\.f}";
 
@@ -251,7 +254,7 @@ namespace AlexPi.Scr.UsrCtrls
         tbbr.Text = $"{_randIdx,6:N0} / {ttlAvail:N0}";
         tbtr.Text = $"{Path.GetDirectoryName(file)} \r\n{Path.GetFileName(file)} \r\n";                    //tbtl.Text = $"{f.FileCreated:yyyy-MM-dd  HH}";
         HistList.Add(HistSlct = _randIdx);
-        lb1.SelectedIndex = HistIndx = HistList.Count() - 1;
+        lb1.SelectedIndex = HistIndx = HistList.Count - 1;
 
         await showFile(file);
       }
@@ -323,7 +326,7 @@ namespace AlexPi.Scr.UsrCtrls
         _isPlaying = false;
         btnPrev.Visibility = Visibility.Hidden;
 
-        lb1.SelectedIndex = histIdx = HistList.Count() - (++_back) - 1;
+        lb1.SelectedIndex = histIdx = HistList.Count - (++_back) - 1;
         _curHistFile = _allFiles[HistSlct = _randIdx = HistList[histIdx]];
         Clipboard.SetText(_curHistFile);
         await showFile(_curHistFile, false);
@@ -333,7 +336,7 @@ namespace AlexPi.Scr.UsrCtrls
       finally
       {
         btnPrev.Visibility = histIdx > 0 ? Visibility.Visible : Visibility.Hidden;
-        btnNext.Visibility = histIdx < HistList.Count() - 1 ? Visibility.Visible : Visibility.Hidden;
+        btnNext.Visibility = histIdx < HistList.Count - 1 ? Visibility.Visible : Visibility.Hidden;
       }
     }
     async void btnNext_Click(object s, RoutedEventArgs e)
@@ -344,7 +347,7 @@ namespace AlexPi.Scr.UsrCtrls
         _isPlaying = false;
         btnPrev.Visibility = Visibility.Hidden;
 
-        lb1.SelectedIndex = histIdx = HistList.Count() - (--_back) - 1;
+        lb1.SelectedIndex = histIdx = HistList.Count - (--_back) - 1;
         var file = _allFiles[HistList[histIdx]];
         Clipboard.SetText(file);
         await showFile(file, false);
@@ -354,14 +357,14 @@ namespace AlexPi.Scr.UsrCtrls
       finally
       {
         btnPrev.Visibility = histIdx > 0 ? Visibility.Visible : Visibility.Hidden;
-        btnNext.Visibility = histIdx < HistList.Count() - 1 ? Visibility.Visible : Visibility.Hidden;
+        btnNext.Visibility = histIdx < HistList.Count - 1 ? Visibility.Visible : Visibility.Hidden;
         if (btnNext.Visibility == Visibility.Hidden)
         {
-          await runMainLoop(_allFiles.Count());
+          await runMainLoop(_allFiles.Length);
         }
       }
     }
-    async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop(_allFiles.Count());
+    async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop(_allFiles.Length);
 
     async void lb1_SelectionChanged(object s, SelectionChangedEventArgs e)
     {
@@ -383,7 +386,7 @@ namespace AlexPi.Scr.UsrCtrls
 
     public Task<string[]> getFileNamesAsync(string folder, string searchPattern) => Task.Run(() => Directory.GetFiles(folder, searchPattern, SearchOption.AllDirectories));
 
-    public Task<FileInfo[]> getFileInfosAsync(string folder, string searchPattern) => Task.Run(() => new DirectoryInfo(folder).GetFiles(searchPattern, SearchOption.AllDirectories));
+    public static Task<FileInfo[]> GetFileInfosAsync(string folder, string searchPattern) => Task.Run(() => new DirectoryInfo(folder).GetFiles(searchPattern, SearchOption.AllDirectories));
 
     IEnumerable<string> GetAllFiles(string path, string searchPattern) => System.IO.Directory.EnumerateFiles(path, searchPattern).Union(
           System.IO.Directory.EnumerateDirectories(path).SelectMany(d =>

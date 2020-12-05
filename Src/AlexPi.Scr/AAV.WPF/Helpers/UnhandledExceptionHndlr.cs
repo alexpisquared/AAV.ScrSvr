@@ -30,7 +30,7 @@ namespace AAV.WPF.Helpers
         else if (MessageBox.Show($"An error occurred in this app...\n\n ...{innerMsgs}\n\nDo you want to continue?", _header, MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes) == MessageBoxResult.No)
         {
           Trace.WriteLine("Decided NOT to continue: Application.Current.Shutdown();");
-          Application.Current.Shutdown();
+          Application.Current.Shutdown(44);
         }
       }
       catch (Exception fatalEx)

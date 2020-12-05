@@ -1,1 +1,1 @@
-﻿namespace AlexPi.Scr.Vws { public partial class ContainerI : TopmostUnCloseableWindow { public ContainerI(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent(); } }
+﻿namespace AlexPi.Scr.Vws { public partial class ContainerI : TopmostUnCloseableWindow { public ContainerI(Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent(); } }

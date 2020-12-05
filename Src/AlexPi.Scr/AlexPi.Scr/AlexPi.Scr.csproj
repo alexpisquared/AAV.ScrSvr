@@ -30,6 +30,12 @@
     <ProjectReference Include="..\WindowsFormsLib\WindowsFormsLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Vws\ContainerL.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="rem move $(OutDir)$(TargetName).exe $(OutDir)$(TargetName)" />
   </Target>
