@@ -25,7 +25,7 @@ namespace AlexPi.Scr.Vws
 
     public static async Task<bool> CloseBasedOnPCName(Key key, Window window)
     {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    PcLocationBased(key:{key}, window:{window.Name})");
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})");
 
       if (Key.F1 <= key && key < Key.DeadCharProcessed || // all special keys, like: alt, ctrl, shift, oem*
         key == Key.Tab ||
@@ -110,7 +110,7 @@ namespace AlexPi.Scr.Vws
     {
       window.Close();
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   closeScrSvrSansLocking() ");
-      Application.Current.Shutdown(33); 
+      Application.Current.Shutdown(33);
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   closeScrSvrSansLocking() ");
       return true;
     }

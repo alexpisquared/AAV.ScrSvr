@@ -91,13 +91,13 @@ namespace AAV.Sys.Helpers
 
     static string getLogPath(bool isApp4wk)
     {
+      try
+      {
 #if DEBUG
      return OneDrive.Folder(@"Logs\dbg");
 #elif !true
       return @"D:\PANTHER_PILOT\SrcPsv";
 #else
-      try
-      {
         if (!isApp4wk && Environment.MachineName == "RAZER1") { } else { }
 
         var path =
