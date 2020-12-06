@@ -13,12 +13,14 @@
     bool _ctrlI = true; public bool CtrlI { get => _ctrlI; set { if (_ctrlI != value) { _ctrlI = value; Save(); } } }
     bool _ctrlJ = false; public bool CtrlJ { get => _ctrlJ; set { if (_ctrlJ != value) { _ctrlJ = value; Save(); } } }
     bool _ctrlK = false; public bool CtrlK { get => _ctrlK; set { if (_ctrlK != value) { _ctrlK = value; Save(); } } }
+    bool _ctrlL = false; public bool CtrlL { get => _ctrlL; set { if (_ctrlL != value) { _ctrlL = value; Save(); } } }
 
     bool is_KeepAwake; public bool KeepAwake { get => is_KeepAwake; set { if (is_KeepAwake != value) { is_KeepAwake = value; Save(); } } } // = AppSettings.Instance.KeepAwake;
     bool is___Locking; public bool AutoLocke { get => is___Locking; set { if (is___Locking != value) { is___Locking = value; Save(); } } } // = AppSettings.Instance.AutoLocke;
     bool is_AutoSleep; public bool AutoSleep { get => is_AutoSleep; set { if (is_AutoSleep != value) { is_AutoSleep = value; Save(); } } } // = AppSettings.Instance.AutoSleep;
     bool is___Heating; public bool IsHeaterOn { get => is___Heating; set { if (is___Heating != value) { is___Heating = value; Save(); } } } // = AppSettings.Instance.IsHeaterOn;
     bool __isSpeechOn; public bool IsSpeechOn { get => __isSpeechOn; set { if (__isSpeechOn != value) { __isSpeechOn = value; Save(); } } } // = AppSettings.Instance.IsSpeechOn;
+    bool __IsSaySecOn; public bool IsSaySecOn { get => __IsSaySecOn; set { if (__IsSaySecOn != value) { __IsSaySecOn = value; Save(); } } } // = AppSettings.Instance.IsSaySecOn;
     bool __IsSayMinOn; public bool IsSayMinOn { get => __IsSayMinOn; set { if (__IsSayMinOn != value) { __IsSayMinOn = value; Save(); } } } // = AppSettings.Instance.IsSayMinOn;
     bool __IsChimesOn; public bool IsChimesOn { get => __IsChimesOn; set { if (__IsChimesOn != value) { __IsChimesOn = value; Save(); } } } // = AppSettings.Instance.IsChimesOn;
     

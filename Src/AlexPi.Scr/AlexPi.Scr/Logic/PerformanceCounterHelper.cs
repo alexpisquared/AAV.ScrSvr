@@ -22,14 +22,14 @@ namespace AlexPi.Scr.Logic
                         )
                         )
                     {
-                        Debug.WriteLine($"{category.CategoryName,-64}=> {category.GetInstanceNames().Count()}:"); // continue;
+                        Debug.WriteLine($"{category.CategoryName,-64}=> {category.GetInstanceNames().Length}:"); // continue;
                         foreach (var instanceName in category.GetInstanceNames()
                             //.Where(r => r.ToLower().Contains("her"))
                             )
                         {
                             try
                             {
-                                Debug.WriteLine($"    {instanceName,62} -> {category.GetCounters(instanceName).Count(),4}:");
+                                Debug.WriteLine($"    {instanceName,62} -> {category.GetCounters(instanceName).Length,4}:");
                                 foreach (var counter in category.GetCounters(instanceName))
                                 {
                                     var pc = new PerformanceCounter(category.CategoryName, counter.CounterName, instanceName).NextValue();

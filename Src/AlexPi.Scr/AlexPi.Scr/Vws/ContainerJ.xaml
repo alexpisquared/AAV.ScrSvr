@@ -3,18 +3,20 @@
                               xmlns:lnk="clr-namespace:AlexPi.Scr.Vws" 
                               xmlns:UsrCtrlPOCs="clr-namespace:UsrCtrlPOCs" 
                               xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" 
-                              xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib"                               
                               Style="{StaticResource MouseEnterableSlowShowWindow}">
+  <!--
+                              xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib"
+  -->
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
   </WindowChrome.WindowChrome>
   <Grid>
     <!--
-    ctrl-alt-del is required after showing that:
+    CTRL-ALT-DEL is required after showing that: 
+    Confirming in 2020-12: even if it is commnented out !!!
     <Views:ScreenTimeUsrCtrl DaysBack="3" DelaySec="60"  Margin="0 20" />-->
     <Button Content="15 _days of Ev.Log ► DB" Width="150" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Click="onManualUpdateRequested" Grid.Column="4" />
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
-
   </Grid>
 </lnk:TopmostUnCloseableWindow>

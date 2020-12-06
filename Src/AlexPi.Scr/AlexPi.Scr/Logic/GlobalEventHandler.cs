@@ -1,21 +1,20 @@
 ﻿using AsLink;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace AlexPi.Scr.Logic
 {
-  public class GlobalEventHandler
+  public  class GlobalEventHandler
   {
     public GlobalEventHandler() { }
 
-    internal void TglContainerVis(CheckBox checkBox)
+    internal  void TglContainerVis(CheckBox checkBox)
     {
       TglContainerVis(checkBox.Name, checkBox.IsChecked == false);
       checkBox.IsChecked = checkBox.IsChecked == false ? true : false;
     }
 
-    internal void TglContainerVis(string name, bool isVisible)
+    internal  void TglContainerVis(string name, bool isVisible)
     {
       var vis = isVisible ? Visibility.Visible : Visibility.Collapsed;
       switch (name)
@@ -31,11 +30,11 @@ namespace AlexPi.Scr.Logic
         case "ContainerI": ((App)Application.Current).CntrI.Visibility = vis; AppSettings.Instance.CtrlI = isVisible; break;
         case "ContainerJ": ((App)Application.Current).CntrJ.Visibility = vis; AppSettings.Instance.CtrlJ = isVisible; break;
         case "ContainerK": ((App)Application.Current).CntrK.Visibility = vis; AppSettings.Instance.CtrlK = isVisible; break;
+        case "ContainerL": ((App)Application.Current).CntrL.Visibility = vis; AppSettings.Instance.CtrlL = isVisible; break;
         default: break;
       }
-
     }
-    internal void TglContainerVis(string name)
+    internal  void TglContainerVis(string name)
     {
       switch (name)
       {
@@ -50,25 +49,9 @@ namespace AlexPi.Scr.Logic
         case "ContainerI": AppSettings.Instance.CtrlI = !AppSettings.Instance.CtrlI; ((App)Application.Current).CntrI.Visibility = AppSettings.Instance.CtrlI ? Visibility.Visible : Visibility.Collapsed; break;
         case "ContainerJ": AppSettings.Instance.CtrlJ = !AppSettings.Instance.CtrlJ; ((App)Application.Current).CntrJ.Visibility = AppSettings.Instance.CtrlJ ? Visibility.Visible : Visibility.Collapsed; break;
         case "ContainerK": AppSettings.Instance.CtrlK = !AppSettings.Instance.CtrlK; ((App)Application.Current).CntrK.Visibility = AppSettings.Instance.CtrlK ? Visibility.Visible : Visibility.Collapsed; break;
+        case "ContainerL": AppSettings.Instance.CtrlL = !AppSettings.Instance.CtrlL; ((App)Application.Current).CntrL.Visibility = AppSettings.Instance.CtrlL ? Visibility.Visible : Visibility.Collapsed; break;
         default: break;
       }
-    }
-
-    public void HandleKeyUp(KeyEventArgs e)
-    {
-      switch (e.Key)
-      {
-        //case Key.F2: onKeepAwake_F2(); break;
-        //case Key.F3: onIsHeaterOnF3(); break;
-        //case Key.F6: onIsSpeechOnF6(); break;
-        //case Key.F7: onIsSayMinOnF7(); break;
-        //case Key.F8: onAutoSleep_F8(); break;
-        //case Key.F9: onAutoLocke_F9(); break;
-        case Key.F12: break;
-        default: return;
-      }
-
-      e.Handled = true;
     }
   }
 }

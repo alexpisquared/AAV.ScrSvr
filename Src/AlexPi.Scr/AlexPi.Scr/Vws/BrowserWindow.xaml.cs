@@ -8,7 +8,7 @@ namespace AlexPi.Scr
         public BrowserWindow()
         {
             InitializeComponent();
-            Closed += (s, e) => Application.Current.Shutdown();
+            Closed += (s, e) => Application.Current.Shutdown(88);
             KeyUp += (s, e) =>
             {
                 if (e.Key == Key.Escape || e.Key == Key.Up)

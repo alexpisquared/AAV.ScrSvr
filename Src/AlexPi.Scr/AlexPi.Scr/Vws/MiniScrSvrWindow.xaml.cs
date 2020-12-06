@@ -1,2 +1,2 @@
 ﻿using System.Windows;
-namespace AlexPi.Scr { public partial class MiniScrSvrWindow : Window { public MiniScrSvrWindow() { InitializeComponent(); Closed += (s, e) => Application.Current.Shutdown(); } } }
+namespace AlexPi.Scr { public partial class MiniScrSvrWindow : Window { public MiniScrSvrWindow() { InitializeComponent(); Closed += (s, e) => Application.Current.Shutdown(99); } } }

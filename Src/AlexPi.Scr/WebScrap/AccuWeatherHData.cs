@@ -14,7 +14,7 @@ namespace WebScrap
 
   public class AccuWeatherHData
   {
-    const string urf = @"http://vortex.accuweather.com/adc2010/images/icons-numbered/{0}-h.png";
+    const string _urf = @"http://vortex.accuweather.com/adc2010/images/icons-numbered/{0}-h.png";
 
     //                   http://vortex.accuweather.com/adc2010/images/icons-{0}/{1}-h.png";
     //                   http://vortex.accuweather.com/adc2010/images/slate/icons/04.svg                   2016-Sep
@@ -53,11 +53,11 @@ namespace WebScrap
     public static List<HourWeatherData> GetHourForecast(int max96, bool fromCache, int site = 0)
     {
       //max96 = 144; // <== Mar2016. 96; //jun2013: ignore less than max - take max/everything should not be too much longer than just a part.
-      List<HourWeatherData> l = new List<HourWeatherData>();
-      for (int startHour = DateTime.Now.Hour > 8 ? 8 : DateTime.Now.Hour; startHour < max96; startHour += 8)
+      var l = new List<HourWeatherData>();
+      for (var startHour = DateTime.Now.Hour > 8 ? 8 : DateTime.Now.Hour; startHour < max96; startHour += 8)
       {
-        AccuWeatherHData[] awd8hr = AccuWeatherHData.GetParse8hours(startHour, fromCache, site, out int daysOld);
-        for (int hr = 0; hr < awd8hr.Length; hr++)
+        var awd8hr = AccuWeatherHData.GetParse8hours(startHour, fromCache, site, out var daysOld);
+        for (var hr = 0; hr < awd8hr.Length; hr++)
           l.Add(new HourWeatherData { Time = awd8hr[hr].Time.AddDays(-daysOld), ConditionsDescription = awd8hr[hr].Conditns, ConditionsImageUrl = awd8hr[hr].WeaImageUrl, Temp = awd8hr[hr].TempAsIs, TempFeel = awd8hr[hr].TempFeel });
       }
 
@@ -65,21 +65,21 @@ namespace WebScrap
     }
     public static AccuWeatherHData[] GetParse8hours_OLD(int startHour, bool fromCache, int site, out int daysOld)
     {
-      string url = string.Format(urls[site], startHour);
-      TimeSpan age = TimeSpan.FromTicks(0);
-      string htm = fromCache ? WebScraper.GetHtmlFromCacheOrWeb(url, out age) : WebScraper.GetHtmlFromWeb(url); //= Dbg.Htm;
-      int pos = 0;
-      DateTime stHr = DateTime.Today.AddHours(startHour);
-      AccuWeatherHData[] awd = new AccuWeatherHData[8];
+      var url = string.Format(urls[site], startHour);
+      var age = TimeSpan.FromTicks(0);
+      var htm = fromCache ? WebScraper.GetHtmlFromCacheOrWeb(url, out age) : WebScraper.GetHtmlFromWeb(url); //= Dbg.Htm;
+      var pos = 0;
+      var stHr = DateTime.Today.AddHours(startHour);
+      var awd = new AccuWeatherHData[8];
 
       daysOld = (int)(DateTime.Today - (DateTime.Now - age).Date).TotalDays;
+      
+      _ = WebScrapeHelper.GetStringBetween(@"<th class=""first-col""><span>", "</span>", ref htm, ref pos);
 
-      string weekDay = WebScrapeHelper.GetStringBetween(@"<th class=""first-col""><span>", "</span>", ref htm, ref pos);
-
-      for (int hr = 0; hr < 8; hr++)
+      for (var hr = 0; hr < 8; hr++)
       {
         awd[hr] = new AccuWeatherHData();
-        string s = WebScrapeHelper.GetStringBetween(hr == 0 ? "<br />" : ">", @"</th>", ref htm, ref pos); //string[] hh = new string[] { "12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12" };
+        _ = WebScrapeHelper.GetStringBetween(hr == 0 ? "<br />" : ">", @"</th>", ref htm, ref pos); //string[] hh = new string[] { "12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12" };
         awd[hr].Time = stHr.AddHours(hr);// for (int j = 0; j < hh.Length; j++) if (hh[j] == s) awd[i].Time = stHr.AddHours(j);
       }
 
@@ -89,26 +89,26 @@ namespace WebScrap
       if (pos < 0)
         return awd;
 
-      for (int i = 0; i < 8; i++)
+      for (var i = 0; i < 8; i++)
       {
         awd[i].IuhContainer = WebScrapeHelper.GetStringBetween(@"<td class=""", @""">", ref htm, ref pos);
         awd[i].ImgUrlHolder = WebScrapeHelper.GetStringBetween(@"<span", @"""", ref htm, ref pos);
         awd[i].Conditns = WebScrapeHelper.GetStringBetween(@"<span>", @"</span>", ref htm, ref pos);
       }
-      for (int i = 0; i < 8; i++) awd[i].TempAsIs = getInt(ref htm, ref pos, awd, i, "&#176;");
-      for (int i = 0; i < 8; i++) awd[i].TempFeel = getInt(ref htm, ref pos, awd, i, "&#176;");
-      for (int i = 0; i < 8; i++) awd[i].Precipit = getInt(ref htm, ref pos, awd, i, "%");
-      for (int i = 0; i < 8; i++)
+      for (var i = 0; i < 8; i++) awd[i].TempAsIs = getInt(ref htm, ref pos, awd, i, "&#176;");
+      for (var i = 0; i < 8; i++) awd[i].TempFeel = getInt(ref htm, ref pos, awd, i, "&#176;");
+      for (var i = 0; i < 8; i++) awd[i].Precipit = getInt(ref htm, ref pos, awd, i, "%");
+      for (var i = 0; i < 8; i++)
       {
         skipTd(ref htm, ref pos);
-        string s = WebScrapeHelper.GetStringBetween(@">", "<", ref htm, ref pos);
+        var s = WebScrapeHelper.GetStringBetween(@">", "<", ref htm, ref pos);
 
         getWind(awd, i, s);
       }
-      for (int i = 0; i < 8; i++) awd[i].Humidity = getInt(ref htm, ref pos, awd, i, "%");
-      for (int i = 0; i < 8; i++) awd[i].UV_Index = awd[i].Humidity = getInt(ref htm, ref pos, awd, i, "<");
-      for (int i = 0; i < 8; i++) awd[i].CloudCvr = getInt(ref htm, ref pos, awd, i, "%");
-      for (int i = 0; i < 8; i++) awd[i].DewPoint = getInt(ref htm, ref pos, awd, i, "&#176;");
+      for (var i = 0; i < 8; i++) awd[i].Humidity = getInt(ref htm, ref pos, awd, i, "%");
+      for (var i = 0; i < 8; i++) awd[i].UV_Index = awd[i].Humidity = getInt(ref htm, ref pos, awd, i, "<");
+      for (var i = 0; i < 8; i++) awd[i].CloudCvr = getInt(ref htm, ref pos, awd, i, "%");
+      for (var i = 0; i < 8; i++) awd[i].DewPoint = getInt(ref htm, ref pos, awd, i, "&#176;");
 
       //for (int i = 0; i < 8; i++) Console.WriteLine(awd[i]);			//Debug.Write(htm);
 
@@ -121,7 +121,7 @@ namespace WebScrap
       {
         awd[i].WindDirn = s.Split(' ')[1];
 
-        awd[i].WindKmHr = (float.TryParse(s.Split(' ')[0], out float f)) ? f : -1;
+        awd[i].WindKmHr = (float.TryParse(s.Split(' ')[0], out var f)) ? f : -1;
       }
       else
       {
@@ -290,15 +290,15 @@ namespace WebScrap
 </div>
       */
       #endregion
-      string url = string.Format(urls[site], startHour);
-      TimeSpan age = TimeSpan.FromTicks(0);
-      string htm = fromCache ? WebScraper.GetHtmlFromCacheOrWeb(url, out age) : WebScraper.GetHtmlFromWeb(url); //= Dbg.Htm;
-      DateTime stHr = DateTime.Today.AddHours(startHour);
-      AccuWeatherHData[] awd = new AccuWeatherHData[8];
+      var url = string.Format(urls[site], startHour);
+      var age = TimeSpan.FromTicks(0);
+      var htm = fromCache ? WebScraper.GetHtmlFromCacheOrWeb(url, out age) : WebScraper.GetHtmlFromWeb(url); //= Dbg.Htm;
+      var stHr = DateTime.Today.AddHours(startHour);
+      var awd = new AccuWeatherHData[8];
 
       daysOld = (int)(DateTime.Today - (DateTime.Now - age).Date).TotalDays;
 
-      for (int hr = 0; hr < 8; hr++)
+      for (var hr = 0; hr < 8; hr++)
       {
         awd[hr] = new AccuWeatherHData
         {
@@ -329,12 +329,12 @@ namespace WebScrap
       {
         //77 Debug.Write($"\n\n\n============ htm.len: {htm.Length} '{path}' \r\n ");
 
-        HtmlDocument doc = new HtmlDocument();
+        var doc = new HtmlDocument();
         doc.LoadHtml(htm); //note: var doc2 = new HtmlWeb().Load(htm); allows  "//table/tbody/tr"
                            //77 Debug.Write($"{doc.DocumentNode.SelectNodes(path)?.Count,3}:");
 
-        int sn = 0;
-        foreach (HtmlNode tr in doc.DocumentNode.SelectNodes(path).Where(tr => tr.ChildNodes.Count > max))
+        var sn = 0;
+        foreach (var tr in doc.DocumentNode.SelectNodes(path).Where(tr => tr.ChildNodes.Count > max))
         {
           actn(awd[sn], tr, max);
           //77 Debug.Write($"\n{sn,4}.{tr.ChildNodes.Count(),2}: tr.ChildNodes.Count: ");
@@ -350,14 +350,14 @@ namespace WebScrap
       {
         //77 Debug.Write($"\n\n\n============ htm.len: {htm.Length} '{path}' \r\n ");
 
-        HtmlDocument doc = new HtmlDocument();
+        var doc = new HtmlDocument();
         doc.LoadHtml(htm); //note: var doc2 = new HtmlWeb().Load(htm); allows  "//table/tbody/tr"
                            //77 Debug.Write($"{doc.DocumentNode.SelectNodes(path)?.Count,3}:");
 
         actn(awd, doc.DocumentNode.SelectNodes(path).Where(tr => tr.ChildNodes.Count > max).First(), max);
 
-        int sn = 0;
-        foreach (HtmlNode tr in doc.DocumentNode.SelectNodes(path).Where(tr => tr.ChildNodes.Count > max))
+        var sn = 0;
+        foreach (var tr in doc.DocumentNode.SelectNodes(path).Where(tr => tr.ChildNodes.Count > max))
         {
           //77 Debug.Write($"\n{sn,4}.{tr.ChildNodes.Count(),2}: tr.ChildNodes.Count: ");
           ++sn;
@@ -370,7 +370,7 @@ namespace WebScrap
     {
       //77 Debug.Write(tr.ChildNodes.Count() > max ? $"   x[1]:{(tr.ChildNodes[1]).InnerHtml} : x[{max}]:{(tr.ChildNodes[max]).OuterHtml} " : $"  --------------- {tr.ChildNodes.Count()} < {max} --------------- ");
 
-      string[] ss = tr.ChildNodes[max].OuterHtml.Substring(30).Split(new[] { '-', '"' });
+      var ss = tr.ChildNodes[max].OuterHtml[30..].Split(new[] { '-', '"' });
       Debug.Assert(ss.Length > 1, "usually 'i-36-s' ...");
       awd.ImgUrlHolder = ss[1].Length == 1 ? ("0" + ss[1]) : ss[1];
 
@@ -379,26 +379,26 @@ namespace WebScrap
 
     static void doRest(AccuWeatherHData[] awd, HtmlNode tr, int max)
     {
-      int cn = 0;
-      HtmlNode[] nodes = tr.ChildNodes.Where(r => r.ChildNodes.Count() > 17).ToArray();
-      foreach (HtmlNode r in nodes) // .Where(n => n.ChildNodes.Any()))
+      var cn = 0;
+      var nodes = tr.ChildNodes.Where(r => r.ChildNodes.Count > 17).ToArray();
+      foreach (var r in nodes) // .Where(n => n.ChildNodes.Any()))
       {
         //77 Debug.Write($"\n    {cn,3}) ttl:{r.ChildNodes.Count()}:  ");				int hn = 0;				foreach (HtmlNode t in r.ChildNodes) Debug.Write($" {hn++}:'{t.InnerText.Replace("\n", "").Replace("\t", "").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Trim()}'\t");
         ++cn;
       }
 
-      for (int i = 0; i < 8; i++) awd[i].Conditns = nodes[0].ChildNodes[3 + i * 2].InnerText.Trim(new[] { ' ', '\r', '\n' });
-      for (int i = 0; i < 8; i++) awd[i].TempAsIs = float.Parse(nodes[1].ChildNodes[3 + i * 2].InnerText.Split(new[] { '&', '#' })[0]);
-      for (int i = 0; i < 8; i++) awd[i].TempFeel = float.Parse(nodes[2].ChildNodes[3 + i * 2].InnerText.Split(new[] { '&', '#' })[0]);
-      for (int i = 0; i < 8; i++) getWind(awd, i, nodes[3].ChildNodes[3 + i * 2].InnerText);
+      for (var i = 0; i < 8; i++) awd[i].Conditns = nodes[0].ChildNodes[3 + i * 2].InnerText.Trim(new[] { ' ', '\r', '\n' });
+      for (var i = 0; i < 8; i++) awd[i].TempAsIs = float.Parse(nodes[1].ChildNodes[3 + i * 2].InnerText.Split(new[] { '&', '#' })[0]);
+      for (var i = 0; i < 8; i++) awd[i].TempFeel = float.Parse(nodes[2].ChildNodes[3 + i * 2].InnerText.Split(new[] { '&', '#' })[0]);
+      for (var i = 0; i < 8; i++) getWind(awd, i, nodes[3].ChildNodes[3 + i * 2].InnerText);
     }
 
     static void doExploreAct_(AccuWeatherHData awd, HtmlNode tr, int max)
     {
-      int cn = 0;
-      foreach (HtmlNode r in tr.ChildNodes) // .Where(n => n.ChildNodes.Any()))
+      var cn = 0;
+      foreach (var r in tr.ChildNodes) // .Where(n => n.ChildNodes.Any()))
       {
-        HtmlNodeCollection c = r.ChildNodes;
+        var c = r.ChildNodes;
         //77 Debug.Write($"\n    {cn,3}) ttl:{c.Count()}:  ");				int hn = 0;				foreach (HtmlNode t in c) Debug.Write($" {hn++}:'{t.InnerText.Replace("\n", "").Replace("\t", "").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Trim()}'\t");
         ++cn;
       }
@@ -431,10 +431,10 @@ namespace WebScrap
 
   public class Dbg
   {
-    public static string Htm => htm;
+    public static string Htm => _htm;
 
     #region debug HTML
-    const string htm = @"
+    const string _htm = @"
 <!DOCTYPE html>
 <html>
 <head> 
