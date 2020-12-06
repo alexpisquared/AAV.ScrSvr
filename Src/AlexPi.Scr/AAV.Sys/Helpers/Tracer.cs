@@ -92,7 +92,7 @@ namespace AAV.Sys.Helpers
     static string getLogPath(bool isApp4wk)
     {
 #if DEBUG
-      return OneDrive.Folder(@"Logs\dbg");
+     return OneDrive.Folder(@"Logs\dbg");
 #elif !true
       return @"D:\PANTHER_PILOT\SrcPsv";
 #else
