@@ -122,11 +122,11 @@ namespace AlexPi.Scr
     protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
     protected override void OnExit(ExitEventArgs e)
     {
-      LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          "); 
+      LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          ");
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    1/2    calling   base.OnExit(e);       ...");
-      base.OnExit(e);                                                                                                                                      
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    2/2    calling   Environment.Exit(87); ..."); 
-      Environment.Exit(87);                                                                                                
+      base.OnExit(e);
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    2/2    calling   Environment.Exit(87); ...");
+      Environment.Exit(87);
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    3/3    ");
     }
 

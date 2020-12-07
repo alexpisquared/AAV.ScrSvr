@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AAV.Sys\AAV.Sys.csproj" />
-    <ProjectReference Include="..\AAV.WPF\AAV.WPF.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\WebScrap\WebScrap.csproj" />
   </ItemGroup>
