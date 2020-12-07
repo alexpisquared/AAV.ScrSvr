@@ -123,11 +123,10 @@ namespace AlexPi.Scr
     protected override void OnExit(ExitEventArgs e)
     {
       LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          ");
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    1/2    calling   base.OnExit(e);       ...");
-      base.OnExit(e);
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    2/2    calling   Environment.Exit(87); ...");
-      Environment.Exit(87);
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    3/3    ");
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    1/4    calling   base.OnExit(e);       ..."); base.OnExit(e);
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    2/4    calling   Environment.Exit(87); ..."); Environment.Exit(87);
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    3/4    calling   FailFast()            ..."); Environment.FailFast("Environment.FailFast")
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnExit()    4/4    ... should not be getting here.");
     }
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
