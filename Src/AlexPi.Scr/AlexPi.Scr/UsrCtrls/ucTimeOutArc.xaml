@@ -34,8 +34,9 @@
           <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
               <Storyboard Timeline.DesiredFrameRate="60"  >
-                <DoubleAnimation       Storyboard.TargetProperty="EndAngle" Duration="0:0:56" From="340" To="0" 
-                                       RepeatBehavior="2x" AutoReverse="True" />
+                <DoubleAnimation 
+                  Storyboard.TargetProperty="EndAngle" Duration="0:0:56" From="340" To="0" 
+                  RepeatBehavior="1x" AutoReverse="False" />
               </Storyboard>
             </BeginStoryboard>
           </EventTrigger>

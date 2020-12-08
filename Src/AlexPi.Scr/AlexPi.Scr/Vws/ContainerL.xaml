@@ -9,9 +9,7 @@
   </WindowChrome.WindowChrome>
   <Grid>
 
-    <Viewbox>
-      <TextBlock Text="New Container L - 12" />
-    </Viewbox>
+    <!--<Viewbox>      <TextBlock Text="New Container L - 12" />    </Viewbox>-->
 
     <Viewbox>
       <UsrCtrlPOCs:AndroidClockUsrCtrl />

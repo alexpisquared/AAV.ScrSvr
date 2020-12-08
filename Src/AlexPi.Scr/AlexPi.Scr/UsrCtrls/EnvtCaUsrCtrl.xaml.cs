@@ -102,12 +102,7 @@ namespace AlexPi.Scr.UsrCtrls
     int _crntIndex = -1; // start from 0.
     public int NextIndex => (++_crntIndex) % _sites.Length;
 
-    void UserControl_Unloaded(object sender, RoutedEventArgs e)
-    {
-      Trace.WriteLine($"Unloaded ..  {GetType().FullName}     before  Environment.Exit(21); ");
-      Environment.Exit(21); 
-      Environment.FailFast("Environment.FailFast");
-    }
+    void UserControl_Unloaded(object sender, RoutedEventArgs e) => Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   Unloaded ..  {GetType().FullName}     ");  // Environment.Exit(21); Environment.FailFast("Environment.FailFast");
 
     public int CrntIndex => (_crntIndex) % _sites.Length;
   }

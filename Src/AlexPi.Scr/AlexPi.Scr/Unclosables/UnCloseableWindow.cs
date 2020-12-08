@@ -1,8 +1,6 @@
 ﻿using AlexPi.Scr.Logic;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows;
 using System.Windows.Input;
 
 namespace AlexPi.Scr.Vws
@@ -20,7 +18,7 @@ namespace AlexPi.Scr.Vws
 
       PreviewMouseMove += async (s, e) => minMouseMovePoints = await ExitStrategy.CloseIfBigMoveBoforeGracePeriod(minMouseMovePoints, this, GetType().Name);
 
-      Closing += UnCloseableWindow_Closing;
+      //Closing += UnCloseableWindow_Closing;
       Closed += UnCloseableWindow_Closed;
 
       PreviewKeyUp += async (s, e) =>
@@ -52,7 +50,7 @@ namespace AlexPi.Scr.Vws
       };
     }
 
-    void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
-    void UnCloseableWindow_Closed(object sender, EventArgs eee) => Trace.WriteLine($"Closed ..  {GetType().FullName}");
+    //void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
+    void UnCloseableWindow_Closed(object sender, EventArgs eee) => Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
   }
 }

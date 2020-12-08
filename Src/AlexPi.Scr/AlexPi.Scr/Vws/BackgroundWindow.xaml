@@ -20,8 +20,7 @@
   -->
 
   <TextBlock Foreground="#ea4" Background="#004" Margin="8" FontSize="20" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" VerticalAlignment="Top" HorizontalAlignment="Left"
-             MouseEnter="TextBlock_MouseEnter" MouseLeave="TextBlock_MouseLeave"
-             MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" 
-             Opacity="0.1"/>
+             MouseMove="onShow" MouseEnter="onShow" MouseLeave="onHide"
+             MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Opacity="0.2"/>
 
 </lnk:UnCloseableWindow>

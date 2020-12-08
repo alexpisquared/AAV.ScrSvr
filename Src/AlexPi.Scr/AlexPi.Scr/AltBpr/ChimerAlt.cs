@@ -21,6 +21,7 @@ namespace AlexPi.Scr.AltBpr
     public static async Task FreqRunDn() => await FreqWalk(128, 48, durationSec: 1.9);
     public static async Task FreqWalkUpDn() { await FreqWalkUp(); await Task.Delay(333); await FreqWalkDn(); }
     public static async Task FreqRunUpDn() { await FreqRunUp(); await Task.Delay(999); await FreqRunDn(); }
+    public static async Task NoteA() => await NoteWalk(108, 109, 333000);
 
     public static async Task FreqWalkUpDn(double freqA = 200, double freqB = 20, double durationSec = 1, double durnMultr = 1, double frMultr = 1.02)
     {
@@ -29,7 +30,7 @@ namespace AlexPi.Scr.AltBpr
 
       var freqDurn = new List<int[]>();
       var up = freqA < freqB;
-      var stepsTtl =2* Math.Log(up ? freqB / freqA : freqA / freqB, frMultr);
+      var stepsTtl = 2 * Math.Log(up ? freqB / freqA : freqA / freqB, frMultr);
 
       var stepDurationMks = 1000000 * durationSec / stepsTtl;
       Console.WriteLine($"Steps: {stepsTtl,8}   Step Duration: {stepDurationMks:N0} mks  => total time requested / actual: {durationSec} / {stepsTtl * stepDurationMks * .000001}.");
@@ -84,7 +85,7 @@ namespace AlexPi.Scr.AltBpr
         scale.Add(new[] { hz, Bpr.FixDuration(hz, dur) });
       }
     }
-    
+
     static void fixDurnAndAdd(int dur, int freq, List<int[]> freqDurn)
     {
       var hz = freq;

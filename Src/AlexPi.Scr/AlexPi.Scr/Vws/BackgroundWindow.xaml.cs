@@ -23,7 +23,6 @@ namespace AlexPi.Scr.Vws
       Show();
       Left = trgScreen.Bounds.Left;
       Top = trgScreen.Bounds.Top;
-      WindowState = WindowState.Maximized;
       Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {(VerHelper.IsVIP ? "VIP  :)" : "!vip   :(")}      {VerHelper.CurVerStr(".NET 4.8")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
 #if DEBUG
       WindowState = WindowState.Normal;
@@ -32,14 +31,15 @@ namespace AlexPi.Scr.Vws
       Background = Brushes.Teal;
       Opacity = .5;
 #else
+      WindowState = WindowState.Maximized;
 #endif
       //}, TaskScheduler.FromCurrentSynchronizationContext());
 
       Debug.WriteLine($"  {Title.Replace("\r", " ").Replace("\n", " ")}");
     }
 
-    void TextBlock_MouseEnter(object s, System.Windows.Input.MouseEventArgs e) => ((TextBlock)s).Opacity = 1;
-    void TextBlock_MouseLeave(object s, System.Windows.Input.MouseEventArgs e) => ((TextBlock)s).Opacity = 0;
+    void onShow(object s, System.Windows.Input.MouseEventArgs e) => ((TextBlock)s).Opacity = 1;
+    void onHide(object s, System.Windows.Input.MouseEventArgs e) => ((TextBlock)s).Opacity = 0;
     void TextBlock_MouseLeftButtonDown(object s, MouseButtonEventArgs e) { WindowState = WindowState.Normal; Left = Top = Height = Width = 200; }
 
     //? public BackgroundWindow() : this(new AlexPi.Scr.Logic.GlobalEventHandler()) { } // The type 'UnCloseableWindow' cannot have a Name attribute. Value types and types without a default constructor can be used as items within a ResourceDictionary
