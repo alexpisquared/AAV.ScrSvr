@@ -55,6 +55,7 @@ namespace AlexPi.Scr.Vws
           g1.Background = _rng; await Task.Delay(100);          //await Task.Delay(gracePeriodSec * 1000);
           g1.Background = _trn;
 
+          AAV.Sys.Helpers.Bpr.Wake(); 
           await App.SpeakAsync($"{idle.Minutes}");
           if (AppSettings.Instance.IsChimesOn)
           {
@@ -79,6 +80,12 @@ namespace AlexPi.Scr.Vws
       if (AppSettings.Instance.IsSayMinOn == false)
         cbIsChimesOn.IsChecked = false;
     }
+
+    private void TopmostUnCloseableWindow_Unloaded(object sender, RoutedEventArgs e)
+    {
+
+    }
+
     void onChimesChanged(object sender, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
     async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
 

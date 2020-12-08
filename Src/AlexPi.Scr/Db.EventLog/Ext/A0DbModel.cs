@@ -11,7 +11,6 @@ namespace Db.EventLog.DbModel
   public partial class A0DbModel : DbContext
   {
 #if !ready
-    public static readonly DateTime Started = DateTime.Now;
     const string _dbName = "EventLogDb";
     public static A0DbModel GetExprs => new A0DbModel(0, $@"data source=.\sqlexpress;initial catalog={_dbName};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
     public static A0DbModel GetLclFl(string localdbpathfile) { var db = new A0DbModel(localdbpathfile); checkCreateMigrate(db, localdbpathfile); return db; }
@@ -37,12 +36,11 @@ namespace Db.EventLog.DbModel
       //Trace.WriteLine($"::>{(localdbpathfile ?? "null")} -> {Path.GetFileNameWithoutExtension(dbfn)}");
     }
 
-
     static void checkCreateMigrate(A0DbModel db, string localdbpathfile)
     {
       try
       {
-        Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    {db.ServerDatabase()} -");
+        Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f}    {db.ServerDatabase()} -");
         if (!File.Exists(localdbpathfile)) // if (db.Database.Exists())
         {
           Trace.WriteLine($" does NOT exist => creating on the first call.");

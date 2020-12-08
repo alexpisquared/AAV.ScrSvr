@@ -19,9 +19,11 @@
       <GradientStop Color="#0f0" Offset="1"/>
     </LinearGradientBrush>
 
+    <!--
     <Storyboard x:Key="sbarc1">
       <DoubleAnimation                   Duration="0:0:15" From="+3.141" To="-1.5707" Storyboard.TargetProperty="StartAngle" />
     </Storyboard>
+    -->
 
   </UserControl.Resources>
   <Viewbox>
@@ -32,7 +34,8 @@
           <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
               <Storyboard Timeline.DesiredFrameRate="60"  >
-                <DoubleAnimation       Storyboard.TargetProperty="EndAngle" Duration="0:0:56" From="340" To="0" />
+                <DoubleAnimation       Storyboard.TargetProperty="EndAngle" Duration="0:0:56" From="340" To="0" 
+                                       RepeatBehavior="2x" AutoReverse="True" />
               </Storyboard>
             </BeginStoryboard>
           </EventTrigger>

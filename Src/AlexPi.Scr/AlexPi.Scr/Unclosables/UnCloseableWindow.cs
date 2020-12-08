@@ -1,5 +1,6 @@
 ﻿using AlexPi.Scr.Logic;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -13,20 +14,21 @@ namespace AlexPi.Scr.Vws
     public UnCloseableWindow(GlobalEventHandler globalEventHandler) : base()
     {
       IgnoreWindowPlacement = true;
+      var minMouseMovePoints = 99;
 
       _GlobalEventHandler = globalEventHandler;
 
-      var minMouseMovePoints = 99;
       PreviewMouseMove += async (s, e) => minMouseMovePoints = await ExitStrategy.CloseIfBigMoveBoforeGracePeriod(minMouseMovePoints, this, GetType().Name);
+
+      Closing += UnCloseableWindow_Closing;
+      Closed += UnCloseableWindow_Closed;
 
       PreviewKeyUp += async (s, e) =>
       {
         e.Handled = await ExitStrategy.CloseBasedOnPCName(e.Key, this);
         if (e.Handled)
         {
-          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   PreviewKeyUp() ");
-          Application.Current.Shutdown(77);
-          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   PreviewKeyUp() ");
+          //todo: is it redundant Application.Current.Shutdown(77);          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   App.Shutdown(77) in PreviewKeyUp(). ");
         }
         else
         {
@@ -49,5 +51,8 @@ namespace AlexPi.Scr.Vws
         }
       };
     }
+
+    void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
+    void UnCloseableWindow_Closed(object sender, EventArgs eee) => Trace.WriteLine($"Closed ..  {GetType().FullName}");
   }
 }

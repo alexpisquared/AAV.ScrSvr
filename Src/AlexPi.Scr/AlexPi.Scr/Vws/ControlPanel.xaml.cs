@@ -11,7 +11,7 @@ namespace AlexPi.Scr.Vws
   public partial class ControlPanel : TopmostUnCloseableWindow
   {
     const int _stepDelayMs = 333;
-    bool _alreadyCached = false, _cacheA, _cacheB, _cacheC, _cacheD, _cacheE, _cacheF, _cacheG, _cacheH, _cacheI, _cacheJ, _cacheK;
+    bool _alreadyCached = false, _cacheA, _cacheB, _cacheC, _cacheD, _cacheE, _cacheF, _cacheG, _cacheH, _cacheI, _cacheJ, _cacheK, _cacheL;
 
     public ControlPanel(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
@@ -35,6 +35,7 @@ namespace AlexPi.Scr.Vws
       ContainerI.IsChecked = AppSettings.Instance.CtrlI; await Task.Delay(_stepDelayMs);
       ContainerJ.IsChecked = AppSettings.Instance.CtrlJ; await Task.Delay(_stepDelayMs);
       ContainerK.IsChecked = AppSettings.Instance.CtrlK; await Task.Delay(_stepDelayMs);
+      ContainerL.IsChecked = AppSettings.Instance.CtrlL; await Task.Delay(_stepDelayMs);
     }
     async void onPreviewKeyUp(object s, KeyEventArgs e)
     {
@@ -127,6 +128,7 @@ namespace AlexPi.Scr.Vws
       _cacheI = AppSettings.Instance.CtrlI;
       _cacheJ = AppSettings.Instance.CtrlJ;
       _cacheK = AppSettings.Instance.CtrlK;
+      _cacheL = AppSettings.Instance.CtrlL;
     }
     void restoreCachedVals()
     {
@@ -141,6 +143,7 @@ namespace AlexPi.Scr.Vws
       ContainerI.IsChecked = _cacheI;
       ContainerJ.IsChecked = _cacheJ;
       ContainerK.IsChecked = _cacheK;
+      ContainerL.IsChecked = _cacheL;
 
       setVizToChkBoxVal();
     }

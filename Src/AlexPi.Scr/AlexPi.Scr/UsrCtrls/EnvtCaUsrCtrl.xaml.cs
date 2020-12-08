@@ -1,5 +1,4 @@
-﻿//using XSD.CLS;
-using AAV.Sys.Ext;
+﻿using AAV.Sys.Ext;
 using AsLink;
 using LiveCharts;
 using LiveCharts.Configurations;
@@ -102,6 +101,14 @@ namespace AlexPi.Scr.UsrCtrls
 
     int _crntIndex = -1; // start from 0.
     public int NextIndex => (++_crntIndex) % _sites.Length;
+
+    void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+      Trace.WriteLine($"Unloaded ..  {GetType().FullName}     before  Environment.Exit(21); ");
+      Environment.Exit(21); 
+      Environment.FailFast("Environment.FailFast");
+    }
+
     public int CrntIndex => (_crntIndex) % _sites.Length;
   }
   public static class CartesianChartExt

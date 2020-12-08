@@ -6,9 +6,8 @@
                 Style="{StaticResource MouseEnterableSlowShowWindow}">  <WindowChrome.WindowChrome>    <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />  </WindowChrome.WindowChrome>
   <Grid>
 
-    <UCs:EnvtCaUsrCtrl/>
+    <UCs:EnvtCaUsrCtrl />
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
-
   </Grid>
 </lnk:TopmostUnCloseableWindow>

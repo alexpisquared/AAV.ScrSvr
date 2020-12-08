@@ -1,13 +1,14 @@
-﻿using AlexPi.Scr;
-using AAV.Sys.Helpers;
+﻿using AAV.Sys.Helpers;
+using AlexPi.Scr;
 using System;
+using System.Diagnostics;
 using System.Globalization;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+
 namespace UsrCtrlPOCs
 {
   public partial class AndroidClockUsrCtrl : UserControl
@@ -72,19 +73,27 @@ namespace UsrCtrlPOCs
       Bpr.BeepShort();
 #endif
     }
-    public static readonly DependencyProperty StartMinProperty = DependencyProperty.Register("StartMin", typeof(double), typeof(AndroidClockUsrCtrl));     /**/public double StartMin { get => (double)GetValue(StartMinProperty); set => SetValue(StartMinProperty, value); }
-    public static readonly DependencyProperty CurntMinProperty = DependencyProperty.Register("CurntMin", typeof(double), typeof(AndroidClockUsrCtrl));     /**/public double CurntMin { get => (double)GetValue(CurntMinProperty); set => SetValue(CurntMinProperty, value); }
-    public static readonly DependencyProperty CurentMMProperty = DependencyProperty.Register("CurentMM", typeof(double), typeof(AndroidClockUsrCtrl));     /**/public double CurentMM { get => (double)GetValue(CurentMMProperty); set => SetValue(CurentMMProperty, value); }
-    public static readonly DependencyProperty StartHouProperty = DependencyProperty.Register("StartHou", typeof(double), typeof(AndroidClockUsrCtrl));     /**/public double StartHou { get => (double)GetValue(StartHouProperty); set => SetValue(StartHouProperty, value); }
-    public static readonly DependencyProperty CurntHouProperty = DependencyProperty.Register("CurntHou", typeof(double), typeof(AndroidClockUsrCtrl));     /**/public double CurntHou { get => (double)GetValue(CurntHouProperty); set => SetValue(CurntHouProperty, value); }
+    public static readonly DependencyProperty StartMinProperty = DependencyProperty.Register("StartMin", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double StartMin { get => (double)GetValue(StartMinProperty); set => SetValue(StartMinProperty, value); }
+    public static readonly DependencyProperty CurntMinProperty = DependencyProperty.Register("CurntMin", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double CurntMin { get => (double)GetValue(CurntMinProperty); set => SetValue(CurntMinProperty, value); }
+    public static readonly DependencyProperty CurentMMProperty = DependencyProperty.Register("CurentMM", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double CurentMM { get => (double)GetValue(CurentMMProperty); set => SetValue(CurentMMProperty, value); }
+    public static readonly DependencyProperty StartHouProperty = DependencyProperty.Register("StartHou", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double StartHou { get => (double)GetValue(StartHouProperty); set => SetValue(StartHouProperty, value); }
+    public static readonly DependencyProperty CurntHouProperty = DependencyProperty.Register("CurntHou", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double CurntHou { get => (double)GetValue(CurntHouProperty); set => SetValue(CurntHouProperty, value); }
     public static readonly DependencyProperty SecHandVisProperty = DependencyProperty.Register("SecHandVis", typeof(Visibility), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(Visibility.Visible)); public Visibility SecHandVis { get => (Visibility)GetValue(SecHandVisProperty); set => SetValue(SecHandVisProperty, value); }
-    public static readonly DependencyProperty S_0Property = DependencyProperty.Register("S_0", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));                       /**/public double S_0 { get => (double)GetValue(S_0Property); set => SetValue(S_0Property, value); }
-    public static readonly DependencyProperty S_1Property = DependencyProperty.Register("S_1", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));                       /**/public double S_1 { get => (double)GetValue(S_1Property); set => SetValue(S_1Property, value); }
-    public static readonly DependencyProperty S60Property = DependencyProperty.Register("S60", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(360d));                     /**/public double S60 { get => (double)GetValue(S60Property); set => SetValue(S60Property, value); }
-    public static readonly DependencyProperty DsplayModeProperty = DependencyProperty.Register("DsplayMode", typeof(int), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0));             /**/public int DsplayMode { get => (int)GetValue(DsplayModeProperty); set => SetValue(DsplayModeProperty, value); }
-    public static readonly DependencyProperty SecOpacityProperty = DependencyProperty.Register("SecOpacity", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(1.0d));       /**/public double SecOpacity { get => (double)GetValue(SecOpacityProperty); set => SetValue(SecOpacityProperty, value); }
-    public static readonly DependencyProperty BlurRaduisProperty = DependencyProperty.Register("BlurRaduis", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));        /**/public double BlurRaduis { get => (double)GetValue(BlurRaduisProperty); set => SetValue(BlurRaduisProperty, value); }
-    public static readonly DependencyProperty IsHeaterOnProperty = DependencyProperty.Register("IsHeaterOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(false, chd));    /**/public bool IsHeaterOn { get => (bool)GetValue(IsHeaterOnProperty); set => SetValue(IsHeaterOnProperty, value); }
+    public static readonly DependencyProperty S_0Property = DependencyProperty.Register("S_0", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));                     /**/ public double S_0 { get => (double)GetValue(S_0Property); set => SetValue(S_0Property, value); }
+    public static readonly DependencyProperty S_1Property = DependencyProperty.Register("S_1", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));                     /**/ public double S_1 { get => (double)GetValue(S_1Property); set => SetValue(S_1Property, value); }
+    public static readonly DependencyProperty S60Property = DependencyProperty.Register("S60", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(360d));                   /**/ public double S60 { get => (double)GetValue(S60Property); set => SetValue(S60Property, value); }
+    public static readonly DependencyProperty DsplayModeProperty = DependencyProperty.Register("DsplayMode", typeof(int), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0));           /**/ public int DsplayMode { get => (int)GetValue(DsplayModeProperty); set => SetValue(DsplayModeProperty, value); }
+    public static readonly DependencyProperty SecOpacityProperty = DependencyProperty.Register("SecOpacity", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(1.0d));     /**/ public double SecOpacity { get => (double)GetValue(SecOpacityProperty); set => SetValue(SecOpacityProperty, value); }
+    public static readonly DependencyProperty BlurRaduisProperty = DependencyProperty.Register("BlurRaduis", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));       /**/ public double BlurRaduis { get => (double)GetValue(BlurRaduisProperty); set => SetValue(BlurRaduisProperty, value); }
+    public static readonly DependencyProperty IsHeaterOnProperty = DependencyProperty.Register("IsHeaterOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(false, chd)); /**/ public bool IsHeaterOn { get => (bool)GetValue(IsHeaterOnProperty); set => SetValue(IsHeaterOnProperty, value); }
+
+    void uc1_Unloaded(object sender, RoutedEventArgs e)
+    {
+      sbMoveSecondHandAnlg?.Stop();
+      sbMoveSecondHandImdt?.Stop();
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   AndroidClockUsrCtrl.uc1_Unloaded() ");
+    }
+
     //blic static readonly DependencyProperty IsSecHndOnProperty = DependencyProperty.Register("IsSecHndOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(true));         /**/public bool IsSecHndOn { get { return (bool)GetValue(IsSecHndOnProperty); } set { SetValue(IsSecHndOnProperty, value); } }
 
     static void chd(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
