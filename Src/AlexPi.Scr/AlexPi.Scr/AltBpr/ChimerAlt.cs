@@ -21,7 +21,7 @@ namespace AlexPi.Scr.AltBpr
     public static async Task FreqRunDn() => await FreqWalk(128, 48, durationSec: 1.9);
     public static async Task FreqWalkUpDn() { await FreqWalkUp(); await Task.Delay(333); await FreqWalkDn(); }
     public static async Task FreqRunUpDn() { await FreqRunUp(); await Task.Delay(999); await FreqRunDn(); }
-    public static async Task NoteA() => await NoteWalk(108, 109, 333000);
+    public static async Task Wake() => await NoteWalk(106, 107, 2000111);
 
     public static async Task FreqWalkUpDn(double freqA = 200, double freqB = 20, double durationSec = 1, double durnMultr = 1, double frMultr = 1.02)
     {

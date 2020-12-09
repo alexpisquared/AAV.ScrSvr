@@ -55,7 +55,7 @@ namespace AlexPi.Scr.Vws
           g1.Background = _rng; await Task.Delay(100);          //await Task.Delay(gracePeriodSec * 1000);
           g1.Background = _trn;
 
-          AAV.Sys.Helpers.Bpr.Wake(); 
+          await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
           await App.SpeakAsync($"{idle.Minutes}");
           if (AppSettings.Instance.IsChimesOn)
           {

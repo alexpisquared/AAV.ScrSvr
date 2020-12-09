@@ -25,8 +25,6 @@ namespace AlexPi.Scr.Vws
 
     public static async Task<bool> CloseBasedOnPCName(Key key, Window window)
     {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   ...");
-
       if (Key.F1 <= key && key < Key.DeadCharProcessed || // all special keys, like: alt, ctrl, shift, oem*
         key == Key.Tab ||
         key == Key.Left || key == Key.Right)

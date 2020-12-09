@@ -8,13 +8,10 @@ namespace AlexPi.Scr.Vws
 
     async void TopmostUnCloseableWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-#if DEBUG
-      await Task.Delay(10000);
-#else
       await Task.Delay(5 * 60 * 1000);
-#endif
+#if SelfCloseIn5min
       Close();
-      await AltBpr.ChimerAlt.NoteA();
+#endif      
     }
   }
 }
