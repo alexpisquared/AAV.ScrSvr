@@ -1,12 +1,10 @@
-﻿using AAV.Sys.Ext;
-//
+﻿//todo: move to shared somewhere (202-12)
+using AAV.Sys.Ext; 
 using System;
 using System.ComponentModel;
-// encoding
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
