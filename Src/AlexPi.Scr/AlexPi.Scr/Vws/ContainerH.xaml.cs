@@ -1,4 +1,5 @@
-﻿using AlexPi.Scr.AltBpr;
+﻿using AAV.Sys.Ext;
+using AlexPi.Scr.AltBpr;
 using AsLink;
 using System;
 using System.Threading.Tasks;
@@ -23,8 +24,8 @@ namespace AlexPi.Scr.Vws
       _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, new EventHandler((s, e) => updateClockOn1secTimerTick()), Dispatcher.CurrentDispatcher); //tu: prevent screensaver; //tu: one-line timer
       _timer.Start();
       cbIsSayMinOn.IsChecked = AppSettings.Instance.IsSayMinOn;
-      //IsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
       cbIsChimesOn.IsChecked = AppSettings.Instance.IsChimesOn;
+      //IsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
     }
     async void updateClockOn1secTimerTick()
     {
@@ -66,6 +67,7 @@ namespace AlexPi.Scr.Vws
             await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
 
         }
+        catch (Exception ex) { ex.Log(); }
         finally
         {
           _isTalking = false;
