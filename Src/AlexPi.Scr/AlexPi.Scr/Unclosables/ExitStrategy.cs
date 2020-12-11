@@ -11,9 +11,9 @@ namespace AlexPi.Scr.Vws
   {
     public static async Task<int> CloseIfBigMoveBoforeGracePeriod(int minMaouseMovePoints, Window wdw, string typeName)
     {
-      if ((DateTime.Now - App.Started).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
+      if ((DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
       {
-        Trace.WriteLineIf(App.CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
+        Trace.WriteLineIf(App.CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
         if (--minMaouseMovePoints < 0)
         {
           await ExitStrategy.CloseBasedOnPCName(Key.Escape, wdw);
@@ -32,9 +32,9 @@ namespace AlexPi.Scr.Vws
 
       switch (Environment.MachineName) // balck/white listing
       {
-        default:            /**/ await App.SpeakAsync($"home.           "); App.Current.Shutdown(33); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   after App.Current.Shutdown(33)"); return true;  // default: at home: no need to lock.
-        case "CA03-APIGID": /**/ await App.SpeakAsync($"Secure-most PC. "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   BackDoor_Minuted()      "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking
-        case "SapceEscape": /**/ await App.SpeakAsync($"useless.        "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   SpaceUpEscapOnly()      "); return await SpaceUpEscapOnly(key, window);   // space + escape + up .. kind of useless ~ not here nor there.
+        default:            /**/ await App.SpeakAsync($"home.           "); App.Current.Shutdown(33); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   after App.Current.Shutdown(33)"); return true;  // default: at home: no need to lock.
+        case "CA03-APIGID": /**/ await App.SpeakAsync($"Secure-most PC. "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   BackDoor_Minuted()      "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking
+        case "SapceEscape": /**/ await App.SpeakAsync($"useless.        "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   SpaceUpEscapOnly()      "); return await SpaceUpEscapOnly(key, window);   // space + escape + up .. kind of useless ~ not here nor there.
       }
     }
     public static async Task<bool> BackDoor_Minuted(Key key, Window window)
@@ -88,7 +88,7 @@ namespace AlexPi.Scr.Vws
     static async Task<bool> lockPc_ThenCloseScrSvr(Window window)
     {
       bool keyUpHandled;
-      if ((DateTime.Now - App.Started).TotalSeconds < App.GraceEvLogAndLockPeriodSec)
+      if ((DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec)
       {
         await App.SpeakAsync($"Right on time.");
         keyUpHandled = false;

@@ -26,7 +26,7 @@ namespace AlexPi.Scr.Vws
         e.Handled = await ExitStrategy.CloseBasedOnPCName(e.Key, this);
         if (e.Handled)
         {
-          //todo: is it redundant Application.Current.Shutdown(77);          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   App.Shutdown(77) in PreviewKeyUp(). ");
+          //todo: is it redundant Application.Current.Shutdown(77);          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   App.Shutdown(77) in PreviewKeyUp(). ");
         }
         else
         {
@@ -51,6 +51,6 @@ namespace AlexPi.Scr.Vws
     }
 
     //void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
-    void UnCloseableWindow_Closed(object sender, EventArgs eee) { } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
+    void UnCloseableWindow_Closed(object sender, EventArgs eee) { } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
   }
 }

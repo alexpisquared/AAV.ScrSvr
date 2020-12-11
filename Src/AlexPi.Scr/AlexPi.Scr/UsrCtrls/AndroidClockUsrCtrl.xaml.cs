@@ -36,7 +36,7 @@ namespace UsrCtrlPOCs
     }
     void onLoaded(object s, RoutedEventArgs e)
     {
-      var idleAt = App.Started.AddSeconds(-App.ScrSvrTimeoutSec);
+      var idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
       StartMin = idleAt.Minute * 6 + idleAt.Second * .1;
       StartHou = idleAt.TimeOfDay.TotalDays * 720;
 
@@ -60,7 +60,7 @@ namespace UsrCtrlPOCs
       HandMinAngle.Angle = (now.Minute * 6 + now.Second * .1);
       HandHouAngle.Angle = ((now.Hour - 12) * 30 + now.Minute * .5);
 
-      if (now.Minute % 4 == 0) // (now < App.Started.AddMinutes(2))
+      if (now.Minute % 4 == 0) // (now < App.StartedAt.AddMinutes(2))
         HandSec.BeginStoryboard(sbMoveSecondHandAnlg);
       else
         HandSec.BeginStoryboard(sbMoveSecondHandImdt);
@@ -91,7 +91,7 @@ namespace UsrCtrlPOCs
     {
       sbMoveSecondHandAnlg?.Stop();
       sbMoveSecondHandImdt?.Stop();
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}   AndroidClockUsrCtrl.uc1_Unloaded() ");
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   AndroidClockUsrCtrl.uc1_Unloaded() ");
     }
 
     //blic static readonly DependencyProperty IsSecHndOnProperty = DependencyProperty.Register("IsSecHndOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(true));         /**/public bool IsSecHndOn { get { return (bool)GetValue(IsSecHndOnProperty); } set { SetValue(IsSecHndOnProperty, value); } }

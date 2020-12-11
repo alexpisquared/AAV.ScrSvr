@@ -29,8 +29,8 @@ namespace AlexPi.Scr.Vws
     async void updateClockOn1secTimerTick()
     {
       var tnow = DateTime.Now;
-      var idle = ((tnow - App.Started) + TimeSpan.FromSeconds(App.ScrSvrTimeoutSec));
-      var left = App.Started.AddMinutes(AppSettings.Instance.Min2Sleep) - tnow;
+      var idle = ((tnow - App.StartedAt) + TimeSpan.FromSeconds(App.ScrSvrTimeoutSec));
+      var left = App.StartedAt.AddMinutes(AppSettings.Instance.Min2Sleep) - tnow;
       tbOutOffL.Text = (idle.TotalMinutes < 60 ? $"{idle:m\\:ss}" : $"{idle:h\\:mm} ");
 
       if (AppSettings.Instance.AutoSleep)

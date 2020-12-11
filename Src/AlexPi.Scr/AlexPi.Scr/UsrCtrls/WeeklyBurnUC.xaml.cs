@@ -11,8 +11,8 @@ namespace AlexPi.Scr.UsrCtrls
     public partial class WeeklyBurnUC : UserControl
     {
         //double _aw/*, _ah*/;
-        readonly DateTime _start = App.Started;
-        readonly DateTime _idleAt = App.Started.AddSeconds(-App.ScrSvrTimeoutSec);
+        readonly DateTime _start = App.StartedAt;
+        readonly DateTime _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
         async void onLoaded(object sender, RoutedEventArgs e)
         {
             try

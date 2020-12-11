@@ -26,34 +26,24 @@ namespace AlexPi.Scr
       AppTraceLevel_inCode = new TraceSwitch("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
       AppTraceLevel_Warnng = new TraceSwitch("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
+    static readonly SpeechSynth _synth = new SpeechSynth();
     static readonly object _thisLock = new object();
     static bool _mustLogEORun = false;
-    public static readonly DateTime Started = DateTime.Now;
+    public static readonly DateTime StartedAt = DateTime.Now;
     public const int
 #if DEBUG
-      GraceEvLogAndLockPeriodSec = 6,
-      _ScrSvrShowDelayMs = 500;
+      GraceEvLogAndLockPeriodSec = 06, _ScrSvrShowDelayMs = 500;
 #else
-      GraceEvLogAndLockPeriodSec = 60,
-      _ScrSvrShowDelayMs = 10000;
+      GraceEvLogAndLockPeriodSec = 60,      _ScrSvrShowDelayMs = 10000;
 #endif
-
-    static readonly SpeechSynth _synth;
-    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
-    public static async Task SpeakAsync(string msg) => await _synth.SpeakAsync(msg);
-
-    static App()
-    {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    Ctor()     0/n     {Environment.CurrentDirectory}");
-      _synth = new SpeechSynth();
-    }
     protected override async void OnStartup(StartupEventArgs sea)
     {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  1/2     {Environment.CurrentDirectory}");
       try
       {
         base.OnStartup(sea);
         //Bpr.BeepBgn3();
+        await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
+        await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
 
 #if DEBUG_
         await ChimerAlt.Chime(1);
@@ -70,9 +60,9 @@ namespace AlexPi.Scr
         //Tracer.ReportErrorLevel(AppTraceLevel_Config, "App.CFG");
         //Tracer.ReportErrorLevel(AppTraceLevel_inCode, "App.app");
         //Tracer.ReportErrorLevel(AppTraceLevel_Warnng, "App.wrn"); // Trace.WriteLine("<= while app cfg=Verb, inc=Info, wrn=Warn, from App=Verb, .CFG=Verb");
-        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  2/2     args: {string.Join(", ", sea.Args)}.");
+        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp()  2/2     args: {string.Join(", ", sea.Args)}.");
 
-        Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  {Environment.MachineName,-8}{VerHelper.CurVerStr(".Net 5.0"),-12}   {string.Join(" ", Environment.GetCommandLineArgs())}  ");
+        Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp()  {Environment.MachineName,-8}{VerHelper.CurVerStr(".Net 5.0"),-12}   {string.Join(" ", Environment.GetCommandLineArgs())}  ");
         Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
         //todo: Current.DispatcherUnhandledException += WPF.Helpers.UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
         EventManager.RegisterClassHandler(typeof(TextBox), UIElement.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox)?.SelectAll(); })); //tu: TextBox
@@ -101,7 +91,7 @@ namespace AlexPi.Scr
               var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
               var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
               SpeakFaF(rprt);
-              Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp() - {rprt}");
+              Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
               //}).ContinueWith(_ => 
               Shutdown()
               //, TaskScheduler.FromCurrentSynchronizationContext()); //?? Aug 2019.
@@ -114,23 +104,25 @@ namespace AlexPi.Scr
       }
       catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
 
-      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp() - EOMethof.");
+      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
 
-
-    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
-    protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
+    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
+    protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
     protected override void OnExit(ExitEventArgs e)
     {
       LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          ");
       base.OnExit(e);
-      
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}   App.OnExit() => Process.GetCurrentProcess().Kill(); "); 
+
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}   App.OnExit() => Process.GetCurrentProcess().Kill(); ");
       Process.GetCurrentProcess().Kill();
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}   App.OnExit() => never got here!"); 
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}   App.OnExit() => never got here!");
       Environment.Exit(87);
       Environment.FailFast("Environment.FailFast");
     }
+
+    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
+    public static async Task SpeakAsync(string msg) => await _synth.SpeakAsync(msg);
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -148,7 +140,7 @@ namespace AlexPi.Scr
 
     public static void LogScrSvrUptime(string msg)
     {
-      Trace.WriteIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
+      Trace.WriteIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
 
       lock (_thisLock)
       {
@@ -156,7 +148,7 @@ namespace AlexPi.Scr
         {
 #if !DEBUG
           _mustLogEORun = false;
-          EvLogHelper.LogScrSvrEnd(App.Started.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
+          EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
           Trace.WriteIf(CurTraceLevel.TraceWarning, $" ... SUCCESS.");
 #endif
         }
@@ -184,16 +176,16 @@ namespace AlexPi.Scr
         //ParentWindow = whndl,
         PositionX = 0,
         PositionY = 0,
-        //WindowStyle = (int)(WS.VISIBLE | WS.CHILD | WS.CLIPCHILDREN)
+        //WindowStyle = (int)(WindowStyle.VISIBLE | WindowStyle.CHILD | WindowStyle.CLIPCHILDREN)
       };
 
       if (whndl != IntPtr.Zero)
       {
         hwndSourceParameters.ParentWindow = whndl;
-        hwndSourceParameters.WindowStyle = (int)(WS.VISIBLE | WS.CHILD | WS.CLIPCHILDREN);
+        hwndSourceParameters.WindowStyle = (int)(WindowStyle.VISIBLE | WindowStyle.CHILD | WindowStyle.CLIPCHILDREN);
       }
       else
-        hwndSourceParameters.WindowStyle = (int)(WS.VISIBLE);
+        hwndSourceParameters.WindowStyle = (int)(WindowStyle.VISIBLE);
 
       miniSS.Height = hwndSourceParameters.Height;
       miniSS.Width = hwndSourceParameters.Width;
@@ -246,7 +238,7 @@ namespace AlexPi.Scr
 
     public static void SleepStandby(bool isDeepHyberSleep = false)
     {
-      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
+      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
       SetSuspendState(isDeepHyberSleep, true, true);
     }
 
@@ -309,14 +301,9 @@ namespace AlexPi.Scr
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
     Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
-  }
 
-  [Flags]
-  public enum WS //     Window styles
-  {
-    CLIPCHILDREN = 33554432,
-    VISIBLE = 268435456,
-    CHILD = 1073741824,
+    [Flags]
+    enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   }
 }
 

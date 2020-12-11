@@ -35,9 +35,9 @@ namespace AlexPi.Scr.Logic
             Console.WriteLine("{0} -", myProcess.ToString());
             Console.WriteLine("-------------------------------------");
             Console.WriteLine("  physical memory usage: {0}", myProcess.WorkingSet64); Console.WriteLine("  base priority: {0}", myProcess.BasePriority); Console.WriteLine("  priority class: {0}", myProcess.PriorityClass);
-            Console.WriteLine("  user processor time: {0}", myProcess.UserProcessorTime);
-            Console.WriteLine("  privileged processor time: {0}", myProcess.PrivilegedProcessorTime);
-            Console.WriteLine("  total processor time: {0}", myProcess.TotalProcessorTime); Console.WriteLine("  PagedSystemMemorySize64: {0}", myProcess.PagedSystemMemorySize64); Console.WriteLine("  PagedMemorySize64: {0}", myProcess.PagedMemorySize64);
+            Console.WriteLine("  user processor   time: {0}", myProcess.UserProcessorTime);
+            Console.WriteLine("  privileged procr time: {0}", myProcess.PrivilegedProcessorTime);
+            Console.WriteLine("  total processor  time: {0}", myProcess.TotalProcessorTime); Console.WriteLine("  PagedSystemMemorySize64: {0}", myProcess.PagedSystemMemorySize64); Console.WriteLine("  PagedMemorySize64: {0}", myProcess.PagedMemorySize64);
 
             // Update the values for the overall peak memory statistics.
             peakPagedMem = myProcess.PeakPagedMemorySize64;
