@@ -52,20 +52,22 @@ namespace AlexPi.Scr.Vws
           _isTalking = true;
           _timer.Stop();
 
-          g1.Background = _red; await Task.Delay(100);
-          g1.Background = _rng; await Task.Delay(100);          //await Task.Delay(gracePeriodSec * 1000);
-          g1.Background = _trn;
-
-          await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
+          g1.Background = _red;   // await Task.Delay(100);
+          await ChimerAlt.Wake(150111); // wake up monitor's audio.
           await App.SpeakAsync($"{idle.Minutes}");
+
+          g1.Background = _rng;
           if (AppSettings.Instance.IsChimesOn)
           {
             await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
-            await App.SpeakAsync($"{idle.Minutes} minutes, that is.");
+            App.SpeakFaF($"{idle.Minutes} minutes, that is.");
           }
           else
+          {
             await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
+          }
 
+          g1.Background = _trn;
         }
         catch (Exception ex) { ex.Log(); }
         finally

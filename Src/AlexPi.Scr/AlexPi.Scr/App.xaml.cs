@@ -42,8 +42,8 @@ namespace AlexPi.Scr
       {
         base.OnStartup(sea);
         //Bpr.BeepBgn3();
-        await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
-        await App.SpeakAsync($"123");
+        //await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
+        //await App.SpeakAsync($"123");
 
 #if DEBUG_
         await ChimerAlt.Chime(1);
