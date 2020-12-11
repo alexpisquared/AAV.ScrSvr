@@ -23,7 +23,7 @@ namespace AlexPi.Scr.Vws
       Show();
       Left = trgScreen.Bounds.Left;
       Top = trgScreen.Bounds.Top;
-      Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {(VerHelper.IsVIP ? "VIP  :)" : "!vip   :(")}      {VerHelper.CurVerStr(".NET 4.8")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
+      Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {(VerHelper.IsVIP ? "VIP  :)" : "!vip   :(")}      {VerHelper.CurVerStr(".Net 5.0")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
 #if DEBUG
       WindowState = WindowState.Normal;
       Width = trgScreen.Bounds.Width / 10;

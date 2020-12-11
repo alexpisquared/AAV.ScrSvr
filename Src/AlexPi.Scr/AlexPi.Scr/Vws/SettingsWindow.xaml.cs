@@ -28,7 +28,7 @@ namespace AlexPi.Scr
 
       InitializeComponent();
 
-      tbCurVer.Text = $"{VerHelper.CurVerStr(".NET 4.8")}";
+      tbCurVer.Text = $"{VerHelper.CurVerStr(".Net 5.0")}";
 
       _delay = AppSettings.Instance.DelayMin;
       TransitionSlider.Value = AppSettings.Instance.TransitionSec;

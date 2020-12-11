@@ -72,7 +72,7 @@ namespace AlexPi.Scr
         //Tracer.ReportErrorLevel(AppTraceLevel_Warnng, "App.wrn"); // Trace.WriteLine("<= while app cfg=Verb, inc=Info, wrn=Warn, from App=Verb, .CFG=Verb");
         Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  2/2     args: {string.Join(", ", sea.Args)}.");
 
-        Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  {Environment.MachineName,-8}{VerHelper.CurVerStr(".NET 4.8"),-12}   {string.Join(" ", Environment.GetCommandLineArgs())}  ");
+        Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - Started):mm\\:ss\\.ff}    StartUp()  {Environment.MachineName,-8}{VerHelper.CurVerStr(".Net 5.0"),-12}   {string.Join(" ", Environment.GetCommandLineArgs())}  ");
         Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
         //todo: Current.DispatcherUnhandledException += WPF.Helpers.UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
         EventManager.RegisterClassHandler(typeof(TextBox), UIElement.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox)?.SelectAll(); })); //tu: TextBox
@@ -198,7 +198,7 @@ namespace AlexPi.Scr
       miniSS.Height = hwndSourceParameters.Height;
       miniSS.Width = hwndSourceParameters.Width;
       miniSS.Visibility = whndl == IntPtr.Zero ? Visibility.Visible : Visibility.Hidden;
-      miniSS.Title = $"{VerHelper.CurVerStr(".NET 4.8")} \n\n  {miniSS.Width} x {miniSS.Height} \n\n     Slp: {AppSettings.Instance.AutoSleep}   Htr: {AppSettings.Instance.IsHeaterOn}";
+      miniSS.Title = $"{VerHelper.CurVerStr(".Net 5.0")} \n\n  {miniSS.Width} x {miniSS.Height} \n\n     Slp: {AppSettings.Instance.AutoSleep}   Htr: {AppSettings.Instance.IsHeaterOn}";
 
       var _HwndSource = new HwndSource(hwndSourceParameters) { RootVisual = miniSS.LayoutRoot };
       _HwndSource.Disposed += (s, e) => miniSS.Close();

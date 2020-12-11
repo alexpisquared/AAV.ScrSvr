@@ -20,12 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\SpeechSynthLib\SpeechSynthLib.csproj" />
     <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
     <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
-    <ProjectReference Include="..\SpeechSynthLib\SpeechSynthLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
     <ProjectReference Include="..\WindowsFormsLib\WindowsFormsLib.csproj" />
   </ItemGroup>
