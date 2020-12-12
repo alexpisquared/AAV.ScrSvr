@@ -11,10 +11,9 @@ namespace AlexPi.Scr.Vws
     {
       InitializeComponent();
 
-      if (VerHelper.IsVIP)
-        contentControl1.Content = new MailInfoUserControl { Height = 130, Width = 130 };
-      else
-        contentControl1.Content = new Button { Content = "Hello" };
+      contentControl1.Content = VerHelper.IsVIP
+          ? new MailInfoUserControl { Height = 130, Width = 130 }
+          : (object)new Button { Height = 130, Width = 130, Content = "No Mail for the masses :(" };
     }
   }
 }

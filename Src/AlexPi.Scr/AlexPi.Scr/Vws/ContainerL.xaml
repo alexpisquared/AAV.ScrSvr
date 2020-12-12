@@ -9,17 +9,9 @@
   </WindowChrome.WindowChrome>
   <Grid>
 
-    <!--<Viewbox>      <TextBlock Text="New Container L - 12" />    </Viewbox>-->
-
     <Viewbox>
-      <UsrCtrlPOCs:AndroidClockUsrCtrl />
+      <TextBlock Text="Empty ContainerL - 12" />
     </Viewbox>
-
-    <Viewbox>
-      <UsrCtrls:ucGears1 Margin="-200" />
-    </Viewbox>
-
-    <UsrCtrls:ucTimeOutArc  VerticalAlignment="Center" Margin="10"/>
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>

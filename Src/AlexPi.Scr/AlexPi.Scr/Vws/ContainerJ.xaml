@@ -7,6 +7,10 @@
   </WindowChrome.WindowChrome>
   <Grid>
 
+    <Viewbox>
+      <TextBlock Text="Empty ContainerJ - 10" />
+    </Viewbox>
+
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>
 </lnk:TopmostUnCloseableWindow>

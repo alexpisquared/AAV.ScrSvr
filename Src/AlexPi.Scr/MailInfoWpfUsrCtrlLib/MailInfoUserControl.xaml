@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:MailInfoWpfUsrCtrlLib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+  <Grid>
+    <Viewbox>
+      <TextBlock Text="Mail is under construction... &#10;           ...until the key store is online." />
+    </Viewbox>
+  </Grid>
 </UserControl>
