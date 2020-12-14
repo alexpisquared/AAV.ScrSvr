@@ -90,7 +90,7 @@ namespace AlexPi.Scr
                                                                     //Task.Run(async () =>              {
               var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
               var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-              SpeakFaF(rprt);
+              await SpeakAsync(rprt);
               Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
               //}).ContinueWith(_ => 
               Shutdown()
@@ -121,8 +121,8 @@ namespace AlexPi.Scr
       Environment.FailFast("Environment.FailFast");
     }
 
-    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
-    public static async Task SpeakAsync(string msg) => await _synth.SpeakAsync(msg);
+    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg, "Faf")); // FaF - Fire and Forget
+    public static async Task SpeakAsync(string msg)         /**/ => await _synth.SpeakAsync(msg, "This is awesome!");
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -227,7 +227,7 @@ namespace AlexPi.Scr
       _mustLogEORun = true;
 
 #if DEBUG
-      SpeakFaF($"no start-up event logging");
+      SpeakAsync($"no start-up event logging").Wait();
 #else
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 #endif
@@ -249,12 +249,12 @@ namespace AlexPi.Scr
     {
       if (VerHelper.IsVIP && !AppSettings.Instance.AutoSleep)
       {
-        App.SpeakFaF("Armed! Sleepless mode.");
+        await SpeakAsync("Armed! Sleepless mode.");
       }
       else
       {
 #if DEBUG
-        App.SpeakFaF($"Armed!");
+        SpeakFaF($"Armed and extremely dangerous!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
         App.SpeakFaF($"                    {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
@@ -282,7 +282,7 @@ namespace AlexPi.Scr
       {
         App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        await App.SpeakAsync($"                    {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        await SpeakAsync($"                    {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await Task.Delay(TimeSpan.FromSeconds(60));
         App.SpeakFaF($"Enforcing lock down now.");
 
