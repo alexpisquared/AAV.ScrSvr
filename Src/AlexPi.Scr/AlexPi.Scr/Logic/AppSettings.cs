@@ -23,6 +23,7 @@
     bool __IsSaySecOn; public bool IsSaySecOn { get => __IsSaySecOn; set { if (__IsSaySecOn != value) { __IsSaySecOn = value; Save(); } } } // = AppSettings.Instance.IsSaySecOn;
     bool __IsSayMinOn; public bool IsSayMinOn { get => __IsSayMinOn; set { if (__IsSayMinOn != value) { __IsSayMinOn = value; Save(); } } } // = AppSettings.Instance.IsSayMinOn;
     bool __IsChimesOn; public bool IsChimesOn { get => __IsChimesOn; set { if (__IsChimesOn != value) { __IsChimesOn = value; Save(); } } } // = AppSettings.Instance.IsChimesOn;
+    bool __IsRepeatOn; public bool IsRepeatOn { get => __IsRepeatOn; set { if (__IsRepeatOn != value) { __IsRepeatOn = value; Save(); } } } // = AppSettings.Instance.IsRepeatOn;
     
     int min2Sleep = 20; public int Min2Sleep { get => min2Sleep; set { if (min2Sleep != value) { min2Sleep = value; Save(); } } }
     int min2Locke = 20; public int Min2Locke { get => min2Locke; set { if (min2Locke != value) { min2Locke = value; Save(); } } }

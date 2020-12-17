@@ -38,10 +38,13 @@ namespace AlexPi.Scr.UsrCtrls
 
     //void onKeepAwake_F2(object s = null, RoutedEventArgs e = null) => chKeepAwake.IsChecked = (AppSettings.Instance.KeepAwake = !AppSettings.Instance.KeepAwake);
     //void onIsHeaterOnF3(object s = null, RoutedEventArgs e = null) => chIsHeaterOn.IsChecked = (AppSettings.Instance.IsHeaterOn = !AppSettings.Instance.IsHeaterOn);
-    void onAutoSleep_F8(object s = null, RoutedEventArgs e = null) => chAutoSleep.IsChecked = (AppSettings.Instance.AutoSleep = !AppSettings.Instance.AutoSleep);
+
+    void onIsChimesOnF3(object s = null, RoutedEventArgs e = null) => chIsChimesOn.IsChecked = (AppSettings.Instance.IsChimesOn = !AppSettings.Instance.IsChimesOn);
+    void onIsRepeatOnF4(object s = null, RoutedEventArgs e = null) => chIsRepeatOn.IsChecked = (AppSettings.Instance.IsRepeatOn = !AppSettings.Instance.IsRepeatOn);
+    void onIsSaySecOnF5(object s = null, RoutedEventArgs e = null) => chIsSaySecOn.IsChecked = (AppSettings.Instance.IsSaySecOn = !AppSettings.Instance.IsSaySecOn);
     void onIsSpeechOnF6(object s = null, RoutedEventArgs e = null) => chIsSpeechOn.IsChecked = (AppSettings.Instance.IsSpeechOn = !AppSettings.Instance.IsSpeechOn);
     void onIsSayMinOnF7(object s = null, RoutedEventArgs e = null) => chIsSayMinOn.IsChecked = (AppSettings.Instance.IsSayMinOn = !AppSettings.Instance.IsSayMinOn);
-    void onIsSaySecOnF5(object s = null, RoutedEventArgs e = null) => chIsSaySecOn.IsChecked = (AppSettings.Instance.IsSaySecOn = !AppSettings.Instance.IsSaySecOn);
+    void onAutoSleep_F8(object s = null, RoutedEventArgs e = null) => chAutoSleep.IsChecked = (AppSettings.Instance.AutoSleep = !AppSettings.Instance.AutoSleep);
     void onAutoLocke_F9(object s = null, RoutedEventArgs e = null) => chAutoLocke.IsChecked = (AppSettings.Instance.AutoLocke = !AppSettings.Instance.AutoLocke);
     void onMin2Sleep(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Sleep = (int)Math.Pow(10, e.NewValue); tbMin2Sleep.Text = $"{AppSettings.Instance.Min2Sleep:N0}"; }
     void onMin2Locke(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Locke = (int)Math.Pow(10, e.NewValue); tbMin2Locke.Text = $"{AppSettings.Instance.Min2Locke:N0}"; }

@@ -25,6 +25,7 @@ namespace AlexPi.Scr.Vws
       _timer.Start();
       cbIsSayMinOn.IsChecked = AppSettings.Instance.IsSayMinOn;
       cbIsChimesOn.IsChecked = AppSettings.Instance.IsChimesOn;
+      cbIsRepeatOn.IsChecked = AppSettings.Instance.IsRepeatOn;
       //IsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
     }
     async void updateClockOn1secTimerTick()
@@ -62,6 +63,10 @@ namespace AlexPi.Scr.Vws
             await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
             App.SpeakFaF($"{idle.Minutes} minutes, that is.");
           }
+          else if (AppSettings.Instance.IsRepeatOn)
+          {
+            App.SpeakFaF($"{idle.Minutes} minutes, that is.");
+          }
           else
           {
             await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
@@ -82,7 +87,7 @@ namespace AlexPi.Scr.Vws
     {
       AppSettings.Instance.IsSayMinOn = cbIsSayMinOn.IsChecked == true;
       if (AppSettings.Instance.IsSayMinOn == false)
-        cbIsChimesOn.IsChecked = false;
+        cbIsChimesOn.IsChecked = cbIsRepeatOn.IsChecked = false;
     }
 
     private void TopmostUnCloseableWindow_Unloaded(object sender, RoutedEventArgs e)
@@ -91,6 +96,7 @@ namespace AlexPi.Scr.Vws
     }
 
     void onChimesChanged(object sender, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
+    void onRepeatChanged(object sender, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsRepeatOn = cbIsRepeatOn.IsChecked == true;
     async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
 
   }

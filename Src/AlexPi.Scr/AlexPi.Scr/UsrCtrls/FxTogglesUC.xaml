@@ -8,20 +8,20 @@
     <TextBlock />-->
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F2 _Speech"   x:Name="chIsSpe__hOn" Click="onIsSpeechOnF6"  Foreground="#084" />
-      <CheckBox  Content="F3 Say_Min"   x:Name="chIsSay__nOn" Click="onIsSayMinOnF7"  Foreground="#084" />
+      <CheckBox  Content="F2 _Wlwdvl"   x:Name="chIsSpe__hOn" Click="onIsSpeechOnF6"  Foreground="#044" Width="80" />
+      <CheckBox  Content="F3 C_himes"   x:Name="chIsChimesOn" Click="onIsChimesOnF3"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F4 _Speech"   x:Name="chIsSpe_chOn" Click="onIsSpeechOnF6"  Foreground="#084" />
-      <CheckBox  Content="F5 Say_Sec"   x:Name="chIsSaySecOn" Click="onIsSaySecOnF5"  Foreground="#084" />
+      <CheckBox  Content="F4 _Repeat"   x:Name="chIsRepeatOn" Click="onIsRepeatOnF4"  Foreground="#084" Width="80" />
+      <CheckBox  Content="F5 Say_Sec"   x:Name="chIsSaySecOn" Click="onIsSaySecOnF5"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F6 _Speech"   x:Name="chIsSpeechOn" Click="onIsSpeechOnF6"  Foreground="#084" />
-      <CheckBox  Content="F7 Say_Min"   x:Name="chIsSayMinOn" Click="onIsSayMinOnF7"  Foreground="#084" />
+      <CheckBox  Content="F6 _Speech"   x:Name="chIsSpeechOn" Click="onIsSpeechOnF6"  Foreground="#084" Width="80" />
+      <CheckBox  Content="F7 Say_Min"   x:Name="chIsSayMinOn" Click="onIsSayMinOnF7"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
