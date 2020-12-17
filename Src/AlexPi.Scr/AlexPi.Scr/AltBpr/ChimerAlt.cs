@@ -81,7 +81,7 @@ namespace AlexPi.Scr.AltBpr
       static void add(int dur, List<int[]> scale, int note)
       {
         var hz = (int)Freq(note);
-        Debug.WriteLine($"{note,5} => {Freq(note),8:N0}  {dur,8:N0}  ");
+        //Debug.WriteLine($"chime - {note,5} => {Freq(note),8:N0}  {dur,8:N0}  ");
         scale.Add(new[] { hz, Bpr.FixDuration(hz, dur) });
       }
     }
@@ -90,7 +90,7 @@ namespace AlexPi.Scr.AltBpr
     {
       var hz = freq;
       var mks = Bpr.FixDuration(hz, dur);
-      Console.WriteLine($"{freq,5} Hz :  {dur,8:N0} => {mks,8:N0} mks. ");
+      //Console.WriteLine($"chime - {freq,5} Hz :  {dur,8:N0} => {mks,8:N0} mks. ");
       freqDurn.Add(new[] { hz, mks });
     }
     public static double Freq(int note) => Math.Pow(2, (note - 49) / 12.0) * 440;

@@ -125,9 +125,9 @@ namespace AlexPi.Scr.UsrCtrls
           if (imgIdx == _Images.Length - 1) for (var j = 0; j < _Images.Length - 1; j++) _Images[j].IsEnabled = false;
           else _Images[imgIdx].IsEnabled = true;
 
-          Debug.Write($" ~~ tick(): Img.Vis: ");
+          //Debug.Write($" ~~ tick(): Img.Vis: ");
 
-          for (var j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].Visibility == Visibility.Visible ? "+" : "-")}");
+          //~~for (var j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].Visibility == Visibility.Visible ? "+" : "-")}");
 #elif Visi
                     if (imgIdx == _Images.Length - 1) for (int j = 0; j < _Images.Length - 1; j++) _Images[j].Visibility = Visibility.Hidden;
                     else _Images[imgIdx].Visibility = Visibility.Visible;
@@ -139,7 +139,7 @@ namespace AlexPi.Scr.UsrCtrls
                     for (int j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].IsEnabled ? "+" : "-")}");
 #endif
 
-          Debug.WriteLine($" ~~ ");
+          //~~Debug.WriteLine($" ~~ ");
         }
       }
       catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); }

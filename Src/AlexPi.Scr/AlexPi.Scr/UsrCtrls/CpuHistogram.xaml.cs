@@ -72,7 +72,7 @@ namespace GaugeUserControlLibrary
 
       stkPnl.Children.Add(new Rectangle { Height = 50 * Math.Log10(percCpuLoad) });
 
-      Debug.WriteLine($"*** WxH: {ActualWidth}x{stkPnl.ActualHeight}   v={percCpuLoad,3:N0}");
+      //Debug.WriteLine($"*** WxH: {ActualWidth}x{stkPnl.ActualHeight}   v={percCpuLoad,3:N0}");
     }
   }
 }

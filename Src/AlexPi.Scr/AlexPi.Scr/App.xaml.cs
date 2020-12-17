@@ -108,7 +108,7 @@ namespace AlexPi.Scr
     }
 
     protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
-    protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated().  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
+    protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated() == lost focus!!! actually .  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
     protected override void OnExit(ExitEventArgs e)
     {
       LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          ");
