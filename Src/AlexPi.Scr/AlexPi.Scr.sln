@@ -25,7 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenTimeUsrCtrlLib", "Scr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechSynthLib", "C:\g\AAV.Shared\Src\Net6.0\SpeechSynthLib\SpeechSynthLib.csproj", "{28E860F7-8126-402D-AFAC-8AA7707483D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsLib", "WindowsFormsLib\WindowsFormsLib.csproj", "{E99D92DD-B201-4781-9565-FCC603B5739F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsLib", "WindowsFormsLib\WindowsFormsLib.csproj", "{E99D92DD-B201-4781-9565-FCC603B5739F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{275D998A-6DED-414E-9176-4EBBFBB8DF40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecretMgtDevAndProdConsApp", "..\poc\SecretMgtDevAndProdConsApp\SecretMgtDevAndProdConsApp.csproj", "{7DCD700A-855A-488F-9677-9040FC37CB2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,9 +85,16 @@ Global
 		{E99D92DD-B201-4781-9565-FCC603B5739F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E99D92DD-B201-4781-9565-FCC603B5739F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E99D92DD-B201-4781-9565-FCC603B5739F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DCD700A-855A-488F-9677-9040FC37CB2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCD700A-855A-488F-9677-9040FC37CB2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCD700A-855A-488F-9677-9040FC37CB2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCD700A-855A-488F-9677-9040FC37CB2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DCD700A-855A-488F-9677-9040FC37CB2A} = {275D998A-6DED-414E-9176-4EBBFBB8DF40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A19E7263-5923-46AE-992C-7EB5256D7A67}
