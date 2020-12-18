@@ -8,34 +8,34 @@
     <TextBlock />-->
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F2 _Wlwdvl"   x:Name="chIsSpe__hOn" Click="onIsSpeechOnF6"  Foreground="#044" Width="80" />
-      <CheckBox  Content="F3 C_himes"   x:Name="chIsChimesOn" Click="onIsChimesOnF3"  Foreground="#084" Width="80" />
+      <CheckBox  Content="_Wlwdvl"   x:Name="chIsSpe__hOn" Click="onIsSpeechOnF6"  Foreground="#044" Width="80" />
+      <CheckBox  Content="C_himes"   x:Name="chIsChimesOn" Click="onIsChimesOnF3"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F4 _Repeat"   x:Name="chIsRepeatOn" Click="onIsRepeatOnF4"  Foreground="#084" Width="80" />
-      <CheckBox  Content="F5 Say_Sec"   x:Name="chIsSaySecOn" Click="onIsSaySecOnF5"  Foreground="#084" Width="80" />
+      <CheckBox  Content="_Repeat"   x:Name="chIsRepeatOn" Click="onIsRepeatOnF4"  Foreground="#084" Width="80" />
+      <CheckBox  Content="Say_Sec"   x:Name="chIsSaySecOn" Click="onIsSaySecOnF5"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F6 _Speech"   x:Name="chIsSpeechOn" Click="onIsSpeechOnF6"  Foreground="#084" Width="80" />
-      <CheckBox  Content="F7 Say_Min"   x:Name="chIsSayMinOn" Click="onIsSayMinOnF7"  Foreground="#084" Width="80" />
+      <CheckBox  Content="_Speech"   x:Name="chIsSpeechOn" Click="onIsSpeechOnF6"  Foreground="#084" Width="80" />
+      <CheckBox  Content="Say_Min"   x:Name="chIsSayMinOn" Click="onIsSayMinOnF7"  Foreground="#084" Width="80" />
     </StackPanel>
     <TextBlock />
 
     <StackPanel Orientation="Horizontal">
-      <CheckBox  Content="F8 Sleep in"        x:Name="chAutoSleep"  Click="onAutoSleep_F8"  Foreground="#28e" />
-      <TextBlock Text="123" FontWeight="Bold" x:Name="tbMin2Sleep"                          Foreground="#28e" />
-      <Label  Content="min" Target="{Binding ElementName=srMin2Sleep}"                      Foreground="#28e" />
+      <CheckBox  Content="Sleep in"  x:Name="chAutoSleep"  Click="onAutoSleep_F8"  Foreground="#28e" />
+      <TextBlock Text="123" FontWeight="Bold" x:Name="tbMin2Sleep"                 Foreground="#28e" />
+      <Label  Content="min" Target="{Binding ElementName=srMin2Sleep}"             Foreground="#28e" />
     </StackPanel>
-    <Slider    TickPlacement="None"           x:Name="srMin2Sleep" Minimum="0" Maximum="3"  Background="#148" SmallChange=".1" LargeChange=".1" Interval="333" IsSnapToTickEnabled="True" TickFrequency="0.1" />
+    <Slider    TickPlacement="None"  x:Name="srMin2Sleep" Minimum="0" Maximum="3"  Background="#148" SmallChange=".1" LargeChange=".1" Interval="333" IsSnapToTickEnabled="True" TickFrequency="0.1" />
 
     <StackPanel Orientation="Horizontal" Visibility="Collapsed" >
-      <CheckBox  Content="F9 Lock in" x:Name="chAutoLocke" Click="onAutoLocke_F9"           Foreground="#d72" />
-      <TextBlock Text="123g" FontWeight="Bold"  x:Name="tbMin2Locke"                          Foreground="#d72" />
-      <Label Content="min" Target="{Binding ElementName=srMin2Locke}"                         Foreground="#d72" />
+      <CheckBox  Content="F9 Lock in" x:Name="chAutoLocke" Click="onAutoLocke_F9"  Foreground="#d72" />
+      <TextBlock Text="123g" FontWeight="Bold"  x:Name="tbMin2Locke"               Foreground="#d72" />
+      <Label Content="min" Target="{Binding ElementName=srMin2Locke}"              Foreground="#d72" />
     </StackPanel>
     <Slider    TickPlacement="None"      Visibility="Collapsed"         x:Name="srMin2Locke" Minimum="0" Maximum="3"  Background="#831" SmallChange=".1" LargeChange=".1" Interval="333" IsSnapToTickEnabled="True" TickFrequency="0.1" />
 

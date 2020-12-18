@@ -53,7 +53,7 @@ namespace AlexPi.Scr.Vws
           _isTalking = true;
           _timer.Stop();
 
-          g1.Background = _red;   // await Task.Delay(100);
+          g1.Background = _red;
           await ChimerAlt.Wake(150111); // wake up monitor's audio.
           await App.SpeakAsync($"{idle.Minutes}");
 

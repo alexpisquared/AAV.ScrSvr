@@ -32,9 +32,9 @@ namespace AlexPi.Scr.Vws
 
       switch (Environment.MachineName) // balck/white listing
       {
-        default:            /**/ await App.SpeakAsync($"home.           "); App.Current.Shutdown(33); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   after App.Current.Shutdown(33)"); return true;  // default: at home: no need to lock.
-        case "CA03-APIGID": /**/ await App.SpeakAsync($"Secure-most PC. "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   BackDoor_Minuted()      "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking
-        case "SapceEscape": /**/ await App.SpeakAsync($"useless.        "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   SpaceUpEscapOnly()      "); return await SpaceUpEscapOnly(key, window);   // space + escape + up .. kind of useless ~ not here nor there.
+        default:            /**/ App.SpeakFaF($"home.           "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   before App.Current.Shutdown(33)"); App.Current.Shutdown(33); return true;  // default: at home: no need to lock.
+        case "CA03-APIGID": /**/ App.SpeakFaF($"Secure-most.    "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   BackDoor_Minuted()      "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking
+        case "SapceEscape": /**/ await App.SpeakAsync($"useless."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   SpaceUpEscapOnly()      "); return await SpaceUpEscapOnly(key, window);   // space + escape + up .. kind of useless ~ not here nor there.
       }
     }
     public static async Task<bool> BackDoor_Minuted(Key key, Window window)
