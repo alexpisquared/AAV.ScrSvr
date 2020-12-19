@@ -22,11 +22,16 @@ namespace AlexPi.Scr.UsrCtrls
 
       //chKeepAwake.IsChecked = AppSettings.Instance.KeepAwake;
       //chIsHeaterOn.IsChecked = AppSettings.Instance.IsHeaterOn;
-      chAutoSleep.IsChecked = AppSettings.Instance.AutoSleep;
+
+      chIsChimesOn.IsChecked = AppSettings.Instance.IsChimesOn;
+      chIsRepeatOn.IsChecked = AppSettings.Instance.IsRepeatOn;
+      chIsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
       chIsSpeechOn.IsChecked = AppSettings.Instance.IsSpeechOn;
       chIsSayMinOn.IsChecked = AppSettings.Instance.IsSayMinOn;
-      chIsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
+
+      chAutoSleep.IsChecked = AppSettings.Instance.AutoSleep;
       chAutoLocke.IsChecked = AppSettings.Instance.AutoLocke;
+
       srMin2Sleep.Value = Math.Log10(AppSettings.Instance.Min2Sleep);
       srMin2Locke.Value = Math.Log10(AppSettings.Instance.Min2Locke);
       srMin2Sleep.ValueChanged += onMin2Sleep;
@@ -49,21 +54,16 @@ namespace AlexPi.Scr.UsrCtrls
     void onMin2Sleep(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Sleep = (int)Math.Pow(10, e.NewValue); tbMin2Sleep.Text = $"{AppSettings.Instance.Min2Sleep:N0}"; }
     void onMin2Locke(object s, RoutedPropertyChangedEventArgs<double> e) { AppSettings.Instance.Min2Locke = (int)Math.Pow(10, e.NewValue); tbMin2Locke.Text = $"{AppSettings.Instance.Min2Locke:N0}"; }
 
-    void Window_PreviewKeyDown(object s, KeyEventArgs e)
-    {
-      switch (e.Key)
-      {
-        //case Key.F2: onKeepAwake_F2(); break;
-        //case Key.F3: onIsHeaterOnF3(); break;
-        case Key.F6: onIsSpeechOnF6(); break;
-        case Key.F7: onIsSayMinOnF7(); break;
-        case Key.F8: onAutoSleep_F8(); break;
-        case Key.F9: onAutoLocke_F9(); break;
-        default: return;
-      }
-
-      e.Handled = true;
-    }
-
+    void Window_PreviewKeyDown(object s, KeyEventArgs e) => e.Handled = true;
+    //switch (e.Key)
+    //{
+    //  //case Key.F2: onKeepAwake_F2(); break;
+    //  //case Key.F3: onIsHeaterOnF3(); break;
+    //  case Key.F6: onIsSpeechOnF6(); break;
+    //  case Key.F7: onIsSayMinOnF7(); break;
+    //  case Key.F8: onAutoSleep_F8(); break;
+    //  case Key.F9: onAutoLocke_F9(); break;
+    //  default: return;
+    //}
   }
 }

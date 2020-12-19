@@ -90,14 +90,10 @@ namespace AlexPi.Scr.Vws
         cbIsChimesOn.IsChecked = cbIsRepeatOn.IsChecked = false;
     }
 
-    private void TopmostUnCloseableWindow_Unloaded(object sender, RoutedEventArgs e)
-    {
-
-    }
+    void TopmostUnCloseableWindow_Unloaded(object sender, RoutedEventArgs e) { }
 
     void onChimesChanged(object sender, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
     void onRepeatChanged(object sender, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsRepeatOn = cbIsRepeatOn.IsChecked == true;
     async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
-
   }
 }

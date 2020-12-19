@@ -124,7 +124,7 @@ namespace AlexPi.Scr.AltBpr
         default: break;
       }
     }
-    #region Chimes 1 - 10
+    #region chimes 1 - 10
 
     const int _a = 4435, _b = 4699, _c = 4978, _1 = 60000, _2 = 90000, _3 = 120000, _p = 160000; // https://en.wikipedia.org/wiki/Piano_key_frequencies
     static readonly int[]
