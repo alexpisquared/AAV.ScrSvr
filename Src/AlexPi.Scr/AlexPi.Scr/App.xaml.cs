@@ -122,7 +122,7 @@ namespace AlexPi.Scr
     }
 
     public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg, "Faf")); // FaF - Fire and Forget
-    public static async Task SpeakAsync(string msg)         /**/ => await _synth.SpeakAsync(msg, "This is awesome!");
+    public static async Task SpeakAsync(string msg)         /**/ => await _synth.SpeakAsync(msg, "Asy");
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -257,19 +257,15 @@ namespace AlexPi.Scr
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
-        App.SpeakFaF($"                    {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); 
         await ChimerAlt.FreqWalkUp();
         await Task.Delay(TimeSpan.FromMinutes(1));
-        App.SpeakFaF($"Enforcing sleep now.");
+        await SpeakAsync($"Enforcing sleep now.");
         await ChimerAlt.FreqWalkDn();
-
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
         App.LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
-        App.SleepStandby(); //Environment.MachineName.ToLower() == "nuc2");
-
-        //never showing up: MessageBox.Show("ScrSvr - Dn - Sleep enforced by AAV.scr!");
-        //App.Shutdown();
+        App.SleepStandby(); 
       }
     }
     public static async Task LockeLogic()

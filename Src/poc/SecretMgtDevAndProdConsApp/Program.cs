@@ -1,8 +1,9 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using System;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
+
 // note: ConsoleApp1  registered as web  with:	Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)
 
 const string
@@ -22,12 +23,10 @@ var config = new ConfigurationBuilder()
   .AddJsonFile("appsettings.json")
   .AddUserSecrets<WhatIsThatForType>().Build();
 
+Console.Write($"** WhereAmI: '{config["WhereAmI"]}'    =>   "); config["WhereAmI"] = "Changed to this ... but not saved to file"; Console.Write($"'{config["WhereAmI"]}'    \n\n\n");
+
 var some_Array = config.GetSection("VoiceNames").GetChildren().Select(x => x.Value).ToArray();
 var voiceNames = config.GetSection("VoiceNames").Get<string[]>(); // needs Microsoft.Extensions.Configuration.Binder
-
-Console.Write($"** URL: '{config["AppSettings:AzureKeyVault:URL"]}'    =>   ");
-config["AppSettings:AzureKeyVault:URL"] = "Changed to this ... but not saved to file";
-Console.Write($"'{config["AppSettings:AzureKeyVault:URL"]}'    \n\n\n");
 
 Console.ForegroundColor = ConsoleColor.DarkGray;
 Console.WriteLine($"** POC:  !!!WTH!!! Any app can have access to any secret:");
@@ -60,8 +59,4 @@ static void showConsoleColors()
   Console.Write("\n");
 }
 
-
-public class WhatIsThatForType
-{
-  public string MyProperty { get; set; } = "<Default Value of Nothing SPecial>";
-}
+public class WhatIsThatForType { public string MyProperty { get; set; } = "<Default Value of Nothing SPecial>"; }
