@@ -25,8 +25,12 @@ var config = new ConfigurationBuilder()
 
 Console.Write($"** WhereAmI: '{config["WhereAmI"]}'    =>   "); config["WhereAmI"] = "Changed to this ... but not saved to file"; Console.Write($"'{config["WhereAmI"]}'    \n\n\n");
 
-var some_Array = config.GetSection("VoiceNames").GetChildren().Select(x => x.Value).ToArray();
-var voiceNames = config.GetSection("VoiceNames").Get<string[]>(); // needs Microsoft.Extensions.Configuration.Binder
+
+//note: GetSection keeps ignoring secrets.json and always return appsettings.json version
+var va = config.GetSection("VoiceNames").GetChildren().Select(x => x.Value).ToArray();
+var vb = config.GetSection("VoiceNames").Get<string[]>(); // needs Microsoft.Extensions.Configuration.Binder
+var vc = config["VoiceNames"];
+Console.Write($"■ ■ {vb.Length,2} / {va.Length} voices.      {vc}\n\n");
 
 Console.ForegroundColor = ConsoleColor.DarkGray;
 Console.WriteLine($"** POC:  !!!WTH!!! Any app can have access to any secret:");
