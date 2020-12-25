@@ -1,6 +1,6 @@
 ﻿using AAV.Sys.Helpers;
+using AAV.WPF.AltBpr;
 using AAV.WPF.Ext;
-using AlexPi.Scr.AltBpr;
 using AlexPi.Scr.Logic;
 using AlexPi.Scr.Vws;
 using AsLink;

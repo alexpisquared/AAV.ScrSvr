@@ -1,5 +1,5 @@
 ﻿using AAV.Sys.Ext;
-using AlexPi.Scr.AltBpr;
+using AAV.WPF.AltBpr;
 using AsLink;
 using System;
 using System.Threading.Tasks;
