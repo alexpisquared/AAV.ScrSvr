@@ -46,7 +46,7 @@ namespace AlexPi.Scr.Vws
         tbOutOffR.Text = "";
 
       const int gracePeriodSec = 2; // give extra second in case of the tick delayed 1 ms over 1000 ms + wait for the grace period to pass lest speak again.
-      if (AppSettings.Instance.IsSayMinOn && cbIsSayMinOn.IsChecked == true && !_isTalking && idle.TotalSeconds % 60 <= gracePeriodSec)
+      if (/*AppSettings.Instance.IsSayMinOn && cbIsSayMinOn.IsChecked == true && */!_isTalking && idle.TotalSeconds % 60 <= gracePeriodSec)
       {
         try
         {
