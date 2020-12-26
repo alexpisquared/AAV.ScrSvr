@@ -46,7 +46,7 @@ namespace AlexPi.Scr.Vws
         tbOutOffR.Text = "";
 
       const int gracePeriodSec = 2; // give extra second in case of the tick delayed 1 ms over 1000 ms + wait for the grace period to pass lest speak again.
-      if (/*AppSettings.Instance.IsSayMinOn && cbIsSayMinOn.IsChecked == true && */!_isTalking && idle.TotalSeconds % 60 <= gracePeriodSec)
+      if (!_isTalking && idle.TotalSeconds % 60 <= gracePeriodSec)
       {
         try
         {
@@ -54,23 +54,15 @@ namespace AlexPi.Scr.Vws
           _timer.Stop();
 
           g1.Background = _red;
-          await ChimerAlt.Wake(150111); // wake up monitor's audio.
-          await App.SpeakAsync($"{idle.Minutes}");
+          await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+
+          if (AppSettings.Instance.IsSayMinOn) await App.SpeakAsync($"{idle.Minutes}");
+          if (AppSettings.Instance.IsChimesOn) await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
+          if (AppSettings.Instance.IsRepeatOn) App.SpeakFaF($"{idle.Minutes} minutes, that is.");
 
           g1.Background = _rng;
-          if (AppSettings.Instance.IsChimesOn)
-          {
-            await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
-            App.SpeakFaF($"{idle.Minutes} minutes, that is.");
-          }
-          else if (AppSettings.Instance.IsRepeatOn)
-          {
-            App.SpeakFaF($"{idle.Minutes} minutes, that is.");
-          }
-          else
-          {
-            await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
-          }
+
+          await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
 
           g1.Background = _trn;
         }
