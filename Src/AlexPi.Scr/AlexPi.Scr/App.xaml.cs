@@ -197,7 +197,7 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
-      Task.Run(async () => await ChimerAlt.FreqRunAbcHiPh());
+      Task.Run(async () => await ChimerAlt.PlayFreqList());
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
