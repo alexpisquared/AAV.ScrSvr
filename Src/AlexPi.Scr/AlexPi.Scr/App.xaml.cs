@@ -41,9 +41,12 @@ namespace AlexPi.Scr
       try
       {
         base.OnStartup(sea);
+#if DEBUG
+        //await ChimerAlt.FreqWalkUp();
         //Bpr.BeepBgn3();
         //await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
         //await App.SpeakAsync($"123");
+#endif
 
 #if DEBUG_
         await ChimerAlt.Chime(1);
@@ -238,7 +241,7 @@ namespace AlexPi.Scr
 
     public static void SleepStandby(bool isDeepHyberSleep = false)
     {
-      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
+      Trace.WriteLineIf(CurTraceLevel.TraceVerbose, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
       SetSuspendState(isDeepHyberSleep, true, true);
     }
 
@@ -257,7 +260,7 @@ namespace AlexPi.Scr
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
-        await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute."); 
+        await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
         await ChimerAlt.FreqWalkUp();
         await Task.Delay(TimeSpan.FromMinutes(1));
         await SpeakAsync($"Enforcing sleep now.");
@@ -265,7 +268,7 @@ namespace AlexPi.Scr
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
         App.LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
-        App.SleepStandby(); 
+        App.SleepStandby();
       }
     }
     public static async Task LockeLogic()
