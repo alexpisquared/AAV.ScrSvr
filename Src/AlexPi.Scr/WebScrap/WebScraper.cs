@@ -1,5 +1,5 @@
-﻿//todo: move to shared somewhere (202-12)
-using AAV.Sys.Ext; 
+﻿//todo: move to shared somewhere (2020-12)
+using AAV.Sys.Ext;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -36,20 +36,19 @@ namespace WebScrap
 
       return wr;
     }
-    protected static ICredentials getICredentials(Uri uri) =>
-      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("connect.garmin.com/proxy/download-service") ? new NetworkCredential("pigida", sABC + sABC + "6NG") : // is it still available (Nov 2020)
-      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("aavproltd") ? new NetworkCredential("apigida", sABC + " " + s123.ToString(), "AAVproLtd") :
-      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.0.10.") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
-      WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.1.0.1") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
-      CredentialCache.DefaultNetworkCredentials; //TU: 2/2 //note: is not required for getiing pics and files - html only (3-jun-2010).
+    protected static ICredentials getICredentials(Uri uri)
+    { //WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("connect.garmin.com/proxy/download-service") ? new NetworkCredential("pigida", sABC + sABC + "6NG") : // is it still available (Nov 2020)
+      //WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("aavproltd") ? new NetworkCredential("apigida", sABC + " " + s123.ToString(), "AAVproLtd") :
+      //WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.0.10.") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
+      //WebRequest.DefaultWebProxy.GetProxy(uri).Host.ToLower().Contains("10.1.0.1") ? new NetworkCredential("alexp", sABC.Substring(1) + sABC.Substring(1), "gemc") :
+      return CredentialCache.DefaultNetworkCredentials; //TU: 2/2 //note: is not required for getiing pics and files - html only (3-jun-2010).
+      //const int s123 = 345; const string sABC = "are you crazy!"; // from old <-- 4+4 <--
+    }
     protected static void safeFile_WriteAllText(string file, string text)
     {
       try { File.WriteAllText(file, text); }
       catch (Exception ex) { ex.Log(file); }
     }
-
-    const string sABC = "are you crazy!"; // from old <-- 4+4 <--
-    const int s123 = 345; 
   }
 
   public partial class WebScraper : WebScraperBase
