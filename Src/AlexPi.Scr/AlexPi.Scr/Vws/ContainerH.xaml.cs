@@ -55,16 +55,15 @@ namespace AlexPi.Scr.Vws
 
           g1.Background = _red;
           await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+          g1.Background = _rng;
 
           if (AppSettings.Instance.IsSayMinOn) await App.SpeakAsync($"{idle.Minutes}");
           if (AppSettings.Instance.IsChimesOn) await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
           if (AppSettings.Instance.IsRepeatOn) App.SpeakFaF($"{idle.Minutes} minutes, that is.");
 
-          g1.Background = _rng;
+          g1.Background = _trn;
 
           await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
-
-          g1.Background = _trn;
         }
         catch (Exception ex) { ex.Log(); }
         finally
