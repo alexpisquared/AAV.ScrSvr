@@ -8,7 +8,7 @@ namespace AlexPi.Scr.UsrCtrls
 {
   public partial class DeleteFileUsrCtrl : UserControl
   {
-    //blic delegate void EventHandler(object sender, EventArgs e);    //A: provided by framework!!!
+    //blic delegate void EventHandler(object s, EventArgs e);    //A: provided by framework!!!
     public event EventHandler ClosedA;                                //A:
     public delegate void ClosedB_handler(string msg, int i, bool b);  //B: provided by ...us.
     public event ClosedB_handler ClosedB;                             //B:

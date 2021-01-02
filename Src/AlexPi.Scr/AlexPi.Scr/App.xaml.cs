@@ -260,6 +260,7 @@ namespace AlexPi.Scr
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
+        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
         await ChimerAlt.FreqWalkUp();
         await Task.Delay(TimeSpan.FromMinutes(1));
@@ -281,7 +282,8 @@ namespace AlexPi.Scr
       {
         App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        await SpeakAsync($"                    {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await Task.Delay(TimeSpan.FromSeconds(60));
         App.SpeakFaF($"Enforcing lock down now.");
 

@@ -13,7 +13,7 @@ namespace AlexPi.Scr.UsrCtrls
         //double _aw/*, _ah*/;
         readonly DateTime _start = App.StartedAt;
         readonly DateTime _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
-        async void onLoaded(object sender, RoutedEventArgs e)
+        async void onLoaded(object s, RoutedEventArgs e)
         {
             try
             {

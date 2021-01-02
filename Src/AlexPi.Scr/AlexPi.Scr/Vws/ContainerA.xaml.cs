@@ -6,7 +6,7 @@ namespace AlexPi.Scr.Vws
   {
     public ContainerA(Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler) => InitializeComponent();
 
-    async void TopmostUnCloseableWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    async void TopmostUnCloseableWindow_Loaded(object s, System.Windows.RoutedEventArgs e)
     {
       await Task.Delay(5 * 60 * 1000);
 #if SelfCloseIn5min

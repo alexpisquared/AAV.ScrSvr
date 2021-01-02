@@ -90,7 +90,7 @@ namespace AlexPi.Scr.UsrCtrls
       }
       catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); tbExn.Text = ex.InnermostMessage(); }
     }
-    void onGoTo(object sender, System.Windows.Navigation.RequestNavigateEventArgs e) => Process.Start(e.Uri.AbsoluteUri);
+    void onGoTo(object s, System.Windows.Navigation.RequestNavigateEventArgs e) => Process.Start(e.Uri.AbsoluteUri);
     void onMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) => onLoaded(s, null);
 
     public Func<double, string> XFormatter_ProperWay { get; set; }
@@ -102,7 +102,7 @@ namespace AlexPi.Scr.UsrCtrls
     int _crntIndex = -1; // start from 0.
     public int NextIndex => (++_crntIndex) % _sites.Length;
 
-    void UserControl_Unloaded(object sender, RoutedEventArgs e) => Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Unloaded ..  {GetType().FullName}     ");  // Environment.Exit(21); Environment.FailFast("Environment.FailFast");
+    void UserControl_Unloaded(object s, RoutedEventArgs e) => Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Unloaded ..  {GetType().FullName}     ");  // Environment.Exit(21); Environment.FailFast("Environment.FailFast");
 
     public int CrntIndex => (_crntIndex) % _sites.Length;
   }

@@ -24,7 +24,7 @@ namespace UsrCtrlPOCs
 			Trace.WriteLine(MethodInfo.GetCurrentMethod().Name + " 2", DateTime.Now.ToLongTimeString());
 		}
 
-		void WeatherInfoUsrCtrl_Loaded(object sender, RoutedEventArgs e)
+		void WeatherInfoUsrCtrl_Loaded(object s, RoutedEventArgs e)
 		{
 			Trace.WriteLine(MethodInfo.GetCurrentMethod().Name + " 1", DateTime.Now.ToLongTimeString());
 			launchScraper();

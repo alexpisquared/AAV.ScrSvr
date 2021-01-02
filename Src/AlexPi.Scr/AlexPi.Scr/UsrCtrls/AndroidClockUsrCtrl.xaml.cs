@@ -87,7 +87,7 @@ namespace UsrCtrlPOCs
     public static readonly DependencyProperty BlurRaduisProperty = DependencyProperty.Register("BlurRaduis", typeof(double), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(0d));       /**/ public double BlurRaduis { get => (double)GetValue(BlurRaduisProperty); set => SetValue(BlurRaduisProperty, value); }
     public static readonly DependencyProperty IsHeaterOnProperty = DependencyProperty.Register("IsHeaterOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(false, chd)); /**/ public bool IsHeaterOn { get => (bool)GetValue(IsHeaterOnProperty); set => SetValue(IsHeaterOnProperty, value); }
 
-    void uc1_Unloaded(object sender, RoutedEventArgs e)
+    void uc1_Unloaded(object s, RoutedEventArgs e)
     {
       sbMoveSecondHandAnlg?.Stop();
       sbMoveSecondHandImdt?.Stop();

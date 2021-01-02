@@ -15,7 +15,7 @@ namespace AlexPi.Scr.UsrCtrls
         static TimeSpan bt = TimeSpan.FromSeconds(0);
 
         readonly DateTime _start = App.StartedAt, _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
-        async void onLoaded(object sender, RoutedEventArgs e)
+        async void onLoaded(object s, RoutedEventArgs e)
         {
             try
             {

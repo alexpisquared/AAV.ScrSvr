@@ -498,7 +498,7 @@ namespace WebScrapEnvironmentCanada.Almanac {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
+        private void SchemaChanged(object s, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
             }
@@ -552,25 +552,25 @@ namespace WebScrapEnvironmentCanada.Almanac {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void climatedataRowChangeEventHandler(object sender, climatedataRowChangeEvent e);
+        public delegate void climatedataRowChangeEventHandler(object s, climatedataRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void stationinformationRowChangeEventHandler(object sender, stationinformationRowChangeEvent e);
+        public delegate void stationinformationRowChangeEventHandler(object s, stationinformationRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void monthRowChangeEventHandler(object sender, monthRowChangeEvent e);
+        public delegate void monthRowChangeEventHandler(object s, monthRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void dayRowChangeEventHandler(object sender, dayRowChangeEvent e);
+        public delegate void dayRowChangeEventHandler(object s, dayRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void temperatureRowChangeEventHandler(object sender, temperatureRowChangeEvent e);
+        public delegate void temperatureRowChangeEventHandler(object s, temperatureRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void precipitationRowChangeEventHandler(object sender, precipitationRowChangeEvent e);
+        public delegate void precipitationRowChangeEventHandler(object s, precipitationRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void popRowChangeEventHandler(object sender, popRowChangeEvent e);
+        public delegate void popRowChangeEventHandler(object s, popRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.

@@ -51,6 +51,6 @@ namespace AlexPi.Scr.Vws
     }
 
     //void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
-    void UnCloseableWindow_Closed(object sender, EventArgs eee) { } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
+    void UnCloseableWindow_Closed(object s, EventArgs eee) { } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
   }
 }
