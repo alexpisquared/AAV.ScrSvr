@@ -318,7 +318,7 @@ namespace WebScrap
                                                                //agilityExplorer(htm, "//table/tbody/tr", doExploreActn);
                                                                //agilityExplorer(htm, "//table", doExploreActn);
       }
-      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod().Name); }
+      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod()?.Name); }
 
       return awd;
     }
@@ -341,7 +341,7 @@ namespace WebScrap
           ++sn;
         }
       }
-      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod().Name); }
+      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod()?.Name); }
     }
 
     static void agilityExplorerAry(AccuWeatherHData[] awd, string htm, string path, Action<AccuWeatherHData[], HtmlNode, int> actn, int max = 0) //tu: Action/Func
@@ -363,7 +363,7 @@ namespace WebScrap
           ++sn;
         }
       }
-      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod().Name); }
+      catch (Exception ex) { Debug.WriteLine(ex.Message, ">>> " + System.Reflection.MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + System.Reflection.MethodInfo.GetCurrentMethod()?.Name); }
     }
 
     static void doIconActn(AccuWeatherHData awd, HtmlNode tr, int max)

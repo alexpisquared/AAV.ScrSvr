@@ -40,7 +40,7 @@ namespace AlexPi.Scr.UsrCtrls
       try
       {
         tbTimePlce.Text /*= tbConditns.Text */= $"Loading {_sites[NextIndex]} ...";
-        
+
         hLnk1.NavigateUri = new Uri($"http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/ON/{_sites[CrntIndex]}.xml"); // <= old
         hLnk1.NavigateUri = new Uri($"https://dd.weather.gc.ca/citypage_weather/xml/ON/{_sites[CrntIndex]}.xml");         // <= new Nov 2020-11-27
 
@@ -160,13 +160,16 @@ namespace AlexPi.Scr.UsrCtrls
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(now,50), new DtDc(now,-50) }, Stroke = Brushes.Yellow, StrokeThickness=1, Fill = Brushes.Transparent, PointGeometry=null, Title = "Now"  },
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(yst, sd.yesterdayConditions.temperature.Min(r=>r.Value.GetDecimal())), new DtDc(yst, sd.yesterdayConditions.temperature.Max(r=>r.Value.GetDecimal())) } , Stroke = RedBlueOnlyGrad, StrokeThickness=5, PointGeometry= DefaultGeometries.None, Fill = Brushes.Transparent, Title = "Yesterday"  },
 
-          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.temperature.Value.GetDecimal()) }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = RedBlueOnlyGrad, Stroke=RedBlueOnlyGrad, Fill = Brushes.Transparent, Title = "CurrentReal" },
-          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.windChill?.Value.GetDecimal()??99) }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = Brushes.Blue,     Stroke=Brushes.Blue,     Fill = Brushes.Transparent, Title = "CurrentFeel" },
+          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.temperature.Value.GetDecimal())    }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = RedBlueOnlyGrad, Stroke=RedBlueOnlyGrad, Fill = Brushes.Transparent, Title = "T°C Real" },
+          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.windChill?.Value.GetDecimal()??99) }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = Brushes.Blue,    Stroke=Brushes.Blue,    Fill = Brushes.Transparent, Title = "T°C Feel" },
 
           new StepLineSeries{Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry = null, StrokeThickness = 3, Stroke = Brushes.SeaGreen, AlternativeStroke = Brushes.DarkSlateBlue, Title = "LoP" },                    //new LineSeries  {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry= null, StrokeThickness = 3, Stroke = Brushes.Silver, Title = "Likelyhood of Precipitation", LineSmoothness=0},
           new LineSeries    {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.temperature.Value.GetDecimal() ))), Stroke = RedBlueOnlyGrad, StrokeThickness=3, Fill = Brushes.Transparent, PointGeometry = DefaultGeometries.None, LineSmoothness = .3, Title = "Real"  },
           new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Where(l2=>l2.humidex . Value.GetDecimal() >0).Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.humidex   .Value.GetDecimal() ))), Fill = Brushes.Red,  Title = "Feel"  },
           new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Where(l2=>l2.windChill?.Value.GetDecimal()<0).Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.windChill?.Value.GetDecimal()??99))), Fill = Brushes.Blue, Title = "Feel"  },
+
+          new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.wind.speed.Value.GetDecimal() * .5m) ))), PointGeometry = DefaultGeometries.Triangle, StrokeThickness = 3, Stroke = Brushes.Gray,  Title = "Wind knots" },
+
         };
 
         var i = 0;
@@ -180,7 +183,7 @@ namespace AlexPi.Scr.UsrCtrls
               Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/small/{(fc.iconCode?.Value ?? "48"):0#}.png")), //big: Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/{(fc.iconCode?.Value ?? "48"):0#}.gif")),
               Width = 28,
               Height = 28,
-              ToolTip = new ToolTip { Content = $"{((System.Xml.XmlCharacterData)((System.Xml.XmlNode[])fc.condition)[0]).InnerText}\r\n{fc.wind.direction.Value} {fc.wind.speed.Value} km/h" }
+              ToolTip = new ToolTip { Content = $"{((System.Xml.XmlCharacterData)((System.Xml.XmlNode[])fc.condition)[0]).InnerText}\r\n{fc.wind.direction.Value} {fc.wind.speed.Value}/{fc.wind.gust.Value} km/h" }
             }
           });
       }

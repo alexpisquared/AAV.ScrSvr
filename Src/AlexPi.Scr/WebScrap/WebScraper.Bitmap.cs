@@ -23,7 +23,7 @@ namespace WebScrap
       }
       catch (Exception ex)
       {
-        Debug.WriteLine(ex, MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name);
+        Debug.WriteLine(ex, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
       }
 
       return null;
@@ -57,7 +57,7 @@ namespace WebScrap
         }
         catch (Exception ex)
         {
-          Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name);
+          Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
           File.Delete(fn); // delete corrupt images
         }
         return new Bitmap(5, 5);
@@ -79,12 +79,12 @@ namespace WebScrap
       {
         if (!url.Contains("radar"))//ingore radar imgs: may be snow on a hot day....
         {
-          Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name);
+          Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
         }       //ignore: images
       }
       catch (Exception ex)
       {
-        Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name);
+        Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
       }
 
       return null;//success;
