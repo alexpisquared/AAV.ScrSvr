@@ -26,6 +26,7 @@ namespace AlexPi.Scr
       AppTraceLevel_inCode = new TraceSwitch("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
       AppTraceLevel_Warnng = new TraceSwitch("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
+    static readonly ushort _volume = (ushort)(8 < DateTime.Now.Hour && DateTime.Now.Hour < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
     static readonly SpeechSynth _synth = new SpeechSynth();
     static readonly object _thisLock = new object();
     static bool _mustLogEORun = false;
@@ -200,7 +201,7 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
-      Task.Run(async () => await ChimerAlt.PlayFreqList());
+      Task.Run(async () => { await ChimerAlt.PlayWhistle(_volume); });
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
@@ -262,10 +263,10 @@ namespace AlexPi.Scr
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
         await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
-        await ChimerAlt.FreqWalkUp();
+        await ChimerAlt.FreqWalkUp(_volume);
         await Task.Delay(TimeSpan.FromMinutes(1));
         await SpeakAsync($"Enforcing sleep now.");
-        await ChimerAlt.FreqWalkDn();
+        await ChimerAlt.FreqWalkDn(_volume);
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
         App.LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
