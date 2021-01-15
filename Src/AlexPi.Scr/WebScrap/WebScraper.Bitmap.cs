@@ -30,7 +30,7 @@ namespace WebScrap
     }
     public static Bitmap LoadImageFromFile(string url, bool useOneDrive)
     {
-      string fn = GetCachedFileNameFromUrl_NEW(url, useOneDrive);
+      string fn = GetCachedFileNameFromUrl(url, useOneDrive);
 
       if (File.Exists(fn))// && File.GetLastWriteTime(fn).Add(rotTime) > DateTime.Now)
       {
@@ -46,7 +46,7 @@ namespace WebScrap
     public static Bitmap DownloadImageCached(string url, bool useOneDrive) => DownloadImageCachedWithExpiry(url, TimeSpan.FromDays(1000), useOneDrive); // image in cache is good forever.
     public static Bitmap DownloadImageCachedWithExpiry(string url, TimeSpan rotTime, bool useOneDrive)
     {
-      string fn = WebScraper.GetCachedFileNameFromUrl_NEW(url, useOneDrive);
+      string fn = WebScraper.GetCachedFileNameFromUrl(url, useOneDrive);
 
       if (File.Exists(fn) && File.GetLastWriteTime(fn).Add(rotTime) > DateTime.Now)
       {

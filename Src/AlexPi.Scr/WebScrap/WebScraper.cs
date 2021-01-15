@@ -369,24 +369,9 @@ namespace WebScrap
       }
     }
 
-
-    public static string GetCachedFileNameFromUrl_NEW(string url, bool useOneDrive)
+    public static string GetCachedFileNameFromUrl(string url, bool useOneDrive = false)
     {
-      var fn = url.Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
-      var folder = Path.Combine(
-              //useOneDrive ? OneDrive.Folder_Alex(@"web.cache\") : 
-              @"C:\temp\web.cache", fn.Split('-')[0]); //TODO: separate perm vs deletable...
-      fn = fn.Substring(fn.IndexOf("-") + 1);
-
-      if (!Directory.Exists(folder))
-        Directory.CreateDirectory(folder);
-
-      return Path.Combine(folder, fn);
-    }
-
-    public static string GetCachedFileNameFromUrl(string url)
-    {
-      var fn = url.Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
+      var fn = url.Replace("https://", "").Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
       var folder = Path.Combine(//useOneDrive ? OneDrive.Folder_Alex(@"web.cache\") : 
               @"C:\temp\web.cache", fn.Split('-')[0]); //TODO: separate perm vs deletable...
       fn = fn.Substring(fn.IndexOf("-") + 1);
