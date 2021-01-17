@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="AlexPi.Scr.UsrCtrls.RadarMultiImgUsrCtrl"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AlexPi.Scr.UsrCtrls"
+             xmlns:View="clr-namespace:Radar.View" x:Class="AlexPi.Scr.UsrCtrls.RadarMultiImgUsrCtrl"
              mc:Ignorable="d" 
              d:DesignHeight="960" d:DesignWidth="1160">
   <UserControl.Resources>
@@ -30,9 +31,9 @@
       </ObjectAnimationUsingKeyFrames>-->
     </Storyboard>
 
-    <Style TargetType="Image" x:Key="EnabledContolledFadingStyle">
+    <Style TargetType="{x:Type Image}" x:Key="EnabledContolledFadingStyle">
       <Style.Triggers>
-        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsEnabled, UpdateSourceTrigger=PropertyChanged}" Value="True" >
+        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, UpdateSourceTrigger=PropertyChanged}" Value="True" >
           <DataTrigger.EnterActions>
             <BeginStoryboard Storyboard="{StaticResource sbScaleTo1}" />
           </DataTrigger.EnterActions>
@@ -40,7 +41,7 @@
             <BeginStoryboard Storyboard="{StaticResource sbScaleTo9}" />
           </DataTrigger.ExitActions>
         </DataTrigger>
-        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsEnabled, UpdateSourceTrigger=PropertyChanged}" Value="False" >
+        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}, UpdateSourceTrigger=PropertyChanged}" Value="False" >
           <DataTrigger.EnterActions>
             <BeginStoryboard Storyboard="{StaticResource sbScaleTo9}" />
           </DataTrigger.EnterActions>
@@ -70,6 +71,11 @@
       <TextBlock x:Name="lblBC"  VerticalAlignment="Bottom"  HorizontalAlignment="Center"  Foreground="#888" Text="***" />
       <TextBlock x:Name="lblBL"  VerticalAlignment="Bottom"  HorizontalAlignment="Left"    Foreground="#888" Text="***" />
       <TextBlock x:Name="lblBR"  VerticalAlignment="Bottom"  HorizontalAlignment="Right"   Foreground="#888" Text="***" />
+    
+      <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg"    VerticalAlignment="Top"    HorizontalAlignment="Left"  />
+      <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_visible_100.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Left"  />
+      <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_vvi_100.jpg"     VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+
     </Grid>
   </Viewbox>
 </UserControl>
