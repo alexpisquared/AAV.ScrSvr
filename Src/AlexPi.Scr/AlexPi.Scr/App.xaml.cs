@@ -198,7 +198,7 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
-      Task.Run(async () => { await SpeakAsync($"Hey, {Environment.UserName}! "); await ChimerAlt.PlayWhistle(_volume); });
+      Task.Run(async () => { await ChimerAlt.PlayWhistle(_volume); await SpeakAsync($"Hm, Hey {Environment.UserName}! "); });
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
@@ -272,14 +272,14 @@ namespace AlexPi.Scr
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
 
         await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($"Hey, {Environment.UserName}! {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
+        await SpeakAsync($"Hey {Environment.UserName}! {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
         await ChimerAlt.FreqWalkUp(_volume);
 
         await Task.Delay(TimeSpan.FromMinutes(1));
 
-        await SpeakAsync($"Hey, {Environment.UserName}! Enforcing sleep now.");
+        await SpeakAsync($"Hey {Environment.UserName}! Enforcing sleep now.");
         await ChimerAlt.FreqWalkDn(_volume);
-        await SpeakAsync($"Hey, {Environment.UserName}! Too late.");
+        await SpeakAsync($"Hey {Environment.UserName}! Ha ha. Too late.");
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
         LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
