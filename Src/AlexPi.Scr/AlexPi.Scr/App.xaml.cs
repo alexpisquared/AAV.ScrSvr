@@ -110,7 +110,6 @@ namespace AlexPi.Scr
 
       Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
-
     protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
     protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated() == lost focus!!! actually .  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
     protected override void OnExit(ExitEventArgs e)
@@ -141,8 +140,7 @@ namespace AlexPi.Scr
       }
     }
     public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
-
-    public static void LogScrSvrUptime(string msg)
+    static void LogScrSvrUptime(string msg)
     {
       Trace.WriteIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
 
@@ -164,7 +162,6 @@ namespace AlexPi.Scr
 
       AAV.Sys.Helpers.Bpr.BeepEnd3();
     }
-
     static void showMiniScrSvr(string args1)
     {
       var whndl = long.TryParse(args1, out var tempLong) ? new IntPtr(tempLong) : IntPtr.Zero;
@@ -225,7 +222,6 @@ namespace AlexPi.Scr
 
       Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(armAndLegEvent());
     }
-
     static Action<Task> armAndLegEvent() => _ =>
     {
       _mustLogEORun = true;
@@ -236,44 +232,15 @@ namespace AlexPi.Scr
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 #endif
 
-      Task.Run(async () => await App.SleepLogic());
-      Task.Run(async () => await App.LockeLogic());
+      Task.Run(async () => await App.sleepLogic());
+      Task.Run(async () => await App.lockeLogic());
     };
-
-    public static void SleepStandby(bool isDeepHyberSleep = false)
+    static void sleepStandby(bool isDeepHyberSleep = false)
     {
       Trace.WriteLineIf(CurTraceLevel.TraceVerbose, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
       SetSuspendState(isDeepHyberSleep, true, true);
     }
-
-    [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
-    [DllImport("user32")] public static extern void LockWorkStation();
-
-    public static async Task SleepLogic()
-    {
-      if (VerHelper.IsVIP && !AppSettings.Instance.AutoSleep)
-      {
-        await SpeakAsync("Armed! Sleepless mode.");
-      }
-      else
-      {
-#if DEBUG
-        SpeakFaF($"Armed and extremely dangerous!");
-#endif
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
-        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($" {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
-        await ChimerAlt.FreqWalkUp(_volume);
-        await Task.Delay(TimeSpan.FromMinutes(1));
-        await SpeakAsync($"Enforcing sleep now.");
-        await ChimerAlt.FreqWalkDn(_volume);
-        await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
-
-        App.LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
-        App.SleepStandby();
-      }
-    }
-    public static async Task LockeLogic()
+    static async Task lockeLogic()
     {
       if (VerHelper.IsVIP && !AppSettings.Instance.AutoLocke)
       {
@@ -291,6 +258,35 @@ namespace AlexPi.Scr
         LockWorkStation();
       }
     }
+    static async Task sleepLogic()
+    {
+      if (VerHelper.IsVIP && !AppSettings.Instance.AutoSleep)
+      {
+        await SpeakAsync("Armed! Sleepless mode.");
+      }
+      else
+      {
+#if DEBUG
+        SpeakFaF($"Armed and extremely dangerous!");
+#endif
+        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
+        
+        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        await SpeakAsync($"Hey, {Environment.UserName}! {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
+        await ChimerAlt.FreqWalkUp(_volume);
+        
+        await Task.Delay(TimeSpan.FromMinutes(1));
+        
+        await SpeakAsync($"Hey, {Environment.UserName}! Enforcing sleep now.");
+        await ChimerAlt.FreqWalkDn(_volume);
+        await SpeakAsync($"Hey, {Environment.UserName}! Too late.");
+        await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
+
+        LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
+        sleepStandby();
+      }
+    }
+
     Window _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
     Window _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
     Window _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
@@ -306,6 +302,8 @@ namespace AlexPi.Scr
 
     [Flags]
     enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
+    [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
+    [DllImport("user32")] public static extern void LockWorkStation();
   }
 }
 
