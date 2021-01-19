@@ -60,6 +60,9 @@ namespace AlexPi.Scr.UsrCtrls
 
         tbTempReal.Text = $"{sitedata?.currentConditions?.temperature?.Value.GetDecimal():+#.#;-#.#;0}°";
         tbTempFeel.Text = $"{(sitedata?.currentConditions?.humidex?.Value ?? sitedata?.currentConditions?.windChill?.Value ?? sitedata?.currentConditions?.temperature?.Value).GetDecimal():+#;-#;0}°"; // tbConditns.Text = $"{sitedata?.currentConditions?.condition}";
+        tbWindSpeed.Text = $"{sitedata?.currentConditions?.wind?.speed?.Value}";
+        tbWindDrktn.Text = $"{sitedata?.currentConditions?.wind?.direction}";
+
         img1.Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/{(sitedata?.currentConditions?.iconCode?.Value ?? "5"):0#}.gif"));
 
         var nhr = DateTime.Now.Hour;

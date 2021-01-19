@@ -135,7 +135,11 @@
       <TextBlock FontSize="16" Text="-15°"    Margin="0,15,0,0"   Name="tbTempReal" />
       <Label Content="Feels like"             Margin="0"          FontSize="9" />
       <TextBlock FontSize="52" Text=" -25° "  Margin="0,-17,0,0"  Name="tbTempFeel" />
-      <TextBlock FontSize="16" Text="@ 17:00" Margin="0 -9 0 20"   Name="tbMeasurAt" />
+      <StackPanel Orientation="Horizontal"    Margin="0 -5 0 15"  HorizontalAlignment="Center" >
+        <TextBlock FontSize="16" Text="17"    Margin="0 -10 0 10"  Name="tbWindSpeed" Foreground="#08f" />
+        <TextBlock FontSize="16" Text="17:00" Margin="5 0"  Name="tbMeasurAt" />
+        <TextBlock FontSize="16" Text="N"     Margin="0 -10 0 10"  Name="tbWindDrktn" Foreground="#08f" />
+      </StackPanel>
 
     </StackPanel>
 

@@ -198,7 +198,7 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
-      Task.Run(async () => { await ChimerAlt.PlayWhistle(_volume); });
+      Task.Run(async () => { await SpeakAsync($"Hey, {Environment.UserName}! "); await ChimerAlt.PlayWhistle(_volume); });
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
@@ -270,13 +270,13 @@ namespace AlexPi.Scr
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
-        
+
         await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($"Hey, {Environment.UserName}! {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
         await ChimerAlt.FreqWalkUp(_volume);
-        
+
         await Task.Delay(TimeSpan.FromMinutes(1));
-        
+
         await SpeakAsync($"Hey, {Environment.UserName}! Enforcing sleep now.");
         await ChimerAlt.FreqWalkDn(_volume);
         await SpeakAsync($"Hey, {Environment.UserName}! Too late.");
