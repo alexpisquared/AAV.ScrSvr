@@ -63,6 +63,33 @@ namespace AlexPi.Scr.UsrCtrls
         tbWindSpeed.Text = $"{sitedata?.currentConditions?.wind?.speed?.Value}";
         tbWindDrktn.Text = $"{sitedata?.currentConditions?.wind?.direction}";
 
+        windAngle.Angle = Wind360d(sitedata?.currentConditions?.wind?.direction.ToString());
+        int Wind360d(string WindDirn)
+        {
+          const int d = 25;
+          return WindDirn switch
+          {
+            "N" => 0,
+            "W" => 270,
+            "S" => 180,
+            "E" => 90,
+            "NE" => 45,
+            "NW" => 315,
+            "SE" => 180 - 45,
+            "SW" => 180 + 45,
+            "ENE" => 90 - d,
+            "ESE" => 90 + d,
+            "WNW" => 270 + d,
+            "WSW" => 270 - d,
+            "NEN" or "NNE" => 0 + d,
+            "NWN" or "NNW" => 0 - d,
+            "SES" or "SSE" => 180 - d,
+            "SWS" or "SSW" => 180 + d,
+            _ => 301,
+          };
+        }
+
+
         img1.Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/{(sitedata?.currentConditions?.iconCode?.Value ?? "5"):0#}.gif"));
 
         var nhr = DateTime.Now.Hour;
