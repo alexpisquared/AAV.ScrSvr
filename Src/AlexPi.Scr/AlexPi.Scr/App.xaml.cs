@@ -260,6 +260,7 @@ namespace AlexPi.Scr
     }
     static async Task sleepLogic()
     {
+      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  0.");
       if (VerHelper.IsVIP && !AppSettings.Instance.AutoSleep)
       {
         await SpeakAsync("Armed! Sleepless mode.");
@@ -269,21 +270,23 @@ namespace AlexPi.Scr
 #if DEBUG
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));
+        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));.");
 
         await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($"Hey {Environment.UserName}! {AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to a light non-hibernating sleep ...in a minute.");
-        await ChimerAlt.FreqWalkUp(_volume);
+        await SpeakAsync($"Hey {Environment.UserName}! {(ScrSvrTimeoutSec / 60.0 + AppSettings.Instance.Min2Sleep):N0} minutes has passed. Sending computer to sleep ...in a minute.");    /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await SpeakAsync($'Hey {Environment.UserName}! {(ScrSvrTimeoutSec * 60 + AppSettings.Instance.Min2Sleep)} minutes has passed. Sending computer to sleep ...in a minute.');.");
+        await ChimerAlt.FreqWalkUp(_volume);                                                                                                                                              /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkUp(_volume);.");
 
-        await Task.Delay(TimeSpan.FromMinutes(1));
+        await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                                 /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
 
-        await SpeakAsync($"Hey {Environment.UserName}! Enforcing sleep now.");
-        await ChimerAlt.FreqWalkDn(_volume);
-        await SpeakAsync($"Hey {Environment.UserName}! Ha ha. Too late.");
+        await SpeakAsync($"Hey {Environment.UserName}! Enforcing sleep now.");                                                                                                         /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  'Enforcing sleep now.'.");
+        await ChimerAlt.FreqWalkDn(_volume);                                                                                                                                               /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkDn(_volume).");
+        await SpeakAsync($"Hey {Environment.UserName}! Ha ha. Ha ha ha. Too late.");
+
         await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
-        LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");
-        sleepStandby();
+
+        LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                                                                                   /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
+        sleepStandby();                                                                                                                                                                    /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  sleepStandby();  .");
       }
     }
 
