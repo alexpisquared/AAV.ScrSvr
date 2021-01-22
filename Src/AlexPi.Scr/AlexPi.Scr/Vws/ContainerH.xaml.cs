@@ -17,18 +17,20 @@ namespace AlexPi.Scr.Vws
       _rng = new SolidColorBrush(Colors.Orange),
       _trn = new SolidColorBrush(Colors.Transparent);
     readonly DispatcherTimer _timer;
+    const double _gracePeriodSec = 0.1; // overruled with pausing the timer =>  give extra second in case of the tick delayed 1 ms over 1000 ms + wait for the grace period to pass lest speak again.
+    const int _timerePeriodSec = 1;
 
     public ContainerH(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
       InitializeComponent();
-      _timer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, new EventHandler((s, e) => updateClockOn1secTimerTick()), Dispatcher.CurrentDispatcher); //tu: prevent screensaver; //tu: one-line timer
+      _timer = new DispatcherTimer(TimeSpan.FromSeconds(_timerePeriodSec), DispatcherPriority.Background, new EventHandler((s, e) => updateGuiOn1secTimerTick()), Dispatcher.CurrentDispatcher); //tu: prevent screensaver; //tu: one-line timer
       _timer.Start();
       cbIsSayMinOn.IsChecked = AppSettings.Instance.IsSayMinOn;
       cbIsChimesOn.IsChecked = AppSettings.Instance.IsChimesOn;
       cbIsRepeatOn.IsChecked = AppSettings.Instance.IsRepeatOn;
       //IsSaySecOn.IsChecked = AppSettings.Instance.IsSaySecOn;
     }
-    async void updateClockOn1secTimerTick()
+    async void updateGuiOn1secTimerTick()
     {
       var tnow = DateTime.Now;
       var idle = ((tnow - App.StartedAt) + TimeSpan.FromSeconds(App.ScrSvrTimeoutSec));
@@ -45,8 +47,7 @@ namespace AlexPi.Scr.Vws
       else
         tbOutOffR.Text = "";
 
-      const int gracePeriodSec = 2; // give extra second in case of the tick delayed 1 ms over 1000 ms + wait for the grace period to pass lest speak again.
-      if (!_isTalking && idle.TotalSeconds % 60 <= gracePeriodSec)
+      if (!_isTalking && idle.TotalSeconds % 60 <= (_timerePeriodSec + _gracePeriodSec))
       {
         try
         {
@@ -54,20 +55,19 @@ namespace AlexPi.Scr.Vws
           _timer.Stop();
 
           g1.Background = _red;
-          
-          if (AppSettings.Instance.IsSayMinOn || AppSettings.Instance.IsChimesOn || AppSettings.Instance.IsRepeatOn)
-            await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-          //else
-          //  await Task.Delay(30);          
-          //g1.Background = _rng;
 
-          if (AppSettings.Instance.IsSayMinOn) await App.SpeakAsync($"{idle.Minutes}");
-          if (AppSettings.Instance.IsChimesOn) await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
-          if (AppSettings.Instance.IsRepeatOn) App.SpeakFaF($"{idle.Minutes} minutes, that is.");
+          if (AppSettings.Instance.IsSayMinOn || AppSettings.Instance.IsChimesOn || AppSettings.Instance.IsRepeatOn)
+          {
+            await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+            if (AppSettings.Instance.IsSayMinOn) await App.SpeakAsync($"{idle.Minutes}");
+            if (AppSettings.Instance.IsChimesOn) await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
+            if (AppSettings.Instance.IsRepeatOn) App.SpeakFaF($"{idle.Minutes} minutes, that is.");
+            g1.Background = _rng;
+          }
+
+          await Task.Delay((int)(_gracePeriodSec * 1000)); // lest repeat the same on the next tick (2020-12-02)
 
           g1.Background = _trn;
-
-          await Task.Delay(gracePeriodSec * 1000); // lest repeat the same on the next tick (2020-12-02)
         }
         catch (Exception ex) { ex.Log(); }
         finally

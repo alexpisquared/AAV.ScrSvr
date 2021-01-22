@@ -43,6 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.AlexPi.Scr.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Vws\ContainerL.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

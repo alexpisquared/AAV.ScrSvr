@@ -198,7 +198,12 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
-      Task.Run(async () => { await ChimerAlt.PlayWhistle(_volume); await SpeakAsync($"Hm, Hey {Environment.UserName}! "); });
+      var sj = new SpeakerJob();
+      Task.Run(async () =>
+      {
+        await ChimerAlt.PlayWhistle(_volume);
+        await SpeakAsync($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ");
+      });
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 
