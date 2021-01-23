@@ -17,7 +17,7 @@ namespace AlexPi.Scr.Logic
   {
     Random _random = new Random(DateTime.Now.Millisecond);
     readonly IConfigurationRoot _config;
-    readonly string[] 
+    readonly string[] _voiceFafZNMA,
       _greetingsZ,
       _greetingsN,
       _greetingsM,
@@ -35,16 +35,18 @@ namespace AlexPi.Scr.Logic
       _greetingsN = _config.GetSection("greetingsN").Get<string[]>();
       _greetingsM = _config.GetSection("greetingsM").Get<string[]>();
       _greetingsA = _config.GetSection("greetingsA").Get<string[]>();
+      _voiceFafZNMA = _config.GetSection("voiceFafZNMA").Get<string[]>();
+      
     }
 
     public string FirstNameFromUsername(string username)
     {
       var lower = username.ToLower();
 
-      if (lower.Contains("zoe")) return "Zoe";
-      if (lower.Contains("ale")) return "alex";
-      if (lower.Contains("mei")) return "Mei";
-      if (lower.Contains("din")) return "Nadine";
+      if (lower.Contains("zoe")) return "Зойка";
+      if (lower.Contains("ale")) return "Шураня";
+      if (lower.Contains("mei")) return "静美";
+      if (lower.Contains("din")) return "Надя";
 
       return username;
     }
@@ -57,6 +59,17 @@ namespace AlexPi.Scr.Logic
       if (lower.Contains("di")) return _greetingsN[_random.Next(_greetingsN.Length)];
       if (lower.Contains("me")) return _greetingsM[_random.Next(_greetingsM.Length)];
       if (lower.Contains("al")) return _greetingsA[_random.Next(_greetingsA.Length)];
+
+      return username;
+    }
+    public string ВоиценамеFromUsername(string username)
+    {
+      var lower = username.ToLower();
+
+      if (lower.Contains("zo")) return _voiceFafZNMA[0];
+      if (lower.Contains("di")) return _voiceFafZNMA[1];
+      if (lower.Contains("me")) return _voiceFafZNMA[2];
+      if (lower.Contains("al")) return _voiceFafZNMA[3];
 
       return username;
     }

@@ -124,8 +124,8 @@ namespace AlexPi.Scr
       Environment.FailFast("Environment.FailFast");
     }
 
-    public static void SpeakFaF(string msg) => Task.Run(async () => await _synth.SpeakAsync(msg, "Faf")); // FaF - Fire and Forget
-    public static async Task SpeakAsync(string msg)         /**/ => await _synth.SpeakAsync(msg, "Asy");
+    public static void SpeakFaF(string msg, string voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg, "Faf", voice)); // FaF - Fire and Forget
+    public static async Task SpeakAsync(string msg, string voice = null)         /**/ => await _synth.SpeakAsync(msg, "Asy", voice);
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -202,7 +202,7 @@ namespace AlexPi.Scr
       Task.Run(async () =>
       {
         await ChimerAlt.PlayWhistle(_volume);
-        await SpeakAsync($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ");
+        await SpeakAsync($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.ВоиценамеFromUsername(Environment.UserName));
       });
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
