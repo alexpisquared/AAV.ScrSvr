@@ -199,11 +199,11 @@ namespace AlexPi.Scr
     void showFullScrSvr_ScheduleArming()
     {
       var sj = new SpeakerJob();
-      Task.Run(async () =>
-      {
-        await ChimerAlt.PlayWhistle(_volume);
-        await SpeakAsync($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.ВоиценамеFromUsername(Environment.UserName));
-      });
+      //Task.Run(async () =>
+      //{
+      //  await ChimerAlt.PlayWhistle(_volume);
+        SpeakFaF($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.VoicenameFromUsername(Environment.UserName));
+      //});
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 

@@ -17,7 +17,9 @@ namespace AlexPi.Scr.Logic
   {
     Random _random = new Random(DateTime.Now.Millisecond);
     readonly IConfigurationRoot _config;
-    readonly string[] _voiceFafZNMA,
+    readonly string[]
+      _voiceFafZNMA,
+      _voiceAltZNMA,
       _greetingsZ,
       _greetingsN,
       _greetingsM,
@@ -36,7 +38,7 @@ namespace AlexPi.Scr.Logic
       _greetingsM = _config.GetSection("greetingsM").Get<string[]>();
       _greetingsA = _config.GetSection("greetingsA").Get<string[]>();
       _voiceFafZNMA = _config.GetSection("voiceFafZNMA").Get<string[]>();
-      
+      _voiceAltZNMA = _config.GetSection("voiceAltZNMA").Get<string[]>();
     }
 
     public string FirstNameFromUsername(string username)
@@ -62,16 +64,16 @@ namespace AlexPi.Scr.Logic
 
       return username;
     }
-    public string ВоиценамеFromUsername(string username)
+    public string VoicenameFromUsername(string username, bool isFaf = true)
     {
       var lower = username.ToLower();
 
-      if (lower.Contains("zo")) return _voiceFafZNMA[0];
-      if (lower.Contains("di")) return _voiceFafZNMA[1];
-      if (lower.Contains("me")) return _voiceFafZNMA[2];
-      if (lower.Contains("al")) return _voiceFafZNMA[3];
+      if (lower.Contains("zo")) return isFaf ? _voiceFafZNMA[0] : _voiceAltZNMA[0];
+      if (lower.Contains("di")) return isFaf ? _voiceFafZNMA[1] : _voiceAltZNMA[1];
+      if (lower.Contains("me")) return isFaf ? _voiceFafZNMA[2] : _voiceAltZNMA[2];
+      if (lower.Contains("al")) return isFaf ? _voiceFafZNMA[3] : _voiceAltZNMA[3];
 
-      return username;
+      return "en-GB-Susan";
     }
 
 
