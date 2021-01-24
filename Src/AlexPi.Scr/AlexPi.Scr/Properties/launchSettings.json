@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AlexPi.Scr": {
+      "commandName": "Project",
+      "commandLineArgs": "ct"
+    }
+  }
+}

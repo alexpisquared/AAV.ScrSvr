@@ -2,24 +2,53 @@
 using System;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Apparently, 
+///   ethnic voices can read their language and a very broken English
+///   Suffix RUS does not read cyrillic at all: it is skipped altogether, while English is read OK.
+/// </summary>
+
 namespace TtsVoicesPocConsoleApp
 {
   class Program
   {
     static async Task Main(string[] args)
     {
+      Console.WriteLine("Beginning ...");
+
+      await Test2();
+
+      Console.WriteLine("          ... the end!");
+    }
+
+    static async Task  Test2()
+    {
+      var spt2 = new VoiceTester();
+      await spt2.Test1();
+    }
+  }
+
+  public class SpeechSynth2 : SpeechSynth, IDisposable
+  {
+    public async Task<bool> test1()
+    {
       using var _synth = new SpeechSynth();
-      //await _synth.SpeakAsync("Well well well. Nǐ jīntiān chīfànle ma? Zaraza. Зараза малая. 你好. End", "Faf");
-      //await _synth.SpeakAsync("静美, 今天吃了吗. ", "Faf", "zh-CN-XiaoyouNeural");
-      //await _synth.SpeakAsync("静美, 今天吃了吗. ", "___", "zh-CN-XiaoyouNeural");
 
       //await Task.Delay(500);
 
-      await _synth.SpeakAsync("Что, Хулиганка малая, уроки поделала?", "___", "ru-RU-SvetlanaNeural");
-      //await _synth.SpeakAsync("Что, Хулиганка малая, уроки поделала?", "___", "ru-RU-DariyaNeural");  - bad ending
-      //await _synth.SpeakAsync("Что, Хулиганка малая, уроки поделала?", "___", "ru-RU-EkaterinaRUS");  - very rough
+      var a = VMode.Prosody;
+      var s = "Hi there?";
+      await _synth.SpeakAsync(s, VMode.Prosody, "es-ES-HelenaRUS");
+      await _synth.SpeakAsync(s, VMode.Express, "es-ES-HelenaRUS");
 
-      Console.WriteLine("Hello World!");
+      //await _synth.SpeakAsync(s, a, "ru-RU-Irina");
+      //await _synth.SpeakAsync(s, a, "ru-RU-Pavel");
+      //await _synth.SpeakAsync(s, a, "ru-RU-EkaterinaRUS");    
+      //await _synth.SpeakAsync(s, a, "ru-RU-DariyaNeural");    // bad ending
+      //await _synth.SpeakAsync(s, a, "ru-RU-SvetlanaNeural");  // the best
+      //await _synth.SpeakAsync(s, a, "ru-RU-DmitryNeural");    // best question intonation
+
+      return true;
     }
   }
 }
