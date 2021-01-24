@@ -44,7 +44,9 @@ namespace AlexPi.Scr.Vws
             case Key.F10: _GlobalEventHandler.TglContainerVis("ContainerJ"); break;
             case Key.F11: _GlobalEventHandler.TglContainerVis("ContainerK"); break;
             case Key.F12: _GlobalEventHandler.TglContainerVis("ContainerL"); break;
-            default: App.SpeakFaF($"{e.Key} not handled!"); return;
+            default:
+              App.StopSpeakingAsync();
+              App.SpeakFaF($"{e.Key} not handled!"); return;
           }
         }
       };

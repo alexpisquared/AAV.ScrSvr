@@ -122,6 +122,7 @@ namespace AlexPi.Scr
       Environment.FailFast("Environment.FailFast");
     }
 
+    public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
     public static void SpeakFaF(string msg, string voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg, "Faf", voice)); // FaF - Fire and Forget
     public static async Task SpeakAsync(string msg, string voice = null)         /**/ => await _synth.SpeakAsync(msg, "Asy", voice);
 
