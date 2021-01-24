@@ -15,7 +15,7 @@ namespace AlexPi.Scr.Logic
 {
   public class SpeakerJob
   {
-    Random _random = new Random(DateTime.Now.Millisecond);
+    readonly Random _random = new Random(DateTime.Now.Millisecond);
     readonly IConfigurationRoot _config;
     readonly string[]
       _voiceFafZNMA,
@@ -51,6 +51,21 @@ namespace AlexPi.Scr.Logic
       if (lower.Contains("din")) return "Надя";
 
       return username;
+    }
+
+    public string GetRandomFromUserSection(string section)
+    {
+      var sn = $"{section}_{Environment.UserName}";
+      var sc = _config.GetSection(sn);
+      if (sc?.Value == null)
+      {
+        Trace.WriteLine($"\"{sn}\": [\"abc\", \"efg\", \"hij\"],");
+        return "Sad";
+      }
+
+      var sa = sc.Get<string[]>();
+
+      return sa[_random.Next(sa.Length)];
     }
 
     public string GreetingsFromUsername(string username)

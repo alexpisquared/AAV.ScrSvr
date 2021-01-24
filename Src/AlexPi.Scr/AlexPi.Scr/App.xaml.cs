@@ -42,14 +42,12 @@ namespace AlexPi.Scr
       try
       {
         base.OnStartup(sea);
-#if DEBUG
+
+#if DEBUG_
         //await ChimerAlt.FreqWalkUp();
         //Bpr.BeepBgn3();
         //await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
         //await App.SpeakAsync($"123");
-#endif
-
-#if DEBUG_
         await ChimerAlt.Chime(1);
         await ChimerAlt.Chime(3);
         Debugger.Break();
@@ -64,7 +62,7 @@ namespace AlexPi.Scr
         //Tracer.ReportErrorLevel(AppTraceLevel_Config, "App.CFG");
         //Tracer.ReportErrorLevel(AppTraceLevel_inCode, "App.app");
         //Tracer.ReportErrorLevel(AppTraceLevel_Warnng, "App.wrn"); // Trace.WriteLine("<= while app cfg=Verb, inc=Info, wrn=Warn, from App=Verb, .CFG=Verb");
-        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp()  2/2     args: {string.Join(", ", sea.Args)}.");
+        Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp()  2/2     args: {string.Join(", ", sea.Args)}.  {Environment.UserName}");
 
         Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp()  {Environment.MachineName,-8}{VerHelper.CurVerStr(".Net 5.0"),-12}   {string.Join(" ", Environment.GetCommandLineArgs())}  ");
         Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
@@ -202,7 +200,8 @@ namespace AlexPi.Scr
       //Task.Run(async () =>
       //{
       //  await ChimerAlt.PlayWhistle(_volume);
-        SpeakFaF($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.VoicenameFromUsername(Environment.UserName));
+      SpeakFaF($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.VoicenameFromUsername(Environment.UserName));
+      var sjk = sj.GetRandomFromUserSection("Reminders");
       //});
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
