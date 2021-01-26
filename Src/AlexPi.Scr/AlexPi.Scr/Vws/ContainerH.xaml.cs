@@ -1,5 +1,6 @@
 ﻿using AAV.Sys.Ext;
 using AAV.WPF.AltBpr;
+using AlexPi.Scr.Logic;
 using AsLink;
 using System;
 using System.Threading.Tasks;
@@ -87,5 +88,15 @@ namespace AlexPi.Scr.Vws
     void onChimesChanged(object s, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
     void onRepeatChanged(object s, System.Windows.RoutedEventArgs e) => AppSettings.Instance.IsRepeatOn = cbIsRepeatOn.IsChecked == true;
     async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
+    void onGreetFaf(object s, RoutedEventArgs e)
+    {
+      var sj = new SpeakerJob();
+      App.SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
+    }
+    void onGreetAlt(object s, RoutedEventArgs e)
+    {
+      var sj = new SpeakerJob();
+      App.SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceM"));
+    }
   }
 }

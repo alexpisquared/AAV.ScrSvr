@@ -12,21 +12,16 @@ namespace TtsVoicesPocConsoleApp
       using (var _synth = new SpeechSynth())
       {
         var m = //"That'd be just amazing!";// 
-        "Can I have a cup of tea?"; //          "Is this awesome or what!";
+       "Привет. Можно ли чаю? Can I have a cup of tea?"; //          "Is this awesome or what!";
         //"Привет. Awesome! Awesome? Are you OK?";
         //"Hi there. Hi there! Hi there?";
 
-        var voices =
-         //  new[] { 
-         //  //"en-US-AriaNeural",
-         //  //"en-US-JennyNeural","en-US-GuyNeural","pt-BR-FranciscaNeural",
-         //  //"zh-CN-XiaoxiaoNeural",
-         //  //"zh-CN-YunyangNeural","zh-CN-YunyeNeural","zh-CN-YunxiNeural","zh-CN-XiaohanNeural","zh-CN-XiaomoNeural","zh-CN-XiaoxuanNeural",          "zh-CN-XiaoruiNeural"        
-         //};
-         _voicenames
+        var voices =         _voicenames
+         .Where(v => v.EndsWith("RUS"))
          //.Where(v => v.EndsWith("ural"))
          //.Where(v => v.StartsWith("zh-CN-Xia"))
-         .Where(v => v.StartsWith("en-A"))
+         //.Where(v => v.StartsWith("en-A"))
+         //.Where(v => v.StartsWith("ru-"))
          .ToArray();
 
         var speakingStyles = new[] { // https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-synthesis-markup?tabs=csharp#adjust-speaking-styles
@@ -61,7 +56,7 @@ namespace TtsVoicesPocConsoleApp
     static async Task sayIt(SpeechSynth _synth, string m, string[] voices, string[] speakingStyles, int s, int v)
     {
       Console.WriteLine($" --- {m},   VMode.Express,   {voices[v],-26}   {speakingStyles[s],-16}");
-      await _synth.SpeakAsync(m, VMode.Express, voice: voices[v], speakingStyle: speakingStyles[s]);
+      await _synth.SpeakAsync(m, VMode.Express, voice: voices[v], styleForExpressOnly: speakingStyles[s]);
     }
 
     bool _disposedValue;

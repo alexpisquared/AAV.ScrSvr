@@ -206,13 +206,10 @@ namespace AlexPi.Scr
     }
     void showFullScrSvr_ScheduleArming()
     {
+      //Task.Run(async () =>      {        await ChimerAlt.PlayWhistle(_volume);      });
+
       var sj = new SpeakerJob();
-      //Task.Run(async () =>
-      //{
-      //  await ChimerAlt.PlayWhistle(_volume);
-      SpeakFaF($"Hey {sj.FirstNameFromUsername(Environment.UserName)}! {sj.GreetingsFromUsername(Environment.UserName)} ", sj.VoicenameFromUsername(Environment.UserName));
-      var sjk = sj.GetRandomFromUserSection("Reminders");
-      //});
+      SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
 
       foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
 

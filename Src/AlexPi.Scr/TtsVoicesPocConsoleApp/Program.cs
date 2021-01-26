@@ -16,16 +16,41 @@ namespace TtsVoicesPocConsoleApp
     {
       Console.WriteLine("Beginning ...");
 
-      await Test2();
+      //await Test2();
+      await Test3();
 
       Console.WriteLine("          ... the end!");
     }
 
-    static async Task  Test2()
+    static async Task Test3()
     {
-      var spt2 = new VoiceTester();
-      await spt2.Test1();
+      var synth = new SpeechSynth();
+      var vm = new VoiceMap();
+      var msg = 
+        //"Привет! Hi there? " +
+        "爸爸饿了";
+
+
+      foreach (var v in vm.AllVoiceNames())
+        foreach (var t in vm.AllVoiceStyle(v))
+          await showAndSay(synth, msg, v, t);
+
+      //Console.WriteLine("          ... press Space to continue VVVVVVVVVVV!");
+      //do
+      //{
+      //  var v = vm.RandomVoice();
+      //  var t = vm.RandomVoiceStyle(v);
+      //  await showAndSay(synth, msg, v, t);
+      //} while (Console.ReadKey(true).Key == ConsoleKey.Spacebar);
     }
+
+    static async Task showAndSay(SpeechSynth synth, string msg, string v, string t)
+    {
+      Console.WriteLine($"   {v,-22} {t,-33}");
+      await synth.SpeakAsync(msg, VMode.Express, v, t);
+    }
+
+    static async Task Test2() => await new VoiceTester().Test1();
   }
 
   public class SpeechSynth2 : SpeechSynth, IDisposable
@@ -33,10 +58,6 @@ namespace TtsVoicesPocConsoleApp
     public async Task<bool> test1()
     {
       using var _synth = new SpeechSynth();
-
-      //await Task.Delay(500);
-
-      var a = VMode.Prosody;
       var s = "Hi there?";
       await _synth.SpeakAsync(s, VMode.Prosody, "es-ES-HelenaRUS");
       await _synth.SpeakAsync(s, VMode.Express, "es-ES-HelenaRUS");
