@@ -1,5 +1,6 @@
 ﻿//todo: move to shared somewhere (2020-12)
 using AAV.Sys.Ext;
+using AAV.Sys.Helpers;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -369,12 +370,11 @@ namespace WebScrap
       }
     }
 
-    public static string GetCachedFileNameFromUrl(string url, bool useOneDrive = false)
+    public static string GetCachedFileNameFromUrl(string url)
     {
       var fn = url.Replace("https://", "").Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
-      var folder = Path.Combine(//useOneDrive ? OneDrive.Folder_Alex(@"web.cache\") : 
-              @"C:\temp\web.cache", fn.Split('-')[0]); //TODO: separate perm vs deletable...
-      fn = fn.Substring(fn.IndexOf("-") + 1);
+      var folder = Path.Combine(OneDrive.WebCacheFolder, fn.Split('-')[0]);
+      fn = fn[(fn.IndexOf("-") + 1)..]; // == fn = fn.Substring(fn.IndexOf("-") + 1);
 
       if (!Directory.Exists(folder))
         Directory.CreateDirectory(folder);

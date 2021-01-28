@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
-using System.Diagnostics;
 
 namespace WebScrap
 {
@@ -28,9 +28,9 @@ namespace WebScrap
 
       return null;
     }
-    public static Bitmap LoadImageFromFile(string url, bool useOneDrive)
+    public static Bitmap LoadImageFromFile(string url)
     {
-      string fn = GetCachedFileNameFromUrl(url, useOneDrive);
+      var fn = GetCachedFileNameFromUrl(url);
 
       if (File.Exists(fn))// && File.GetLastWriteTime(fn).Add(rotTime) > DateTime.Now)
       {
@@ -43,16 +43,16 @@ namespace WebScrap
         return null;
       }
     }
-    public static Bitmap DownloadImageCached(string url, bool useOneDrive) => DownloadImageCachedWithExpiry(url, TimeSpan.FromDays(1000), useOneDrive); // image in cache is good forever.
-    public static Bitmap DownloadImageCachedWithExpiry(string url, TimeSpan rotTime, bool useOneDrive)
+    public static Bitmap DownloadImageCached(string url) => DownloadImageCachedWithExpiry(url, TimeSpan.FromDays(1000)); // image in cache is good forever.
+    public static Bitmap DownloadImageCachedWithExpiry(string url, TimeSpan rotTime)
     {
-      string fn = WebScraper.GetCachedFileNameFromUrl(url, useOneDrive);
+      var fn = WebScraper.GetCachedFileNameFromUrl(url);
 
       if (File.Exists(fn) && File.GetLastWriteTime(fn).Add(rotTime) > DateTime.Now)
       {
         try
         {
-          Bitmap bitmap = new Bitmap(fn);
+          var bitmap = new Bitmap(fn);
           return bitmap;
         }
         catch (Exception ex)
@@ -71,7 +71,7 @@ namespace WebScrap
     {
       try
       {
-        Bitmap bitmap = new Bitmap(WebScraper.getProxyAndCreds(new Uri(url)).OpenRead(url));
+        var bitmap = new Bitmap(WebScraper.getProxyAndCreds(new Uri(url)).OpenRead(url));
         Debug.WriteLine($" -- {url} -- {(bitmap == null ? "Failed" : "Success")}");
         return bitmap;
       }
