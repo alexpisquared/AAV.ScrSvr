@@ -73,7 +73,7 @@ namespace RadarPicCollect
           Bitmap pic;
           if (times10minBack < _backLenLive)//
           {
-            pic = WebScraperBitmap.DownloadImageCached(urlLate.Split('|')[0], false);
+            pic = WebScraperBitmap.DownloadImageCached(urlLate.Split('|')[0]);
             if (pic != null)
             {
               _urlPicList.Add(urlLate, pic);
@@ -84,7 +84,7 @@ namespace RadarPicCollect
           }
           else
           {
-            pic = WebScraperBitmap.LoadImageFromFile(urlLate.Split('|')[0], false);
+            pic = WebScraperBitmap.LoadImageFromFile(urlLate.Split('|')[0]);
             if (pic != null)
             {
               _urlPicList.Add(urlLate, pic);
@@ -92,7 +92,7 @@ namespace RadarPicCollect
             }
             else
             {
-              pic = WebScraperBitmap.LoadImageFromFile(urlHist.Split('|')[0], false);
+              pic = WebScraperBitmap.LoadImageFromFile(urlHist.Split('|')[0]);
               if (pic != null)
               {
                 _urlPicList.Add(urlLate, pic);
@@ -100,7 +100,7 @@ namespace RadarPicCollect
               }
               else
               {
-                pic = WebScraperBitmap.DownloadImageCached(urlHist.Split('|')[0], false);//GetWebImageFromCache(urlHist.Split('|')[0]);
+                pic = WebScraperBitmap.DownloadImageCached(urlHist.Split('|')[0]);//GetWebImageFromCache(urlHist.Split('|')[0]);
               }
             }
 
@@ -229,8 +229,8 @@ namespace RadarPicCollect
     static Bitmap getFromCacheOrWeb(string url)
     {
       Bitmap bmp = null;
-      bmp = WebScraperBitmap.LoadImageFromFile(url, useOneDrive: false); if (bmp != null) return bmp;
-      bmp = WebScraperBitmap.DownloadImageCached(url, useOneDrive: false); if (bmp != null) return bmp;
+      bmp = WebScraperBitmap.LoadImageFromFile(url); if (bmp != null) return bmp;
+      bmp = WebScraperBitmap.DownloadImageCached(url); if (bmp != null) return bmp;
       return bmp;
     }
 

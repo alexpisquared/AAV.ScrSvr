@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.DirectoryServices" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\SpeechSynthLib\SpeechSynthLib.csproj" />
   </ItemGroup>
 
