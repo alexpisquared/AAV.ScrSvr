@@ -31,7 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POC", "POC", "{275D998A-6DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecretMgtDevAndProdConsApp", "..\poc\SecretMgtDevAndProdConsApp\SecretMgtDevAndProdConsApp.csproj", "{7DCD700A-855A-488F-9677-9040FC37CB2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TtsVoicesPocConsoleApp", "TtsVoicesPocConsoleApp\TtsVoicesPocConsoleApp.csproj", "{C98901AD-CCE4-4F10-B94F-F5F41BD82540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TtsVoicesPocConsoleApp", "TtsVoicesPocConsoleApp\TtsVoicesPocConsoleApp.csproj", "{C98901AD-CCE4-4F10-B94F-F5F41BD82540}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingDemoWpfApp", "LoggingDemoWpfApp\LoggingDemoWpfApp.csproj", "{55790680-8106-4C39-B11F-6322CA42403F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{C98901AD-CCE4-4F10-B94F-F5F41BD82540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C98901AD-CCE4-4F10-B94F-F5F41BD82540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C98901AD-CCE4-4F10-B94F-F5F41BD82540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55790680-8106-4C39-B11F-6322CA42403F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55790680-8106-4C39-B11F-6322CA42403F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55790680-8106-4C39-B11F-6322CA42403F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55790680-8106-4C39-B11F-6322CA42403F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7DCD700A-855A-488F-9677-9040FC37CB2A} = {275D998A-6DED-414E-9176-4EBBFBB8DF40}
 		{C98901AD-CCE4-4F10-B94F-F5F41BD82540} = {275D998A-6DED-414E-9176-4EBBFBB8DF40}
+		{55790680-8106-4C39-B11F-6322CA42403F} = {275D998A-6DED-414E-9176-4EBBFBB8DF40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A19E7263-5923-46AE-992C-7EB5256D7A67}
