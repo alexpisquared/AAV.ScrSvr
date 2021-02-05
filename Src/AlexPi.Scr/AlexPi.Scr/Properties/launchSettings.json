@@ -2,7 +2,7 @@
   "profiles": {
     "AlexPi.Scr": {
       "commandName": "Project",
-      "commandLineArgs": "_ct Chime test "
+      "commandLineArgs": "/c _ct Chime test "
     }
   }
 }
