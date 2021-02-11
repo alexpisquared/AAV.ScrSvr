@@ -21,6 +21,7 @@ namespace AlexPi.Scr
   public partial class App : Application
   {
     readonly GlobalEventHandler _globalEventHandler = new GlobalEventHandler();
+    bool _showBackWindowMaximized = false;
     public static TraceSwitch CurTraceLevel,
       AppTraceLevel_Config = new TraceSwitch("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> "),
       AppTraceLevel_inCode = new TraceSwitch("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
@@ -35,7 +36,7 @@ namespace AlexPi.Scr
 #if DEBUG
       GraceEvLogAndLockPeriodSec = 06, _ScrSvrShowDelayMs = 500;
 #else
-      GraceEvLogAndLockPeriodSec = 60,      _ScrSvrShowDelayMs = 10000;
+      GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000;
 #endif
     protected override async void OnStartup(StartupEventArgs sea)
     {
@@ -81,7 +82,8 @@ namespace AlexPi.Scr
           {
             default: Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  Unknown Args (Knowns are: /s /p /c up -u /u lo)"); goto case "/s";
             case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
-            case "/s": break;                                       // Run the Screen Saver.
+            case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
+            case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
             case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
             case "/c": new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
             case "up":
@@ -211,7 +213,7 @@ namespace AlexPi.Scr
       var sj = new SpeakerJob();
       SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
 
-      foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen);
+      foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
 
       new ControlPanel(_globalEventHandler).Show();
       if (AppSettings.Instance.IsSaySecOn)
@@ -315,7 +317,9 @@ namespace AlexPi.Scr
     Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+    Window _cntrL;
+
+    public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
 
     [Flags]
     enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }

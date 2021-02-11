@@ -17,22 +17,28 @@ namespace AlexPi.Scr.Vws
       DataContext = this;
       Name = "ths";
     }
-    public void ShowOnTargetScreen(Screen trgScreen/*, int waitMs*/)
+    public void ShowOnTargetScreen(Screen trgScreen, bool showMaximized)
     {
       //Task.Run(async () => await Task.Delay(waitMs)).ContinueWith(_ =>  {
       Show();
       Left = trgScreen.Bounds.Left;
       Top = trgScreen.Bounds.Top;
       Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {(VerHelper.IsVIP ? "VIP  :)" : "!vip   :(")}      {VerHelper.CurVerStr(".Net 5.0")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
-#if DEBUG
-      WindowState = WindowState.Normal;
-      Width = trgScreen.Bounds.Width / 10;
-      Height = trgScreen.Bounds.Height / 10;
-      Background = Brushes.Teal;
-      Opacity = .5;
-#else
-      WindowState = WindowState.Maximized;
-#endif
+
+      if (showMaximized)
+      {
+        WindowState = WindowState.Maximized;
+      }
+      else
+      {
+        WindowState = WindowState.Normal;
+        Width = trgScreen.Bounds.Width;
+        Height = 50; //  trgScreen.Bounds.Height / 32;
+        //Background = Brushes.DarkCyan;
+        Top = trgScreen.Bounds.Top + 40; // task bar considerations.
+        //Opacity = .75;
+      }
+
       //}, TaskScheduler.FromCurrentSynchronizationContext());
 
       Debug.WriteLine($"  {Title.Replace("\r", " ").Replace("\n", " ")}");
