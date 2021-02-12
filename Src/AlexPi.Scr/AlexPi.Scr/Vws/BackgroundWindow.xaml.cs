@@ -34,7 +34,7 @@ namespace AlexPi.Scr.Vws
         WindowState = WindowState.Normal;
         Width = trgScreen.Bounds.Width;
         Height = 50; //  trgScreen.Bounds.Height / 32;
-        //Background = Brushes.DarkCyan;
+        Background = Brushes.DarkViolet;
         Top = trgScreen.Bounds.Top + 40; // task bar considerations.
         //Opacity = .75;
       }
