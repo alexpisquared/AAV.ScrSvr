@@ -10,6 +10,11 @@
     <!--<UseWindowsForms>true</UseWindowsForms>-->
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml.cs" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml.cs" />
   </ItemGroup>
