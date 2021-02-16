@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EvLogHelperBase.cs" Link="AsLink\EvLogHelperBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />
     <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
     <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing" Version="1.0.0" />
