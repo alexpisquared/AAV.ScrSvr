@@ -248,18 +248,9 @@ namespace AlexPi.Scr
       Task.Run(async () => await App.sleepLogic());
       Task.Run(async () => await App.lockeLogic());
     };
-    static void sleepStandby(bool isDeepHyberSleep = false)
-    {
-      Trace.WriteLineIf(CurTraceLevel.TraceVerbose, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
-      SetSuspendState(isDeepHyberSleep, true, true);
-    }
     static async Task lockeLogic()
     {
-      if (VerHelper.IsVIP && !AppSettings.Instance.AutoLocke)
-      {
-        //too much talking: App.SpeakSynch("Lockeless mode.");
-      }
-      else
+      if (/*VerHelper.IsVIP && */AppSettings.Instance.AutoLocke)
       {
         App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
@@ -304,6 +295,11 @@ namespace AlexPi.Scr
         }
       }
       catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
+    }
+    static void sleepStandby(bool isDeepHyberSleep = false)
+    {
+      Trace.WriteLineIf(CurTraceLevel.TraceVerbose, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}>\t {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")} started.");
+      SetSuspendState(isDeepHyberSleep, true, true);
     }
 
     Window _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);

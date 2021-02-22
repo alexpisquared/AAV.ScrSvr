@@ -8,10 +8,7 @@
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="15" />
   </WindowChrome.WindowChrome>
   <Grid>
-
-    <Viewbox>
-      <TextBlock Text="Empty ContainerL - 12" />
-    </Viewbox>
+    <UsrCtrls:WebBrowserUC />
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>
