@@ -4,20 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AlexPi.Scr.UsrCtrls"
-             xmlns:eo="http://schemas.essentialobjects.com/wpf/"
+             xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid Background="#123" >
     <!--<WebBrowser Source="https://www.office.com/?auth=1" x:Name="wb1" Margin="20 40" MinHeight="200" MinWidth="200" />-->
 
     <!--<wv2:WebView2 Name="wb1" Source="https://www.microsoft.com" />-->
+    <wpf:WebView2 Grid.Row="1" Grid.Column="1" Source="https://html5test.com" x:Name="webview21" />
 
-    <eo:WebControl Margin="20 40" >
-      <eo:WebControl.WebView>
-        <eo:WebView x:Name="wb1" >
-        </eo:WebView>
-      </eo:WebControl.WebView>
-    </eo:WebControl>
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
       <Button Content="_Google" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10"/>

@@ -241,68 +241,66 @@ namespace AlexPi.Scr
       _mustLogEORun = true;
 
 #if DEBUG
-      SpeakAsync($"no start-up event logging").Wait();
+      SpeakAsync($"no event logging").Wait();
 #else
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 #endif
 
-      Task.Run(async () => await App.sleepLogic());
-      Task.Run(async () => await App.lockeLogic());
-    };
-    static async Task lockeLogic()
-    {
-      if (/*VerHelper.IsVIP && */AppSettings.Instance.AutoLocke)
-      {
-        App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
-        await Task.Delay(TimeSpan.FromSeconds(60));
-        App.SpeakFaF($"Enforcing lock down now.");
-
-        LockWorkStation();
-      }
-    }
-    static async Task sleepLogic()
-    {
-      try
-      {
-        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  0.");
-        if (!VerHelper.IsKnownNonVMPC)
+      Task.Run(async () => {
+        if (AppSettings.Instance.AutoLocke && StartedAt == DateTime.MinValue) // suspended <= to simpify maint-ce at home office (2021)
         {
-          await SpeakAsync($"{Environment.MachineName} is not a known non-VM box");
-          return;
-        }
+          App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
+          await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
+          await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+          await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+          await Task.Delay(TimeSpan.FromSeconds(60));
 
-        if (!AppSettings.Instance.AutoSleep)
+          App.SpeakFaF($"Enforcing lock down now.");
+          LockWorkStation();
+        }
+      });
+    
+      Task.Run(async () => {
+        try
         {
-          await SpeakAsync("Armed! Sleepless mode.");
-          return;
-        }
+          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  0.");
+          if (!VerHelper.IsKnownNonVMPC)
+          {
+            await SpeakAsync($"{Environment.MachineName} is not a known non-VM box, thus no Sleep/Hibernation for the PC.");
+            return;
+          }
 
+          if (!AppSettings.Instance.AutoSleep)
+          {
+            await SpeakAsync("Armed! Sleepless mode.");
+            return;
+          }
 
 #if DEBUG
-        SpeakFaF($"Armed and extremely dangerous!");
+          SpeakFaF($"Armed and extremely dangerous!");
 #endif
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));.");
+          await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                        /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));.");
 
-        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($"Hey {Environment.UserName}! {(((DateTime.Now - StartedAt) + TimeSpan.FromSeconds(ScrSvrTimeoutSec)).TotalMinutes):N0} minutes has passed. Sending computer to sleep ...in a minute.");    /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await SpeakAsync($'Hey {Environment.UserName}! {(ScrSvrTimeoutSec * 60 + AppSettings.Instance.Min2Sleep)} minutes has passed. Sending computer to sleep ...in a minute.');.");
-        await ChimerAlt.FreqWalkUp(_volume);                                                                                                                                              /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkUp(_volume);.");
+          await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+          await SpeakAsync($"Hey {Environment.UserName}! {(((DateTime.Now - StartedAt) + TimeSpan.FromSeconds(ScrSvrTimeoutSec)).TotalMinutes):N0} minutes has passed. Sending computer to sleep ...in a minute.");    /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await SpeakAsync($'Hey {Environment.UserName}! {(ScrSvrTimeoutSec * 60 + AppSettings.Instance.Min2Sleep)} minutes has passed. Sending computer to sleep ...in a minute.');.");
+          await ChimerAlt.FreqWalkUp(_volume);                                                                                 /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkUp(_volume);.");
 
-        await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                                 /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
+          await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                  /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
 
-        await SpeakAsync($"Hey {Environment.UserName}! Enforcing sleep now.");                                                                                                         /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  'Enforcing sleep now.'.        <<<<<<<<<<");
-        await ChimerAlt.FreqWalkDn(_volume);                                                                                                                                               /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkDn().  >>>>>>>>>>");
-        await SpeakAsync($"Hey {Environment.UserName}! Ha ha. Ha ha ha. Too late.");
+          await SpeakAsync($"Hey {Environment.UserName}! Enforcing sleep now.");                                           /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  'Enforcing sleep now.'.        <<<<<<<<<<");
+          await ChimerAlt.FreqWalkDn(_volume);                                                                                 /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  await ChimerAlt.FreqWalkDn().  >>>>>>>>>>");
+          await SpeakAsync($"Hey {Environment.UserName}! Ha ha. Ha ha ha. Too late.");
 
-        await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
+          await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
-        LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                                                                                   /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
-        sleepStandby();                                                                                                                                                                    /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  sleepStandby();  .");
-      }
-      catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
-    }
+          LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
+          sleepStandby();                                                                                                      /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  sleepStandby();  .");
+        }
+        catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
+      });
+    };
+    
+    
     static void sleepStandby(bool isDeepHyberSleep = false)
     {
       if (!VerHelper.IsKnownNonVMPC)
@@ -326,9 +324,7 @@ namespace AlexPi.Scr
     Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-    Window _cntrL;
-
-    public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
 
     [Flags]
     enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
