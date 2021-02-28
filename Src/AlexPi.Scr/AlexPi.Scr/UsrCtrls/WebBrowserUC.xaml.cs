@@ -10,10 +10,9 @@ namespace AlexPi.Scr.UsrCtrls
     public WebBrowserUC()
     {
       InitializeComponent();
-      InitializeAsync();
+      //InitializeAsync();
     }
-
-    async void InitializeAsync() => await webview21.EnsureCoreWebView2Async(null);
+    //async void InitializeAsync() => await webview21.EnsureCoreWebView2Async(null);
 
     void on1(object s, RoutedEventArgs e) => go(tb1.Text);
     void on2(object s, RoutedEventArgs e) => go(@"https://portal.azure.com");
@@ -21,7 +20,10 @@ namespace AlexPi.Scr.UsrCtrls
     void go(string url)
     {
 #if true
+      webbrwsr1.Navigate(url);// new Uri(url));      webbrwsr1.Source = new Uri(url);
       webview21.Source = new Uri(url);
+      //webview21.NavigateToString(url);
+      tb1.Text = url;
 #else
       var uri = new Uri(url, UriKind.RelativeOrAbsolute);
 
@@ -32,9 +34,18 @@ namespace AlexPi.Scr.UsrCtrls
         return;
       }
 
-      //webview21.ScriptErrorsSuppressed = true;
       webview21.Navigate(uri);
 #endif
+    }
+
+    private void webbrwsr1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+    {
+      tba.Text = e.ToString();
+    }
+
+    private void webview21_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+    {
+      tbb.Text = e.ToString();
     }
   }
 }
