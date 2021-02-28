@@ -8,15 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid Background="#123" >
-    <!--<WebBrowser Source="https://www.office.com/?auth=1" x:Name="wb1" Margin="20 40" MinHeight="200" MinWidth="200" />-->
+    
+    <!--<WebBrowser Source="https://www.office.com/?auth=1" x:Name="webview21" Margin="20 40" MinHeight="200" MinWidth="200" />-->
+    <!--<wv2:WebView2 Name="webview21" Source="https://www.microsoft.com" />-->
+    <wpf:WebView2 Grid.Row="1" Grid.Column="1" Source="https://html5test.com" x:Name="webview21" Margin="5 5 5 26" />
 
-    <!--<wv2:WebView2 Name="wb1" Source="https://www.microsoft.com" />-->
-    <wpf:WebView2 Grid.Row="1" Grid.Column="1" Source="https://html5test.com" x:Name="webview21" />
-
-
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
-      <Button Content="_Google" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10"/>
-      <Button Content="_Linked" Click="Button_Clic2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10" />
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#888" >
+      <TextBox Text="https://www.linkedin.com/in/alexpigida/"       VerticalAlignment="Center" Margin="5" MinWidth="200" x:Name="tb1" />
+      <Button Content="_Google" Click="on1" VerticalAlignment="Center" Margin="5" />
+      <Button Content="_Google" Click="on2" VerticalAlignment="Center" Margin="5" />
+      <Button Content="_Linked" Click="on3" VerticalAlignment="Center" Margin="5" />
     </StackPanel>
   </Grid>
 </UserControl>
