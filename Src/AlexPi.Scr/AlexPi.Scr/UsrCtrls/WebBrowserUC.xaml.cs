@@ -38,12 +38,12 @@ namespace AlexPi.Scr.UsrCtrls
 #endif
     }
 
-    private void webbrwsr1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+    void webbrwsr1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
     {
       tba.Text = e.ToString();
     }
 
-    private void webview21_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+    void webview21_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
     {
       tbb.Text = e.ToString();
     }

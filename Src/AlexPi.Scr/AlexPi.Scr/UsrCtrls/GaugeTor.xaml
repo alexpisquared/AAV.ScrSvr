@@ -245,11 +245,13 @@
       </Grid>
 
       <TextBlock Text="100"  Margin="442,235,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" />
-      <TextBlock Text="0%"  Margin="26,235,0,0"    VerticalAlignment="Top" />
+      <TextBlock Text="0%"   Margin="26,235,0,0"    VerticalAlignment="Top" />
       <TextBlock Text="20"   Margin="72,115,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
       <TextBlock Text="40"   Margin="175,40,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
       <TextBlock Text="60"   Margin="301,40,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
       <TextBlock Text="80"   Margin="405,115,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+      <Button Content="TaskMgr" Click="Button_Click" VerticalAlignment="Bottom" Margin="40" Padding="5"/>
 
       <!--<MediaElement Name="me1" Source="pack://application:,,,/Resources\HelloComputer.wav" LoadedBehavior="Manual" Width="22" Height="33" d:IsHidden="True" />-->
     </Grid>
