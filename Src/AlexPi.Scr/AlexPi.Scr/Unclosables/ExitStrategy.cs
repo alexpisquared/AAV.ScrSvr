@@ -11,7 +11,7 @@ namespace AlexPi.Scr.Vws
   {
     public static async Task<int> CloseIfBigMoveBoforeGracePeriod(int minMaouseMovePoints, Window wdw, string typeName)
     {
-      if ((DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
+      if (App.CloseOnUnIdle && (DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
       {
         Trace.WriteLineIf(App.CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
         if (--minMaouseMovePoints < 0)
