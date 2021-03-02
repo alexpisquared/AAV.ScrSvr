@@ -1,8 +1,7 @@
 {
   "profiles": {
     "AlexPi.Scr": {
-      "commandName": "Project",
-      "commandLineArgs": "sb /c _ct Chime test "
+      "commandName": "Project"
     }
   }
 }

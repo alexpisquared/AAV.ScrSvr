@@ -61,27 +61,20 @@ namespace AlexPi.Scr
         CurTraceLevel = AppTraceLevel_Config;
 #endif
         Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-        //Tracer.ReportErrorLevel(AppTraceLevel_Config, "App.CFG");
-        //Tracer.ReportErrorLevel(AppTraceLevel_inCode, "App.app");
-        //Tracer.ReportErrorLevel(AppTraceLevel_Warnng, "App.wrn"); // Trace.WriteLine("<= while app cfg=Verb, inc=Info, wrn=Warn, from App=Verb, .CFG=Verb");
         Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    args: {string.Join(", ", sea.Args)}   {Environment.UserName}   {Environment.MachineName}   {VerHelper.CurVerStr(".Net 5.0")}");
 
         Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
         //todo: Current.DispatcherUnhandledException += WPF.Helpers.UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
         EventManager.RegisterClassHandler(typeof(TextBox), UIElement.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox)?.SelectAll(); })); //tu: TextBox
-
-        //if (Debugger.IsAttached) PerformanceCounterHelper.L1();
-        //?what for LoadCompleted += (s, e) => (FindResource("Opacity_1MinLowCpu") as Storyboard).Duration = new Duration(TimeSpan.FromSeconds(10));
-        //todo: AppSettings.InitStore(storageMode: StorageMode.OneDriveU);
-        //? is this one keeping hanging? if (AppSettings.Instance.KeepAwake) KeepAwakeHelper.KeepAwakeForever();
-
+                
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
         if (sea.Args.Length > 0)
         {
           switch (sea.Args[0].ToLower(CultureInfo.InvariantCulture).Trim().Substring(0, sea.Args[0].Length < 2 ? 1 : 2))
           {
-            default: Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  Unknown Args (Knowns are: /s /p /c up -u /u lo)"); goto case "/s";
+            default: 
+            case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys - use like normal app.
             case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
             case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
             case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
@@ -324,7 +317,12 @@ namespace AlexPi.Scr
     Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+    Window _cntrL;
+    static bool _closeOnUnIdle = true;
+
+    public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+
+    public static bool CloseOnUnIdle { get => _closeOnUnIdle; set => _closeOnUnIdle = value; }
 
     [Flags]
     enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
