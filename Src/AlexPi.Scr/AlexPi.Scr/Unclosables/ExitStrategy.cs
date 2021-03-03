@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,7 +15,7 @@ namespace AlexPi.Scr.Vws
         Trace.WriteLineIf(App.CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
         if (--minMaouseMovePoints < 0)
         {
-          await ExitStrategy.CloseBasedOnPCName(Key.Escape, wdw);
+          await CloseBasedOnPCName(Key.Escape, wdw);
         }
       }
 
@@ -30,11 +29,12 @@ namespace AlexPi.Scr.Vws
         key == Key.Left || key == Key.Right)
         return false;                                     // keep scrsvr on.
 
+      Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   ");
+      
       switch (Environment.MachineName) // balck/white listing
       {
-        default:            /**/ App.SpeakFaF($"home.           "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   before App.Current.Shutdown(33)"); App.Current.Shutdown(33); return true;  // default: at home: no need to lock.
-        case "CA03-APIGID": /**/ App.SpeakFaF($"Secure-most.    "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   BackDoor_Minuted()      "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking
-        case "SapceEscape": /**/ await App.SpeakAsync($"useless."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   SpaceUpEscapOnly()      "); return await SpaceUpEscapOnly(key, window);   // space + escape + up .. kind of useless ~ not here nor there.
+        default:            /**/ App.SpeakFaF($"home.  {App.CloseOnUnIdle}    "); Trace.WriteLine($"before App.Current.Shutdown(33)"); App.Current.Shutdown(33); return true;  // default: at home: no need to lock.
+        case "CA03-APIGID": /**/ App.SpeakFaF($"Secure-most"); Trace.WriteLine($"BackDoor_Minuted()             "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking is required
       }
     }
     public static async Task<bool> BackDoor_Minuted(Key key, Window window)

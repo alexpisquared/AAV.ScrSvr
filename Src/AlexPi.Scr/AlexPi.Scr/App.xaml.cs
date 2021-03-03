@@ -69,43 +69,41 @@ namespace AlexPi.Scr
 
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        if (sea.Args.Length > 0)
+        switch (sea.Args.FirstOrDefault()?.ToLower(CultureInfo.InvariantCulture).Trim().Substring(0, sea.Args[0].Length < 2 ? 1 : 2))
         {
-          switch (sea.Args[0].ToLower(CultureInfo.InvariantCulture).Trim().Substring(0, sea.Args[0].Length < 2 ? 1 : 2))
-          {
-            default:
-            case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
-            case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
-            case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
-            case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
-            case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
-            case "/c": new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
-            case "up":
-            case "-u":
-            case "/u": new UpTimeReview2(false).Show(); return;     // uptime review.
-            case "si":                                              // SilentDbUpdate
-                                                                    //Task.Run(async () =>              {
-              var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
-              var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-              await SpeakAsync(rprt);
-              Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
-              //}).ContinueWith(_ => 
-              Shutdown()
-              //, TaskScheduler.FromCurrentSynchronizationContext()); //?? Aug 2019.
-              ;
-              return;
-            case "ct": // Chime Test
-              await SpeakAsync($"Testing FreqWalkUp start");
-              Trace.Write($"Testing FreqWalkUp start ... ");
-              var sw = Stopwatch.StartNew();
-              //await ChimerAlt.PlayWhistle(_volume);
-              await ChimerAlt.FreqWalkUp(_volume);
-              sw.Stop();
-              Trace.WriteLine($" ... Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0}");
-              await SpeakAsync($"Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0} sec.");
-              return;
-          }
+          default:
+          case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
+          case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
+          case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
+          case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
+          case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
+          case "/c": new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
+          case "up":
+          case "-u":
+          case "/u": new UpTimeReview2(false).Show(); return;     // uptime review.
+          case "si":                                              // SilentDbUpdate
+                                                                  //Task.Run(async () =>              {
+            var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
+            var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
+            await SpeakAsync(rprt);
+            Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
+            //}).ContinueWith(_ => 
+            Shutdown()
+            //, TaskScheduler.FromCurrentSynchronizationContext()); //?? Aug 2019.
+            ;
+            return;
+          case "ct": // Chime Test
+            await SpeakAsync($"Testing FreqWalkUp start");
+            Trace.Write($"Testing FreqWalkUp start ... ");
+            var sw = Stopwatch.StartNew();
+            //await ChimerAlt.PlayWhistle(_volume);
+            await ChimerAlt.FreqWalkUp(_volume);
+            sw.Stop();
+            Trace.WriteLine($" ... Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0}");
+            await SpeakAsync($"Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0} sec.");
+            return;
         }
+
 
         showFullScrSvr_ScheduleArming();
       }
@@ -319,19 +317,14 @@ namespace AlexPi.Scr
     Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
     Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
     Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-    Window _cntrL;
-    static bool _closeOnUnIdle = true;
+    Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
 
-    public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+    static bool _closeOnUnIdle = true; public static bool CloseOnUnIdle { get => _closeOnUnIdle; set => _closeOnUnIdle = value; }
 
-    public static bool CloseOnUnIdle { get => _closeOnUnIdle; set => _closeOnUnIdle = value; }
-
-    [Flags]
-    enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
+    [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
     [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
     [DllImport("user32")] public static extern void LockWorkStation();
   }
 }
-
 /// Install-Package Expression.Blend.Sdk
 /// Use for deployment:  Release + Any CPU  
