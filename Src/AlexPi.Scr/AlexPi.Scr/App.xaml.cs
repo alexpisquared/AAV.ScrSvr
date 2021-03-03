@@ -74,7 +74,7 @@ namespace AlexPi.Scr
           switch (sea.Args[0].ToLower(CultureInfo.InvariantCulture).Trim().Substring(0, sea.Args[0].Length < 2 ? 1 : 2))
           {
             default: 
-            case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys - use like normal app.
+            case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
             case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
             case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
             case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
