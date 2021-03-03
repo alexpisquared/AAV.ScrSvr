@@ -66,14 +66,14 @@ namespace AlexPi.Scr
         Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
         //todo: Current.DispatcherUnhandledException += WPF.Helpers.UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
         EventManager.RegisterClassHandler(typeof(TextBox), UIElement.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox)?.SelectAll(); })); //tu: TextBox
-                
+
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
         if (sea.Args.Length > 0)
         {
           switch (sea.Args[0].ToLower(CultureInfo.InvariantCulture).Trim().Substring(0, sea.Args[0].Length < 2 ? 1 : 2))
           {
-            default: 
+            default:
             case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
             case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
             case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
@@ -109,7 +109,7 @@ namespace AlexPi.Scr
 
         showFullScrSvr_ScheduleArming();
       }
-      catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
+      catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
 
       Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
@@ -239,7 +239,8 @@ namespace AlexPi.Scr
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 #endif
 
-      Task.Run(async () => {
+      Task.Run(async () =>
+      {
         if (AppSettings.Instance.AutoLocke && StartedAt == DateTime.MinValue) // suspended <= to simpify maint-ce at home office (2021)
         {
           App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
@@ -252,8 +253,9 @@ namespace AlexPi.Scr
           LockWorkStation();
         }
       });
-    
-      Task.Run(async () => {
+
+      Task.Run(async () =>
+      {
         try
         {
           Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  0.");
@@ -289,11 +291,11 @@ namespace AlexPi.Scr
           LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
           sleepStandby();                                                                                                      /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  sleepStandby();  .");
         }
-        catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
+        catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
       });
     };
-    
-    
+
+
     static void sleepStandby(bool isDeepHyberSleep = false)
     {
       if (!VerHelper.IsKnownNonVMPC)
