@@ -24,13 +24,16 @@ namespace AlexPi.Scr.Vws
 
     public static async Task<bool> CloseBasedOnPCName(Key key, Window window)
     {
-      if (Key.F1 <= key && key < Key.DeadCharProcessed || // all special keys, like: alt, ctrl, shift, oem*
-        key == Key.Tab ||
-        key == Key.Left || key == Key.Right)
+      if (key is (>= Key.F1 and < Key.DeadCharProcessed) or // all special keys, like: alt, ctrl, shift, oem*
+        Key.Tab or
+        Key.VolumeUp or
+        Key.VolumeDown or
+        Key.VolumeMute or
+        Key.Left or Key.Right)
         return false;                                     // keep scrsvr on.
 
       Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {(window.GetType()).FullName})   ");
-      
+
       switch (Environment.MachineName) // balck/white listing
       {
         default:            /**/ App.SpeakFaF($"home.  {App.CloseOnUnIdle}    "); Trace.WriteLine($"before App.Current.Shutdown(33)"); App.Current.Shutdown(33); return true;  // default: at home: no need to lock.
