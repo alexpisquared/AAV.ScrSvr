@@ -15,8 +15,8 @@ namespace AlexPi.Scr.UsrCtrls
     static GaugeTor()
     {
       Duration
-        drnFast = new Duration(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0)),
-        drnSlow = new Duration(TimeSpan.FromSeconds(5));
+        drnFast = new(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0)),
+        drnSlow = new(TimeSpan.FromSeconds(5));
 
       _dai = new DoubleAnimation { Duration = drnSlow, EasingFunction = new QuarticEase() };
       _dao = new DoubleAnimation { Duration = drnSlow, EasingFunction = new QuarticEase() };
@@ -40,15 +40,8 @@ namespace AlexPi.Scr.UsrCtrls
     public static readonly DependencyProperty InnerValProperty = DependencyProperty.Register("InnerVal", typeof(double), typeof(GaugeTor), new UIPropertyMetadata(-90.0)); public double InnerVal { get => (double)GetValue(InnerValProperty); set => SetValue(InnerValProperty, value); }
     public static readonly DependencyProperty MiddlValAnimProperty = DependencyProperty.Register("MiddlValAnim", typeof(double), typeof(GaugeTor), new UIPropertyMetadata(-90.0, new PropertyChangedCallback(onMiddlValChngd))); public double MiddlValAnim { get => (double)GetValue(MiddlValAnimProperty); set => SetValue(MiddlValAnimProperty, value); }
     public static readonly DependencyProperty OuterValAnimProperty = DependencyProperty.Register("OuterValAnim", typeof(double), typeof(GaugeTor), new UIPropertyMetadata(-90.0, new PropertyChangedCallback(onOuterValChngd))); public double OuterValAnim { get => (double)GetValue(OuterValAnimProperty); set => SetValue(OuterValAnimProperty, value); }
-
-    void Button_Click(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        Process.Start(new ProcessStartInfo("TaskMgr.exe") { UseShellExecute = true });
-      }
-      catch (Exception ex) { ex.Pop(); }
-    }
     public static readonly DependencyProperty InnerValAnimProperty = DependencyProperty.Register("InnerValAnim", typeof(double), typeof(GaugeTor), new UIPropertyMetadata(-90.0, new PropertyChangedCallback(onInnerValChngd))); public double InnerValAnim { get => (double)GetValue(InnerValAnimProperty); set => SetValue(InnerValAnimProperty, value); }
+
+    void onTaskMgr(object s, RoutedEventArgs e) { try { Process.Start(new ProcessStartInfo("TaskMgr.exe") { UseShellExecute = true }); } catch (Exception ex) { ex.Pop(); } }
   }
 }

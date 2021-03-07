@@ -251,7 +251,7 @@
       <TextBlock Text="60"   Margin="301,40,0,0"   VerticalAlignment="Top" HorizontalAlignment="Left" />
       <TextBlock Text="80"   Margin="405,115,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-      <Button Content="TaskMgr" Click="Button_Click" VerticalAlignment="Bottom" Margin="40" Padding="5"/>
+      <Button Content="TaskMgr" Click="onTaskMgr" VerticalAlignment="Bottom" Margin="40" Padding="5"/>
 
       <!--<MediaElement Name="me1" Source="pack://application:,,,/Resources\HelloComputer.wav" LoadedBehavior="Manual" Width="22" Height="33" d:IsHidden="True" />-->
     </Grid>

@@ -1,4 +1,5 @@
 ﻿using AAV.Sys.Ext;
+using AAV.WPF.Ext;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -14,8 +15,9 @@ namespace AlexPi.Scr.Vws
             //_perfCounGPU = new PerformanceCounter("GPU", "% GPU Time", "_Total"), // % GPU Time-Base - https://github.com/Alexey-Kamenev/GpuPerfCounters/blob/master/src/GpuPerfCounters/PerfCounterService.cs
             //_ramCounterr = new PerformanceCounter("Memory", "Available MBytes")
             _perfCounCPU;// = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-    double sum;
-    int cnt;
+    double _sum;
+    int _cnt;
+    bool _alreadyRunning = false;
 
     public ContainerB(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
     {
@@ -41,13 +43,20 @@ namespace AlexPi.Scr.Vws
         var p = _perfCounCPU.NextValue();
         var v = k * p - 90;
 
-        gaugeTorCPU.InnerValAnim = (sum += v) / (++cnt);
+        gaugeTorCPU.InnerValAnim = (_sum += v) / (++_cnt);
         gaugeTorCPU.MiddlValAnim = v;
 
         if (gaugeTorCPU.OuterVal < v)
           gaugeTorCPU.OuterValAnim = v;
 
         gaugeTorCPU.GaugeText = $"{p:N0}\r\n{((gaugeTorCPU.InnerVal + 90) / k):N0} - {((gaugeTorCPU.OuterVal + 90) / k):N0}";
+
+        if (p > 20 && !_alreadyRunning)
+        {
+          App.SpeakFaF($"Measured {p:N2} units. Launching task manager...");
+          _alreadyRunning = true;
+          try { Process.Start(new ProcessStartInfo("TaskMgr.exe") { UseShellExecute = true }); } catch (Exception ex) { ex.Pop(); }
+        }
 
         //todo: move to the proper UC:
         //p = _perfCountEx.NextValue() / 1000000; // ~100 Mb on Asus2
