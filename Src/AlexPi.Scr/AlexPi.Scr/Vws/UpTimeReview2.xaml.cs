@@ -8,20 +8,16 @@ namespace AlexPi.Scr.Vws
 {
   public partial class UpTimeReview2 : AAV.WPF.Base.WindowBase
   {
-    readonly bool requirePasskey;
-
-    public UpTimeReview2(bool requirePasskey)
+    public UpTimeReview2()
     {
       try { InitializeComponent(); } catch (Exception ex) { ex.Log(); }
 
-      this.requirePasskey = requirePasskey;
-
-#if DEBUG
+#if __DEBUG
       jjj();
 #endif
     }
 
-    async void onUpdateMdb(object s, System.Windows.RoutedEventArgs e)
+    async void onLoaded_UpdateMdb(object s, System.Windows.RoutedEventArgs e)
     {
       var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
       var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";

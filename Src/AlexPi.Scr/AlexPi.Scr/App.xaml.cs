@@ -80,7 +80,7 @@ namespace AlexPi.Scr
           case "/c": new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
           case "up":
           case "-u":
-          case "/u": new UpTimeReview2(false).Show(); return;     // uptime review.
+          case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;     
           case "si":                                              // SilentDbUpdate
                                                                   //Task.Run(async () =>              {
             var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
