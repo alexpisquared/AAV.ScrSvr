@@ -58,7 +58,7 @@ namespace AlexPi.Scr
         //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
         CurTraceLevel = AppTraceLevel_inCode; // cfg seems to be not available for ScrSvr launches?
 #else
-        CurTraceLevel = AppTraceLevel_Config;
+                CurTraceLevel = AppTraceLevel_Warnng; // AppTraceLevel_Config; - App.config is not used in Net5.
 #endif
         Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
         Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    args: {string.Join(", ", sea.Args)}   {Environment.UserName}   {Environment.MachineName}   {VerHelper.CurVerStr(".Net 5.0")}");
