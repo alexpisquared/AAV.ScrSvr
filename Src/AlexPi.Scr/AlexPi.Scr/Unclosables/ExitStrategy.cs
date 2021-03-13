@@ -12,7 +12,7 @@ namespace AlexPi.Scr.Vws
     {
       if (App.CloseOnUnIdle && (DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
       {
-        Trace.WriteLineIf(App.CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
+        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
         if (--minMaouseMovePoints < 0)
         {
           await CloseBasedOnPCName(Key.Escape, wdw);
