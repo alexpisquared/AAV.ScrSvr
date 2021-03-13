@@ -89,10 +89,9 @@ namespace UsrCtrlPOCs
 
     void uc1_Unloaded(object s, RoutedEventArgs e)
     {
-      App.LogScrSvrUptime("ScrSvr - Dn - AndroidClockUsrCtrl.uc1_Unloaded(). ");
+      App.LogScrSvrUptimeOncePerSession("ScrSvr - Dn - AndroidClockUsrCtrl.uc1_Unloaded(). ");
       sbMoveSecondHandAnlg?.Stop();
       sbMoveSecondHandImdt?.Stop();
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   AndroidClockUsrCtrl.uc1_Unloaded() ");
     }
 
     //blic static readonly DependencyProperty IsSecHndOnProperty = DependencyProperty.Register("IsSecHndOn", typeof(bool), typeof(AndroidClockUsrCtrl), new UIPropertyMetadata(true));         /**/public bool IsSecHndOn { get { return (bool)GetValue(IsSecHndOnProperty); } set { SetValue(IsSecHndOnProperty, value); } }

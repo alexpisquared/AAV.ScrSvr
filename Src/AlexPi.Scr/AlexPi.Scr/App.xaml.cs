@@ -111,11 +111,11 @@ namespace AlexPi.Scr
 
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
-    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding().   "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} ▄▀▄▀App.OnSessionEnding()"); base.OnSessionEnding(e); }
-    protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated() == lost focus!!! actually."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
+    protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnSessionEnding().   "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} ▄▀▄▀App.OnSessionEnding()"); base.OnSessionEnding(e); }
+    protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
     protected override void OnExit(ExitEventArgs e)
     {
-      LogScrSvrUptime("ScrSvr - Dn - App.OnExit()          ");
+      LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit()          ");
       base.OnExit(e);
 
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}   ▄▀▄▀▄▀▄▀▄▀App.OnExit() => Process.GetCurrentProcess().Kill(); ");
@@ -142,9 +142,9 @@ namespace AlexPi.Scr
       }
     }
     public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
-    public static void LogScrSvrUptime(string msg)
+    public static void LogScrSvrUptimeOncePerSession(string msg)
     {
-      Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
+      Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}   ▓▓ EvLogHlpr.Log({msg})");
 
       lock (_thisLock)
       {
@@ -153,11 +153,11 @@ namespace AlexPi.Scr
 #if !DEBUG
           _mustLogEORun = false;
           EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
-          Trace.Write( $" ... SUCCESS.");
+          Trace.Write( $" ... logged SUCCESS.");
 #endif
         }
         else
-          Trace.Write($" ... never armed OR done before !!!!!!!!!!!!!!!!");
+          Trace.Write($" ... not logged <- flag is not set !!! ▒▒");
       }
 
       Trace.Write($"\n");
@@ -286,7 +286,7 @@ namespace AlexPi.Scr
 
           await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
 
-          LogScrSvrUptime("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
+          LogScrSvrUptimeOncePerSession("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                     /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  LogScrSvrUptime.");
           sleepStandby();                                                                                                      /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL()  after  sleepStandby();  .");
         }
         catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
