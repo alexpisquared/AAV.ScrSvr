@@ -73,7 +73,7 @@ namespace AlexPi.Scr
         {
           default:
           case "na": _closeOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
-          case "lo": Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
+          case "lo": Trace.WriteLine( $"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
           case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
           case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
           case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
@@ -86,7 +86,7 @@ namespace AlexPi.Scr
             var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
             var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
             await SpeakAsync(rprt);
-            Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
+            Trace.WriteLine( $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
             //}).ContinueWith(_ => 
             Shutdown()
             //, TaskScheduler.FromCurrentSynchronizationContext()); //?? Aug 2019.
@@ -109,7 +109,7 @@ namespace AlexPi.Scr
       }
       catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
 
-      Trace.WriteLineIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
+      Trace.WriteLine( $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
     protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnSessionEnding()."); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnSessionEnding()"); base.OnSessionEnding(e); }
     protected override void OnDeactivated(EventArgs e) { LogScrSvrUptime("ScrSvr - Dn - App.OnDeactivated() == lost focus!!! actually .  "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff} App.OnDeactivated()  "); base.OnDeactivated(e); }
@@ -144,7 +144,7 @@ namespace AlexPi.Scr
     public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
     static void LogScrSvrUptime(string msg)
     {
-      Trace.WriteIf(CurTraceLevel.TraceWarning, $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
+      Trace.Write( $"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    EvLogHlpr.Log({msg})");
 
       lock (_thisLock)
       {
@@ -153,14 +153,14 @@ namespace AlexPi.Scr
 #if !DEBUG
           _mustLogEORun = false;
           EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
-          Trace.WriteIf(CurTraceLevel.TraceWarning, $" ... SUCCESS.");
+          Trace.Write( $" ... SUCCESS.");
 #endif
         }
         else
-          Trace.WriteIf(CurTraceLevel.TraceWarning, $" ... never armed OR done before !!!!!!!!!!!!!!!!");
+          Trace.Write( $" ... never armed OR done before !!!!!!!!!!!!!!!!");
       }
 
-      Trace.WriteIf(CurTraceLevel.TraceWarning, $"\n");
+      Trace.Write( $"\n");
 
       AAV.Sys.Helpers.Bpr.BeepEnd3();
     }
