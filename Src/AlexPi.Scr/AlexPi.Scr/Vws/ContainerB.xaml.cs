@@ -51,7 +51,7 @@ namespace AlexPi.Scr.Vws
 
         gaugeTorCPU.GaugeText = $"{p:N0}\r\n{((gaugeTorCPU.InnerVal + 90) / k):N0} - {((gaugeTorCPU.OuterVal + 90) / k):N0}";
 
-        if (p > 33 && !_alreadyRunning)
+        if (p > 75 && !_alreadyRunning)
         {
           App.SpeakFaF($"Measured {p:N0} percent of CPU usage. Launching task manager...");
           _alreadyRunning = true;
