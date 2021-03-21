@@ -97,9 +97,9 @@ namespace AlexPi.Scr.UsrCtrls
 
           addWkTimeSegment(timeA, timeB, (EvOfIntFlag)prevEoiF, EvOfIntFlag.Who_Knows_What, _brhDodgerBlue);
 
-          UpTimeTx = $"  {ts.TotalDaysUp,5:h\\:mm}     {ts.WorkedFor:h\\:mm}  ";
+          UpTimeTx = $"  {ts.TotalDaysUp,5:h\\:mm}     {ts.WorkedFor:h\\:mm}    {trgDate:ddd}";
 
-          Debug.WriteLine($"■ ■  UpTimeTx: {UpTimeTx}    UpTimePc:{UpTimePc}\r\n");
+          //Debug.WriteLine($"{DateTime.Now:HH:mm:ss}  ■ ■  UpTimeTx: {UpTimeTx}    UpTimePc:{UpTimePc}");
         }
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
