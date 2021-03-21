@@ -1,5 +1,6 @@
 ﻿#define VisEna//Visi // see verdict at the bottom.
 //using AsLink.Standard.Helpers;
+using AsLink;
 using AsLink.Standard.Helpers;
 using System;
 using System.Diagnostics;
@@ -72,9 +73,12 @@ namespace AlexPi.Scr.UsrCtrls
         for (int imgIdx = 0, t10 = 0; imgIdx < _Images.Length && t10 < 18; t10 -= 10)
         {
           var utx = EnvtCanRadarHelper.RoundBy10min(utcnow.AddMinutes(t10));
-          var url = EnvtCanRadarHelper.GetRadarUrl(utx, IsRain, IsDark);
           Debug.Write($"{utx} ");
-          if (await EnvtCanRadarHelper.DoesImageExistRemotely(url))
+          string url;
+          if (await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, true))
+           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, true))
+           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, false))
+           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, false)))
           {
             var lcl = utx.ToLocalTime();
 
@@ -87,7 +91,9 @@ namespace AlexPi.Scr.UsrCtrls
             imgIdx++;
           }
           else
+          {
             Debug.WriteLine($" -- {imgIdx}");
+          }
         }
       }
       catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); }

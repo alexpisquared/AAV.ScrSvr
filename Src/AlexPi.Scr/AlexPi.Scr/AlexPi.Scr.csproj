@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EnvCanRadarUrlHelper.cs" Link="AsLink\EnvCanRadarUrlHelper.cs" />
     <Compile Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml.cs" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml.cs" />
   </ItemGroup>
 
