@@ -70,11 +70,10 @@ namespace AlexPi.Scr.UsrCtrls
         //bFresh.IsEnabled = ctrlpnl.IsEnabled = false;
         lblTR.Text = "[Re-]Loading...";                //lblTR.BackgroundColor = Color.FromHex("#a00");
         lblTL.Text = "\r\n";
+        string url;
         for (int imgIdx = 0, t10 = 0; imgIdx < _Images.Length && t10 < 18; t10 -= 10)
         {
           var utx = EnvtCanRadarHelper.RoundBy10min(utcnow.AddMinutes(t10));
-          Debug.Write($"{utx} ");
-          string url;
           if (await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, true))
            || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, true))
            || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, false))
@@ -85,14 +84,14 @@ namespace AlexPi.Scr.UsrCtrls
             _Images[imgIdx].Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
             _Images[imgIdx].Tag = $"{lcl:H:mm}";
             //if (imgIdx == 0)
-            lblTL.Text += $" {lcl:HH:mm}   {(utcnow - lcl):mm} m ago  \r\n";
+            lblTL.Text += $"██ {lcl:HH:mm}   {(utcnow - lcl):mm} m ago  \r\n";
 
-            Debug.WriteLine($" ++ {imgIdx}");
+            Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {url}");
             imgIdx++;
           }
           else
           {
-            Debug.WriteLine($" -- {imgIdx}");
+            Debug.WriteLine($"■ {utx} -- {imgIdx,2}  {url}");
           }
         }
       }
