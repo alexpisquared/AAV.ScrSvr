@@ -52,18 +52,20 @@ namespace WebScrap
       {
         try
         {
-          var bitmap = new Bitmap(fn);
-          return bitmap;
+          Debug.Write("c");
+          return new Bitmap(fn);
         }
         catch (Exception ex)
         {
           Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
           File.Delete(fn); // delete corrupt images
         }
+        Debug.Write("?");
         return new Bitmap(5, 5);
       }
       else
       {
+        Debug.Write("n");
         return SaveWebImageToFile(url, fn);
       }
     }
