@@ -84,7 +84,7 @@ namespace AlexPi.Scr.UsrCtrls
             _Images[imgIdx].Source = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
             _Images[imgIdx].Tag = $"{lcl:H:mm}";
             //if (imgIdx == 0)
-            lblTL.Text += $"██ {lcl:HH:mm}   {(utcnow - lcl):mm} m ago  \r\n";
+            lblTL.Text += $"▓▒ {lcl:HH:mm}   {(utcnow - lcl):mm} m ago  \r\n";
 
             Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {url}");
             imgIdx++;
