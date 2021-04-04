@@ -74,10 +74,11 @@ namespace AlexPi.Scr.UsrCtrls
         for (int imgIdx = 0, t10 = 0; imgIdx < _Images.Length && t10 < 18; t10 -= 10)
         {
           var utx = EnvtCanRadarHelper.RoundBy10min(utcnow.AddMinutes(t10));
-          if (await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, true))
-           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, true))
-           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, false))
-           || await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, false)))
+          if (await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx))
+           //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, true))
+           //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, false))
+           //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, false))
+           )
           {
             var lcl = utx.ToLocalTime();
 
@@ -113,26 +114,18 @@ namespace AlexPi.Scr.UsrCtrls
         var utcNow = DateTime.UtcNow;
         var imgIdx = (_counter--) % (_Images.Length + (updateTextWhenManual ? 0 : _pauseinBits));
         if (imgIdx >= _Images.Length)
-        {
-          //if (imgIdx == _Images.Length + _pauseinBits / 2)            _Images[_Images.Length - 1].IsEnabled = true;
-
           return;
-        }
 
-        if (_Images[imgIdx]?.Source == null) { lblTR.Text = $" ** [{imgIdx}] is null ** "; Debug.WriteLine(lblTR.Text); }
-        else
-        {
-          var txt = _Images[imgIdx]?.Source.ToString();
-          lblTR.Text = $" {(new string('█', _Images.Length - imgIdx))}{(new string('▄', imgIdx))} "; // \t\t\t {imgIdx} -  {txt.Substring(txt.Length - 6, 2)} 
-          if (_nextRefresh < utcNow) await Fresh("Timer");
+        lblTR.Text = $" {(new string('█', _Images.Length - imgIdx))}{(new string('▄', imgIdx))} "; // \t\t\t {imgIdx} -  {txt.Substring(txt.Length - 6, 2)} 
+        if (_nextRefresh < utcNow) await Fresh("Timer");
 
 #if VisEna
-          if (imgIdx == _Images.Length - 1) for (var j = 0; j < _Images.Length - 1; j++) _Images[j].IsEnabled = false;
-          else _Images[imgIdx].IsEnabled = true;
+        if (imgIdx == _Images.Length - 1) for (var j = 0; j < _Images.Length - 1; j++) _Images[j].IsEnabled = false;
+        else _Images[imgIdx].IsEnabled = true;
 
-          //Debug.Write($" ~~ tick(): Img.Vis: ");
+        //Debug.Write($" ~~ tick(): Img.Vis: ");
 
-          //~~for (var j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].Visibility == Visibility.Visible ? "+" : "-")}");
+        //~~for (var j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].Visibility == Visibility.Visible ? "+" : "-")}");
 #elif Visi
                     if (imgIdx == _Images.Length - 1) for (int j = 0; j < _Images.Length - 1; j++) _Images[j].Visibility = Visibility.Hidden;
                     else _Images[imgIdx].Visibility = Visibility.Visible;
@@ -144,8 +137,7 @@ namespace AlexPi.Scr.UsrCtrls
                     for (int j = 0; j < _Images.Length; j++) Debug.Write($"{(_Images[j].IsEnabled ? "+" : "-")}");
 #endif
 
-          //~~Debug.WriteLine($" ~~ ");
-        }
+        //~~Debug.WriteLine($" ~~ ");
       }
       catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); }
     }

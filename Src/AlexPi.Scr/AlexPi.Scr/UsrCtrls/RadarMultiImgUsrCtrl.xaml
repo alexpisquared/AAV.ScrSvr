@@ -53,16 +53,17 @@
     </Style>
   </UserControl.Resources>
   <Viewbox>
-    <Grid Background="#def"               x:Name="MainCanvas" Height="960" Width="1160" >
+    <Grid x:Name="MainCanvas" Height="960" Width="1160" >
 
       <Grid x:Name="imgPanel" />
 
-      <Image Opacity="1.0" Stretch="Fill" x:Name="_imageRoads" Source="/RadarLib;Component/WKR_roads.gif"  />
+      <Image Stretch="Fill" x:Name="_imageRoads" Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_m_2021@04@04_01h10m.jpg"
+             Margin="-500"/>
 
-      <Grid Width="160" Height="160" Margin="411 433 0 0" VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Ellipse Width="160" Height="160" StrokeThickness="1" Stroke="#f00" />
-        <Ellipse Width="100" Height="100" StrokeThickness="1" Stroke="#f00" />
-        <Ellipse Width="10"  Height="10"  StrokeThickness="2" Stroke="#f00" Fill="#ff0" />
+      <Grid Width="160" Height="160" Margin="296,457,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Ellipse Width="160" Height="160" StrokeThickness="4" Stroke="#ff0" />
+        <Ellipse Width="100" Height="100" StrokeThickness="3" Stroke="#ff0" />
+        <Ellipse Width="10"  Height="10"  StrokeThickness="2" Stroke="#ff0" />
       </Grid>
 
       <TextBlock x:Name="lblDbg" VerticalAlignment="Top"     HorizontalAlignment="Center"  Foreground="#888" Text="***" />
@@ -71,7 +72,7 @@
       <TextBlock x:Name="lblBC"  VerticalAlignment="Bottom"  HorizontalAlignment="Center"  Foreground="#888" Text="***" />
       <TextBlock x:Name="lblBL"  VerticalAlignment="Bottom"  HorizontalAlignment="Left"    Foreground="#888" Text="***" />
       <TextBlock x:Name="lblBR"  VerticalAlignment="Bottom"  HorizontalAlignment="Right"   Foreground="#888" Text="***" />
-    
+
       <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg"    VerticalAlignment="Top"    HorizontalAlignment="Left"  />
       <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_visible_100.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Left"  />
       <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_vvi_100.jpg"     VerticalAlignment="Bottom" HorizontalAlignment="Right" />
