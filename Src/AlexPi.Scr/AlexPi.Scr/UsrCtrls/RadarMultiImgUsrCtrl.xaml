@@ -57,8 +57,9 @@
 
       <Grid x:Name="imgPanel" />
 
-      <Image Stretch="Fill" x:Name="_imageRoads" Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_m_2021@04@04_01h10m.jpg"
+      <Image Stretch="Fill" x:Name="_imageRoads" 
              Margin="-500"/>
+             <!--Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_m_2021@04@04_01h10m.jpg"-->
 
       <Grid Width="160" Height="160" Margin="296,457,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
         <Ellipse Width="160" Height="160" StrokeThickness="4" Stroke="#ff0" />
