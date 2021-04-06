@@ -10,7 +10,7 @@
   <UserControl.Resources>
 
     <Duration x:Key="fadeIn"   >0:0:.050</Duration>
-    <Duration x:Key="fadeOu"   >0:0:.100</Duration>
+    <Duration x:Key="fadeOu"   >0:0:.300</Duration>
     <Duration x:Key="superFast">0:0:.001</Duration>
 
     <Storyboard  x:Key="sbScaleTo1">
@@ -74,9 +74,10 @@
       <TextBlock x:Name="lblBL"  VerticalAlignment="Bottom"  HorizontalAlignment="Left"    Foreground="#888" Text="***" />
       <TextBlock x:Name="lblBR"  VerticalAlignment="Bottom"  HorizontalAlignment="Right"   Foreground="#888" Text="***" />
 
+      <!--
       <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg"    VerticalAlignment="Top"    HorizontalAlignment="Left"  />
       <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_visible_100.jpg" VerticalAlignment="Bottom" HorizontalAlignment="Left"  />
-      <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_vvi_100.jpg"     VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+      <View:PermaZoomFrameUsrCtrl Margin="-15" Width="256" Height="256" ImageURL="https://weather.gc.ca/data/satellite/goes_ecan_vvi_100.jpg"     VerticalAlignment="Bottom" HorizontalAlignment="Right" />-->
 
     </Grid>
   </Viewbox>
