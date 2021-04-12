@@ -24,6 +24,9 @@
   <ItemGroup>
     <!--<PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />-->
     <!--<PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />-->
+    <!-- LiveCharts V2: ..or OxyPlot maybe
+    <PackageReference Include="CoelWu.LiveCharts.Core.SkiaSharpView.WPF" Version="1.0.0" />
+    -->
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
