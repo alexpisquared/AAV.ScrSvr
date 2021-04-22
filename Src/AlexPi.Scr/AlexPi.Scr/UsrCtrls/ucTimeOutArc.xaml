@@ -29,7 +29,7 @@
   <Viewbox>
     <Grid Height="300" Width="300" Grid.Row="1" >
 
-      <ed:Arc  Stroke="#ccc" StrokeThickness="2" StartAngle="+0" EndAngle="+340" x:Name="arc2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Stretch="None" >
+      <ed:Arc  Stroke="#d04" StrokeThickness="2" StartAngle="+0" EndAngle="+340" x:Name="arc2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Stretch="None" >
         <ed:Arc.Triggers>
           <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>

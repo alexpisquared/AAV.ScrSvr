@@ -115,7 +115,6 @@
     <UsrCtrls:UpTimeSpiralUC x:Name="utC" Margin="130.5" d:IsHidden="True" />
 
     <ed:Arc StartAngle="{Binding StartMin, ElementName=uc1}" EndAngle="{Binding CurntMin, ElementName=uc1}" Margin="32" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="#6affffff" d:IsHidden="True"        />
-    <!--<ed:Arc StartAngle="{Binding StartHou, ElementName=uc1}" EndAngle="{Binding CurntHou, ElementName=uc1}" Margin="50" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="#def"        />-->
     <ed:Arc StartAngle="{Binding StartHou, ElementName=uc1}" EndAngle="{Binding CurntHou, ElementName=uc1}" Margin="15" Stretch="None" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Stroke="DodgerBlue" d:IsHidden="True"  />
 
     <Grid x:Name="Hands" Height="300" Width="300" VerticalAlignment="Center" HorizontalAlignment="Center" >
@@ -179,7 +178,7 @@
             <TranslateTransform/>
           </TransformGroup>
         </Grid.RenderTransform>
-        <Path Data="M150,5 L150,137 M150,163 L150,190" Stroke="#d44" StrokeThickness="2" RenderTransformOrigin="0.5,0.5" />
+        <Path Data="M150,5 L150,137 M150,163 L150,190" Stroke="#d04" StrokeThickness="2" RenderTransformOrigin="0.5,0.5" />
       </Grid>
 
       <!--<Border BorderBrush="#0af" Background="#444" BorderThickness="2" CornerRadius="60" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MouseOverShowHideAnimStyle}">
