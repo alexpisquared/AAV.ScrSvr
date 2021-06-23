@@ -55,11 +55,9 @@
   <Viewbox>
     <Grid x:Name="MainCanvas" Height="960" Width="1160" >
 
+      <Image Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg" />
+      
       <Grid x:Name="imgPanel" />
-
-             <!--Margin="-500"-->
-      <Image Stretch="Fill" x:Name="_imageRoads" 
-             Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg" />
 
       <Grid Width="160" Height="160" Margin="390 429 0 0" VerticalAlignment="Top" HorizontalAlignment="Left">
         <Ellipse Width="160" Height="160" StrokeThickness="4" Stroke="#ff0" />

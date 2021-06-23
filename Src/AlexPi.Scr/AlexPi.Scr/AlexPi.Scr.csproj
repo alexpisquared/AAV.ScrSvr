@@ -50,7 +50,6 @@
     <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
-    <ProjectReference Include="..\WindowsFormsLib\WindowsFormsLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
