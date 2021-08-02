@@ -253,6 +253,9 @@ namespace AlexPi.Scr.UsrCtrls
 
         tbbr.Text = $"{_randIdx,6:N0} / {ttlAvail:N0}";
         tbtr.Text = $"{Path.GetDirectoryName(file)} \r\n{Path.GetFileName(file)} \r\n";                    //tbtl.Text = $"{f.FileCreated:yyyy-MM-dd  HH}";
+
+        tbtl.Text = $"{new FileInfo(file).LastWriteTime:yyyy MMM dd ddd}";
+
         HistList.Add(HistSlct = _randIdx);
         lb1.SelectedIndex = HistIndx = HistList.Count - 1;
 
