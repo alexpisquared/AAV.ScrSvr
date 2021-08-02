@@ -20,10 +20,10 @@ namespace AlexPi.Scr.UsrCtrls
   public partial class SlideShowUsrCtrl : UserControl
   {
 #if DEBUG
-    private readonly int _showtimeMs = 4000;
-    private readonly int _inOutMs = 2000;
-    private readonly int _initlDelay = 250;
-    private int _take = 5;
+    readonly int _showtimeMs = 4000;
+    readonly int _inOutMs = 2000;
+    readonly int _initlDelay = 250;
+    int _take = 5;
     readonly string _wildcard = "*.jpg";
 #else
     readonly string _wildcard = "*.*";
@@ -32,25 +32,6 @@ namespace AlexPi.Scr.UsrCtrls
     readonly int _initlDelay = 2500;
     int _take = 100;
 #endif
-    readonly string[] _blackList = new string[]
-    {
-            ".aae",
-            ".application",
-            ".bat",
-            ".db",
-            ".deploy",
-            ".dll",
-            ".exe",
-            ".ini",
-            ".log",
-            ".manifest",
-            ".nar",
-            ".oxps",
-            ".pcd",
-            ".modd",
-            ".thumb",
-            ".txt",
-    };
     readonly Random _rand = new Random(DateTime.Now.Second);
     Storyboard _sbin, _sbou, _time;
     string[] _allFiles;
@@ -108,7 +89,7 @@ namespace AlexPi.Scr.UsrCtrls
         {
           await Task.Delay(_initlDelay);
 
-          var sw = Stopwatch.StartNew();
+          Stopwatch sw = Stopwatch.StartNew();
           var allFiles = await getFileNamesAsync(_currentFolder, _wildcard);
           sw.Stop();
 
@@ -160,7 +141,7 @@ namespace AlexPi.Scr.UsrCtrls
           me1.Source = new Uri(file);
           _sbin.Begin();
 
-          var showtimeMs = TimeSpan.FromMilliseconds(_showtimeMs);
+          TimeSpan showtimeMs = TimeSpan.FromMilliseconds(_showtimeMs);
           if (MediaHelper.IsVideo(file))
           {
             for (var i = 0; i < 10; i++)
@@ -208,7 +189,7 @@ namespace AlexPi.Scr.UsrCtrls
         tbbl.Text = $"{_currentFolder}";
         await Task.Delay(_initlDelay);
 
-        var window = Window.GetWindow(this);
+        Window window = Window.GetWindow(this);
         while (window == null)
         {
           await Task.Delay(100);
@@ -216,7 +197,7 @@ namespace AlexPi.Scr.UsrCtrls
         }
         window.PreviewKeyUp += onPreviewKeyUp;
 
-        var sw = Stopwatch.StartNew();
+        Stopwatch sw = Stopwatch.StartNew();
 
         _allFiles = await getFileNamesAsync(_currentFolder, _wildcard);                //GetAllFiles(@"C:\", "*").ToArray();
 
@@ -254,7 +235,8 @@ namespace AlexPi.Scr.UsrCtrls
         tbbr.Text = $"{_randIdx,6:N0} / {ttlAvail:N0}";
         tbtr.Text = $"{Path.GetDirectoryName(file)} \r\n{Path.GetFileName(file)} \r\n";                    //tbtl.Text = $"{f.FileCreated:yyyy-MM-dd  HH}";
 
-        tbtl.Text = $"{new FileInfo(file).LastWriteTime:yyyy MMM dd ddd}";
+        tbtl.Text = $"{new FileInfo(file).LastWriteTime:MMM dd, yyyy  ddd}";
+        tbbl.Text = $"{new FileInfo(file).LastWriteTime:HH:mm}";
 
         HistList.Add(HistSlct = _randIdx);
         lb1.SelectedIndex = HistIndx = HistList.Count - 1;
@@ -276,14 +258,14 @@ namespace AlexPi.Scr.UsrCtrls
         me1.Pause(); Debug.WriteLine($"--- Pause()");
         me1.Volume = .01;
 
-        tbbl.Text = "";
+        //tbbl.Text = "";
 
-        var showtimeTs = TimeSpan.FromMilliseconds(_showtimeMs - _inOutMs);
+        TimeSpan showtimeTs = TimeSpan.FromMilliseconds(_showtimeMs - _inOutMs);
         if (MediaHelper.IsVideo(file))
         {
           for (var i = 0; i < 100; i++)
           {
-            tbbl.Text = ($" (got duration in {i + 1} tries) ");
+            tbbl.Text += ($" (got duration in {i + 1} tries) ");
             await Task.Delay(100);
             if (me1.NaturalDuration.HasTimeSpan)
             {
@@ -407,6 +389,25 @@ namespace AlexPi.Scr.UsrCtrls
     void on_MediaOpened(object s, /**/     RoutedEventArgs e) => Debug.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss}> Media Loaded : {e}");
     void on_MediaEnded(object s,  /**/     RoutedEventArgs e) => Debug.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss}> Media Ended  : {e}");
     void on_MediaFailed(object s, ExceptionRoutedEventArgs e) => Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss}> Media Failed : {e.ErrorException.Message} \t{((MediaElement)s)?.Source?.LocalPath}");
+
+    readonly string[] _blackList = new string[]
+    {
+      ".aae",
+      ".application",
+      ".bat",
+      ".db",
+      ".deploy",
+      ".dll",
+      ".exe",
+      ".ini",
+      ".log",
+      ".manifest",
+      ".nar",
+      ".oxps",
+      ".pcd",
+      ".modd",
+      ".thumb",
+      ".txt"  };
   }
 }
 ///todo: Delete popup window
