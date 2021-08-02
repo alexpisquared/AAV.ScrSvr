@@ -27,10 +27,7 @@
     </Storyboard>
     <Storyboard x:Key="sb15">
       <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pb1" From="0" To="100" Storyboard.TargetProperty="Value"    />
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pb5" From="0" To="360" Storyboard.TargetProperty="EndAngle" Timeline.DesiredFrameRate="5" />
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pb2" From="0" To="360" Storyboard.TargetProperty="EndAngle" Timeline.DesiredFrameRate="20" />
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pb6" From="0" To="360" Storyboard.TargetProperty="EndAngle" Timeline.DesiredFrameRate="60" />
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pbX" From="0" To="360" Storyboard.TargetProperty="EndAngle" Timeline.DesiredFrameRate="120" />
+      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pbX" From="0" To="360" Storyboard.TargetProperty="StartAngle" Timeline.DesiredFrameRate="60" />
       <!--<DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
     </Storyboard>
 
@@ -50,12 +47,7 @@
       </Grid>
 
       <ProgressBar x:Name="pb1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Grid.Column="2" Value="33" BorderThickness="0" Height="5" Margin="10"       Background="#cc0" Foreground="#00f" />
-      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
-      <ed:Arc      x:Name="pb5" StartAngle="+0" EndAngle="+340" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Center" HorizontalAlignment="Left" Stroke="#cc0" Margin="10" />
-      <ed:Arc      x:Name="pb2" StartAngle="+0" EndAngle="+340" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Center" HorizontalAlignment="Left" Stroke="#cc0" Margin="10" />
-      <ed:Arc      x:Name="pb6" StartAngle="+0" EndAngle="+340" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Center" HorizontalAlignment="Left" Stroke="#cc0" Margin="10" />
-      <ed:Arc      x:Name="pbX" StartAngle="+0" EndAngle="+340" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Center" HorizontalAlignment="Left" Stroke="#cc0" Margin="10" />
-      </StackPanel>
+      <ed:Arc      x:Name="pbX" StartAngle="+1" EndAngle="+360" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Center" HorizontalAlignment="Left" Stroke="#cc0" Margin="10" />
 
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"    HorizontalAlignment="Center">
         <Button Content="    &lt;_,    " Name="btnPrev" Click="btnPrev_Click" />
