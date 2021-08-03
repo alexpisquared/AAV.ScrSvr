@@ -239,7 +239,7 @@ namespace AlexPi.Scr.UsrCtrls
         tbbl.Text = $"{new FileInfo(file).LastWriteTime:HH:mm}";
 
         HistList.Add(HistSlct = _randIdx);
-        lb1.SelectedIndex = HistIndx = HistList.Count - 1;
+        lbxHist.SelectedIndex = HistIndx = HistList.Count - 1;
 
         await showFile(file);
       }
@@ -311,7 +311,7 @@ namespace AlexPi.Scr.UsrCtrls
         _isPlaying = false;
         btnPrev.Visibility = Visibility.Hidden;
 
-        lb1.SelectedIndex = histIdx = HistList.Count - (++_back) - 1;
+        lbxHist.SelectedIndex = histIdx = HistList.Count - (++_back) - 1;
         _curHistFile = _allFiles[HistSlct = _randIdx = HistList[histIdx]];
         Clipboard.SetText(_curHistFile);
         await showFile(_curHistFile, false);
@@ -332,7 +332,7 @@ namespace AlexPi.Scr.UsrCtrls
         _isPlaying = false;
         btnPrev.Visibility = Visibility.Hidden;
 
-        lb1.SelectedIndex = histIdx = HistList.Count - (--_back) - 1;
+        lbxHist.SelectedIndex = histIdx = HistList.Count - (--_back) - 1;
         var file = _allFiles[HistList[histIdx]];
         Clipboard.SetText(file);
         await showFile(file, false);
@@ -351,7 +351,7 @@ namespace AlexPi.Scr.UsrCtrls
     }
     async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop(_allFiles.Length);
 
-    async void lb1_SelectionChanged(object s, SelectionChangedEventArgs e)
+    async void lbxHist_SelectionChanged(object s, SelectionChangedEventArgs e)
     {
       if (e.AddedItems.Count < 1)
       {
