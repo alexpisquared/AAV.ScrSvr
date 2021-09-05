@@ -70,7 +70,7 @@ namespace GaugeUserControlLibrary
     {
       if (stkPnl.Children.Count > ActualWidth) stkPnl.Children.RemoveAt(0); // measure per pixel ...plus scaling...
 
-      stkPnl.Children.Add(new Rectangle { Height = 50 * Math.Log10(percCpuLoad) });
+      stkPnl.Children.Add(new Rectangle { Height = 50 * Math.Log10(percCpuLoad) - percCpuLoad, Margin = new System.Windows.Thickness(0, 0, 0, percCpuLoad) });
 
       //Debug.WriteLine($"*** WxH: {ActualWidth}x{stkPnl.ActualHeight}   v={percCpuLoad,3:N0}");
     }
