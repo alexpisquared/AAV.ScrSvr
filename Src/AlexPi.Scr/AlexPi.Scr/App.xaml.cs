@@ -153,7 +153,7 @@ namespace AlexPi.Scr
         {
 #if !DEBUG
           _mustLogEORun = false;
-          EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-ScrSvrTimeoutSec), ScrSvrTimeoutSec, msg);
+          EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-ScrSvrTimeoutSec), msg);
           Trace.Write( $" ... logged SUCCESS.");
 #endif
         }

@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace AsLink
 {
-  public static partial class EvLogHelper
+  public static partial class EvLogHelper //2021-09: old RO version. Tried to replace with C:\g\TimeTracking\N50\TimeTracking50\TimeTracker\AsLink\EvLogMngr.cs - too many diffs. 
   {
     const int _ssrUp = 7101, _ssrDn = 7102, _bootUp_12 = 12, _bootDn_13 = 13, _syTime_01 = 1; // when waking from hibernation: 12 is nowhere to be seen, 1 is there.
 
