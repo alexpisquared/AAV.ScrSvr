@@ -1,59 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>Close-box-red.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<ApplicationIcon>Close-box-red.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.UI\Converters\ConverterEx.cs" Link="AsLink\ConverterEx.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.UI\Converters\ConverterEx.cs" Link="AsLink\ConverterEx.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Vws\MainEvLogExplr.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>MainEvLogExplr.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Vws\RODBView.xaml.cs">
-      <DependentUpon>RODBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Vws\xBindingErrorPOC.xaml.cs">
-      <DependentUpon>xBindingErrorPOC.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Vws\MainEvLogExplr.xaml.cs">
+			<SubType>Code</SubType>
+			<DependentUpon>MainEvLogExplr.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Vws\RODBView.xaml.cs">
+			<DependentUpon>RODBView.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Vws\xBindingErrorPOC.xaml.cs">
+			<DependentUpon>xBindingErrorPOC.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Vws\MainEvLogExplr.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Vws\RODBView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Vws\xBindingErrorPOC.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Update="Vws\MainEvLogExplr.xaml">
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Vws\RODBView.xaml">
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Vws\xBindingErrorPOC.xaml">
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AsLink\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="AsLink\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Include="..\..\..\..\AAV.Shared\Src\AsLink\CsProj\AAV.Common.UI\Themes\Common.xaml" Link="AsLink\Common.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="..\..\..\..\AAV.Shared\Src\AsLink\CsProj\AAV.Common.UI\Themes\CommonDark.xaml" Link="AsLink\CommonDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Include="..\..\..\..\AAV.Shared\Src\AsLink\CsProj\AAV.Common.UI\Themes\Common.xaml" Link="AsLink\Common.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="..\..\..\..\AAV.Shared\Src\AsLink\CsProj\AAV.Common.UI\Themes\CommonDark.xaml" Link="AsLink\CommonDark.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
-    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
-    <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
-    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
+		<ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
+		<ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
+		<ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
+	</ItemGroup>
 
 </Project>
