@@ -374,7 +374,11 @@ namespace WebScrap
     {
       var fn = url.Replace("https://", "").Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
       var folder = Path.Combine(OneDrive.WebCacheFolder, fn.Split('-')[0]);
+#if CS8
       fn = fn[(fn.IndexOf("-") + 1)..]; // == fn = fn.Substring(fn.IndexOf("-") + 1);
+#else
+      fn = fn.Substring(fn.IndexOf("-") + 1);
+#endif
 
       if (!Directory.Exists(folder))
         Directory.CreateDirectory(folder);
