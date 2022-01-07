@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AAV.Sys.Ext;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -82,15 +83,11 @@ namespace AlexPi.Scr
           case "-u":
           case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
           case "si":                                              // SilentDbUpdate
-                                                                  //Task.Run(async () =>              {
             var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
             var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
             await SpeakAsync(rprt);
             Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - {rprt}");
-            //}).ContinueWith(_ => 
-            Shutdown()
-            //, TaskScheduler.FromCurrentSynchronizationContext()); //?? Aug 2019.
-            ;
+            Shutdown();
             return;
           case "ct": // Chime Test
             await SpeakAsync($"Testing FreqWalkUp start");
@@ -104,10 +101,13 @@ namespace AlexPi.Scr
             return;
         }
 
-
         showFullScrSvr_ScheduleArming();
       }
-      catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
+      catch (Exception ex)
+      {
+        ex.Log(optl: "ASYNC void OnStartup()");
+        ex.Pop(optl: "ASYNC void OnStartup()");
+      }
 
       //tmi: Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
     }
