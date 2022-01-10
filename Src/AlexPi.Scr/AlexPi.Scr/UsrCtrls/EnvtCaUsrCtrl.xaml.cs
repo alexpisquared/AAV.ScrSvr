@@ -2,10 +2,15 @@
 using AsLink;
 using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using Microsoft.Extensions.Configuration;
+using OpenWeather2022;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -113,13 +118,27 @@ namespace AlexPi.Scr.UsrCtrls
         var RedTransBluGrad = FindResource("RedTransBluGrad") as Brush;
         var DodgerBlue0Grad = FindResource("DodgerBlue0Grad") as Brush;
 
-        cChartFore24.LoadDataToChart_24hr(sitedata, RedBlueOnlyGrad, RedTransBluGrad, DodgerBlue0Grad, YMin);
+        var ooo = oo().GetAwaiter().GetResult();
+
+        cChartFore24.LoadDataToChart_24hr(sitedata, RedBlueOnlyGrad, RedTransBluGrad, DodgerBlue0Grad, YMin, ooo);
         cChartForeXX.LoadDataToChart_Week(sitedata, RedBlueOnlyGrad, RedTransBluGrad, DodgerBlue0Grad);
         cChart2.LoadDataToChart_LofP(sitedata);
         tbExn.Text = "";
       }
       catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); tbExn.Text = ex.InnermostMessage(); }
     }
+
+    async Task<List<DtDc>> oo()
+    {
+      var _config = new ConfigurationBuilder().AddUserSecrets<App>().Build(); //tu: adhoc usersecrets 
+      var _opnwea = new OpenWeatherRevisit2022();
+      var ocv = await _opnwea.GetIt(_config["AppSecrets:MagicNumber"], 43.8374229, -79.4961442).ConfigureAwait(false); // PHC107
+      ArgumentNullException.ThrowIfNull(ocv);
+      var rv = new List<DtDc>();
+      ocv.hourly.ToList().ForEach(x => rv.Add(new DtDc(OpenWeatherRevisit2022.UnixTimeStampToDateTime(x.dt), (decimal)x.temp)));
+      return rv;
+    }
+
     void onGoTo(object s, System.Windows.Navigation.RequestNavigateEventArgs e) => Process.Start(e.Uri.AbsoluteUri);
     void onMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) => onLoaded(s, null);
 
@@ -138,7 +157,7 @@ namespace AlexPi.Scr.UsrCtrls
   }
   public static class CartesianChartExt
   {
-    public static void LoadDataToChart_24hr(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush dodgerBlue0Grad, decimal YMin)
+    public static void LoadDataToChart_24hr(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush dodgerBlue0Grad, decimal YMin, List<DtDc> ooo)
     {
       byte nrm = 64, ext = 0, xff = 128, ngt = 0, day = 255;
       Brush
@@ -170,8 +189,7 @@ namespace AlexPi.Scr.UsrCtrls
         var normalMin = sd.almanac.temperature[3].Value.GetDecimal();
         var extremMin = sd.almanac.temperature[1].Value.GetDecimal();
 
-        //always throws no matter what:
-        //try { if (cc.AxisY?.First()?.Sections != null) cc.AxisY?.First()?.Sections.Clear(); } catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); else Debug.WriteLine("Still throws...."); }
+        //always throws no matter what:        try { if (cc.AxisY?.First()?.Sections != null) cc.AxisY?.First()?.Sections.Clear(); } catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); else Debug.WriteLine("Still throws...."); }
 
         cc.AxisY.First().Sections = new SectionsCollection
         {
@@ -188,18 +206,19 @@ namespace AlexPi.Scr.UsrCtrls
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(sunrz2, +50), new DtDc(sunst2, +50)}, Title = "Daytime", Fill = daytClr  },
 
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(now,50), new DtDc(now,-50) }, Stroke = Brushes.Yellow, StrokeThickness=1, Fill = Brushes.Transparent, PointGeometry=null, Title = "Now"  },
-          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(yst, sd.yesterdayConditions.temperature.Min(r=>r.Value.GetDecimal())), new DtDc(yst, sd.yesterdayConditions.temperature.Max(r=>r.Value.GetDecimal())) } , Stroke = RedBlueOnlyGrad, StrokeThickness=5, PointGeometry= DefaultGeometries.None, Fill = Brushes.Transparent, Title = "Yesterday"  },
+          new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(yst, sd.yesterdayConditions.temperature.Min(r=>r.Value.GetDecimal())), new DtDc(yst, sd.yesterdayConditions.temperature.Max(r=>r.Value.GetDecimal())) } , Stroke = RedBlueOnlyGrad, StrokeThickness=5, PointGeometry = DefaultGeometries.None, Fill = Brushes.Transparent, Title = "Yesterday"  },
 
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.temperature.Value.GetDecimal())    }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = RedBlueOnlyGrad, Stroke=RedBlueOnlyGrad, Fill = Brushes.Transparent, Title = "T°C Real" },
           new LineSeries{Values=new ChartValues<DtDc>{ new DtDc(obs, sd.currentConditions.windChill?.Value.GetDecimal()??99) }, PointGeometry = DefaultGeometries.Circle, PointGeometrySize=15, PointForeground = Brushes.Blue,    Stroke=Brushes.Blue,    Fill = Brushes.Transparent, Title = "T°C Feel" },
 
-          new StepLineSeries{Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry = null, StrokeThickness = 3, Stroke = Brushes.SeaGreen, AlternativeStroke = Brushes.DarkSlateBlue, Title = "LoP" },                    //new LineSeries  {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry= null, StrokeThickness = 3, Stroke = Brushes.Silver, Title = "Likelyhood of Precipitation", LineSmoothness=0},
-          new LineSeries    {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.temperature.Value.GetDecimal() ))), Stroke = RedBlueOnlyGrad, StrokeThickness=3, Fill = Brushes.Transparent, PointGeometry = DefaultGeometries.None, LineSmoothness = .3, Title = "Real"  },
-          new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Where(l2=>l2.humidex . Value.GetDecimal() >0).Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.humidex   .Value.GetDecimal() ))), Fill = Brushes.Red,  Title = "Feel"  },
+          new StepLineSeries{Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry = null, StrokeThickness = 3,   Stroke = Brushes.SeaGreen, AlternativeStroke = Brushes.DarkSlateBlue, Title = "LoP" },                    //new LineSeries  {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.lop.Value.GetDecimal() * .1m) ))), PointGeometry= null, StrokeThickness = 3, Stroke = Brushes.Silver, Title = "Likelyhood of Precipitation", LineSmoothness=0},
+          new LineSeries    {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.temperature.Value.GetDecimal() ))), Stroke = RedBlueOnlyGrad, StrokeThickness=3,    Fill = Brushes.Transparent, PointGeometry = DefaultGeometries.None, LineSmoothness = .3, Title = "Real"  },
+          new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Where(l2=>l2.humidex . Value.GetDecimal() >0).Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.humidex   .Value.GetDecimal() ))),    Fill = Brushes.Red,  Title = "Feel"  },
           new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Where(l2=>l2.windChill?.Value.GetDecimal()<0).Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(),l2.windChill?.Value.GetDecimal()??99))), Fill = Brushes.Blue, Title = "Feel"  },
 
           new ScatterSeries {Values=new ChartValues<DtDc>(sd.hourlyForecastGroup.hourlyForecast.Select(l2 => new DtDc ( l2.dateTimeUTC.GetDateTimeLcl(), (l2.wind.speed.Value.GetDecimal() * .5m) ))), PointGeometry = DefaultGeometries.Triangle, StrokeThickness = 3, Stroke = Brushes.Gray,  Title = "Wind knots" },
 
+          new LineSeries {            Values = new ChartValues<DtDc>(ooo),            Fill = Brushes.Transparent, Stroke = Brushes.Yellow, PointGeometry = DefaultGeometries.None, Title = "PHC 107"          }
         };
 
         var i = 0;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30711.63
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlexPi.Scr", "AlexPi.Scr\AlexPi.Scr.csproj", "{0EFF12AF-5052-4BB7-89C0-B079BF4E3BAA}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Db.EventLog.Explorer", "Db.EventLog.Explorer\Db.EventLog.Explorer.csproj", "{A5CDC420-73A9-4903-8557-C602C2F363C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsLib", "..\..\..\CI-Reimagined-Invention\Src\CI-RI\WindowsFormsLib\WindowsFormsLib.csproj", "{9064A310-8D66-4E42-9319-CF68A8D17987}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeather2022", "..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj", "{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -239,6 +241,18 @@ Global
 		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x64.Build.0 = Release|x64
 		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x86.ActiveCfg = Release|Any CPU
 		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x86.Build.0 = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|x64.Build.0 = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|x86.Build.0 = Debug|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|x64.ActiveCfg = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|x64.Build.0 = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|x86.ActiveCfg = Release|Any CPU
+		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
