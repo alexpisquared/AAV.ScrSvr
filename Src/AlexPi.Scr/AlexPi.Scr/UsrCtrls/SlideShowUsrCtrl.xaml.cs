@@ -169,6 +169,10 @@ namespace AlexPi.Scr.UsrCtrls
           _sbou.Begin();
           await Task.Delay(_inOutMs);
           me1.Pause();
+
+          //Visibility = Visibility.Hidden;
+          //await Task.Delay(12000); //2022-01: let see other controls
+          //Visibility = Visibility.Visible;
         }
 
         btnPlay.Visibility = Visibility.Visible;
@@ -297,6 +301,10 @@ namespace AlexPi.Scr.UsrCtrls
           await Task.Delay(showtimeTs);
           _sbou.Begin(); await Task.Delay(_inOutMs);
           me1.Pause();
+
+          Visibility = Visibility.Hidden;
+          await Task.Delay(_inOutMs * 2); //2022-01: let see other controls
+          Visibility = Visibility.Visible;
         }
       }
       catch (InvalidOperationException ex) { tbtl.Foreground = new SolidColorBrush(Colors.Green); tbtl.Text = ex.Log($"\r\n {file}"); }
