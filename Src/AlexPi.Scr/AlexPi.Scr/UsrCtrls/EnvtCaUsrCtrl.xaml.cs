@@ -1,4 +1,5 @@
 ﻿using AAV.Sys.Ext;
+using AlexPi.Scr.Logic;
 using AsLink;
 using LiveCharts;
 using LiveCharts.Configurations;
@@ -130,9 +131,10 @@ namespace AlexPi.Scr.UsrCtrls
 
     async Task<List<DtDc>> oo()
     {
-      var _config = new ConfigurationBuilder().AddUserSecrets<App>().Build(); //tu: adhoc usersecrets 
+      var key = new SpeakerJob().GetValue("AppSecrets:MagicNumber"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicNumber"]; //tu: adhoc usersecrets 
+
       var _opnwea = new OpenWeatherRevisit2022();
-      var ocv = await _opnwea.GetIt(_config["AppSecrets:MagicNumber"], 43.8374229, -79.4961442).ConfigureAwait(false); // PHC107
+      var ocv = await _opnwea.GetIt(key, 43.8374229, -79.4961442).ConfigureAwait(false); // PHC107
       ArgumentNullException.ThrowIfNull(ocv);
       var rv = new List<DtDc>();
       ocv.hourly.ToList().ForEach(x => rv.Add(new DtDc(OpenWeatherRevisit2022.UnixTimeStampToDateTime(x.dt), (decimal)x.temp)));

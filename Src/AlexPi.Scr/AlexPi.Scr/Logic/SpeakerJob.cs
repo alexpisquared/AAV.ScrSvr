@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
 
 namespace AlexPi.Scr.Logic
 {
@@ -9,14 +9,11 @@ namespace AlexPi.Scr.Logic
     readonly Random _random = new Random(DateTime.Now.Millisecond);
     readonly IConfigurationRoot _config;
 
-    public SpeakerJob()
-    {
-      _config = new ConfigurationBuilder()
+    public SpeakerJob() => _config = new ConfigurationBuilder()
         .SetBasePath(AppContext.BaseDirectory)
         .AddJsonFile("appsettings.AlexPi.Scr.json")
         .AddUserSecrets<SpeakerJob>()
         .Build();
-    }
 
     public string GetRandomFromUserSection(string section)
     {
@@ -31,5 +28,6 @@ namespace AlexPi.Scr.Logic
       return sa[_random.Next(sa.Length)];
     }
 
+    public string GetValue(string sn) => _config[sn];
   }
 }
