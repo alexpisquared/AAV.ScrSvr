@@ -18,7 +18,7 @@ namespace Db.EventLog
     public const string _dbSubP = @"Public\AppData\EventLogDb\";
     static readonly string _dbPath = OneDrive.Folder(_dbSubP);
     static List<PcLogic> _pcLogics;
-    static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = new Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>>();
+    static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = new();
 
     public static List<PcLogic> AllPCsSynch()
     {

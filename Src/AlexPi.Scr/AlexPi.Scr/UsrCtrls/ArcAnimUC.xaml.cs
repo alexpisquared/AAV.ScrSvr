@@ -12,7 +12,7 @@ namespace AlexPi.Scr.UsrCtrls
     public partial class ArcAnimUC : UserControl
     {
         Storyboard /*sbMoveHands, */sbRotoMobil;
-        static DoubleAnimation _da = new DoubleAnimation { Duration = new Duration(TimeSpan.FromSeconds(1.0)) };
+        static DoubleAnimation _da = new() { Duration = new Duration(TimeSpan.FromSeconds(1.0)) };
         public ArcAnimUC()
         {
             InitializeComponent();

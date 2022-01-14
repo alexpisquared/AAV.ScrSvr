@@ -22,7 +22,7 @@ namespace AlexPi.Scr.UsrCtrls
     const int _pauseinBits = 6, _refreshEvery5Min = 5;
     bool isFreshing;
     const string _roads = @"https://weather.gc.ca/cacheable/images/radar/layers/roads/WKR_roads.gif";
-    readonly object _instanceLock = new object();
+    readonly object _instanceLock = new();
 
     public RadarMultiImgUsrCtrl()
     {

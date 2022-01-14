@@ -164,7 +164,7 @@ namespace AsLink
       return lst.Count < 1 ? (DateTime.MaxValue, DateTime.MinValue) : (lst.Min(), lst.Max());
     }
 
-    static EventLogReader GetELReader(string qry, string path = "System") => new EventLogReader(new EventLogQuery(path, PathType.LogName, qry));
+    static EventLogReader GetELReader(string qry, string path = "System") => new(new EventLogQuery(path, PathType.LogName, qry));
 
 
     public static TimeSpan CurrentSessionDuration() // lengthy operation: 100 ms.
@@ -646,7 +646,7 @@ Kernel-General 12 - up
 
     public static class FuzzyLogic
     {
-      static readonly EventLog _eventLog = new EventLog("System");//, "R9-N35FM");
+      static readonly EventLog _eventLog = new("System");//, "R9-N35FM");
 
       public static DateTime FirstPowerOnTimeForTheDay(DateTime trg)
       {

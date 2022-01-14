@@ -74,7 +74,7 @@ namespace AsLink // namespace AlexPi.Scr.AsLink
     }
 
     static volatile AppSettings _instance;
-    static readonly object _syncRoot = new object(); // multithreading support
+    static readonly object _syncRoot = new(); // multithreading support
     #endregion
   }
 }

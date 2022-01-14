@@ -6,7 +6,7 @@ namespace AlexPi.Scr.Logic
 {
   public class SpeakerJob
   {
-    readonly Random _random = new Random(DateTime.Now.Millisecond);
+    readonly Random _random = new(DateTime.Now.Millisecond);
     readonly IConfigurationRoot _config;
 
     public SpeakerJob() => _config = new ConfigurationBuilder()

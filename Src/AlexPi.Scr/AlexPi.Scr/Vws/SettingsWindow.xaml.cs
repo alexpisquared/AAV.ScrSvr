@@ -12,9 +12,9 @@ namespace AlexPi.Scr
   public partial class SettingsWindow : Window
   {
     bool _manual = false;
-    readonly NotifyIcon _ni = new NotifyIcon();
-    readonly BrowseForFolderDialog _dlg = new BrowseForFolderDialog();
-    readonly DispatcherTimer _timer = new DispatcherTimer();
+    readonly NotifyIcon _ni = new();
+    readonly BrowseForFolderDialog _dlg = new();
+    readonly DispatcherTimer _timer = new();
     double _delay;
     int _seconds;
 

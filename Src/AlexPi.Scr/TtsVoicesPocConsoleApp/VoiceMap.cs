@@ -22,8 +22,8 @@ namespace TtsVoicesPocConsoleApp
       "zh-CN-XiaoruiNeural;sad,angry,fearful" 
       */
     };
-    readonly Dictionary<string, List<string>> _d = new Dictionary<string, List<string>>();
-    readonly Random _rand = new Random(DateTime.Now.Millisecond);
+    readonly Dictionary<string, List<string>> _d = new();
+    readonly Random _rand = new(DateTime.Now.Millisecond);
 
     public VoiceMap()
     {

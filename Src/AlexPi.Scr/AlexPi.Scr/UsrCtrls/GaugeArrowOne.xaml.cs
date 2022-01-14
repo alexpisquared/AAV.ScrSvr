@@ -17,7 +17,7 @@ namespace AlexPi.Scr.UsrCtrls
             _ttlWkExpHr = _wkDayHrs * 5,
             _wkStartsAtHr = 8.25;
         static DoubleAnimation dai, dao, dam;
-        static Duration dr = new Duration(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0));
+        static Duration dr = new(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0));
         static TimeSpan bt = TimeSpan.FromSeconds(0);
         readonly DateTime _start = App.StartedAt, _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
         async void onLoaded(object s, RoutedEventArgs e)

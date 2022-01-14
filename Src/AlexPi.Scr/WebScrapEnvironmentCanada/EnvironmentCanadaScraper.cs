@@ -80,7 +80,7 @@ namespace EnvironmentCanadaScrap
       _urlPast24hrSB = @"http://weather.gc.ca/marine/weatherConditions-24hrObsHistory_e.html?mapID=11&siteID=08300&stationID=45143";
 
 
-    static readonly WebScrapEnvironmentCanada.Almanac.NewDataSet dsAlmanac = new WebScrapEnvironmentCanada.Almanac.NewDataSet();
+    static readonly WebScrapEnvironmentCanada.Almanac.NewDataSet dsAlmanac = new();
 
     static EnvntCanadaScraper()
     {

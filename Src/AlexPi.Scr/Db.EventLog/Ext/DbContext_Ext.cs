@@ -186,6 +186,6 @@ namespace Db.EventLog.Ext
             $"\r\n  {((string)v).Substring(0, max).Replace("\n", " ").Replace("\r", " ")}...{((string)v).Length:N0}\r\n"
         : v.ToString();
     }
-    static readonly object _thisLock = new object();
+    static readonly object _thisLock = new();
   }
 }

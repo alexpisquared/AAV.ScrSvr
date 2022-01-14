@@ -32,7 +32,7 @@ namespace AlexPi.Scr.UsrCtrls
     readonly int _initlDelay = 2500;
     int _take = 100;
 #endif
-    readonly Random _rand = new Random(DateTime.Now.Second);
+    readonly Random _rand = new(DateTime.Now.Second);
     Storyboard _sbin, _sbou, _time;
     string[] _allFiles;
     readonly string _currentFolder;

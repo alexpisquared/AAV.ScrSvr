@@ -12,7 +12,7 @@ namespace Db.EventLog.DbModel
   {
 #if !ready
     const string _dbName = "EventLogDb";
-    public static A0DbModel GetExprs => new A0DbModel(0, $@"data source=.\sqlexpress;initial catalog={_dbName};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
+    public static A0DbModel GetExprs => new(0, $@"data source=.\sqlexpress;initial catalog={_dbName};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
     public static A0DbModel GetLclFl(string localdbpathfile) { var db = new A0DbModel(localdbpathfile); checkCreateMigrate(db, localdbpathfile); return db; }
     //blic static A0DbModel GetAzure => new A0DbModel(0, $"data source=sqs.database.windows.net;initial catalog={_dbName};persist security info=True;user id={username};password=\"{password}\";MultipleActiveResultSets=True;App=EntityFramework");
     //blic static A0DbModel GetConfg => new A0DbModel(@"name=A0DbModel_element_in_config_file");

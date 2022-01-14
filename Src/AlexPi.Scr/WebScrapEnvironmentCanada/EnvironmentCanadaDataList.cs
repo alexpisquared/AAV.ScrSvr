@@ -13,7 +13,7 @@ namespace EnvironmentCanadaScrap
   /// </summary>
   public class EnvironmentCanadaDataList
   {
-    public SortedList<string, EnvironmentCanadaData> _lst = new SortedList<string, EnvironmentCanadaData>();
+    public SortedList<string, EnvironmentCanadaData> _lst = new();
 
     public void Add(EnvironmentCanadaData ecd)
     {

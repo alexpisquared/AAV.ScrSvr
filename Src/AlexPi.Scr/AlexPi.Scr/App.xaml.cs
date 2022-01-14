@@ -21,16 +21,16 @@ namespace AlexPi.Scr
 {
   public partial class App : Application
   {
-    readonly GlobalEventHandler _globalEventHandler = new GlobalEventHandler();
+    readonly GlobalEventHandler _globalEventHandler = new();
     bool _showBackWindowMaximized = false;
     public static TraceSwitch CurTraceLevel,
-      AppTraceLevel_Config = new TraceSwitch("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> "),
-      AppTraceLevel_inCode = new TraceSwitch("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
-      AppTraceLevel_Warnng = new TraceSwitch("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
+      AppTraceLevel_Config = new("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> "),
+      AppTraceLevel_inCode = new("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
+      AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
     static readonly ushort _volume = (ushort)(8 < DateTime.Now.Hour && DateTime.Now.Hour < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-    static readonly SpeechSynth _synth = new SpeechSynth();
-    static readonly object _thisLock = new object();
+    static readonly SpeechSynth _synth = new();
+    static readonly object _thisLock = new();
     static bool _mustLogEORun = false;
     public static readonly DateTime StartedAt = DateTime.Now;
     public const int
