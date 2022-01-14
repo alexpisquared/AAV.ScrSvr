@@ -51,7 +51,7 @@ namespace AlexPi.Scr.UsrCtrls
         Loaded += onLoadedRand;
         PreviewKeyUp += onPreviewKeyUp;
 
-        deleteUsrCtrl1.ClosedA += async (s, e) => await continueWithTheShow(e.ToString(), -321, false);
+        deleteUsrCtrl1.ClosedA += async (s, e) => await continueWithTheShow(e?.ToString(), -321, false);
         deleteUsrCtrl1.ClosedB += async (m, i, b) => await continueWithTheShow(m, i, b);
         deleteUsrCtrl1.ClosedC += async (m, i, b) => await continueWithTheShow(m, i, b);
 

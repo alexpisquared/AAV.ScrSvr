@@ -131,7 +131,6 @@
       </Style.Triggers>
     </Style>
 
-
     <Style TargetType="{x:Type FrameworkElement}" x:Key="SlowShowElmntStyle">
       <Style.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -151,7 +150,7 @@
       <Setter Property="Cursor"               Value="Hand" />
       <Setter Property="Height"               Value="160" />
       <Setter Property="Width"                Value="190" />
-      <Setter Property="Background"           Value="#1000" />
+      <Setter Property="Background"           Value="#08000000" />
       <Style.Triggers>
         <EventTrigger RoutedEvent="Control.MouseEnter">
           <BeginStoryboard>
