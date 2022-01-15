@@ -225,7 +225,7 @@ namespace AlexPi.Scr
 #endif
       }
 
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"10"));
+      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Hello?"));
       Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(armAndLegEvent());
     }
     static Action<Task> armAndLegEvent() => _ =>
