@@ -133,11 +133,11 @@ namespace AlexPi.Scr.UsrCtrls
     {
       var key = new SpeakerJob().GetValue("AppSecrets:MagicNumber"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicNumber"]; //tu: adhoc usersecrets 
 
-      var _opnwea = new OpenWeatherRevisit2022();
-      var ocv = await _opnwea.GetIt(key, 43.8374229, -79.4961442).ConfigureAwait(false); // PHC107
+      var _opnwea = new OpenWea();
+      var ocv = await _opnwea.GetIt(key, OpenWea.OpenWeatherCd.OneCallApi).ConfigureAwait(false); // PHC107
       ArgumentNullException.ThrowIfNull(ocv);
       var rv = new List<DtDc>();
-      ocv.hourly.ToList().ForEach(x => rv.Add(new DtDc(OpenWeatherRevisit2022.UnixTimeStampToDateTime(x.dt), (decimal)x.temp)));
+      ((OpenWeather2022.Response.RootobjectOneCallApi)ocv).hourly.ToList().ForEach(x => rv.Add(new DtDc(OpenWea.UnixToDt(x.dt), (decimal)x.temp)));
       return rv;
     }
 
