@@ -11,7 +11,7 @@ namespace EnvironmentCanadaScrap
 {
   public partial class EnvntCanadaScraper
   {
-    public static List<EnvironmentCanadaData> Past24hourAtButtonville(bool fromCache)
+    public static List<EnvironmentCanadaData> Past24hr(bool fromCache)
     {
       string s = "", sDate = "",
         html = fromCache ?
