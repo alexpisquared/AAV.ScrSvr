@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr.UsrCtrls;
+﻿using XSD.CLS;
+
+namespace AlexPi.Scr.UsrCtrls;
 
 public partial class EnvtCaUsrCtrl : UserControl
 {
@@ -50,32 +52,8 @@ public partial class EnvtCaUsrCtrl : UserControl
       if (double.TryParse(sitedata?.currentConditions?.wind.bearing.Value, out double bearing))
         windAngle.Angle = bearing;
       else
-        windAngle.Angle = Wind360d(sitedata?.currentConditions?.wind?.direction.ToString());
-      int Wind360d(string WindDirn)
-      {
-        const int d = 25;
-        return WindDirn switch
-        {
-          "N" => 0,
-          "W" => 270,
-          "S" => 180,
-          "E" => 90,
-          "NE" => 45,
-          "NW" => 315,
-          "SE" => 180 - 45,
-          "SW" => 180 + 45,
-          "ENE" => 90 - d,
-          "ESE" => 90 + d,
-          "WNW" => 270 + d,
-          "WSW" => 270 - d,
-          "NEN" or "NNE" => 0 + d,
-          "NWN" or "NNW" => 0 - d,
-          "SES" or "SSE" => 180 - d,
-          "SWS" or "SSW" => 180 + d,
-          _ => 301,
-        };
-      }
-
+        windAngle.Angle = Wind360d(sitedata?.currentConditions?.wind?.direction.ToString() ?? "S");
+      
       Debug.WriteLine($" === {sitedata?.currentConditions?.wind.direction}   {sitedata?.currentConditions?.wind.bearing.Value}   {windAngle.Angle}");
 
       img1.Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/{(sitedata?.currentConditions?.iconCode?.Value ?? "5"):0#}.gif"));
@@ -109,6 +87,64 @@ public partial class EnvtCaUsrCtrl : UserControl
       tbExn.Text = "";
     }
     catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); tbExn.Text = ex.InnermostMessage(); }
+  }
+
+  int Wind360d(string nsewDirection)
+  {
+    const int d = 25;
+    return nsewDirection switch
+    {
+      "N" => 0,
+      "W" => 270,
+      "S" => 180,
+      "E" => 90,
+      "NE" => 45,
+      "NW" => 315,
+      "SE" => 180 - 45,
+      "SW" => 180 + 45,
+      "ENE" => 90 - d,
+      "ESE" => 90 + d,
+      "WNW" => 270 + d,
+      "WSW" => 270 - d,
+      "NEN" or "NNE" => 0 + d,
+      "NWN" or "NNW" => 0 - d,
+      "SES" or "SSE" => 180 - d,
+      "SWS" or "SSW" => 180 + d,
+      _ => 301,
+    };
+  }
+  int Wind360d(validWindDirections nsewDirection)
+  {
+    const int d = 25;
+    return nsewDirection switch
+    {
+      validWindDirections.N => 0,
+      validWindDirections.W => 270,
+      validWindDirections.S => 180,
+      validWindDirections.E => 90,
+      validWindDirections.NE => 45,
+      validWindDirections.NW => 315,
+      validWindDirections.SE => 180 - 45,
+      validWindDirections.SW => 180 + 45,
+      validWindDirections.ENE => 90 - d,
+      validWindDirections.ESE => 90 + d,
+      validWindDirections.WNW => 270 + d,
+      validWindDirections.WSW => 270 - d,
+      validWindDirections.NNE => 0 + d,
+      validWindDirections.NNW => 0 - d,
+      validWindDirections.SSE => 180 - d,
+      validWindDirections.SSW => 180 + d,
+      validWindDirections.SSO => throw new NotImplementedException(),
+      validWindDirections.SO => throw new NotImplementedException(),
+      validWindDirections.OSO => throw new NotImplementedException(),
+      validWindDirections.O => throw new NotImplementedException(),
+      validWindDirections.ONO => throw new NotImplementedException(),
+      validWindDirections.NO => throw new NotImplementedException(),
+      validWindDirections.NNO => throw new NotImplementedException(),
+      validWindDirections.VR => throw new NotImplementedException(),
+      validWindDirections.Item => throw new NotImplementedException(),
+      _ => 301,
+    };
   }
 
   async Task<List<DtDc>> oo()
