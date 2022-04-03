@@ -95,7 +95,7 @@ namespace EnvironmentCanadaScrap
     {
       var e = new EnvironmentCanadaData();
 
-      getCurrentConditions(fromCache, e);
+      GetCurrentConditions(fromCache, e);
 
       return e;
     }
@@ -103,9 +103,9 @@ namespace EnvironmentCanadaScrap
     {
       var e = new EnvironmentCanadaData();
 
-      getCurrentConditions(fromCache, e);
+      GetCurrentConditions(fromCache, e);
       getCurrentCondiImage(fromCache, e);
-      getExtremeConditions(fromCache, e);
+      GetExtremeConditions(fromCache, e);
 
       e.XmlSave(_cacheRoot + DateTime.Now.ToString("yyyyMMdd.HHmmss") + ".xml.txt");
       e.XmlSave(_cacheRoot + DateTime.Now.ToString("MMMdd") + ".xml");
@@ -113,7 +113,7 @@ namespace EnvironmentCanadaScrap
       return e;
     }
 
-    static void getCurrentConditions(bool fromCache, EnvironmentCanadaData ecd) //todo: replace/sync/unify with teh code from   C:\c\wp8\RLS\RunPlan.Cmn\Services\EnvtCanXmlParser.cs
+    static void GetCurrentConditions(bool fromCache, EnvironmentCanadaData ecd) //todo: replace/sync/unify with teh code from   C:\c\wp8\RLS\RunPlan.Cmn\Services\EnvtCanXmlParser.cs
     {
       //string html = fromCache ? WebScraper.GetHtmlFromCacheOrWeb(_urlCurntCondHtm) : WebScraper.GetHtmlFromWeb(_urlCurntCondHtm);
       var html = WebScraper.GetHtmlFromWeb(_urlCurntCondHtm);
@@ -162,7 +162,7 @@ namespace EnvironmentCanadaScrap
         ex.Log(); // ex.Log(); // AAV.CustomControlLibrary.Logger.LogException ex.Log(); // AAV.CustomControlLibrary.Logger.LogException(ex, System.Reflection.MethodInfo.GetCurrentMethod());
       }
     }
-    static void getExtremeConditions(bool fromCache, EnvironmentCanadaData e3)
+    static void GetExtremeConditions(bool fromCache, EnvironmentCanadaData e3)
     {
       var html = WebScraper.GetHtmlCached(_urlExtremes, new TimeSpan(6, 0, 0), 8000, fromCache);
       if (html.Length > 8000)

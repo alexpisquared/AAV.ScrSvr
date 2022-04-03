@@ -126,8 +126,8 @@ namespace AlexPi.Scr
     }
 
     public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
-    public static void SpeakFaF(string msg, string voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg, VMode.Prosody, voice)); // FaF - Fire and Forget
-    public static async Task SpeakAsync(string msg, string voice = null)         /**/ => await _synth.SpeakAsync(msg, VMode.Express, voice);
+    public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg, VMode.Prosody, voice)); // FaF - Fire and Forget
+    public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakAsync(msg, VMode.Express, voice);
 
     static int _ssto = -1; public static int ScrSvrTimeoutSec
     {
@@ -277,7 +277,8 @@ namespace AlexPi.Scr
           await ChimerAlt.WakeAudio(); // wake up monitor's audio.
           await SpeakAsync($"Hey you! {(DateTime.Now - StartedAt + TimeSpan.FromSeconds(ScrSvrTimeoutSec)).TotalMinutes:N0} minutes has passed. Turning off ...in a minute."); /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(6)  after  await SpeakAsync($'Hey {Environment.UserName}! {(ScrSvrTimeoutSec * 60 + AppSettings.Instance.Min2Sleep)} minutes has passed. Sending computer to sleep ...in a minute.');.");
           await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                        /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(4)  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
-          await SpeakAsync($"{Environment.UserName}! If you are hearing this, that means: it is too late to do anything. The sleep is being enforced now.");                   /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(3)  after  'Enforcing sleep now.'.        <<<<<<<<<<");
+          await SpeakAsync($"{Environment.UserName}! If you are hearing this, that means: it is too late to do anything. The sleep is being enforced now. 1 2 3 4 5 6 7 8 9 10. 11. 1. 2. 3. 4. 22. 1, 2, 3, 4, 33. 1; 2; 3; 4; 44. 1: 2: 3: 4:");                   /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(3)  after  'Enforcing sleep now.'.        <<<<<<<<<<");
+          await Task.Delay(TimeSpan.FromMinutes(0.50));                                                                                                                        /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(4)  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
           await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
           LogScrSvrUptimeOncePerSession("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                                                           /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(1)  after  LogScrSvrUptime.");
           sleepStandby();                                                                                                                                                      /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    SL(0)  after  sleepStandby();.");
