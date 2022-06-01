@@ -60,9 +60,9 @@ namespace AlexPi.Scr.Vws
           if (AppSettings.Instance.IsSayMinOn || AppSettings.Instance.IsChimesOn || AppSettings.Instance.IsRepeatOn)
           {
             await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-            if (AppSettings.Instance.IsSayMinOn) await App.SpeakAsync($"{idle.Minutes}");
-            if (AppSettings.Instance.IsChimesOn) await ChimerAlt.Chime(idle.Minutes); //nogo: .ConfigureAwait(false);
-            if (AppSettings.Instance.IsRepeatOn) App.SpeakFaF($"{idle.Minutes} minutes, that is.");
+            if (AppSettings.Instance.IsSayMinOn) { await App.SpeakAsync($"{idle.Minutes}"); if (DateTime.Now.Minute % 10 == 0) await App.SpeakAsync($"{DateTime.Now:H:mm}"); } //2022-06-01
+            if (AppSettings.Instance.IsChimesOn) { await ChimerAlt.Chime(idle.Minutes); } //nogo: .ConfigureAwait(false);}
+            if (AppSettings.Instance.IsRepeatOn) { App.SpeakFaF($"{idle.Minutes} minutes, that is."); }
             g1.Background = _rng;
           }
 
