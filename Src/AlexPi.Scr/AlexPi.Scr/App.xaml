@@ -155,9 +155,9 @@
         <EventTrigger RoutedEvent="Control.MouseEnter">
           <BeginStoryboard>
             <Storyboard Timeline.DesiredFrameRate="60">
-              <ColorAnimation To="#f7bf" Duration="0:0:0.125" Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" />
-              <ColorAnimation To="#87bf" Duration="0:0:0.500" Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" BeginTime="0:0:.125" />
-              <ColorAnimation To="#f000" Duration="0:0:30.00" Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" BeginTime="0:0:.888" />
+              <ColorAnimation To="#f7bf"       Duration="0:0:0.125"                      Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" />
+              <ColorAnimation To="#87bf"       Duration="0:0:0.500" BeginTime="0:0:.125" Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" />
+              <ColorAnimation To="Transparent" Duration="0:0:30.00" BeginTime="0:0:.888" Storyboard.TargetProperty="(Window.Background).(SolidColorBrush.Color)" />
             </Storyboard>
           </BeginStoryboard>
         </EventTrigger>

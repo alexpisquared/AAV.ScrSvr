@@ -19,3 +19,13 @@ global using System.Windows.Media;
 global using System.Windows.Media.Imaging;
 global using ToRunOr.WPF;
 global using XSD.CLS;
+global using System.Globalization;
+global using System.Runtime.InteropServices;
+global using System.Windows.Interop;
+global using AAV.Sys.Helpers;
+global using AAV.WPF.AltBpr;
+global using AAV.WPF.Ext;
+global using AlexPi.Scr.Vws;
+global using SpeechSynthLib;
+global using WindowsFormsLib;
+

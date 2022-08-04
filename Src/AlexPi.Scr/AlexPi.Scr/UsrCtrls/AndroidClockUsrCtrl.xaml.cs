@@ -70,7 +70,7 @@ namespace UsrCtrlPOCs
       CurntHou = now.TimeOfDay.TotalDays * 720;
 
 #if DEBUG
-      Bpr.BeepShort();
+      AAV.Sys.Helpers.Bpr.BeepShort();
 #endif
     }
     public static readonly DependencyProperty StartMinProperty = DependencyProperty.Register("StartMin", typeof(double), typeof(AndroidClockUsrCtrl));     /**/ public double StartMin { get => (double)GetValue(StartMinProperty); set => SetValue(StartMinProperty, value); }

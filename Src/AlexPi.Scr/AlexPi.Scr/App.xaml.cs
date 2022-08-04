@@ -1,15 +1,4 @@
-﻿using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using AAV.Sys.Helpers;
-using AAV.WPF.AltBpr;
-using AAV.WPF.Ext;
-using AlexPi.Scr.Vws;
-using SpeechSynthLib;
-using WindowsFormsLib;
-
-namespace AlexPi.Scr;
-
+﻿namespace AlexPi.Scr;
 public partial class App : Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
