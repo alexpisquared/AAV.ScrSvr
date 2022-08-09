@@ -9,6 +9,8 @@ public static class ExitStrategy
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
       if (--minMaouseMovePoints < 0)
         _ = await CloseBasedOnPCName(Key.Escape, wdw);
+      else if (minMaouseMovePoints == 98)
+        AAV.Sys.Helpers.Bpr.ShortFaF(); // why so slow to close the app?
     }
 
     return minMaouseMovePoints;
@@ -24,7 +26,7 @@ public static class ExitStrategy
       Key.Left or Key.Right)
       return false;                                     // keep scrsvr on.
 
-    AAV.Sys.Helpers.Bpr.BeepShort();
+    AAV.Sys.Helpers.Bpr.ShortFaF(); // why so slow to close the app?
 
     Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {window.GetType().FullName})   ");
 
