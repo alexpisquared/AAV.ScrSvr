@@ -1,5 +1,4 @@
 ﻿namespace AlexPi.Scr.Unclosables;
-
 public static class ExitStrategy
 {
   public static async Task<int> CloseIfBigMoveBoforeGracePeriod(int minMaouseMovePoints, Window wdw, string typeName)
@@ -11,6 +10,8 @@ public static class ExitStrategy
         _ = await CloseBasedOnPCName(Key.Escape, wdw);
       else if (minMaouseMovePoints == 98)
         AAV.Sys.Helpers.Bpr.OkFaF(); // why so slow to close the app?
+      else
+        AAV.Sys.Helpers.Bpr.ShortFaF(); 
     }
 
     return minMaouseMovePoints;
