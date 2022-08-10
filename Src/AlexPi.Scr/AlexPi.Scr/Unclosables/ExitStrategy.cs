@@ -8,10 +8,10 @@ public static class ExitStrategy
       Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
       if (--minMaouseMovePoints < 0)
         _ = await CloseBasedOnPCName(Key.Escape, wdw);
-      else if (minMaouseMovePoints == 98)
-        AAV.Sys.Helpers.Bpr.OkFaF(); // why so slow to close the app?
+      else if (minMaouseMovePoints % 10 == 0)
+        AAV.Sys.Helpers.Bpr.BeepOk();
       else
-        AAV.Sys.Helpers.Bpr.ShortFaF(); 
+        AAV.Sys.Helpers.Bpr.ShortFaF();
     }
 
     return minMaouseMovePoints;
@@ -19,7 +19,7 @@ public static class ExitStrategy
 
   public static async Task<bool> CloseBasedOnPCName(Key key, Window window)
   {
-    if (key is >= Key.F1 and < Key.DeadCharProcessed or // all special keys, like: alt, ctrl, shift, oem*
+    if (key is (>= Key.F1 and < Key.DeadCharProcessed) or // all special keys, like: alt, ctrl, shift, oem*
       Key.Tab or
       Key.VolumeUp or
       Key.VolumeDown or
