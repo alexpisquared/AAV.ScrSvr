@@ -43,13 +43,29 @@ namespace AlexPi.Scr.Vws
         var p = _perfCounCPU.NextValue();
         var v = k * p - 90;
 
-        gaugeTorCPU.InnerValAnim = (_sum += v) / (++_cnt);
-        gaugeTorCPU.MiddlValAnim = v;
+        try
+        {
+          gaugeTorCPU.InnerValAnim = (_sum += v) / (++_cnt);
+        }
+        catch (Exception ex) { ex.Log("1111"); }
+        try
+        {
+          gaugeTorCPU.MiddlValAnim = v;
+        }
+        catch (Exception ex) { ex.Log("2222"); }
+        try
+        {
 
-        if (gaugeTorCPU.OuterVal < v)
-          gaugeTorCPU.OuterValAnim = v;
+          if (gaugeTorCPU.OuterVal < v)
+            gaugeTorCPU.OuterValAnim = v;
+        }
+        catch (Exception ex) { ex.Log("3333"); }
+        try
+        {
+          gaugeTorCPU.GaugeText = $"{p:N0}\r\n{((gaugeTorCPU.InnerVal + 90) / k):N0} - {((gaugeTorCPU.OuterVal + 90) / k):N0}";
+        }
+        catch (Exception ex) { ex.Log("4444"); }
 
-        gaugeTorCPU.GaugeText = $"{p:N0}\r\n{((gaugeTorCPU.InnerVal + 90) / k):N0} - {((gaugeTorCPU.OuterVal + 90) / k):N0}";
 
         if (p > 75 && !_alreadyRunning)
         {
