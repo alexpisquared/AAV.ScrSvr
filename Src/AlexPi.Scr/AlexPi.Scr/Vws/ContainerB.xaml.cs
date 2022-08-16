@@ -52,7 +52,7 @@ namespace AlexPi.Scr.Vws
         {
           gaugeTorCPU.MiddlValAnim = v;
         }
-        catch (Exception ex) { ex.Log("2222"); }
+        catch (Exception ex) { ex.Log("2222-Height made Abs()."); }
         try
         {
 

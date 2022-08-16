@@ -33,7 +33,7 @@ namespace GaugeUserControlLibrary
     {
       get => _avg; internal set
       {
-        brAvg.Height = 50 * Math.Log10(_avg = value); // t1.Text = $"{value:N1} ==> {brAvg.Height:N1}";
+        brAvg.Height = Math.Abs(50 * Math.Log10(_avg = value)); // t1.Text = $"{value:N1} ==> {brAvg.Height:N1}";
       }
     }
 
@@ -70,7 +70,7 @@ namespace GaugeUserControlLibrary
     {
       if (stkPnl.Children.Count > ActualWidth) stkPnl.Children.RemoveAt(0); // measure per pixel ...plus scaling...
 
-      stkPnl.Children.Add(new Rectangle { Height = 50 * Math.Log10(percCpuLoad) - percCpuLoad, Margin = new System.Windows.Thickness(0, 0, 0, percCpuLoad) });
+      stkPnl.Children.Add(new Rectangle { Height = Math.Abs(50 * Math.Log10(percCpuLoad) - percCpuLoad), Margin = new Thickness(0, 0, 0, percCpuLoad) });
 
       //Debug.WriteLine($"*** WxH: {ActualWidth}x{stkPnl.ActualHeight}   v={percCpuLoad,3:N0}");
     }
