@@ -93,9 +93,11 @@ public partial class App : Application
     //tmi: Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
   }
   protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnSessionEnding().   "); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▀App.OnSessionEnding()"); base.OnSessionEnding(e); }
-  protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
+  //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
   protected override void OnExit(ExitEventArgs e)
   {
+    Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   ▄▀▄▀▄▀▄▀▄▀App.OnExit() => Process.GetCurrentProcess().Kill(); ");
+
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit()          ");
     base.OnExit(e);
 
@@ -238,7 +240,6 @@ public partial class App : Application
     {
       try
       {
-        Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL()  0.");
         if (!VerHelper.IsKnownNonVMPC)
         {
           await SpeakAsync($"{Environment.MachineName} is not a known non-VM box, thus no Sleep/Hibernation for the PC.");
