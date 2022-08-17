@@ -42,7 +42,7 @@ public partial class App : Application
       CurTraceLevel = AppTraceLevel_Warnng; // AppTraceLevel_Config; - App.config is not used in Net5.
 #endif
       Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-      Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    {Environment.UserName}   {Environment.MachineName}   {VerHelper.CurVerStr(".Net6")}   args: {string.Join(", ", sea.Args)}   ");
+      Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VerHelper.CurVerStr(".Net6")}   args: {string.Join(", ", sea.Args)}   ");
 
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
 
@@ -140,7 +140,7 @@ public partial class App : Application
 #endif
       }
       else
-        Trace.Write($" ... not logged <- flag is not set !!! ▒▒");
+        Trace.Write($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
     }
 
     Trace.Write($"\n");
