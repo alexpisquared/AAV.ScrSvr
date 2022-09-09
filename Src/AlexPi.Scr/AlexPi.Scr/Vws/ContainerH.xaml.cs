@@ -25,13 +25,13 @@ public partial class ContainerH : TopmostUnCloseableWindow
     var tnow = DateTime.Now;
     var idle = tnow - App.StartedAt + TimeSpan.FromSeconds(App.ScrSvrTimeoutSec);
     var left = App.StartedAt.AddMinutes(AppSettings.Instance.Min2Sleep) - tnow;
-    tbOutOffL.Text = idle.TotalMinutes < 60 ? $"{idle:m\\:ss}" : $"{idle:h\\:mm} ";
+    tbOutOffL.Text = idle.TotalMinutes < 60 ? $"{idle:m\\:ss}" : $"{idle:h\\:mm\\:ss} ";
 
     if (AppSettings.Instance.AutoSleep)
     {
-      tbOutOffR.Text = left.TotalMinutes < 60 ? $"{left:m\\:ss}" : $"{left:h\\:mm} ";
-      pbOutOff.Maximum = (idle + left).TotalMinutes;
-      pbOutOff.Value = idle.TotalMinutes;
+      tbOutOffR.Text = left.TotalMinutes < 60 ? $"    {left:m\\:ss}" : $"{left:h\\:mm\\:ss} ";
+      pbOutOfF.Maximum = pbOutOff.Maximum = (idle + left).TotalMinutes;
+      pbOutOfF.Value = pbOutOff.Value = idle.TotalMinutes;
       pbOutOff.Opacity = pbOutOff.Maximum > 0 ? pbOutOff.Value / pbOutOff.Maximum : 0;
     }
     else
