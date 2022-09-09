@@ -43,7 +43,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
       {
         _isTalking = true; _timer.Stop();
 
-        g1.Background = _red;
+        //g1.Background = _red;
 
         if (AppSettings.Instance.IsSayMinOn || AppSettings.Instance.IsChimesOn || AppSettings.Instance.IsRepeatOn)
         {
@@ -63,12 +63,12 @@ public partial class ContainerH : TopmostUnCloseableWindow
 
           if (AppSettings.Instance.IsRepeatOn) { App.SpeakFaF($"{idle.Minutes} minutes, that is."); }
 
-          g1.Background = _rng;
+          //g1.Background = _rng;
         }
 
         await Task.Delay((int)(_gracePeriodSec * 1000)); // lest repeat the same on the next tick (2020-12-02)
 
-        g1.Background = _trn;
+        //g1.Background = _trn;
       }
       catch (Exception ex) { _ = ex.Log(); }
       finally
