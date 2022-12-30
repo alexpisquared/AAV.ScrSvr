@@ -24,5 +24,5 @@ public class SpeakerJob
     return sa[_random.Next(sa.Length)];
   }
 
-  public string GetValue(string sn) => _config[sn];
+  public string GetValue(string sn) => _config[sn] ?? "";
 }
