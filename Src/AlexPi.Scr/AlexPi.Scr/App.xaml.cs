@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr;
+﻿using AmbienceLib;
+
+namespace AlexPi.Scr;
 public partial class App : Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
@@ -10,9 +12,10 @@ public partial class App : Application
     AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-  static readonly AmbienceLib.SpeechSynth _synth = new("bdefa01..", true,
-    Environment.UserName.ToLower().StartsWith("j") ? "zh-CN" :
-    Environment.UserName.ToLower().StartsWith("a") ? "uk-UA" : "en-US"); /// <summary>  /// /////////////////////////////////////////////////////////////////////////////////////  /// </summary>
+  static readonly AmbienceLib.SpeechSynth _synth = new("bdefa01", true,
+    Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice:
+    Environment.UserName.ToLower().StartsWith("a") ? CC.UkuaPolinaNeural.Voice :
+                                                /**/ CC.EnusAriaNeural.Voice);  
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
   public static readonly DateTime StartedAt = DateTime.Now;
