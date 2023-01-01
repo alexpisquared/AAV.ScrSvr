@@ -25,7 +25,6 @@ global using LiveCharts.Configurations;
 global using LiveCharts.Wpf;
 global using Microsoft.Extensions.Configuration;
 global using OpenWeather2022;
-global using SpeechSynthLib;
 global using ToRunOr.WPF;
 global using WindowsFormsLib;
 global using XSD.CLS;

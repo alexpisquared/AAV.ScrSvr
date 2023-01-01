@@ -10,7 +10,7 @@ public partial class App : Application
     AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-  static readonly AmbienceLib.SpeechSynth _synth = new("bdefa0157..", true,
+  static readonly AmbienceLib.SpeechSynth _synth = new("bdefa01..", true,
     Environment.UserName.ToLower().StartsWith("j") ? "zh-CN" :
     Environment.UserName.ToLower().StartsWith("a") ? "uk-UA" : "en-US"); /// <summary>  /// /////////////////////////////////////////////////////////////////////////////////////  /// </summary>
   static readonly object _thisLock = new();
@@ -284,18 +284,18 @@ public partial class App : Application
     _ = SetSuspendState(isDeepHyberSleep, true, true);
   }
 
-  Window _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
-  Window _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
-  Window _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
-  Window _cntrD; public Window CntrD => _cntrD ??= new ContainerD(_globalEventHandler);
-  Window _cntrE; public Window CntrE => _cntrE ??= new ContainerE(_globalEventHandler);
-  Window _cntrF; public Window CntrF => _cntrF ??= new ContainerF(_globalEventHandler);
-  Window _cntrG; public Window CntrG => _cntrG ??= new ContainerG(_globalEventHandler);
-  Window _cntrH; public Window CntrH => _cntrH ??= new ContainerH(_globalEventHandler);
-  Window _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
-  Window _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
-  Window _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-  Window _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+  Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
+  Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
+  Window? _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
+  Window? _cntrD; public Window CntrD => _cntrD ??= new ContainerD(_globalEventHandler);
+  Window? _cntrE; public Window CntrE => _cntrE ??= new ContainerE(_globalEventHandler);
+  Window? _cntrF; public Window CntrF => _cntrF ??= new ContainerF(_globalEventHandler);
+  Window? _cntrG; public Window CntrG => _cntrG ??= new ContainerG(_globalEventHandler);
+  Window? _cntrH; public Window CntrH => _cntrH ??= new ContainerH(_globalEventHandler);
+  Window? _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
+  Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
+  Window? _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
+  Window? _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
 
   public static bool CloseOnUnIdle { get; set; } = true;
 
