@@ -17,7 +17,7 @@ public class SpeakerJob
     var sa = _config.GetSection(sn).Get<string[]>();
     if (sa == null)
     {
-      Trace.WriteLine($"\"{sn}\": [\"abc\", \"efg\", \"hij\"],      // <== if (sc?.Value == null)");
+      WriteLine($"\"{sn}\": [\"abc\", \"efg\", \"hij\"],      // <== if (sc?.Value == null)");
       return $"{section} not found in appstngs nor secret";
     }
 
