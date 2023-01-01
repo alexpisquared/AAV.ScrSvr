@@ -42,8 +42,8 @@
       <TextBlock Name="tbtr" Text="tr" VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="10 5" FontWeight="Medium" TextAlignment="Right" />
       <TextBlock Name="tbbr" Text="br" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10 5" FontWeight="Medium" TextAlignment="Right" />
 
-      <ProgressBar x:Name="pb1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Grid.Column="2" Value="33" BorderThickness="0" Height="5" Margin="10"       Background="#cc0" Foreground="#00f" />
-      <ed:Arc      x:Name="pbX" StartAngle="+1" EndAngle="+360" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="#cc0" Margin="10 50" />
+      <ProgressBar x:Name="pb1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Grid.Column="2" Value="33" BorderThickness="0" Height="5" Margin="10"    Background="#f0f" Foreground="#060" />
+      <ed:Arc      x:Name="pbX" StartAngle="+1" EndAngle="+360" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="#f0f" Margin="10 50" />
 
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"    HorizontalAlignment="Center">
         <Button Content="    &lt;_,    " Name="btnPrev" Click="btnPrev_Click" />
