@@ -46,7 +46,7 @@ public partial class UnCloseableWindow : AAV.WPF.Base.WindowBase // <- black bac
           case Key.F11: _GlobalEventHandler.TglContainerVis("ContainerK"); break;
           case Key.F12: _GlobalEventHandler.TglContainerVis("ContainerL"); break;
           default:
-            App.StopSpeakingAsync();
+            //App.StopSpeakingAsync();
             App.SpeakFaF($"{e.Key} not handled!"); return;
         }
       }

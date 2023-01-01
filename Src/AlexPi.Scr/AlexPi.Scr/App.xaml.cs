@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr;
+﻿using System.Windows.Interop;
+
+namespace AlexPi.Scr;
 public partial class App : Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
@@ -10,7 +12,7 @@ public partial class App : Application
     AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-  static readonly SpeechSynth _synth = new();
+  static readonly AmbienceLib.SpeechSynth _synth = new("bdef...."); /// <summary>  /// /////////////////////////////////////////////////////////////////////////////////////  /// </summary>
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
   public static readonly DateTime StartedAt = DateTime.Now;
@@ -108,9 +110,10 @@ public partial class App : Application
     Environment.FailFast("Environment.FailFast");
   }
 
-  public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
-  public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg, VMode.Prosody, voice)); // FaF - Fire and Forget
-  public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakAsync(msg, VMode.Express, voice);
+  //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
+  public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakProsodyAsync(msg)); // FaF - Fire and Forget
+  public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakExpressAsync(msg);
+  public static async Task SayExe(string msg)                                   /**/ => await _synth.SayExe(msg);
 
   static int _ssto = -1; public static int ScrSvrTimeoutSec
   {

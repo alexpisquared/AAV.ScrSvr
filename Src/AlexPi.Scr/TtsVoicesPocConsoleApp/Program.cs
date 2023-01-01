@@ -63,12 +63,10 @@ public class SpeechSynth2 : SpeechSynth, IDisposable
     await _synth.SpeakAsync(s, VMode.Prosody, "es-ES-HelenaRUS");
     await _synth.SpeakAsync(s, VMode.Express, "es-ES-HelenaRUS");
 
-    //await _synth.SpeakAsync(s, a, "ru-RU-Irina");
-    //await _synth.SpeakAsync(s, a, "ru-RU-Pavel");
-    //await _synth.SpeakAsync(s, a, "ru-RU-EkaterinaRUS");    
-    //await _synth.SpeakAsync(s, a, "ru-RU-DariyaNeural");    // bad ending
-    //await _synth.SpeakAsync(s, a, "ru-RU-SvetlanaNeural");  // the best
-    //await _synth.SpeakAsync(s, a, "ru-RU-DmitryNeural");    // best question intonation
+    //await _synth.SpeakAsync(s, a, "uk-UA-OstapNeural");
+    //await _synth.SpeakAsync(s, a, "uk-UA-OstapNeural");  // bad ending
+    //await _synth.SpeakAsync(s, a, "uk-UA-PolinaNeural"); // the best
+    //await _synth.SpeakAsync(s, a, "uk-UA-OstapNeural");  // best question intonation
 
     return true;
   }
