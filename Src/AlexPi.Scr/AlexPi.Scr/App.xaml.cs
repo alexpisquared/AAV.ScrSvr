@@ -12,9 +12,10 @@ public partial class App : Application
     AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-  static readonly AmbienceLib.SpeechSynth _synth = new("bdefa01", true,
-    Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice:
-    Environment.UserName.ToLower().StartsWith("a") ? CC.UkuaPolinaNeural.Voice :
+  static readonly string[] _voices = new[] { CC.UkuaPolinaNeural.Voice, CC.ZhcnXiaomoNeural.Voice, CC.EnusAriaNeural.Voice, CC.EngbSoniaNeural.Voice, CC.EngbRyanNeural.Voice };
+  static readonly SpeechSynth _synth = new("bdefa0157d1", true,
+    Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice :
+    Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : 
                                                 /**/ CC.EnusAriaNeural.Voice);  
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
