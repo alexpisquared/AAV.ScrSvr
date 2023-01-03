@@ -31,11 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingDemoWpfApp", "Loggin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Db.EventLog.Explorer", "Db.EventLog.Explorer\Db.EventLog.Explorer.csproj", "{A5CDC420-73A9-4903-8557-C602C2F363C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsLib", "..\..\..\CI-Reimagined-Invention\Src\CI-RI\WindowsFormsLib\WindowsFormsLib.csproj", "{9064A310-8D66-4E42-9319-CF68A8D17987}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeather2022", "..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj", "{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbienceLib", "..\..\..\AAV.Shared\Src\Net.CI\Ambience\AmbienceLib.csproj", "{87417D25-283A-4403-B009-8004A2ACA311}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsControlLib", "..\..\..\AAV.Shared\Src\Net.CI\WinFormsControlLib\WinFormsControlLib.csproj", "{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,18 +203,6 @@ Global
 		{A5CDC420-73A9-4903-8557-C602C2F363C4}.Release|x64.Build.0 = Release|Any CPU
 		{A5CDC420-73A9-4903-8557-C602C2F363C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{A5CDC420-73A9-4903-8557-C602C2F363C4}.Release|x86.Build.0 = Release|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|x64.ActiveCfg = Debug|x64
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|x64.Build.0 = Debug|x64
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Debug|x86.Build.0 = Debug|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x64.ActiveCfg = Release|x64
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x64.Build.0 = Release|x64
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x86.ActiveCfg = Release|Any CPU
-		{9064A310-8D66-4E42-9319-CF68A8D17987}.Release|x86.Build.0 = Release|Any CPU
 		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -239,6 +227,18 @@ Global
 		{87417D25-283A-4403-B009-8004A2ACA311}.Release|x64.Build.0 = Release|x64
 		{87417D25-283A-4403-B009-8004A2ACA311}.Release|x86.ActiveCfg = Release|Any CPU
 		{87417D25-283A-4403-B009-8004A2ACA311}.Release|x86.Build.0 = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|x64.Build.0 = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|x64.Build.0 = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

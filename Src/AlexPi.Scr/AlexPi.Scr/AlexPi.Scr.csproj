@@ -45,9 +45,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net.CI\Ambience\AmbienceLib.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net.CI\WinFormsControlLib\WinFormsControlLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
-    <ProjectReference Include="..\..\..\..\CI-Reimagined-Invention\Src\CI-RI\WindowsFormsLib\WindowsFormsLib.csproj" />
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj" />
     <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
