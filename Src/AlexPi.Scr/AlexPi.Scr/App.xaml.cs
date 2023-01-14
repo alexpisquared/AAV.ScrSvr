@@ -11,7 +11,7 @@ public partial class App : Application
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
   static readonly string[] _voices = new[] { CC.UkuaPolinaNeural.Voice, CC.ZhcnXiaomoNeural.Voice, CC.EnusAriaNeural.Voice, CC.EngbSoniaNeural.Voice, CC.EngbRyanNeural.Voice };
-  static readonly SpeechSynth _synth = new("bdefa0157d1d", true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice);  
+  static readonly SpeechSynth _synth = new("bdefa0157d1d-replace+deploy+replace", true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice);  
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
   public static readonly DateTime StartedAt = DateTime.Now;
