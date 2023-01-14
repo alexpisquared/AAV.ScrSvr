@@ -1,6 +1,4 @@
-﻿using XSD.CLS;
-
-namespace AlexPi.Scr.UsrCtrls;
+﻿namespace AlexPi.Scr.UsrCtrls;
 
 public partial class EnvtCaUsrCtrl : UserControl
 {
@@ -10,7 +8,7 @@ public partial class EnvtCaUsrCtrl : UserControl
   {
     InitializeComponent();
     DataContext = this;
-    Loaded += (s, e) => onLoaded(s, null); //?????? was PreviewKeyUp += (s, e) => onLoaded(s, null);
+    Loaded += (s, e) => OnLoaded(s, null); //?????? was PreviewKeyUp += (s, e) => onLoaded(s, null);
 
     XFormatter_ProperWay = value => DateTime.FromOADate(value).ToString("H:mm"); //or on per series basis: //cChartFore24.AxisX.FirstOrDefault().LabelFormatter = value => DateTime.FromOADate(value).ToString("H:mm");
 
@@ -20,7 +18,7 @@ public partial class EnvtCaUsrCtrl : UserControl
   public string[] WkLables { get; set; }
   public Func<double, string> WkYFormatter { get; set; }
 
-  async void onLoaded(object s, RoutedEventArgs e)
+  async void OnLoaded(object s, RoutedEventArgs e)
   {
     //wb1.NavigateToString((await WebSerialHelper.UrlToInstnace<feed>("http://weather.gc.ca/rss/city/on-143_e.xml")).entry[1].summary.Value);
     try
@@ -149,7 +147,7 @@ public partial class EnvtCaUsrCtrl : UserControl
 
   async Task<List<DtDc>> oo()
   {
-    var key = new SpeakerJob().GetValue("AppSecrets:MagicNumber"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicNumber"]; //tu: adhoc usersecrets 
+    var key = new SpeakerJob().GetValue("AppSecrets:MagicOpnWea"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicOpnWea"]; //tu: adhoc usersecrets 
 
     var _opnwea = new OpenWea();
     var ocv = await _opnwea.GetIt(key, OpenWea.OpenWeatherCd.OneCallApi).ConfigureAwait(false); // PHC107
@@ -160,7 +158,7 @@ public partial class EnvtCaUsrCtrl : UserControl
   }
 
   void onGoTo(object s, System.Windows.Navigation.RequestNavigateEventArgs e) => Process.Start(e.Uri.AbsoluteUri);
-  void onMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) => onLoaded(s, null);
+  void onMouseUp(object s, MouseButtonEventArgs e) => OnLoaded(s, e);
 
   public Func<double, string> XFormatter_ProperWay { get; set; }
   public static readonly DependencyProperty XMinProperty = DependencyProperty.Register("XMin", typeof(decimal), typeof(EnvtCaUsrCtrl), new PropertyMetadata(0m)); public decimal XMin { get => (decimal)GetValue(XMinProperty); set => SetValue(XMinProperty, value); }
