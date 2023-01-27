@@ -69,7 +69,7 @@ namespace AlexPi.Scr.Vws
 
         if (p > 75 && !_alreadyRunning)
         {
-          App.SpeakFaF($"Measured {p:N0} percent of CPU usage. Launching task manager...");
+          App.SpeakFaF($"Excessive CPU usage triggers task manager launch...");
           _alreadyRunning = true;
           try { Process.Start(new ProcessStartInfo("TaskMgr.exe") { UseShellExecute = true }); } catch (Exception ex) { ex.Pop(); }
         }
