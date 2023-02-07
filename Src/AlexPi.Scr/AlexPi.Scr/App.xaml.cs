@@ -110,9 +110,9 @@ public partial class App : Application
   }
 
   //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
-  public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakProsodyAsync(msg)); // FaF - Fire and Forget
-  public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakExpressAsync(msg);
-  public static async Task SayExe(string msg)                                   /**/ => await _synth.SayExe(msg);
+  public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
+  public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakAsync(msg);
+  public static void  SayExe(string msg)                                   /**/ => SpeechSynth.SayExe(msg);
 
   static int _ssto = -1; public static int ScrSvrTimeoutSec
   {
