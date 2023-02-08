@@ -11,7 +11,7 @@ public partial class App : Application
 
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
   static readonly string[] _voices = new[] { CC.UkuaPolinaNeural.Voice, CC.ZhcnXiaomoNeural.Voice, CC.EnusAriaNeural.Voice, CC.EngbSoniaNeural.Voice, CC.EngbRyanNeural.Voice };
-  static readonly SpeechSynth _synth = new("bdefa0157d1d-replace+deploy+replace", true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice, pathToCache: @"C:\Users\alexp\OneDrive\Public\AppData\SpeechSynthCache\");  
+  static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
   public static readonly DateTime StartedAt = DateTime.Now;
@@ -21,27 +21,36 @@ public partial class App : Application
 #else
     GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000;
 #endif
+  static App()
+  {
+
+    var key = IsDbg ? new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicSpeech"] ?? "no key found" : //tu: adhoc usersecrets 
+      "bdefa0157d1d-replace+deploy+replace";
+
+    _synth = new(key, true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice, pathToCache: @"C:\Users\alexp\OneDrive\Public\AppData\SpeechSynthCache\");
+  }
   protected override async void OnStartup(StartupEventArgs sea)
   {
     try
     {
+      if (IsDbg)
+      {
+        ////await ChimerAlt.FreqWalkUp();
+        ////Bpr.BeepBgn3();
+        ////await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
+        ////await App.SpeakAsync($"123");
+        //await ChimerAlt.Chime(1);
+        //await ChimerAlt.Chime(3);
+        //Debugger.Break();
+        ////await ChimerAlt.FreqWalkUpDn(70, 40, 50, 1.07);
+        //await AlexPi.Scr.AltBpr.ChimerAlt.FreqWalk();
+        //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
+      }
+
+      CurTraceLevel = IsDbg ? AppTraceLevel_inCode : AppTraceLevel_Warnng; // AppTraceLevel_Config; - App.config is not used in Net5.
+
       base.OnStartup(sea);
 
-#if DEBUG_
-      //await ChimerAlt.FreqWalkUp();
-      //Bpr.BeepBgn3();
-      //await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
-      //await App.SpeakAsync($"123");
-      await ChimerAlt.Chime(1);
-      await ChimerAlt.Chime(3);
-      Debugger.Break();
-      await ChimerAlt.FreqWalk(70, 40, 50, 1.07);
-      //await AlexPi.Scr.AltBpr.ChimerAlt.FreqWalk();
-      //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
-      CurTraceLevel = AppTraceLevel_inCode; // cfg seems to be not available for ScrSvr launches?
-#else
-      CurTraceLevel = AppTraceLevel_Warnng; // AppTraceLevel_Config; - App.config is not used in Net5.
-#endif
       Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
       Trace.WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VerHelper.CurVerStr(".Net6")}   args: {string.Join(", ", sea.Args)}   ");
 
@@ -112,7 +121,7 @@ public partial class App : Application
   //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
   public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
   public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakAsync(msg);
-  public static void  SayExe(string msg)                                   /**/ => SpeechSynth.SayExe(msg);
+  public static void SayExe(string msg)                                   /**/ => SpeechSynth.SayExe(msg);
 
   static int _ssto = -1; public static int ScrSvrTimeoutSec
   {
@@ -188,7 +197,11 @@ public partial class App : Application
     //Task.Run(async () =>      {        await ChimerAlt.PlayWhistle(_volume);      });
 
     var sj = new SpeakerJob();
-    SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
+    Task.Run(async () =>
+    {
+      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceF"));
+      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
+    });
 
     foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
 
@@ -301,6 +314,13 @@ public partial class App : Application
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
   [DllImport("user32")] public static extern void LockWorkStation();
+
+  static bool IsDbg =>
+#if DEBUG
+        true;
+#else
+        false;
+#endif
 }
 /// Install-Package Expression.Blend.Sdk
 /// Use for deployment:  Release + Any CPU  

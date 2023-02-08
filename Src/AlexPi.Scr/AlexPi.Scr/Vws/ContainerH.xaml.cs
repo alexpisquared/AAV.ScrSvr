@@ -87,6 +87,6 @@ public partial class ContainerH : TopmostUnCloseableWindow
   void onChimesChanged(object s, RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
   void onRepeatChanged(object s, RoutedEventArgs e) => AppSettings.Instance.IsRepeatOn = cbIsRepeatOn.IsChecked == true;
   async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
-  void onGreetFaf(object s, RoutedEventArgs e) { var sj = new SpeakerJob(); App.SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF")); }
-  void onGreetAlt(object s, RoutedEventArgs e) { var sj = new SpeakerJob(); App.SpeakFaF($"Hey {sj.GetRandomFromUserSection("FirstName")}! {sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceM")); }
+  void onGreetFaf(object s, RoutedEventArgs e) { var sj = new SpeakerJob(); App.SpeakFaF($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceF")); }
+  void onGreetAlt(object s, RoutedEventArgs e) { var sj = new SpeakerJob(); App.SpeakFaF($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceM")); }
 }
