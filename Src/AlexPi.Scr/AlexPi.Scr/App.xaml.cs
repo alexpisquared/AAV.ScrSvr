@@ -25,9 +25,11 @@ public partial class App : Application
   {
 
     var key = IsDbg ? new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicSpeech"] ?? "no key found" : //tu: adhoc usersecrets 
-      "bdefa0157d1d-replace+deploy+replace";
+      "bdefa0157d1d4547958f8653a65f32d4";
 
-    _synth = new(key, true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice, pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
+    var sj = new SpeakerJob();
+
+    _synth = new(key, true, voice: sj.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
   protected override async void OnStartup(StartupEventArgs sea)
   {
@@ -119,9 +121,9 @@ public partial class App : Application
   }
 
   //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
-  public static void SpeakFaF(string msg, string? voice = null) => Task.Run(async () => await _synth.SpeakAsync(msg)); // FaF - Fire and Forget
-  public static async Task SpeakAsync(string msg, string? voice = null)         /**/ => await _synth.SpeakAsync(msg);
-  public static void SayExe(string msg)                                   /**/ => SpeechSynth.SayExe(msg);
+  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await _synth.SpeakAsync(msg, voice: voice)); // FaF - Fire and Forget
+  public static async Task SpeakAsync(string msg, string voice = "")         /**/ => await _synth.SpeakAsync(msg, voice: voice);
+  public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
 
   static int _ssto = -1; public static int ScrSvrTimeoutSec
   {
@@ -194,13 +196,11 @@ public partial class App : Application
   }
   void showFullScrSvr_ScheduleArming()
   {
-    //Task.Run(async () =>      {        await ChimerAlt.PlayWhistle(_volume);      });
-
-    var sj = new SpeakerJob();
     Task.Run(async () =>
     {
-      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceF"));
-      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ", sj.GetRandomFromUserSection("VoiceF"));
+      var sj = new SpeakerJob();
+      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!");
+      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
     });
 
     foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
