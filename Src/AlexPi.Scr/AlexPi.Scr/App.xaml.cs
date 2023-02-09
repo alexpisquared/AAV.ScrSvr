@@ -27,7 +27,7 @@ public partial class App : Application
     var key = IsDbg ? new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicSpeech"] ?? "no key found" : //tu: adhoc usersecrets 
       "bdefa0157d1d-replace+deploy+replace";
 
-    _synth = new(key, true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice, pathToCache: @"C:\Users\alexp\OneDrive\Public\AppData\SpeechSynthCache\");
+    _synth = new(key, true, Environment.UserName.ToLower().StartsWith("j") ? CC.ZhcnXiaomoNeural.Voice : Environment.UserName.ToLower().StartsWith("a") ? _voices[DateTime.Now.Second % _voices.Length] : CC.EnusAriaNeural.Voice, pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
   protected override async void OnStartup(StartupEventArgs sea)
   {
