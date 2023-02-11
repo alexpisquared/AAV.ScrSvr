@@ -25,7 +25,7 @@ public partial class App : Application
   {
 
     var key = IsDbg ? new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicSpeech"] ?? "no key found" : //tu: adhoc usersecrets 
-      "bdefa0157d1d-replace+deploy+replace";
+      "bdefa0157d1d4547958f8653a65f32d4";
 
     var sj = new SpeakerJob();
 
