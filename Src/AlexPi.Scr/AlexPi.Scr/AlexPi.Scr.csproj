@@ -29,12 +29,9 @@
     <!-- LiveCharts V2: ..or OxyPlot maybe
     <PackageReference Include="CoelWu.LiveCharts.Core.SkiaSharpView.WPF" Version="1.0.0" />
     -->
-    <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1462.37" />
     <!-- //tu: blend/arc problem fix -->
-    <PackageReference Include="Unnoficial.Microsoft.Expression.Drawing" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,8 +48,6 @@
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj" />
     <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
-    <ProjectReference Include="..\RadarLib\RadarLib.csproj" />
-    <ProjectReference Include="..\RadarPicCollect\RadarPicCollect.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
   </ItemGroup>
