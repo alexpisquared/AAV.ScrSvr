@@ -46,7 +46,6 @@
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.WPF\AAV.WPF.csproj" />
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj" />
-    <ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />

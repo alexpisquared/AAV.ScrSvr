@@ -41,8 +41,8 @@
       <Button Content="   10e_3   " Click="onDrawDays" Tag="600" />
       <TextBlock x:Name="tbInfo" Text="◄◄◄ " Foreground="#4af" MinWidth="222"/>
     </StackPanel>
-    
-    <UpTimeChart:DailyChart HorizontalAlignment="Left" Height="100" Margin="91,-303,0,0" VerticalAlignment="Top" Width="100"/>
- 
+
+    <UpTimeChart:DailyChart Height="80" Margin="0,-80,0,0" VerticalAlignment="Top" />
+
   </Grid>
 </UserControl>
