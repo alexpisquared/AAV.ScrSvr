@@ -75,13 +75,13 @@ public partial class App : Application
         case "up":
         case "-u":
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
-        case "si":                                              // SilentDbUpdate
-          var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
-          var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-          await SpeakAsync(rprt);
-          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    StartUp() - {rprt}");
-          Shutdown();
-          return;
+        //case "si":                                              // SilentDbUpdate
+        //  var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
+        //  var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
+        //  await SpeakAsync(rprt);
+        //  Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    StartUp() - {rprt}");
+        //  Shutdown();
+        //  return;
         case "ct": // Chime Test
           await SpeakAsync($"Testing FreqWalkUp start");
           Trace.Write($"Testing FreqWalkUp start ... ");
@@ -125,18 +125,7 @@ public partial class App : Application
   public static async Task SpeakAsync(string msg, string voice = "")         /**/ => await _synth.SpeakAsync(msg, voice: voice);
   public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
 
-  static int _ssto = -1; public static int ScrSvrTimeoutSec
-  {
-    get
-    {
-      if (_ssto == -1)
-      {
-        _ssto = EvLogHelper.Ssto;
-      }
-
-      return _ssto;
-    }
-  }
+  public const int ScrSvrTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
   public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
@@ -276,7 +265,7 @@ public partial class App : Application
         await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                        /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL(4)  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
         await SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough."); // If you are hearing this, that means: it is too late to do anything. The sleep is being enforced now. 1 2 3 4 5 6 7 8 9 10. 11. 1. 2. 3. 4. 22. 1, 2, 3, 4, 33. 1; 2; 3; 4; 44. 1: 2: 3: 4:");                   /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL(3)  after  'Enforcing sleep now.'.        <<<<<<<<<<");
         await Task.Delay(TimeSpan.FromMinutes(0.50));                                                                                                                        /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL(4)  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.");
-        await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
+        //await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                                                           /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL(1)  after  LogScrSvrUptime.");
         sleepStandby();                                                                                                                                                      /**/ Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    SL(0)  after  sleepStandby();.");
       }

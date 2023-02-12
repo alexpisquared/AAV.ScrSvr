@@ -251,7 +251,7 @@ namespace UpTimeChart
       {
         if (_ssto == -1)
         {
-          _ssto = EvLogHelper.Ssto;
+          _ssto = EvLogHelper.GetSstoFromRegistry;
         }
 
         return _ssto;

@@ -13,6 +13,7 @@ using System.Windows;
 
 namespace AsLink
 {
+  [Obsolete("Phasing out local db ...", false)]
   public static partial class EvLogHelper //2021-09: old RO version. Tried to replace with C:\g\TimeTracking\N50\TimeTracking50\TimeTracker\AsLink\EvLogMngr.cs - too many diffs. 
   {
     const int _ssrUp = 7101, _ssrDn = 7102, _bootUp_12 = 12, _bootDn_13 = 13, _syTime_01 = 1; // when waking from hibernation: 12 is nowhere to be seen, 1 is there.
@@ -388,7 +389,7 @@ Kernel-General 12 - up
 */
 
 
-    static int _ssto = -1; public static int Ssto // ScreenSaveTimeOut 
+    static int _ssto = -1; public static int GetSstoFromRegistry // ScreenSaveTimeOut 
     {
       get
       {
@@ -496,7 +497,7 @@ Kernel-General 12 - up
       }
       catch (Exception ex) { MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
 
-      return rv.AddSeconds(-Ssto); // actually - earlier.
+      return rv.AddSeconds(-GetSstoFromRegistry); // actually - earlier.
     }
     public static DateTime GetDaysLastSsDnTime(DateTime hr00ofTheDate)
     {
@@ -544,7 +545,7 @@ Kernel-General 12 - up
       var hr24ofTheDate = hr00ofTheDate.AddDays(1);
       var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID &gt;= {_ssrUp} and EventID &lt;= {_ssrDn}) ) and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
-      var tssec = TimeSpan.FromSeconds(Ssto);
+      var tssec = TimeSpan.FromSeconds(GetSstoFromRegistry);
 
       using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
       {
