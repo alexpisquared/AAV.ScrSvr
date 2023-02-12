@@ -33,3 +33,5 @@ global using WindowsFormsLib;
 global using XSD.CLS;
 //obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
 global using static System.Diagnostics.Trace;
+global using Db.EventLog.Main;
+global using Microsoft.Expression.Shapes;

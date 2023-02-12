@@ -1,14 +1,11 @@
-﻿using Db.EventLog.Main;
-using Microsoft.Expression.Shapes;
-
-namespace AlexPi.Scr.UsrCtrls;
+﻿namespace AlexPi.Scr.UsrCtrls;
 
 public partial class UpTimeSpiralUC : UserControl
 {
   int _drawDelayMsPerDay = 500;
   double _aw, _ah;
   readonly DateTime _start = App.StartedAt;
-  readonly DateTime _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
+  readonly DateTime _idleAt = App.StartedAt.AddSeconds(-App.IdleTimeoutSec);
   readonly TimeSplit ts = new();
   readonly Brush _brhDodgerBlue = new SolidColorBrush(Color.FromArgb(64, 255, 255, 255));// Brushes.Black, cWE = Brushes.LightPink, cWD = Brushes.LightSkyBlue, cWEd = Brushes.DarkRed, cWDd = Brushes.CadetBlue, b2 = Brushes.Gray;
   public static readonly DependencyProperty StartMinProperty = DependencyProperty.Register("StartMin", typeof(double), typeof(UpTimeSpiralUC)); public double StartMin { get => (double)GetValue(StartMinProperty); set => SetValue(StartMinProperty, value); }

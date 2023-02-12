@@ -147,7 +147,7 @@ public partial class EnvtCaUsrCtrl : UserControl
 
   async Task<List<DtDc>> oo()
   {
-    var key = new SpeakerJob().GetValue("AppSecrets:MagicOpnWea"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicOpnWea"]; //tu: adhoc usersecrets 
+    var key = new ConfigRandomizer().GetValue("AppSecrets:MagicOpnWea"); // var key = new ConfigurationBuilder().AddUserSecrets<App>().Build()["AppSecrets:MagicOpnWea"]; //tu: adhoc usersecrets 
 
     var _opnwea = new OpenWea();
     var ocv = await _opnwea.GetIt(key, OpenWea.OpenWeatherCd.OneCallApi).ConfigureAwait(false); // PHC107

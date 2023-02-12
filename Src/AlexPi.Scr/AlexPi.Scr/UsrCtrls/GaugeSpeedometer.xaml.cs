@@ -19,7 +19,7 @@ namespace AlexPi.Scr.UsrCtrls
     static DoubleAnimation dai, dao, dam;
     static Duration dr = new(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0));
     static TimeSpan bt = TimeSpan.FromSeconds(0);
-    readonly DateTime _start = App.StartedAt, _idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
+    readonly DateTime _start = App.StartedAt, _idleAt = App.StartedAt.AddSeconds(-App.IdleTimeoutSec);
     async void onLoaded(object s, RoutedEventArgs e)
     {
       try

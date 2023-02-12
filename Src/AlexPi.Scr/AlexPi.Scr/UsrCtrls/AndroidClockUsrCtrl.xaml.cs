@@ -36,7 +36,7 @@ namespace UsrCtrlPOCs
     }
     void onLoaded(object s, RoutedEventArgs e)
     {
-      var idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
+      var idleAt = App.StartedAt.AddSeconds(-App.IdleTimeoutSec);
       StartMin = idleAt.Minute * 6 + idleAt.Second * .1;
       StartHou = idleAt.TimeOfDay.TotalDays * 720;
 

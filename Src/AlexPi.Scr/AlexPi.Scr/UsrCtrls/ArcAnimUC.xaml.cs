@@ -23,7 +23,7 @@ namespace AlexPi.Scr.UsrCtrls
         {
             await System.Threading.Tasks.Task.Delay(10000);
 
-            var idleAt = App.StartedAt.AddSeconds(-App.ScrSvrTimeoutSec);
+            var idleAt = App.StartedAt.AddSeconds(-App.IdleTimeoutSec);
             //StartMin = idleAt.Minute * 6 + idleAt.Second * .1;
             //StartHou = idleAt.TimeOfDay.TotalDays * 720;
 
