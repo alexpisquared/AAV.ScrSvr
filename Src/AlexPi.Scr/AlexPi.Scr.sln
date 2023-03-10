@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Db.EventLog.Explorer", "Db.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeather2022", "..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj", "{05E1007E-EAAD-49F6-BEC4-B7B01C03CA97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbienceLib", "..\..\..\AAV.Shared\Src\Net.CI\Ambience\AmbienceLib.csproj", "{87417D25-283A-4403-B009-8004A2ACA311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmbienceLib", "..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj", "{87417D25-283A-4403-B009-8004A2ACA311}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsControlLib", "..\..\..\AAV.Shared\Src\Net.CI\WinFormsControlLib\WinFormsControlLib.csproj", "{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsControlLib", "..\..\..\AAV.Shared\Src\NetLts\WinFormsControlLib\WinFormsControlLib.csproj", "{D18377EE-97BC-4C42-A5B7-3AA4AA06A2E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
