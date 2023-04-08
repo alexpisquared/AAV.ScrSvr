@@ -28,7 +28,7 @@
     int min2Sleep = 20; public int Min2Sleep { get => min2Sleep; set { if (min2Sleep != value) { min2Sleep = value; Save(); } } }
     int min2Locke = 20; public int Min2Locke { get => min2Locke; set { if (min2Locke != value) { min2Locke = value; Save(); } } }
 
-    public string ImgPath { get; set; }
+    public string? ImgPath { get; set; }
     public double DelayMin { get; set; }
     public double CrossFadeSec { get; set; }
     public double TransitionSec { get; set; }

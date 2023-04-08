@@ -3,12 +3,10 @@ public partial class App : System.Windows.Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
   bool _showBackWindowMaximized = false;
-  public static TraceSwitch? CurTraceLevel;
-  public static TraceSwitch
-    AppTraceLevel_Config = new("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> "),
-    AppTraceLevel_inCode = new("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info },
-    AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
-
+  static TraceSwitch? CurTraceLevel;
+  static readonly TraceSwitch AppTraceLevel_Config = new("CfgTraceLevelSwitch", "Switch in config file:  <system.diagnostics><switches><!--0-off, 1-error, 2-warn, 3-info, 4-verbose. --><add name='CfgTraceLevelSwitch' value='3' /> ");
+  static readonly TraceSwitch AppTraceLevel_inCode = new("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info };
+  static readonly TraceSwitch AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
   static readonly string[] _voices = new[] { CC.UkuaPolinaNeural.Voice, CC.ZhcnXiaomoNeural.Voice, CC.EnusAriaNeural.Voice, CC.EngbSoniaNeural.Voice, CC.EngbRyanNeural.Voice };
   static readonly SpeechSynth _synth;
@@ -49,7 +47,7 @@ public partial class App : System.Windows.Application
 
       base.OnStartup(sea);
 
-      Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
+      _ = Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
       WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VerHelper.CurVerStr(".Net7")}   args: {string.Join(", ", sea.Args)}   ");
 
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
@@ -67,7 +65,7 @@ public partial class App : System.Windows.Application
         case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
         case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
         case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
-        case "/c": new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
+        case "/c": _ = new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
         case "up":
         case "-u":
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
@@ -94,7 +92,7 @@ public partial class App : System.Windows.Application
     }
     catch (Exception ex)
     {
-      ex.Log(optl: "ASYNC void OnStartup()");
+      _ = ex.Log(optl: "ASYNC void OnStartup()");
       ex.Pop(optl: "ASYNC void OnStartup()");
     }
 
@@ -119,10 +117,13 @@ public partial class App : System.Windows.Application
   //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
   public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await _synth.SpeakAsync(msg, voice: voice)); // FaF - Fire and Forget
   public static async Task SpeakAsync(string msg, string voice = "")         /**/ => await _synth.SpeakAsync(msg, voice: voice);
+  [Obsolete]
   public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
 
   public const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
+
+  [Obsolete]
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
     Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   ▓▓ EvLogHlpr.Log({msg})");
@@ -188,7 +189,7 @@ public partial class App : System.Windows.Application
       SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
     });
 
-    foreach (var screen in WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
 
     new ControlPanel(_globalEventHandler).Show();
     if (AppSettings.Instance.IsSaySecOn)
@@ -211,6 +212,8 @@ public partial class App : System.Windows.Application
     Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Hello?"));
     Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(armAndLegEvent());
   }
+
+  [Obsolete]
   static Action<Task> armAndLegEvent() => _ =>
   {
     _mustLogEORun = true;
