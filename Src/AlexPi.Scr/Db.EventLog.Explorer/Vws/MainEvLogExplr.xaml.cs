@@ -36,7 +36,7 @@ namespace Db.EventLog.Explorer
       try
       {
         tbInfo.Text = $"Loading ...  ";
-        tbCurVer.Text = $"{VerHelper.CurVerStr(".NET 5.0")}";
+        tbCurVer.Text = $"{VerHelper.CurVerStr()}";
 
         var itemsSrc = await DbLogHelper.AllPCsAsync();
         tbInfo.Text = $"Loading {itemsSrc.Count} PCs...  ";

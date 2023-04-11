@@ -40,7 +40,7 @@ namespace Db.EventLog.Explorer
       try
       {
         tbInfo.Text = $"Loading ... {_localdb}";
-        tbCurVer.Text = $"{VerHelper.CurVerStr(".NET 5.0")}";
+        tbCurVer.Text = $"{VerHelper.CurVerStr()}";
 
         await _db.PcLogics.LoadAsync();
         await _db.EvOfInts.OrderByDescending(r => r.TimeID).LoadAsync(); //tu: error "'EditItem' is not allowed for this view." if Order is done on Local !!!!!!!!!!!!!!
