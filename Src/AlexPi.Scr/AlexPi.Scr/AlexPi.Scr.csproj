@@ -30,7 +30,7 @@
     <PackageReference Include="CoelWu.LiveCharts.Core.SkiaSharpView.WPF" Version="1.0.0" />
     -->
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1661.34" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1722.45" />
     <!-- //tu: blend/arc problem fix -->
   </ItemGroup>
 

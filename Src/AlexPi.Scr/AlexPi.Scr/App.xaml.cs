@@ -280,7 +280,7 @@ public partial class App : System.Windows.Application
     }
 
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ...");
-    _ = SetSuspendState(isDeepHyberSleep, true, true);
+    _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
   }
 
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
