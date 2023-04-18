@@ -20,21 +20,20 @@ namespace ScreenTimeUsrCtrlLib.Views
     {
       InitializeComponent();
       if (!DesignerProperties.GetIsInDesignMode(this)) //tu: design time mode
-        Loaded += onLoaded;
+        Loaded += onDrawDays;
     }
-    async void onLoaded(object s, RoutedEventArgs e) { await Task.Delay(DelaySec * 1000); onDrawDays(s, e); }        //void onLoaded(object s, RoutedEventArgs e) { Task.Run(async () => await Task.Delay(DelaySec * 1000)).ContinueWith(_ => onXX(s, e), TaskScheduler.FromCurrentSynchronizationContext()); }
     async void onDrawDays(object s, RoutedEventArgs e) => await repopulateUsrCtrlCharts(((FrameworkElement)s).Tag?.ToString() ?? _daysback.ToString());
     async Task repopulateUsrCtrlCharts(string str) => await repopulateUsrCtrlCharts(int.TryParse(str, out _daysback) ? _daysback : 21);
     async Task repopulateUsrCtrlCharts(int daysBack)
     {
       var sw = Stopwatch.StartNew();
-      tbInfo.Text = $"► going {daysBack} days back..."; await Task.Delay(100);
+      tbInfo.Text = $"► going {daysBack} days back..."; 
 
       var earliestRecordedDate = new DateTime(2017, 10, 20);
       if (DateTime.Today.AddDays(-daysBack) < earliestRecordedDate)
         daysBack = (int)(DateTime.Today - earliestRecordedDate).TotalDays;
 
-      spArrayHolder.Children.Clear(); for (int i = 0; i < daysBack; i++) { spArrayHolder.Children.Add(new DailyChart(DateTime.Today.AddDays(-i))); await Task.Delay(100); }
+      spArrayHolder.Children.Clear(); for (int i = 0; i < daysBack; i++) { spArrayHolder.Children.Add(new DailyChart(DateTime.Today.AddDays(-i))); await Task.Delay(1); }
 
       tbInfo.Text = $"► {sw.Elapsed:mm\\:ss} ► {1000d * daysBack / sw.ElapsedMilliseconds:N1} day/sec.";
     }

@@ -39,7 +39,12 @@ namespace UpTimeChart
       TrgDateC = trg;
 
       //todo: too slow; need better logic to draw all PCs:      // Loaded += clearDrawAllSegmentsForAllPCsSynch; // Loaded += clearDrawAllSegmentsForAllPCsAsync;
-      Loaded += (s, e) => ClearDrawAllSegmentsForSinglePC(Environment.MachineName, "Yellow");
+      Loaded += async (s, e) =>
+      {
+        while (canvasBar.ActualWidth <= 0)
+          await Task.Delay(1);
+        
+        ClearDrawAllSegmentsForSinglePC(Environment.MachineName, "DarkBlue"); };
     }
     public void clearDrawAllSegmentsForAllPCsSynch(object s, RoutedEventArgs e)
     {
@@ -178,6 +183,7 @@ namespace UpTimeChart
     {
       if (eoiA == EvOfIntFlag.ScreenSaverrUp && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
       if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.ScreenSaverrDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
+      if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ShutAndSleepDn; // ignore odd pwr-on during scrsvr runs. 2023-04
 
       add_________Time(timeA, timeB, eoiA, eoiB, ref ts);
 

@@ -1,8 +1,10 @@
 ﻿using AAV.Sys.Helpers;
 using AAV.WPF.Ext;
+using AsLink;
 using Db.EventLog.DbModel;
 using Db.EventLog.Main;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -37,44 +39,31 @@ public partial class MainEvLogExplr : AAV.WPF.Base.WindowBase
       tbInfo.Text = $"Loading ...  ";
       tbCurVer.Text = $"{VerHelper.CurVerStr()}";
 
-      var itemsSrc = await DbLogHelper.AllPCsAsync();
-      tbInfo.Text = $"Loading {itemsSrc.Count} PCs...  ";
-
-      var _localdb = OneDrive.Folder($@"{DbLogHelper._dbSubP}LocalDb({Environment.MachineName}).mdf");
-      FileAttributeHelper.RmvAttribute(_localdb, FileAttributes.ReadOnly);
-      var _db = A0DbModel.GetLclFl(_localdb);
-      await _db.PcLogics.LoadAsync();
-      await _db.EvOfInts.LoadAsync();
-
-      //foreach (PcLogic item in ((List<PcLogic>)pcLogicDataGridRO.ItemsSource).Where(r => !r.MachineName.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase)))                    _db.PcLogics.Local.Add(item);
-
-      ((CollectionViewSource)(FindResource("pcLogicViewSource"))).Source = _db.PcLogics.Local;
-      ((CollectionViewSource)(FindResource("evOfIntViewSource"))).Source = _db.EvOfInts.Local;
-
-      tbInfo.Text = $"{_db.PcLogics.Local.Count} PCs with {_db.EvOfInts.Local.Count} events.";
-
-      pcLogicDataGridRO.ItemsSource = itemsSrc;
-      foreach (var item in itemsSrc)
+      IEnumerable<EvOfInt>? eoi = null;
+      var trgDate = DateTime.Today;
+      var t1 = trgDate;
+      var t2 = trgDate.AddDays(.99999);
+      await Task.Run(() => EvLogHelper.GetAllUpDnEvents(t1, t2)).ContinueWith(_ =>
       {
-        if (item.MachineName.Equals(Environment.MachineName, StringComparison.OrdinalIgnoreCase))
-          pcLogicDataGridRO.SelectedItem = item;
-      }
-      pcLogicDataGridRO.Focus();
+        try
+        {
+          var de = _.Result;
+          if (de.Count < 1) { }
+          else
+          {
+            eoi = de.Select(e => new EvOfInt { TimeID = e.Key, EvOfIntFlag = e.Value, MachineName = Environment.MachineName });
+          }
+        }
+        catch (Exception ex) { ex.Pop(); }
+      }, TaskScheduler.FromCurrentSynchronizationContext());
+      
+      ArgumentNullException.ThrowIfNull(eoi);
+      ((CollectionViewSource)FindResource("evOfIntViewSource")).Source = eoi;
+
+      tbInfo.Text = $"{eoi.Count()} events.";
     }
     catch (Exception ex) { ex.Pop(); ; }
     finally { vizroot.IsEnabled = true; }
-  }
-  void onEditWin(object s, RoutedEventArgs e)
-  {
-    if (pcLogicDataGridRO.SelectedItems.Count > 0 &&
-        pcLogicDataGridRO.SelectedItems[0] is PcLogic)
-    {
-      var localdb = OneDrive.Folder($@"{DbLogHelper._dbSubP}LocalDb({(pcLogicDataGridRO.SelectedItems[0] as PcLogic).MachineName}).mdf");
-      if (File.Exists(localdb))
-        new RODBView(localdb).ShowDialog();
-    }
-    else
-      MessageBox.Show($"{pcLogicDataGridRO.SelectedItems[0]}", "Not there");
   }
   void pcChanged(object s, System.Windows.Controls.SelectionChangedEventArgs e)
   {
