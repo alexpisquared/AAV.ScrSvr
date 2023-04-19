@@ -1,53 +1,29 @@
 ﻿<lnk:WindowBase xmlns:lnk="clr-namespace:AAV.WPF.Base;assembly=AAV.WPF" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Db.EventLog.Explorer.MainEvLogExplr"
-                xmlns:cnv="clr-namespace:AsLink" 
-                xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                xmlns:DbModel="clr-namespace:Db.EventLog.DbModel;assembly=Db.EventLog" 
                 xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" 
-                Title="Event Viewer" Height="200" Width="1600" Loaded="onLoaded"
-                SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
+                Title="Event Viewer" Height="160" Width="1600" Loaded="onLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="20" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
-    <CollectionViewSource x:Key="pcLogicViewSource" d:DesignSource="{d:DesignInstance {x:Type DbModel:PcLogic}, CreateList=True}" />
-    <CollectionViewSource x:Key="pcLogicEvOfIntsViewSource" Source="{Binding EvOfInts, Source={StaticResource pcLogicViewSource}}" >
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="TimeID" Direction="Descending"/>
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
-    <CollectionViewSource x:Key="evOfIntViewSource" d:DesignSource="{d:DesignInstance {x:Type DbModel:EvOfInt}, CreateList=True}" >
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="TimeID" Direction="Descending"/>
-      </CollectionViewSource.SortDescriptions>
-      <!--<CollectionViewSource.GroupDescriptions>                <PropertyGroupDescription PropertyName="Default"/>            </CollectionViewSource.GroupDescriptions>-->
-    </CollectionViewSource>
     <Style TargetType="{x:Type ContentControl}">
-      <Setter Property="Margin" Value="5"/>
+      <Setter Property="Margin" Value="50"/>
     </Style>
   </lnk:WindowBase.Resources>
-  <Border Background="#161616" BorderThickness="1" BorderBrush="#26a" CornerRadius="10" >
-    <Grid DataContext="{StaticResource pcLogicViewSource}" x:Name="vizroot" Margin="5" >
+  <Border Background="#161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
+    <Grid x:Name="vizroot" Margin="5" >
       <Grid.RowDefinitions>
-        <RowDefinition Height="36"   />
+        <RowDefinition Height="Auto"   />
         <RowDefinition Height="2"     />
         <RowDefinition Height="*"     />
       </Grid.RowDefinitions>
-
-      <TextBlock Grid.Column="3" Text="tbCurVer"  Margin="0" x:Name="tbCurVer" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Medium" Foreground="DodgerBlue" Height="16" Width="48"  />
-
-      <Viewbox Margin="0 0 0 0">
-        <TextBlock x:Name="tbInfo" Text="Loading..." Foreground="#999"/>
-      </Viewbox>
-
-      <Grid    Grid.Row="2" Grid.ColumnSpan="4" x:Name="ZommablePanel"  >
+      <TextBlock Text="tbCurVer"   x:Name="tbCurVer" Margin="10 5" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Medium" Foreground="DodgerBlue" />
+      <TextBlock Text="Loading..." x:Name="tbInfo"   Margin="10 5" Foreground="#999"/>
+      <Grid    Grid.Row="2" x:Name="ZommablePanel"  >
         <Grid.LayoutTransform>
           <ScaleTransform ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
-
         <Views:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
-
       </Grid>
-
     </Grid>
   </Border>
 </lnk:WindowBase>

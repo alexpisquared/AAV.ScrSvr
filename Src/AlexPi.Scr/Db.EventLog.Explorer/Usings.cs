@@ -1,0 +1,20 @@
+global using System;
+global using System.Data.Entity;
+global using System.Diagnostics;
+global using System.Globalization;
+global using System.IO;
+global using System.Linq;
+global using System.Text.RegularExpressions;
+global using System.Threading.Tasks;
+global using System.Windows;
+global using System.Windows.Controls;
+global using System.Windows.Data;
+global using System.Windows.Input;
+global using System.Windows.Media;
+global using AAV.Sys.Ext;
+global using AAV.Sys.Helpers;
+global using AAV.WPF.Ext;
+global using AsLink;
+global using Db.EventLog.DbModel;
+//obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
+global using Db.EventLog.Main;

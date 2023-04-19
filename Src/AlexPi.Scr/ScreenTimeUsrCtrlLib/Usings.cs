@@ -1,0 +1,24 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Diagnostics;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Windows;
+global using System.Windows.Controls;
+global using System.Windows.Media;
+global using System.Windows.Shapes;
+global using AAV.Sys.Ext;
+global using AAV.WPF.Ext;
+global using AsLink;
+global using Db.EventLog;
+//obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
+global using Db.EventLog.Main;
+global using Microsoft.Expression.Shapes;
+global using System;
+global using System.ComponentModel;
+global using System.Diagnostics;
+global using System.Threading.Tasks;
+global using System.Windows;
+global using System.Windows.Controls;
+global using Db.EventLog.DbModel;
+global using UpTimeChart;

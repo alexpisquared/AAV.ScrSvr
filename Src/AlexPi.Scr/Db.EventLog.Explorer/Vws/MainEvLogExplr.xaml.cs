@@ -1,20 +1,4 @@
-﻿using AAV.Sys.Helpers;
-using AAV.WPF.Ext;
-using AsLink;
-using Db.EventLog.DbModel;
-using Db.EventLog.Main;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-
-namespace Db.EventLog.Explorer;
+﻿namespace Db.EventLog.Explorer;
 
 public partial class MainEvLogExplr : AAV.WPF.Base.WindowBase
 {
@@ -39,28 +23,28 @@ public partial class MainEvLogExplr : AAV.WPF.Base.WindowBase
       tbInfo.Text = $"Loading ...  ";
       tbCurVer.Text = $"{VerHelper.CurVerStr()}";
 
-      IEnumerable<EvOfInt>? eoi = null;
-      var trgDate = DateTime.Today;
-      var t1 = trgDate;
-      var t2 = trgDate.AddDays(.99999);
-      await Task.Run(() => EvLogHelper.GetAllUpDnEvents(t1, t2)).ContinueWith(_ =>
-      {
-        try
-        {
-          var de = _.Result;
-          if (de.Count < 1) { }
-          else
-          {
-            eoi = de.Select(e => new EvOfInt { TimeID = e.Key, EvOfIntFlag = e.Value, MachineName = Environment.MachineName });
-          }
-        }
-        catch (Exception ex) { ex.Pop(); }
-      }, TaskScheduler.FromCurrentSynchronizationContext());
+      //IEnumerable<EvOfInt>? eoi = null;
+      //var trgDate = DateTime.Today;
+      //var t1 = trgDate;
+      //var t2 = trgDate.AddDays(.99999);
+      //await Task.Run(() => EvLogHelper.GetAllUpDnEvents(t1, t2)).ContinueWith(_ =>
+      //{
+      //  try
+      //  {
+      //    var de = _.Result;
+      //    if (de.Count < 1) { }
+      //    else
+      //    {
+      //      eoi = de.Select(e => new EvOfInt { TimeID = e.Key, EvOfIntFlag = e.Value, MachineName = Environment.MachineName });
+      //    }
+      //  }
+      //  catch (Exception ex) { ex.Pop(); }
+      //}, TaskScheduler.FromCurrentSynchronizationContext());
       
-      ArgumentNullException.ThrowIfNull(eoi);
-      ((CollectionViewSource)FindResource("evOfIntViewSource")).Source = eoi;
+      //ArgumentNullException.ThrowIfNull(eoi);
+      //((CollectionViewSource)FindResource("evOfIntViewSource")).Source = eoi;
 
-      tbInfo.Text = $"{eoi.Count()} events.";
+      //tbInfo.Text = $"{eoi.Count()} events.";
     }
     catch (Exception ex) { ex.Pop(); ; }
     finally { vizroot.IsEnabled = true; }

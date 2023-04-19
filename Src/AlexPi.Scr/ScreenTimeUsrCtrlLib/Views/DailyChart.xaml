@@ -26,8 +26,8 @@
   <Grid Margin="0.5" Name="gridvroot">
     <Canvas     x:Name="canvasBar"  ToolTip="canvasBar" />
     <TextBlock  x:Name="tbSummary"  ToolTip="tbSummary" Text="Date .. time (idle)" Foreground="#080" FontFamily="Consolas" VerticalAlignment="Bottom" Margin="10 1" FontSize="14" HorizontalAlignment="Left" />
-    <Button     Content=" @ "       ToolTip="clearDrawAllSegmentsForAllPCsAsync" HorizontalAlignment="Right" Margin="40 0" Click="clearDrawAllSegmentsForAllPCsAsync" Background="#4888" BorderBrush="Transparent" FontWeight="Bold" />
     <!--
+    <Button     Content=" @ "       ToolTip="clearDrawAllSegmentsForAllPCsAsync" HorizontalAlignment="Right" Margin="20 0" Click="clearDrawAllSegmentsForAllPCsAsync" Background="#4888" BorderBrush="Transparent" FontWeight="Bold" Height="18" Padding="0" />
     <ed:Arc ArcThickness="5" ArcThicknessUnit="Pixel" StartAngle="45" EndAngle="45" Fill="#00f" Height="36" Canvas.Left="70" Stretch="None" Stroke="#f00" Width="36" RenderTransformOrigin="0.5,0.5" />
     <ed:Arc ArcThickness="5" ArcThicknessUnit="Pixel" StartAngle="45" EndAngle="99" Fill="#00f" Height="16" Canvas.Left="20" Stretch="None" Stroke="#f00" Width="16" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" />
     -->
