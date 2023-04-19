@@ -48,7 +48,7 @@ public partial class DailyChart : UserControl
 
       DrawUpDnLine(TrgDateC, machineName);
 
-      if (TrgDateC >= DateTime.Today) addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.White); // now line
+      if (TrgDateC >= DateTime.Today) addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow); // now line
       
       Bpr.ShortFaF();
     }
@@ -57,7 +57,7 @@ public partial class DailyChart : UserControl
 
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
 
-  [Obsolete]
+  //[Obsolete]
   void DrawUpDnLine(DateTime trgDate, string pc)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x50, 0x60, 0x50));
