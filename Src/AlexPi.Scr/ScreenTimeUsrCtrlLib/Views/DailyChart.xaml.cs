@@ -90,7 +90,7 @@ public partial class DailyChart : UserControl
         eois.Add(DateTime.Now, 2); // == ((int)EvOfIntFlag.ScreenSaverrUp)
 
       if (eois.Count < 1)
-        tbSummary.Text = $"{trgDate,16:ddd, MMM dd yyyy}  no activities logged on this date.";
+        tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
       else
       {
         var eoi0 = eois.FirstOrDefault();
@@ -112,7 +112,7 @@ public partial class DailyChart : UserControl
 
         ts.TotalDaysUp = (lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key;
 
-        tbSummary.Text = $"{trgDate,16:ddd, MMM dd yyyy}    {ts.TotalDaysUp,5:h\\:mm}  ({ts.WorkedFor:h\\:mm})    ";
+        tbSummary.Text = $"{trgDate,9:ddd M-dd}    {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
       }
 
       tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWEd : cWDd;

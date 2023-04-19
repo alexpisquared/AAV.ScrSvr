@@ -21,8 +21,6 @@ public partial class ScreenTimeUsrCtrl : UserControl
   {
     try
     {
-      Bpr.Begin2FaF();
-
       ctrlpnl.Visibility = Visibility.Collapsed;
       var sw = Stopwatch.StartNew();
       tbInfo.Text = $"► going {daysBack} days back...";
@@ -31,11 +29,9 @@ public partial class ScreenTimeUsrCtrl : UserControl
       if (DateTime.Today.AddDays(-daysBack) < earliestRecordedDate)
         daysBack = (int)(DateTime.Today - earliestRecordedDate).TotalDays;
 
-      spArrayHolder.Children.Clear(); for (var i = 0; i < daysBack; i++) { _ = spArrayHolder.Children.Add(new DailyChart(DateTime.Today.AddDays(-i))); await Task.Delay(1); }
+      spArrayHolder.Children.Clear(); for (var i = 0; i < daysBack; i++) { _ = spArrayHolder.Children.Add(new DailyChart(DateTime.Today.AddDays(-i))); await Task.Delay(1000 / daysBack); }
 
       tbInfo.Text = $"► {sw.Elapsed:mm\\:ss} ► {1000d * daysBack / sw.ElapsedMilliseconds:N1} day/sec.";
-
-      Bpr.BeepEnd2();
     }
     finally
     {
