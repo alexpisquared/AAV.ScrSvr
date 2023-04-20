@@ -1,23 +1,19 @@
-﻿using AAV.Sys.Helpers;
+﻿using StandardLib.Services;
 
 namespace UpTimeChart;
-
 public partial class DailyChart : UserControl
 {
   public struct TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
-
   double _ah = 30, _aw = 30;
   readonly Brush cWE = Brushes.LightPink;
   readonly Brush cWD = Brushes.LightSkyBlue;
   readonly Brush cWEd = Brushes.LightPink;
   readonly Brush cWDd = Brushes.CadetBlue;
-  readonly Brush cBlk = Brushes.Black;
+  readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28));
   readonly Brush cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
-  Brush _clr = Brushes.DarkGray;
   readonly Brush b1 = new SolidColorBrush(Color.FromRgb(0x2c, 0x2c, 0x2c));
   readonly Brush b3 = new SolidColorBrush(Color.FromRgb(0x3c, 0x3c, 0x3c));
   readonly Brush b6 = new SolidColorBrush(Color.FromRgb(0x70, 0x70, 0x70));
-
   public DailyChart() : this(DateTime.Now) { }
   public DailyChart(DateTime trg)
   {
@@ -28,11 +24,10 @@ public partial class DailyChart : UserControl
     Loaded += async (s, e) =>
     {
       while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
-      ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
+      await ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
     };
   }
-  public void clearDrawAllSegmentsForAllPCsAsync(object s, RoutedEventArgs e) { }
-  public void ClearDrawAllSegmentsForSinglePC(string machineName)
+  public async Task ClearDrawAllSegmentsForSinglePC(string machineName)
   {
     try
     {
@@ -40,25 +35,17 @@ public partial class DailyChart : UserControl
       _aw = canvasBar.ActualWidth;
       canvasBar.Children.Clear();
 
-      _clr = (TrgDateC.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWE : cWD;
-
       for (var i = .125; i < 1; i += .041666) addRectangle(0, _ah, _aw * i, 1, b1); //addRectangle(0, _ah * .2, _aw * i, 1, b1);
       for (var i = .125; i < 1; i += .125000) addRectangle(0, _ah, _aw * i, 1, b3); //addRectangle(_ah * .2, _ah * .3, _aw * i, 1, b3);
       for (var i = 0.00; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
 
-      DrawUpDnLine(TrgDateC, machineName);
-
-      if (TrgDateC >= DateTime.Today) addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow); // now line
+      await DrawUpDnLine(TrgDateC);
 
       Bpr.ShortFaF();
     }
     catch (Exception ex) { ex.Pop(); }
   }
-
-  void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
-
-  //[Obsolete]
-  void DrawUpDnLine(DateTime trgDate, string pc)
+  async Task DrawUpDnLine(DateTime trgDate)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x50, 0x60, 0x50));
     var ts = new TimeSplit();
@@ -70,17 +57,17 @@ public partial class DailyChart : UserControl
       _aw = canvasBar.ActualWidth;
       var timeA = trgDate;
       var timeB = trgDate.AddDays(.9999999);
-      var isHere = Environment.MachineName.Equals(pc, StringComparison.OrdinalIgnoreCase);
 
       Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t");
 
-      //SortedList<DateTime, int> eois;
       var eois = EvLogHelper.GetAllUpDnEvents(timeA, timeB);
-
       if (eois.Count < 1)
         tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
       else
       {
+        if (trgDate == DateTime.Today)
+          eois.Add(DateTime.Now, (int)EvOfIntFlag.ShutAndSleepDn);
+
         var eoi0 = eois.FirstOrDefault();
         var prevEoiF = eoi0.Value == (int)EvOfIntFlag.ScreenSaverrDn ? EvOfIntFlag.ScreenSaverrUp :
                        eoi0.Value == (int)EvOfIntFlag.BootAndWakeUps ? EvOfIntFlag.ShutAndSleepDn : EvOfIntFlag.Day1stAmbiguos;
@@ -100,26 +87,26 @@ public partial class DailyChart : UserControl
 
         ts.TotalDaysUp = (lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key;
 
-        tbSummary.Text = $"{trgDate,9:ddd M-dd}    {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
+        tbSummary.Text = $"{trgDate,9:ddd M-dd}  {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
       }
 
-      tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWEd : cWDd;
+      //tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWEd : cWDd;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
 
-      //if (trgDate == DateTime.Today)        eois.Add(DateTime.Now, 2);
+      if (trgDate >= DateTime.Today)
+      {
+        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(.5), OnTimer);
+        await Task.Delay(300);
+        //await bt.StopAsync();
+      }
     }
     catch (Exception ex) { ex.Pop(); }
     finally { Trace.WriteLine($" ==> {tbSummary.Text} "); }
   }
 
-  void add_________Time(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, ref TimeSplit ts)
-  {
-    if (eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps)
-      ts.WorkedFor += (timeB - timeA);
-    else
-      ts.IdleOrOff += (timeB - timeA);
-  }
-
+  void OnTimer() => addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+  void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
+  [Obsolete]
   void addWkTimeSegment(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, Brush brh, ref TimeSplit ts)
   {
     if (eoiA == EvOfIntFlag.ScreenSaverrUp && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
@@ -169,7 +156,13 @@ public partial class DailyChart : UserControl
         });
     }
   }
-
+  void add_________Time(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, ref TimeSplit ts)
+  {
+    if (eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps)
+      ts.WorkedFor += (timeB - timeA);
+    else
+      ts.IdleOrOff += (timeB - timeA);
+  }
   void addArcDtl(double hgt, double left, double width)
   {
     var k = 720 / _aw;
@@ -186,7 +179,6 @@ public partial class DailyChart : UserControl
 
     addUiElnt(hgt, left, arc);
   }
-
   void addUiElnt(double top, double left, UIElement el)
   {
     Canvas.SetLeft(el, left);
@@ -212,6 +204,8 @@ public partial class DailyChart : UserControl
       return _ssto;
     }
   }
+
+  [Obsolete]
   public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
   #endregion
 }
