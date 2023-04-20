@@ -67,23 +67,23 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
   public static SortedList<DateTime, int> GetEoisForTheDay(DateTime trgDate) => GetAllUpDnEvents(trgDate, trgDate.AddDays(.999999));
   public static SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b)
   {
-    var lst = new SortedList<DateTime, int>();
+    var sortedList = new SortedList<DateTime, int>();
 
     try
     {
-      collect(lst, qryBootAndWakeUps(a, b), (int)EvOfIntFlag.BootAndWakeUps);
-      collect(lst, qryShutAndSleepDn(a, b), (int)EvOfIntFlag.ShutAndSleepDn);
-      collect(lst, qryScrSvr(_ssrDn, a, b), (int)EvOfIntFlag.ScreenSaverrDn);
-      collect(lst, qryScrSvr(_ssrUp, a, b), (int)EvOfIntFlag.ScreenSaverrUp);
+      collect(sortedList, qryBootAndWakeUps(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+      collect(sortedList, qryShutAndSleepDn(a, b), (int)EvOfIntFlag.ShutAndSleepDn);
+      collect(sortedList, qryScrSvr(_ssrDn, a, b), (int)EvOfIntFlag.ScreenSaverrDn);
+      collect(sortedList, qryScrSvr(_ssrUp, a, b), (int)EvOfIntFlag.ScreenSaverrUp);
 
       foreach (var path in _paths)
       {
-        add1stLast(a, b, lst, path);
+        add1stLast(a, b, sortedList, path);
       }
     }
     catch (Exception ex) { ex.Pop(); }
 
-    return lst;
+    return sortedList;
   }
 
   static void add1stLast(DateTime a, DateTime b, SortedList<DateTime, int> lst, string path)
@@ -119,7 +119,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     using var reader = GetELReader(qry);
     for (var ev = reader.read(); ev != null; ev = reader.read())
     {
-      //32 Debug.Write($" *** ev time: {ev.TimeCreated.Value:y-MM-dd HH:mm:ss.fff} - {evOfIntFlag}={(EvOfIntFlag)evOfIntFlag,}:"); Debug.Assert(!lst.ContainsKey(ev.TimeCreated.Value), $" -- already added {ev.TimeCreated.Value} - {evOfIntFlag}");
+      //32 Debug.Write($" *** ev time: {ev.TimeCreated.Value:y-MM-dd HH:mm:ss.fff} - {evOfIntFlag}={(EvOfIntFlag)evOfIntFlag,}:"); Debug.Assert(!sortedList.ContainsKey(ev.TimeCreated.Value), $" -- already added {ev.TimeCreated.Value} - {evOfIntFlag}");
 
       if (lst.Any(r => r.Value == evOfIntFlag) && (ev.TimeCreated.Value - lst.Where(r => r.Value == evOfIntFlag).Max(r => r.Key)).TotalSeconds < 60) // if same last one is < 60 sec ago.
       {

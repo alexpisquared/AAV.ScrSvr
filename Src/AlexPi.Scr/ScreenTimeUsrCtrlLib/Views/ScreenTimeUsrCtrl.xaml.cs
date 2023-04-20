@@ -28,14 +28,28 @@ public partial class ScreenTimeUsrCtrl : UserControl
       var earliestRecordedDate = new DateTime(2017, 10, 20);
       if (DateTime.Today.AddDays(-daysBack) < earliestRecordedDate)
         daysBack = (int)(DateTime.Today - earliestRecordedDate).TotalDays;
+            
+      var eois = EvLogHelper.GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
 
-      spArrayHolder.Children.Clear(); for (var i = 0; i < daysBack; i++) { _ = spArrayHolder.Children.Add(new DailyChart(DateTime.Today.AddDays(-i))); await Task.Delay(1000 / daysBack); }
+      spArrayHolder.Children.Clear(); 
+      for (var i = 0; i < daysBack; i++)
+      {
+        var thisDay = DateTime.Today.AddDays(-i);
+        var sortedList = new SortedList<DateTime, int>();
+
+        eois.Where(r => thisDay < r.Key && r.Key < thisDay.AddDays(.9999999)).ToList().ForEach(r => sortedList.Add(r.Key, r.Value));
+
+        _ = spArrayHolder.Children.Add(new DailyChart(sortedList)); 
+        //await Task.Delay(1000 / daysBack);
+      }
 
       tbInfo.Text = $"► {sw.Elapsed:mm\\:ss} ► {1000d * daysBack / sw.ElapsedMilliseconds:N1} day/sec.";
     }
     finally
     {
       ctrlpnl.Visibility = Visibility.Visible;
+      Bpr.BeepClk();
+      await Task.Delay(1);
     }
   }
   public void RedrawOnResize(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }

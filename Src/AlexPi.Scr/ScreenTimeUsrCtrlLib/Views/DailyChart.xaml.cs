@@ -8,12 +8,18 @@ public partial class DailyChart : UserControl
   readonly Brush b1 = new SolidColorBrush(Color.FromRgb(0x2c, 0x2c, 0x2c));
   readonly Brush b3 = new SolidColorBrush(Color.FromRgb(0x3c, 0x3c, 0x3c));
   readonly Brush b6 = new SolidColorBrush(Color.FromRgb(0x70, 0x70, 0x70));
+
+  DateTime _timeA;
   public DailyChart() : this(DateTime.Now) { }
-  public DailyChart(DateTime trg)
+  public DailyChart(DateTime trgDate)
   {
     InitializeComponent();
 
-    TrgDateC = trg;
+    TrgDateC = trgDate;
+
+    _timeA = trgDate;
+    var timeB = trgDate.AddDays(.9999999);
+    _thisDayEois = EvLogHelper.GetAllUpDnEvents(_timeA, timeB);
 
     Loaded += async (s, e) =>
     {
@@ -21,6 +27,22 @@ public partial class DailyChart : UserControl
       await ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
     };
   }
+
+  public DailyChart(SortedList<DateTime, int> thisDayEois)
+  {
+    InitializeComponent();
+
+    TrgDateC = thisDayEois.First().Key;
+    _timeA = TrgDateC;
+    _thisDayEois = thisDayEois;
+
+    Loaded += async (s, e) =>
+    {
+      while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
+      await ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
+    };
+  }
+
   public async Task ClearDrawAllSegmentsForSinglePC(string machineName)
   {
     try
@@ -34,8 +56,6 @@ public partial class DailyChart : UserControl
       for (var i = 0.00; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
 
       await DrawUpDnLine(TrgDateC);
-
-      Bpr.ShortFaF();
     }
     catch (Exception ex) { ex.Pop(); }
   }
@@ -49,37 +69,33 @@ public partial class DailyChart : UserControl
     {
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
-      var timeA = trgDate;
-      var timeB = trgDate.AddDays(.9999999);
+      Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(_timeA.AddDays(-10000), timeB).Count(),5}");
 
-      Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t");
-
-      var eois = EvLogHelper.GetAllUpDnEvents(timeA, timeB);
-      if (eois.Count < 1)
+      if (_thisDayEois.Count() < 1)
         tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
       else
       {
         if (trgDate == DateTime.Today)
-          eois.Add(DateTime.Now, (int)EvOfIntFlag.ShutAndSleepDn);
+          _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.ShutAndSleepDn);
 
-        var eoi0 = eois.FirstOrDefault();
+        var eoi0 = _thisDayEois.FirstOrDefault();
         var prevEoiF = eoi0.Value == (int)EvOfIntFlag.ScreenSaverrDn ? EvOfIntFlag.ScreenSaverrUp :
                        eoi0.Value == (int)EvOfIntFlag.BootAndWakeUps ? EvOfIntFlag.ShutAndSleepDn : EvOfIntFlag.Day1stAmbiguos;
 
-        foreach (var eoi in eois)
+        foreach (var eoi in _thisDayEois)
         {
-          addWkTimeSegment(timeA, eoi.Key, prevEoiF, (EvOfIntFlag)eoi.Value, pcClr, ref ts);
+          addWkTimeSegment(_timeA, eoi.Key, prevEoiF, (EvOfIntFlag)eoi.Value, pcClr, ref ts);
 
-          timeA = eoi.Key;
+          _timeA = eoi.Key;
           prevEoiF = (EvOfIntFlag)eoi.Value;
         }
 
-        var lastScvrUp = (eois.Any(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)) ?
-                        eois.Where(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)).Last() : eois.Last()).Key;
+        var lastScvrUp = (_thisDayEois.Any(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)) ?
+                        _thisDayEois.Where(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)).Last() : _thisDayEois.Last()).Key;
 
-        var finalEvent = eois.Last().Key;
+        var finalEvent = _thisDayEois.Last().Key;
 
-        ts.TotalDaysUp = (lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key;
+        ts.TotalDaysUp = (lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - _thisDayEois.First().Key;
 
         tbSummary.Text = $"{trgDate,9:ddd M-dd}  {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
       }
@@ -100,7 +116,6 @@ public partial class DailyChart : UserControl
 
   void OnTimer() => addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
-  [Obsolete]
   void addWkTimeSegment(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, Brush brh, ref TimeSplit ts)
   {
     if (eoiA == EvOfIntFlag.ScreenSaverrUp && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
@@ -184,9 +199,9 @@ public partial class DailyChart : UserControl
   #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AlexPi.Scr\App.xaml.cs
   const int GraceEvLogAndLockPeriodSec = 60;
   static int _ssto = -1;
+  SortedList<DateTime, int> _thisDayEois;
 
-  [Obsolete]
-  public static int ScrSvrTimeoutSec
+  [Obsolete]  public static int ScrSvrTimeoutSec
   {
     get
     {
