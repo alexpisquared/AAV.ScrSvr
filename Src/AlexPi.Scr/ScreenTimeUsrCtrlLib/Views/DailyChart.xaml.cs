@@ -1,14 +1,8 @@
-﻿using StandardLib.Services;
-
-namespace UpTimeChart;
+﻿namespace UpTimeChart;
 public partial class DailyChart : UserControl
 {
   public struct TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
   double _ah = 30, _aw = 30;
-  readonly Brush cWE = Brushes.LightPink;
-  readonly Brush cWD = Brushes.LightSkyBlue;
-  readonly Brush cWEd = Brushes.LightPink;
-  readonly Brush cWDd = Brushes.CadetBlue;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28));
   readonly Brush cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
   readonly Brush b1 = new SolidColorBrush(Color.FromRgb(0x2c, 0x2c, 0x2c));
@@ -90,12 +84,12 @@ public partial class DailyChart : UserControl
         tbSummary.Text = $"{trgDate,9:ddd M-dd}  {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
       }
 
-      //tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWEd : cWDd;
+      //tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
 
       if (trgDate >= DateTime.Today)
       {
-        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(.5), OnTimer);
+        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(2.5), OnTimer);
         await Task.Delay(300);
         //await bt.StopAsync();
       }
