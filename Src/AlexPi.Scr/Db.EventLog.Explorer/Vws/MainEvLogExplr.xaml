@@ -16,8 +16,8 @@
         <RowDefinition Height="2"     />
         <RowDefinition Height="*"     />
       </Grid.RowDefinitions>
-      <TextBlock Text="Loading..." x:Name="tbInfo"   Margin="10 5" HorizontalAlignment="Left"  Foreground="#999" />
-      <TextBlock Text="tbCurVer"   x:Name="tbCurVer" Margin="42 5" HorizontalAlignment="Right" FontWeight="Medium" Foreground="DodgerBlue" />
+      <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" HorizontalAlignment="Left"  Foreground="#999" />
+      <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="42 0" HorizontalAlignment="Right" Foreground="DodgerBlue" />
       <Grid    Grid.Row="2" x:Name="ZommablePanel"  >
         <Grid.LayoutTransform>
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />

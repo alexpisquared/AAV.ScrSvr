@@ -89,7 +89,7 @@ public partial class DailyChart : UserControl
 
       if (trgDate >= DateTime.Today)
       {
-        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(2.5), OnTimer);
+        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(1), OnTimer);
         await Task.Delay(300);
         //await bt.StopAsync();
       }
