@@ -4,7 +4,6 @@ using AAV.WPF.Ext;
 using AsLink;
 using Db.EventLog.DbModel;
 using Db.EventLog.Ext;
-using Db.EventLog.Main;
 using System;
 using System.Data.Entity;
 using System.Diagnostics;

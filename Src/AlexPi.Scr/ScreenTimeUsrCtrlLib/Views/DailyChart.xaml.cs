@@ -27,7 +27,7 @@ public partial class DailyChart : UserControl
 
     Loaded += async (s, e) =>
     {
-      while (canvasBar.ActualWidth <= 0)        await Task.Delay(1);      await Task.Delay(1);        // odd shorter 1at time without this line.
+      while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
       ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
     };
   }
@@ -49,7 +49,7 @@ public partial class DailyChart : UserControl
       DrawUpDnLine(TrgDateC, machineName);
 
       if (TrgDateC >= DateTime.Today) addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow); // now line
-      
+
       Bpr.ShortFaF();
     }
     catch (Exception ex) { ex.Pop(); }
@@ -74,20 +74,8 @@ public partial class DailyChart : UserControl
 
       Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t");
 
-      SortedList<DateTime, int> eois;
-      if (isHere)
-      {
-        var localEvLog = EvLogHelper.GetAllUpDnEvents(timeA, timeB);
-        var dbaseEvLog = DbLogHelper.GetAllUpDnEvents(timeA, timeB, pc);
-        eois = localEvLog.Count > dbaseEvLog.Count ? localEvLog : dbaseEvLog; // Jan 2020: whoever has more events wins!
-      }
-      else
-      {
-        eois = DbLogHelper.GetAllUpDnEvents(timeA, timeB, pc);
-      }
-
-      if (trgDate == DateTime.Today && isHere)
-        eois.Add(DateTime.Now, 2); // == ((int)EvOfIntFlag.ScreenSaverrUp)
+      //SortedList<DateTime, int> eois;
+      var eois = EvLogHelper.GetAllUpDnEvents(timeA, timeB);
 
       if (eois.Count < 1)
         tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
@@ -117,6 +105,8 @@ public partial class DailyChart : UserControl
 
       tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cWEd : cWDd;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
+
+      //if (trgDate == DateTime.Today)        eois.Add(DateTime.Now, 2);
     }
     catch (Exception ex) { ex.Pop(); }
     finally { Trace.WriteLine($" ==> {tbSummary.Text} "); }
@@ -138,16 +128,18 @@ public partial class DailyChart : UserControl
 
     add_________Time(timeA, timeB, eoiA, eoiB, ref ts);
 
-    var angleA = _aw * (eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay.TotalDays : timeA.TimeOfDay.TotalDays); // for ss up - start idle line 2 min prior
-    var angleB = _aw * (eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay.TotalDays : timeB.TimeOfDay.TotalDays); // for ss dn - end   work line 2 min prior
+    var ta = (eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay);
+    var tb = (eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay);
+
+    var angleA = _aw * ta.TotalDays; // for ss up - start idle line 2 min prior
+    var angleB = _aw * tb.TotalDays; // for ss dn - end   work line 2 min prior
 
     var hgt =
       eoiA == EvOfIntFlag.Day1stAmbiguos ? (_ah / 9) :
       eoiA == EvOfIntFlag.ScreenSaverrUp ? (_ah / 7) :
       eoiA == EvOfIntFlag.ScreenSaverrDn ? (_ah / 1) :
       eoiA == EvOfIntFlag.BootAndWakeUps ? (_ah / 1) :
-      eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) :
-      0;
+      eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) : 0;
 
     var isUp = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
     var top = _ah - hgt;
@@ -155,9 +147,10 @@ public partial class DailyChart : UserControl
 
     var time = TimeSpan.FromDays(wid / _aw);
 
-    var tt = isUp ? $"Work {time:h\\:mm\\:ss}." : $"Idle {time:h\\:mm\\:ss}";
+    var tooltip = $"{(isUp ? $" Work " : $"Idle ")} \n {ta:h\\:mm} - {tb:h\\:mm} = {time:h\\:mm\\:ss} ";
 
-    addRectangle(top, hgt, angleA, wid, brh, tt);
+    addRectangle(top, hgt, angleA, wid, brh, tooltip);
+
     if (wid <= .005 * _aw)
       Debug.Write($" >>> width too small to add time box: {time.TotalSeconds:N2} sec => {wid:N1} pxl");
     else
@@ -169,10 +162,10 @@ public partial class DailyChart : UserControl
         new TextBlock
         {
           Text = isBig ? $"{time:h\\:mm}" : $"{time,3:\\:m}",
-          FontSize = isUp ? 14 : 12,
+          FontSize = isUp ? 13 : 11,
           Foreground = isUp ? Brushes.LimeGreen : Brushes.DodgerBlue,
-          ToolTip = tt,
-          Margin = new Thickness(3,0,-3,0)
+          ToolTip = tooltip,
+          Margin = isUp ? new Thickness(3, 2, -3, -2) : new Thickness(3, -2, -3, 2)
         });
     }
   }

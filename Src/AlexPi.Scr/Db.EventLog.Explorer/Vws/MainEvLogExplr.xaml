@@ -2,7 +2,7 @@
                 xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" 
                 Title="Event Viewer" Height="160" Width="1600" Loaded="onLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
   <WindowChrome.WindowChrome>
-    <WindowChrome CaptionHeight="0" ResizeBorderThickness="20" />
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
     <Style TargetType="{x:Type ContentControl}">
@@ -16,14 +16,15 @@
         <RowDefinition Height="2"     />
         <RowDefinition Height="*"     />
       </Grid.RowDefinitions>
-      <TextBlock Text="tbCurVer"   x:Name="tbCurVer" Margin="10 5" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Medium" Foreground="DodgerBlue" />
-      <TextBlock Text="Loading..." x:Name="tbInfo"   Margin="10 5" Foreground="#999"/>
+      <TextBlock Text="Loading..." x:Name="tbInfo"   Margin="10 5" HorizontalAlignment="Left"  Foreground="#999" />
+      <TextBlock Text="tbCurVer"   x:Name="tbCurVer" Margin="42 5" HorizontalAlignment="Right" FontWeight="Medium" Foreground="DodgerBlue" />
       <Grid    Grid.Row="2" x:Name="ZommablePanel"  >
         <Grid.LayoutTransform>
-          <ScaleTransform ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
+          <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
         <Views:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
       </Grid>
+      <Button Content="X" HorizontalAlignment="Right" Click="OnExit" IsCancel="True" Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" />
     </Grid>
   </Border>
 </lnk:WindowBase>

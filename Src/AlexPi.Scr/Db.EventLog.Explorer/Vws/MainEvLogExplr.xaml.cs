@@ -70,4 +70,9 @@ public partial class MainEvLogExplr : AAV.WPF.Base.WindowBase
     if (lastSize.Width == e.NewSize.Width) // if finished resizing.
       stuc.RedrawOnResize(s, null);
   }
+
+  void OnExit(object sender, RoutedEventArgs e)
+  {
+    Close();
+  }
 }

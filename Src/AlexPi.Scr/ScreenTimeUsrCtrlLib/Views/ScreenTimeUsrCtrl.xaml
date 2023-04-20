@@ -34,11 +34,12 @@
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Background="#3fff" x:Name="ctrlpnl" >
       <Label  Content="      Re-Draw days back:" VerticalAlignment="Center" FontSize="9" />
-      <Button Content="   10e_1   " Click="onDrawDays" Tag="9" />
-      <Button Content="   10e1._5 " Click="onDrawDays" Tag="33" />
-      <Button Content="   10e_2   " Click="onDrawDays" Tag="99" />
-      <Button Content="   10e_3   " Click="onDrawDays" Tag="600" />
-      <TextBlock x:Name="tbInfo" Text="◄◄◄ " Foreground="#4af" MinWidth="222"/>
+      <Button Content="     _3     " Click="onDrawDays" Tag="3" />
+      <Button Content="   10e_1   "  Click="onDrawDays" Tag="9" />
+      <Button Content="   10e1._5 "  Click="onDrawDays" Tag="33" />
+      <Button Content="   10e_2   "  Click="onDrawDays" Tag="99" />
+      <Button Content="   10e_3   "  Click="onDrawDays" Tag="600" />
+      <TextBlock x:Name="tbInfo" Text="◄◄◄ " Foreground="#4af" MinWidth="222" Margin="10 0"/>
     </StackPanel>
 
   </Grid>
