@@ -25,6 +25,8 @@ public partial class App : System.Windows.Application
     var key = cfg.GetValue("AppSecrets:MagicSpeech").Replace("ReplaceDeployReplace", string.Format("{0}{1}{0}79{1}8f86{1}3a6{1}f32d{0}", 4, 5)); // a silly primitive ... just for laughs.
     _synth = new(key, true, voice: cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
+
+  [Obsolete]
   protected override async void OnStartup(StartupEventArgs sea)
   {
     try
@@ -43,12 +45,14 @@ public partial class App : System.Windows.Application
         //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
       }
 
-      CurTraceLevel = IsDbg ? AppTraceLevel_inCode : AppTraceLevel_Warnng; // AppTraceLevel_Config; - App.config is not used in Net5.
+      CurTraceLevel = //IsDbg ? 
+        AppTraceLevel_inCode //: AppTraceLevel_Warnng
+        ; // AppTraceLevel_Config; - App.config is not used in Net5.
 
       base.OnStartup(sea);
 
       _ = Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-      WriteLine($"\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VerHelper.CurVerStr()}   args: {string.Join(", ", sea.Args)}   ");
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VerHelper.CurVerStr()}   args: {string.Join(", ", sea.Args)}.");
 
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
 
@@ -123,23 +127,24 @@ public partial class App : System.Windows.Application
   public const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
 
-  [Obsolete]
+  //[Obsolete]
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
     Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   ▓▓ EvLogHlpr.Log({msg})");
 
     lock (_thisLock)
     {
-      if (_mustLogEORun)
+      if (!_mustLogEORun)
+        Write($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
+      else
       {
 #if !DEBUG
         _mustLogEORun = false;
         EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-IdleTimeoutSec), msg);
+        SpeakFaF(msg);
         Write($" ... logged SUCCESS.");
 #endif
       }
-      else
-        Write($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
     }
 
     Write($"\n");
@@ -180,6 +185,8 @@ public partial class App : System.Windows.Application
     var _HwndSource = new HwndSource(hwndSourceParameters) { RootVisual = miniSS.LayoutRoot };
     _HwndSource.Disposed += (s, e) => miniSS.Close();
   }
+
+  [Obsolete]
   void showFullScrSvr_ScheduleArming()
   {
     Task.Run(async () =>
@@ -264,7 +271,7 @@ public partial class App : System.Windows.Application
         await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                  /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
         await SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");                                                                           /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
         await Task.Delay(TimeSpan.FromMinutes(0.50));                                                                                                                  /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  5/7  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.\n");        //await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
-        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - Sleep enforced by AAV.scr!");                                                                                     /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
+        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by AAV.scr!");                                                                                     /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
         SleepStandby();                                                                                                                                                /**/ Write($"{DateTime.Now:HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  7/7  after  sleepStandby();.\n");
       }
       catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }

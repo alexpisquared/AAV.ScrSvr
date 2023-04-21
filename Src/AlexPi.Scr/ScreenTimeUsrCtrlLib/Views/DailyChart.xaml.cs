@@ -9,41 +9,21 @@ public partial class DailyChart : UserControl
   readonly Brush b3 = new SolidColorBrush(Color.FromRgb(0x3c, 0x3c, 0x3c));
   readonly Brush b6 = new SolidColorBrush(Color.FromRgb(0x70, 0x70, 0x70));
 
-  DateTime _timeA;
-  public DailyChart() : this(DateTime.Now) { }
-  public DailyChart(DateTime trgDate)
+  public DailyChart(DateTime trgDate, SortedList<DateTime, int> thisDayEois)
   {
     InitializeComponent();
 
     TrgDateC = trgDate;
-
-    _timeA = trgDate;
-    var timeB = trgDate.AddDays(.9999999);
-    _thisDayEois = EvLogHelper.GetAllUpDnEvents(_timeA, timeB);
-
-    Loaded += async (s, e) =>
-    {
-      while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
-      await ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
-    };
-  }
-
-  public DailyChart(SortedList<DateTime, int> thisDayEois)
-  {
-    InitializeComponent();
-
-    TrgDateC = thisDayEois.First().Key;
-    _timeA = TrgDateC;
     _thisDayEois = thisDayEois;
 
     Loaded += async (s, e) =>
     {
       while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
-      await ClearDrawAllSegmentsForSinglePC(Environment.MachineName);
+      await ClearDrawAllSegmentsForSinglePC();
     };
   }
 
-  public async Task ClearDrawAllSegmentsForSinglePC(string machineName)
+  public async Task ClearDrawAllSegmentsForSinglePC()
   {
     try
     {
@@ -69,7 +49,7 @@ public partial class DailyChart : UserControl
     {
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
-      Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(_timeA.AddDays(-10000), timeB).Count(),5}");
+      Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), timeB).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
         tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
@@ -84,9 +64,9 @@ public partial class DailyChart : UserControl
 
         foreach (var eoi in _thisDayEois)
         {
-          addWkTimeSegment(_timeA, eoi.Key, prevEoiF, (EvOfIntFlag)eoi.Value, pcClr, ref ts);
+          addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, (EvOfIntFlag)eoi.Value, pcClr, ref ts);
 
-          _timeA = eoi.Key;
+          TrgDateC = eoi.Key;
           prevEoiF = (EvOfIntFlag)eoi.Value;
         }
 
@@ -105,6 +85,7 @@ public partial class DailyChart : UserControl
 
       if (trgDate >= DateTime.Today)
       {
+        OnTimer();
         var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(1), OnTimer);
         await Task.Delay(300);
         //await bt.StopAsync();

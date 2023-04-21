@@ -39,7 +39,7 @@ public partial class ScreenTimeUsrCtrl : UserControl
 
         eois.Where(r => thisDay < r.Key && r.Key < thisDay.AddDays(.9999999)).ToList().ForEach(r => sortedList.Add(r.Key, r.Value));
 
-        _ = spArrayHolder.Children.Add(new DailyChart(sortedList)); 
+        _ = spArrayHolder.Children.Add(new DailyChart(thisDay, sortedList)); 
         //await Task.Delay(1000 / daysBack);
       }
 
@@ -53,5 +53,4 @@ public partial class ScreenTimeUsrCtrl : UserControl
     }
   }
   public void RedrawOnResize(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }
-  public async void ReloadThisPC(PcLogic pc) { foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) { await Task.Yield(); ((DailyChart)uc).ClearDrawAllSegmentsForSinglePC(pc.MachineName); } }
 }
