@@ -23,7 +23,7 @@
       <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
     </Style>
   </UserControl.Resources>
-  <Grid Margin="0.5" Name="gridvroot">
+  <Grid Name="gridvroot">
     <Canvas     x:Name="canvasBar"  ToolTip="canvasBar" />
     <TextBlock  x:Name="tbSummary"  ToolTip="tbSummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="10 2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" />
     <!--

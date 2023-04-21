@@ -95,7 +95,7 @@ public partial class DailyChart : UserControl
     finally { Trace.WriteLine($" ==> {tbSummary.Text} "); }
   }
 
-  void OnTimer() => addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Yellow, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+  void OnTimer() => addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
   void addWkTimeSegment(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, Brush brh, ref TimeSplit ts)
   {
@@ -113,7 +113,7 @@ public partial class DailyChart : UserControl
 
     var hgt =
       eoiA == EvOfIntFlag.Day1stAmbiguos ? (_ah / 9) :
-      eoiA == EvOfIntFlag.ScreenSaverrUp ? (_ah / 7) :
+      eoiA == EvOfIntFlag.ScreenSaverrUp ? (_ah / 4) :
       eoiA == EvOfIntFlag.ScreenSaverrDn ? (_ah / 1) :
       eoiA == EvOfIntFlag.BootAndWakeUps ? (_ah / 1) :
       eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) : 0;
@@ -153,23 +153,7 @@ public partial class DailyChart : UserControl
     else
       ts.IdleOrOff += (timeB - timeA);
   }
-  void addArcDtl(double hgt, double left, double width)
-  {
-    var k = 720 / _aw;
-
-    var arc = new Arc
-    {
-      StartAngle = left * k,
-      EndAngle = (left + width) * k,
-      //StrokeThickness = hgt,
-      //Stretch = Stretch.None,
-      //Stroke = brush,
-      //RenderTransformOrigin = new Point(0.5, 0.5)
-    };
-
-    addUiElnt(hgt, left, arc);
-  }
-  void addUiElnt(double top, double left, UIElement el)
+    void addUiElnt(double top, double left, UIElement el)
   {
     Canvas.SetLeft(el, left);
     Canvas.SetTop(el, top);

@@ -8,7 +8,6 @@ public partial class App : Application
     {
       base.OnStartup(e);
       ShutdownMode = ShutdownMode.OnLastWindowClose;
-      //Bpr.BeepBgn3();
 
 #if !NOT_NEEDED
       Tracer.SetupTracingOptions("EvLogExplr", new TraceSwitch("OnlyUsedWhenInConfig", "This is the trace for all               messages... but who cares?") { Level = TraceLevel.Verbose });
