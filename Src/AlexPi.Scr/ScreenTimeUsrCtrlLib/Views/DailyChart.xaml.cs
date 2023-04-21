@@ -33,7 +33,7 @@ public partial class DailyChart : UserControl
 
       for (var i = .125; i < 1; i += .041666) addRectangle(0, _ah, _aw * i, 1, b1); //addRectangle(0, _ah * .2, _aw * i, 1, b1);
       for (var i = .125; i < 1; i += .125000) addRectangle(0, _ah, _aw * i, 1, b3); //addRectangle(_ah * .2, _ah * .3, _aw * i, 1, b3);
-      for (var i = 0.00; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
+      for (var i = 0.25; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
 
       await DrawUpDnLine(TrgDateC);
     }
@@ -41,7 +41,7 @@ public partial class DailyChart : UserControl
   }
   async Task DrawUpDnLine(DateTime trgDate)
   {
-    var pcClr = new SolidColorBrush(Color.FromRgb(0x50, 0x60, 0x50));
+    var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     var ts = new TimeSplit();
     //..Trace.Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
     tbSummary.Text = "$@#";
@@ -49,7 +49,7 @@ public partial class DailyChart : UserControl
     {
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
-      Trace.Write($">>>-\t{_aw} == {canvasBar.ActualWidth} \t"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), timeB).Count(),5}");
+      Write($">>>-\t{trgDate} \n"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
         tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
@@ -77,7 +77,9 @@ public partial class DailyChart : UserControl
 
         ts.TotalDaysUp = (lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - _thisDayEois.First().Key;
 
-        tbSummary.Text = $"{trgDate,9:ddd M-dd}  {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm} ";
+        tbSummary.Text = $"{trgDate,9:ddd M-dd}  {ts.WorkedFor,5:h\\:mm} /{ts.TotalDaysUp,5:h\\:mm}"
+          //+ $"  ==  {ts.WorkedFor,5:h\\:mm} + {ts.IdleOrOff,5:h\\:mm} = {ts.WorkedFor+ts.IdleOrOff,5:h\\:mm}"
+          ;
       }
 
       //tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
@@ -92,24 +94,25 @@ public partial class DailyChart : UserControl
       }
     }
     catch (Exception ex) { ex.Pop(); }
-    finally { Trace.WriteLine($" ==> {tbSummary.Text} "); }
+    finally { WriteLine($" ==> {tbSummary.Text} "); }
   }
 
   void OnTimer() => addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
-  void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
+  void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, Fill = brush, ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
   void addWkTimeSegment(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, Brush brh, ref TimeSplit ts)
   {
     if (eoiA == EvOfIntFlag.ScreenSaverrUp && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
     if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.ScreenSaverrDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
     if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ShutAndSleepDn; // ignore odd pwr-on during scrsvr runs. 2023-04
+    if (eoiA == EvOfIntFlag.ScreenSaverrDn && eoiB == EvOfIntFlag.ShutAndSleepDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
 
-    add_________Time(timeA, timeB, eoiA, eoiB, ref ts);
+    var tA = (eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay);
+    var tB = (eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay);
 
-    var ta = (eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay);
-    var tb = (eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay);
+    var dTime = tB - tA;
 
-    var angleA = _aw * ta.TotalDays; // for ss up - start idle line 2 min prior
-    var angleB = _aw * tb.TotalDays; // for ss dn - end   work line 2 min prior
+    var yA = _aw * tA.TotalDays; // for ss up - start idle line 2 min prior
+    var yB = _aw * tB.TotalDays; // for ss dn - end   work line 2 min prior
 
     var hgt =
       eoiA == EvOfIntFlag.Day1stAmbiguos ? (_ah / 9) :
@@ -118,42 +121,47 @@ public partial class DailyChart : UserControl
       eoiA == EvOfIntFlag.BootAndWakeUps ? (_ah / 1) :
       eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) : 0;
 
+    var isLabor = eoiA == EvOfIntFlag.ScreenSaverrDn || eoiA == EvOfIntFlag.BootAndWakeUps;
+    if (isLabor)
+      ts.WorkedFor += dTime;
+    else
+      ts.IdleOrOff += dTime;
+
+
     var isUp = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
     var top = _ah - hgt;
-    var wid = Math.Abs(angleB - angleA);
+    var wid = Math.Abs(yB - yA);
 
-    var time = TimeSpan.FromDays(wid / _aw);
+    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,5:h\\:mm} - {tB,5:h\\:mm} = {dTime:h\\:mm} ";
+    Write($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
 
-    var tooltip = $"{(isUp ? $" Work " : $"Idle ")} \n {ta:h\\:mm} - {tb:h\\:mm} = {time:h\\:mm\\:ss} ";
+    if (isLabor)
+      Write($"    {tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? ts.WorkedFor.ToString("hh\\:mm") : "")}");
 
-    addRectangle(top, hgt, angleA, wid, brh, tooltip);
+    addRectangle(top, hgt, yA, wid, brh, tooltip);
 
-    if (wid <= .005 * _aw)
-      Debug.Write($" >>> width too small to add time box: {time.TotalSeconds:N2} sec => {wid:N1} pxl");
+    if (wid <= 10)
+      Write($"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ");
     else
     {
-      var isBig = time > TimeSpan.FromHours(1);
+      Write($"");
+      var isOver1hr = dTime > TimeSpan.FromHours(1);
       addUiElnt(
         isUp ? 2 : -1,
-        angleB - (isBig ? 28 : 20),
+        yB - (isOver1hr ? 28 : 20),
         new TextBlock
         {
-          Text = isBig ? $"{time:h\\:mm}" : $"{time,3:\\:m}",
+          Text = isOver1hr ? $"{dTime:h\\:mm}" : $"{dTime,3:\\:m}",
           FontSize = isUp ? 13 : 11,
           Foreground = isUp ? Brushes.LimeGreen : Brushes.DodgerBlue,
           ToolTip = tooltip,
           Margin = isUp ? new Thickness(3, 2, -3, -2) : new Thickness(3, -2, -3, 2)
         });
     }
+
+    Write($"\n");
   }
-  void add_________Time(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, ref TimeSplit ts)
-  {
-    if (eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps)
-      ts.WorkedFor += (timeB - timeA);
-    else
-      ts.IdleOrOff += (timeB - timeA);
-  }
-    void addUiElnt(double top, double left, UIElement el)
+  void addUiElnt(double top, double left, UIElement el)
   {
     Canvas.SetLeft(el, left);
     Canvas.SetTop(el, top);
@@ -166,7 +174,8 @@ public partial class DailyChart : UserControl
   static int _ssto = -1;
   SortedList<DateTime, int> _thisDayEois;
 
-  [Obsolete]  public static int ScrSvrTimeoutSec
+  //[Obsolete]
+  public static int ScrSvrTimeoutSec
   {
     get
     {
@@ -179,7 +188,6 @@ public partial class DailyChart : UserControl
     }
   }
 
-  [Obsolete]
   public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
   #endregion
 }

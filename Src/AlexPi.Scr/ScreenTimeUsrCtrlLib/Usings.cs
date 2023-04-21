@@ -21,4 +21,4 @@ global using Microsoft.Expression.Shapes;
 global using Microsoft.Win32;
 global using StandardLib.Services;
 global using UpTimeChart;
-
+global using static System.Diagnostics.Trace;
