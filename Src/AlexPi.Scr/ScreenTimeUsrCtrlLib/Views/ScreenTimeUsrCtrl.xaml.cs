@@ -22,34 +22,29 @@ public partial class ScreenTimeUsrCtrl : UserControl
     try
     {
       ctrlpnl.Visibility = Visibility.Collapsed;
-      var sw = Stopwatch.StartNew();
-      tbInfo.Text = $"► going {daysBack} days back...";
+      Bpr.Beep1of2();
+      //tmi: tbInfo.Text = $"► going {daysBack} days back...";      //var sw = Stopwatch.StartNew();
 
-      var earliestRecordedDate = new DateTime(2017, 10, 20);
-      if (DateTime.Today.AddDays(-daysBack) < earliestRecordedDate)
-        daysBack = (int)(DateTime.Today - earliestRecordedDate).TotalDays;
-            
+      spArrayHolder.Children.Clear();
       var eois = EvLogHelper.GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
-
-      spArrayHolder.Children.Clear(); 
       for (var i = 0; i < daysBack; i++)
       {
-        var thisDay = DateTime.Today.AddDays(-i);
-        var sortedList = new SortedList<DateTime, int>();
-
-        eois.Where(r => thisDay < r.Key && r.Key < thisDay.AddDays(.9999999)).ToList().ForEach(r => sortedList.Add(r.Key, r.Value));
-
-        _ = spArrayHolder.Children.Add(new DailyChart(thisDay, sortedList)); 
-        //await Task.Delay(1000 / daysBack);
+        var day_i = DateTime.Today.AddDays(-i);
+        var sortedEois = new SortedList<DateTime, int>();
+        eois.Where(r => day_i < r.Key && r.Key < day_i.AddDays(.9999999)).ToList().ForEach(r => sortedEois.Add(r.Key, r.Value));
+        if (sortedEois.Count > 0)
+        {
+          _ = spArrayHolder.Children.Add(new DailyChart(day_i, sortedEois));
+        }
       }
 
-      tbInfo.Text = $"► {sw.Elapsed:mm\\:ss} ► {1000d * daysBack / sw.ElapsedMilliseconds:N1} day/sec.";
+      //tmi: tbInfo.Text = $"► {sw.Elapsed:mm\\:ss} ► {1000d * daysBack / sw.ElapsedMilliseconds:N1} day/sec.";
     }
     finally
     {
       ctrlpnl.Visibility = Visibility.Visible;
-      Bpr.BeepClk();
-      await Task.Delay(1);
+      await Task.Delay(100);
+      Bpr.Beep2of2();
     }
   }
   public void RedrawOnResize(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }

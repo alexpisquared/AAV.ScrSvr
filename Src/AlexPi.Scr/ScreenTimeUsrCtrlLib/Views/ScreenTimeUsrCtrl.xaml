@@ -49,7 +49,7 @@
       <Button Content="_32"  Click="onDrawDays" Tag="32" />
       <Button Content="_99"  Click="onDrawDays" Tag="99" />
       <Button Content="600"  Click="onDrawDays" Tag="600" />
-      <TextBlock x:Name="tbInfo" Text="◄◄◄ " Foreground="#4af" MinWidth="222" Margin="10 0"/>
+      <TextBlock x:Name="tbInfo" d:Text="◄◄◄ " Foreground="#4af" Margin="10 0"/>
     </StackPanel>
 
   </Grid>
