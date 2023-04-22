@@ -29,7 +29,7 @@ public static class ExitStrategy
 
     AAV.Sys.Helpers.Bpr.OKbFaF(); // why so slow to close the app?
 
-    Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    CloseBasedOnPCName(Key.{key}, {window.GetType().FullName})   ");
+    Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}   CloseBasedOnPCName(Key.{key}, {window.GetType().FullName})   ");
 
     switch (Environment.MachineName) // balck/white listing
     {
