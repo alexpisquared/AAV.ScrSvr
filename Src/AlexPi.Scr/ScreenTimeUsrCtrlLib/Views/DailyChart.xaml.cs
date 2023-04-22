@@ -56,7 +56,7 @@ public partial class DailyChart : UserControl
       else
       {
         if (trgDate == DateTime.Today)
-          _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.ShutAndSleepDn);
+          _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.StillWorkingOn); // current moment of checking the stuff for today.
 
         var eoi0 = _thisDayEois.FirstOrDefault();
         var prevEoiF = eoi0.Value == (int)EvOfIntFlag.ScreenSaverrDn ? EvOfIntFlag.ScreenSaverrUp :
@@ -106,8 +106,8 @@ public partial class DailyChart : UserControl
     if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ShutAndSleepDn; // ignore odd pwr-on during scrsvr runs. 2023-04
     if (eoiA == EvOfIntFlag.ScreenSaverrDn && eoiB == EvOfIntFlag.ShutAndSleepDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
 
-    var tA = (eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay);
-    var tB = (eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay);
+    var tA = eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
+    var tB = eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
 
     var dTime = tB - tA;
 
@@ -121,22 +121,21 @@ public partial class DailyChart : UserControl
       eoiA == EvOfIntFlag.BootAndWakeUps ? (_ah / 1) :
       eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) : 0;
 
-    var isLabor = eoiA == EvOfIntFlag.ScreenSaverrDn || eoiA == EvOfIntFlag.BootAndWakeUps;
+    var isLabor = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
     if (isLabor)
       ts.WorkedFor += dTime;
     else
       ts.IdleOrOff += dTime;
 
-
     var isUp = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
     var top = _ah - hgt;
     var wid = Math.Abs(yB - yA);
 
-    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,5:h\\:mm} - {tB,5:h\\:mm} = {dTime:h\\:mm} ";
+    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,5:h\\:mm\\:ss} - {tB,5:h\\:mm\\:ss} = {dTime:h\\:mm\\:ss} ";
     Write($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
 
-    if (isLabor)
-      Write($"    {tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? ts.WorkedFor.ToString("hh\\:mm") : "")}");
+    //if (isLabor)
+    Write($"    {tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? ts.WorkedFor.ToString("hh\\:mm") : "")}");
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);
 
@@ -172,7 +171,7 @@ public partial class DailyChart : UserControl
   #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AlexPi.Scr\App.xaml.cs
   const int GraceEvLogAndLockPeriodSec = 60;
   static int _ssto = -1;
-  SortedList<DateTime, int> _thisDayEois;
+  readonly SortedList<DateTime, int> _thisDayEois;
 
   //[Obsolete]
   public static int ScrSvrTimeoutSec
