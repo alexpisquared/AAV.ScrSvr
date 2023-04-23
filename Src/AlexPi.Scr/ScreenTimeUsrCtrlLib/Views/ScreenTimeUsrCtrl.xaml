@@ -3,8 +3,8 @@
   <UserControl.Resources>
     <Style TargetType="{x:Type Button}">
       <Setter Property="Width"            Value="42"    />
-      <Setter Property="Background"       Value="#555"    />
-      <Setter Property="BorderBrush"      Value="Transparent"    />
+      <Setter Property="BorderThickness"  Value="0"    />
+      <Setter Property="Background"       Value="#3fff"    />
     </Style>
   </UserControl.Resources>
   <Grid>

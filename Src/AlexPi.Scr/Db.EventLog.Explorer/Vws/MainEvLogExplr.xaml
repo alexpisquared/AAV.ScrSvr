@@ -9,7 +9,7 @@
       <Setter Property="Margin" Value="50"/>
     </Style>
   </lnk:WindowBase.Resources>
-  <Border Background="#161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
+  <Border Background="#c0161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
     <Grid x:Name="vizroot" Margin="5" >
       <Grid    x:Name="ZommablePanel"  >
         <Grid.LayoutTransform>
