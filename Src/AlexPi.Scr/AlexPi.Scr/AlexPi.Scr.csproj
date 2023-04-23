@@ -19,6 +19,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\UkraineFlag\ukraine-flag-animated.gif" />
+    <None Remove="Images\UkraineFlag\ukraine-realistic-wavy-flag-free-vector %280%29.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EnvCanRadarUrlHelper.cs" Link="AsLink\EnvCanRadarUrlHelper.cs" />
     <Compile Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml.cs" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml.cs" />
   </ItemGroup>
@@ -49,6 +54,11 @@
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\UkraineFlag\ukraine-flag-animated.gif" />
+    <Resource Include="Images\UkraineFlag\ukraine-realistic-wavy-flag-free-vector (0).webp" />
   </ItemGroup>
 
   <ItemGroup>

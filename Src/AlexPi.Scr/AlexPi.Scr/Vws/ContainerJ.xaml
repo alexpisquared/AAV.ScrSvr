@@ -6,9 +6,18 @@
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
   </WindowChrome.WindowChrome>
   <Grid>
-
-    <Viewbox>
-      <TextBlock Text="Empty ContainerJ - 10" />
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Rectangle Grid.Row="0" Fill="#FF006DB6"   />
+    <Rectangle Grid.Row="1" Fill="#FFDCBF01" />
+    <Viewbox   Grid.RowSpan="2" Stretch="Fill" Margin="100">
+      <Image Source="/Images/UkraineFlag/ukraine-realistic-wavy-flag-free-vector (0).webp" />
+      <!--
+      <Image Source="/Images/UkraineFlag/ukraine-flag-animated.gif" />
+      WPF does not natively support animated GIFs. However, there are several ways to display an animated GIF in a WPF application. One solution is to use a third-party library such as WpfAnimatedGif1. You can install it with NuGet and use it by adding a new namespace to the Window where you want to add the GIF image1. Another solution is to create a custom control that handles the animation of the GIF
+      -->
     </Viewbox>
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />

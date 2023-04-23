@@ -7,7 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid>
-    <Viewbox>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Rectangle Grid.Row="0" Fill="#03e" />
+    <Rectangle Grid.Row="1" Fill="#fd0" />
+    <Viewbox   Grid.RowSpan="2" >
       <TextBlock Text="Mail is under construction... &#10;           ...until the key store is online." />
     </Viewbox>
   </Grid>
