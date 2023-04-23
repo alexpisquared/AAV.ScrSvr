@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr;
+﻿using StandardLib.Helpers;
+
+namespace AlexPi.Scr;
 public partial class App : System.Windows.Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
@@ -8,7 +10,6 @@ public partial class App : System.Windows.Application
   static readonly TraceSwitch AppTraceLevel_inCode = new("Verbose________Trace", "This is the trace for all               messages.") { Level = TraceLevel.Info };
   static readonly TraceSwitch AppTraceLevel_Warnng = new("ErrorAndWarningTrace", "This is the trace for Error and Warning messages.") { Level = TraceLevel.Warning };
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
-  static readonly string[] _voices = new[] { CC.UkuaPolinaNeural.Voice, CC.ZhcnXiaomoNeural.Voice, CC.EnusAriaNeural.Voice, CC.EngbSoniaNeural.Voice, CC.EngbRyanNeural.Voice };
   static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
   static bool _mustLogEORun = false;
@@ -26,12 +27,12 @@ public partial class App : System.Windows.Application
     _synth = new(key, true, voice: cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
 
-  [Obsolete]
+  //[Obsolete]
   protected override async void OnStartup(StartupEventArgs sea)
   {
     try
     {
-      if (IsDbg)
+      if (DevOps.IsDbg)
       {
         ////await ChimerAlt.FreqWalkUp();
         ////Bpr.BeepBgn3();
@@ -307,13 +308,8 @@ public partial class App : System.Windows.Application
   public static bool CloseOnUnIdle { get; set; } = true;
 
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
-  [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
+  [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
   [DllImport("user32")] public static extern void LockWorkStation();
-#if DEBUG
-  static bool IsDbg =>        true;
-#else
-  static bool IsDbg => false;
-#endif
 }
 /// Install-Package Expression.Blend.Sdk
 /// Use for deployment:  Release + Any CPU  

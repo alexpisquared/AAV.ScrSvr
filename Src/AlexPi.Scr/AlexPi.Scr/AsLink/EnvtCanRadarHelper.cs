@@ -36,17 +36,18 @@ namespace AsLink.Standard.Helpers
       catch (WebException ex)
       {
         Debug.Write($"{url} - {ex.Message} ");
-        using (WebResponse response = ex.Response)
-        {
-          var httpResponse = (HttpWebResponse)response;
-          Debug.Write($" StatusCode: {httpResponse.StatusCode} ");
-          using (var stream = response.GetResponseStream())
-          using (var reader = new StreamReader(stream))
+        if (ex.Response is not null)
+          using (WebResponse response = ex.Response)
           {
-            string text = reader.ReadToEnd();
-            Debug.WriteLine(text);
+            var httpResponse = (HttpWebResponse)response;
+            Debug.Write($" StatusCode: {httpResponse.StatusCode} ");
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
+            {
+              string text = reader.ReadToEnd();
+              Debug.WriteLine(text);
+            }
           }
-        }
       }
       catch (Exception ex) { Debug.WriteLine($"{url} - {ex}"); if (Debugger.IsAttached) Debugger.Break(); }
 

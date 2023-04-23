@@ -29,7 +29,7 @@ namespace AsLink
         return Brushes.Red;
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
     public StringToColor() { }
   }
@@ -43,7 +43,7 @@ namespace AsLink
 
       return DataGridRowDetailsVisibilityMode.Collapsed;
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
   }
   public class AgeBrush : MarkupExtension, IValueConverter
@@ -64,7 +64,7 @@ namespace AsLink
         return d == 0;
       }
       else
-        return null;
+        return value;
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
@@ -95,7 +95,7 @@ namespace AsLink
         return rv ? FontWeights.Bold : FontWeights.Normal;
       }
       else
-        return null;
+        return value;
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
@@ -120,7 +120,7 @@ namespace AsLink
         return rv ? FontWeights.Bold : FontWeights.Normal;
       }
       else
-        return null;
+        return value;
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
@@ -299,7 +299,7 @@ namespace AsLink
         case 32: return "Off ignore";
         case 64: return "On  ignore";
         case 1024: return "1024";
-        default: return value.ToString();
+        default: return value;
       }
     }
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
@@ -471,7 +471,7 @@ namespace AsLink
       else
         return Color.FromRgb(255, 0, 0);
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class DateToColorConverter : IValueConverter
   {
@@ -482,7 +482,7 @@ namespace AsLink
       else
         return new SolidColorBrush(Colors.Gray);//		Red);//		Color.FromRgb(255, 0, 0);
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class TaskStatusToColorConverter : IValueConverter
   {
@@ -502,7 +502,7 @@ namespace AsLink
         case "Completed": return new SolidColorBrush(Colors.Red);
       }
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class StrProgressToColorConverter : IValueConverter
   {
@@ -533,7 +533,7 @@ namespace AsLink
       return new SolidColorBrush(Colors.Gray);
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class WeekDayToColorConverter : IValueConverter
   {
@@ -555,7 +555,7 @@ namespace AsLink
 
       return new SolidColorBrush(Colors.Gray);//		return new BrushConverter().ConvertFromString("#ff0000");
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class WeekdaysTo6Colors_ORG : IValueConverter
   {
@@ -578,7 +578,7 @@ namespace AsLink
 
       return new LinearGradientBrush(Colors.Gray, Colors.DarkGray, 45);//		return new BrushConverter().ConvertFromString("#ff0000");
     }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
   }
   public class DateToColorMultiValueConverter : IMultiValueConverter
   {
@@ -622,7 +622,7 @@ namespace AsLink
       else
         return new SolidColorBrush(Colors.Purple);//		Color.FromRgb(255, 0, 0);
     }
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => null;
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => (object[])Binding.DoNothing;
   }
   public class MultiplyingMultiValueConverter : IMultiValueConverter
   {
@@ -631,14 +631,14 @@ namespace AsLink
       decimal rv = 0;
 
       if (value == null || value.Length < 2)
-        return null;
+        return value;
 
       if (value[0] is int && value[1] is decimal)
         rv = (int)value[0] * ((decimal)value[1]);
 
       return rv == 0 ? null : rv.ToString("C");
     }
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => null;
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => (object[])Binding.DoNothing;
   }
   public class WorkedHourCountValueConverter : IMultiValueConverter
   {
@@ -931,8 +931,8 @@ namespace AsLink
 
     bool _InvertValue = false; public bool InvertValue { get => _InvertValue; set => _InvertValue = value; }
 
-    public string EqualsText { get; set; }
-    public string NotEqualsText { get; set; }
+    public string EqualsText { get; set; } = "==";
+    public string NotEqualsText { get; set; } = "!=";
     public Brush BrushTrue { get; set; }
     public Brush BrushFalse { get; set; }
 
@@ -996,8 +996,8 @@ namespace AsLink
   {
     public bool InvertValue { get; set; } // public bool InvertValue		{			get { return _InvertValue; }			set { _InvertValue = value; }		}		 bool _InvertValue = false;
 
-    public string TrueText { get; set; }
-    public string FalseText { get; set; }
+    public string TrueText { get; set; } = "True";
+    public string FalseText { get; set; } = "False";
 
     public SolidColorBrush TrueColor { get; set; }
     public SolidColorBrush FalseColor { get; set; }
@@ -1023,8 +1023,8 @@ namespace AsLink
   {
     public bool InvertValue { get; set; } // public bool InvertValue		{			get { return _InvertValue; }			set { _InvertValue = value; }		}		 bool _InvertValue = false;
 
-    public string EqualsText { get; set; }
-    public string NotEqualsText { get; set; }
+    public string EqualsText { get; set; } = "==";
+    public string NotEqualsText { get; set; } = "!=";
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
@@ -1077,8 +1077,8 @@ namespace AsLink
       }
 
       if (InvertValue) result = !result;
-      if (targetType == typeof(Visibility)) return result.Value ? Visibility.Visible : Visibility.Collapsed;
-      return result.Value;
+      if (targetType == typeof(Visibility)) return result == true ? Visibility.Visible : Visibility.Collapsed;
+      return result;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException("▄▀▄▀▄ Not required ▀▄▀▄▀");
