@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace RadarLib
 {
-  public partial class RadarAnimation : AAV.WPF.Base.WindowBase
+  public partial class RadarAnimation //: AAV.WPF.Base.WindowBase
   {
     readonly bool _isStandalole = true;
 

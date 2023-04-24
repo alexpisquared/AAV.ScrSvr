@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace AlexPi.Scr.Vws
 {
-    public partial class DeleteMePopup : AAV.WPF.Base.WindowBase
+    public partial class DeleteMePopup : WpfUserControlLib.Base.WindowBase
   {
         public string MediaFile { get; }
 

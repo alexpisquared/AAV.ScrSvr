@@ -5,7 +5,6 @@ global using System.Diagnostics;
 global using System.IO;
 global using System.Linq;
 global using System.Threading.Tasks;
-global using AAV.Sys.Ext;
 global using AAV.Sys.Helpers;
 global using Db.EventLog.DbModel;
 global using Db.EventLog.Ext;

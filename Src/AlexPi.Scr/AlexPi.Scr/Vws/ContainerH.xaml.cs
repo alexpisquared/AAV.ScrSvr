@@ -47,7 +47,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
 
         if (AppSettings.Instance.IsSayMinOn || AppSettings.Instance.IsChimesOn || AppSettings.Instance.IsRepeatOn)
         {
-          await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+          //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
           if (AppSettings.Instance.IsSayMinOn)
           {
             if (idle.Minutes % 5 == 0 && DateTime.Now.Minute % 10 == 0)
@@ -59,7 +59,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
             //await App.SpeakAsync(DateTime.Now.Minute % 10 == 0 ? $"{idle.Minutes} as well as {DateTime.Now:H:mm}" : $"{idle.Minutes}"); } //2022-06-01
           }
 
-          if (AppSettings.Instance.IsChimesOn) { await ChimerAlt.Chime(idle.Minutes); } //nogo: .ConfigureAwait(false);}
+          if (AppSettings.Instance.IsChimesOn) { /*await ChimerAlt.Chime(idle.Minutes);*/ } //nogo: .ConfigureAwait(false);}
 
           if (AppSettings.Instance.IsRepeatOn) { App.SpeakFaF($"{idle.Minutes} minutes, that is."); }
 
@@ -86,7 +86,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
   }
   void onChimesChanged(object s, RoutedEventArgs e) => AppSettings.Instance.IsChimesOn = cbIsChimesOn.IsChecked == true;
   void onRepeatChanged(object s, RoutedEventArgs e) => AppSettings.Instance.IsRepeatOn = cbIsRepeatOn.IsChecked == true;
-  async void onFreqWalk(object s, RoutedEventArgs e) => await ChimerAlt.FreqWalkUpDn();
+  async void onFreqWalk(object s, RoutedEventArgs e) { } //  => await ChimerAlt.FreqWalkUpDn();
   void onGreetFaf(object s, RoutedEventArgs e) { var sj = new ConfigRandomizer(); App.SpeakFaF($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceF")); }
   void onGreetAlt(object s, RoutedEventArgs e) { var sj = new ConfigRandomizer(); App.SpeakFaF($"Hey, {sj.GetRandomFromUserSection("FirstName")}!", sj.GetRandomFromUserSection("VoiceM")); }
 }

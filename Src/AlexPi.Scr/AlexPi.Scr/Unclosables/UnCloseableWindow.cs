@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace AlexPi.Scr.Vws;
 
-public partial class UnCloseableWindow : AAV.WPF.Base.WindowBase // <- black bacground bottommost window to save on heating.
+public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <- black bacground bottommost window to save on heating.
 {
   protected readonly GlobalEventHandler _GlobalEventHandler;
 

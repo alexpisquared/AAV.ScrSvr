@@ -10,9 +10,9 @@ global using System.Windows;
 global using System.Windows.Controls;
 global using System.Windows.Media;
 global using System.Windows.Shapes;
-global using AAV.Sys.Ext;
+global using StandardLib.Extensions;
 global using AAV.Sys.Helpers;
-global using AAV.WPF.Ext;
+global using WpfUserControlLib.Extensions;
 global using AsLink;
 global using Db.EventLog.DbModel;
 //obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)

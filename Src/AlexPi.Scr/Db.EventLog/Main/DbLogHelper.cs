@@ -1,4 +1,6 @@
-﻿namespace Db.EventLog.Main;
+﻿using StandardLib.Extensions;
+
+namespace Db.EventLog.Main;
 
 [Obsolete("Phasing out LOCAL db ...", false)]
 public class DbLogHelper

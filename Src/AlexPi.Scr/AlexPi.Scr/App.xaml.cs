@@ -86,7 +86,7 @@ public partial class App : System.Windows.Application
           Write($"Testing FreqWalkUp start ... ");
           var sw = Stopwatch.StartNew();
           //await ChimerAlt.PlayWhistle(_volume);
-          await ChimerAlt.FreqWalkUp(_volume);
+          //await ChimerAlt.FreqWalkUp(_volume);
           sw.Stop();
           WriteLine($" ... Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0}");
           await SpeakAsync($"Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0} sec.");
@@ -98,7 +98,7 @@ public partial class App : System.Windows.Application
     catch (Exception ex)
     {
       _ = ex.Log(optl: "ASYNC void OnStartup()");
-      ex.Pop(optl: "ASYNC void OnStartup()");
+      ex.Pop("ASYNC void OnStartup()");
     }
 
     //tmi: WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
@@ -239,7 +239,7 @@ public partial class App : System.Windows.Application
       {
         App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await Task.Delay(TimeSpan.FromSeconds(60));
 
@@ -268,7 +268,7 @@ public partial class App : System.Windows.Application
         SpeakFaF($"Armed and extremely dangerous!");
 #endif
 
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25)}min);.\n"); await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($"Hey! {(DateTime.Now - StartedAt + TimeSpan.FromSeconds(IdleTimeoutSec)).TotalMinutes:N0} minutes has passed. Turning off ...in a minute."); /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec * 60) + AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
         await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
         await SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");                                                                           /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
@@ -276,7 +276,7 @@ public partial class App : System.Windows.Application
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by AAV.scr!");                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
         SleepStandby();                                                                                                                                                /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  7/7  after  sleepStandby();.\n");
       }
-      catch (Exception ex) { ex.Pop(optl: "ASYNC void OnStartup()"); }
+      catch (Exception ex) { ex.Pop( "ASYNC void OnStartup()"); }
     });
   };
 

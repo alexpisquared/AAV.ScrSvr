@@ -53,7 +53,6 @@
       <Button Content="_ISO Folder" Click="onIsoDir" />
       <Button Content="IS_O File"   Click="onIsoFil" />
       <Button Content="AavNewLog"   Click="onAavNewLog" ToolTip="Check/Create new log source for tracking SS launches ..." Foreground="#ff0" />
-      <Button Content="Freq Walk"   Click="onFreqWalk" />
       <Button Content="O_K"         Click="onDone" IsDefault="True" Foreground="#f80" />
       <Button Content="_Cancel"     Click="onClose" IsCancel="True" Foreground="#f80"  />
     </StackPanel>

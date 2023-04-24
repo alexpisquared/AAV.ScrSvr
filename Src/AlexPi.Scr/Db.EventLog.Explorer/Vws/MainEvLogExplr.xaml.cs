@@ -1,6 +1,6 @@
 ﻿namespace Db.EventLog.Explorer;
 
-public partial class MainEvLogExplr : AAV.WPF.Base.WindowBase
+public partial class MainEvLogExplr //: AAV.WPF.Base.WindowBase
 {
   public MainEvLogExplr()
   {
