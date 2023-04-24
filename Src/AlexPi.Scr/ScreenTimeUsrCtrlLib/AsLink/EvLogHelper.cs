@@ -199,12 +199,12 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     var min = t.Where(r => r > hr00ofTheDate).Min();
     var max = t.Where(r => r < hr24ofTheDate).Max();
 
-    //if (ts == hr00ofTheDate && ti == hr00ofTheDate && tb == hr00ofTheDate) return hr00ofTheDate; // never off
+    //if (_timesplit == hr00ofTheDate && ti == hr00ofTheDate && tb == hr00ofTheDate) return hr00ofTheDate; // never off
 
-    //if (ts == hr24ofTheDate && ti == hr24ofTheDate && tb == hr24ofTheDate) return hr24ofTheDate; // never on
+    //if (_timesplit == hr24ofTheDate && ti == hr24ofTheDate && tb == hr24ofTheDate) return hr24ofTheDate; // never on
 
-    //if (ts != hr00ofTheDate && ti != hr00ofTheDate) return DateTime.FromOADate(Math.Min(ts.ToOADate(), ti.ToOADate()));
-    //if (ts != hr24ofTheDate && ti != hr24ofTheDate) return DateTime.FromOADate(Math.Min(ts.ToOADate(), ti.ToOADate()));
+    //if (_timesplit != hr00ofTheDate && ti != hr00ofTheDate) return DateTime.FromOADate(Math.Min(_timesplit.ToOADate(), ti.ToOADate()));
+    //if (_timesplit != hr24ofTheDate && ti != hr24ofTheDate) return DateTime.FromOADate(Math.Min(_timesplit.ToOADate(), ti.ToOADate()));
 
     //todo:
 

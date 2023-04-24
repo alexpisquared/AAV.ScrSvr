@@ -21,6 +21,7 @@ public partial class ScreenTimeUsrCtrl : UserControl
   {
     try
     {
+      await Task.Delay(11); // time to show up.
       ctrlpnl.Visibility = Visibility.Collapsed;
       Bpr.Beep1of2();
       //tmi: tbInfo.Text = $"► going {daysBack} days back...";      //var sw = Stopwatch.StartNew();
