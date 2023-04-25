@@ -17,6 +17,7 @@ global using System.Windows.Media;
 global using System.Windows.Media.Imaging;
 global using System.Windows.Threading;
 global using AlexPi.Scr.Logic;
+global using AlexPi.Scr.Unclosables;
 global using AlexPi.Scr.Vws;
 global using AmbienceLib;
 global using AsLink;

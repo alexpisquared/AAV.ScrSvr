@@ -1,6 +1,6 @@
 ﻿<lnk:TopmostUnCloseableWindow Width="500" Height="500" Left="1000" Top="0" x:Class="AlexPi.Scr.Vws.ContainerJ" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
                               Title="ContainerJ" 
-                              xmlns:lnk="clr-namespace:AlexPi.Scr.Vws" 
+                              xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                               Style="{StaticResource MouseEnterableSlowShowWindow}">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />

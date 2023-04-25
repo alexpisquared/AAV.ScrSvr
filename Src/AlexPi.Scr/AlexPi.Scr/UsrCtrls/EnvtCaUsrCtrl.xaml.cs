@@ -169,7 +169,7 @@ public partial class EnvtCaUsrCtrl : UserControl
   int _crntIndex = -1; // start from 0.
   public int NextIndex => (++_crntIndex) % _sites.Length;
 
-  void UserControl_Unloaded(object s, RoutedEventArgs e) { } //tmi: => WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}   Unloaded ..  {GetType().FullName}     ");  // Environment.Exit(21); Environment.FailFast("Environment.FailFast");
+  void OnUnloaded(object s, RoutedEventArgs e) => App.LogScrSvrUptimeOncePerSession("ScrSvr - Dn - EnvCa.OnUnloaded(). "); //tmi: => WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}   Unloaded ..  {GetType().FullName}     ");  // Environment.Exit(21); Environment.FailFast("Environment.FailFast");
 
   public int CrntIndex => (_crntIndex) % _sites.Length;
 }

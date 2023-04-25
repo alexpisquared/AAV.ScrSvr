@@ -1,10 +1,4 @@
-﻿using AlexPi.Scr.Logic;
-using AlexPi.Scr.Unclosables;
-using System;
-using System.Diagnostics;
-using System.Windows.Input;
-
-namespace AlexPi.Scr.Vws;
+﻿namespace AlexPi.Scr.Unclosables;
 
 public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <- black bacground bottommost window to save on heating.
 {
@@ -21,6 +15,7 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
 
     //Closing += UnCloseableWindow_Closing;
     Closed += UnCloseableWindow_Closed;
+    Unloaded += UnCloseableWindow_Unloaded;
 
     PreviewKeyUp += async (s, e) =>
     {
@@ -30,7 +25,6 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
         //todo: is it redundant Application.Current.Shutdown(77);          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   App.Shutdown(77) in PreviewKeyUp(). ");
       }
       else
-      {
         switch (e.Key)
         {
           case Key.F1: _GlobalEventHandler.TglContainerVis("ContainerA"); break;
@@ -49,10 +43,11 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
             //App.StopSpeakingAsync();
             App.SpeakFaF($"{e.Key} not handled!"); return;
         }
-      }
     };
   }
 
+  void UnCloseableWindow_Unloaded(object s, RoutedEventArgs e) => App.LogScrSvrUptimeOncePerSession("ScrSvr - Dn - UnCloseableWindow_Unloaded(). ");
+  void UnCloseableWindow_Closed(object s, EventArgs e) { App.LogScrSvrUptimeOncePerSession("ScrSvr - Dn - UnCloseableWindow_Closed(). "); } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
   //void UnCloseableWindow_Closing(object s, CancelEventArgs e) => Trace.WriteLine($"Closing..  {GetType().FullName}");
-  void UnCloseableWindow_Closed(object s, EventArgs eee) { } // Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   Closed ..  {GetType().FullName}");
+  
 }

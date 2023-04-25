@@ -1,22 +1,16 @@
-﻿using AlexPi.Scr.Logic;
-using AlexPi.Scr.Unclosables;
-using AsLink;
-using System.Windows;
+﻿namespace AlexPi.Scr.Unclosables;
 
-namespace AlexPi.Scr.Vws
+public partial class TopmostUnCloseableWindow : UnCloseableWindow
 {
-  public partial class TopmostUnCloseableWindow : UnCloseableWindow 
+  public TopmostUnCloseableWindow(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
   {
-    public TopmostUnCloseableWindow(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
-    {
-      Topmost = true;
-      IgnoreWindowPlacement = false;
-    }
+    Topmost = true;
+    IgnoreWindowPlacement = false;
+  }
 
-    protected void onClose(object s, RoutedEventArgs e)
-    {
-      AppSettings.Instance.SaveIfDirty_TODO();
-      Close();
-    }
+  protected void onClose(object s, RoutedEventArgs e)
+  {
+    AppSettings.Instance.SaveIfDirty_TODO();
+    Close();
   }
 }

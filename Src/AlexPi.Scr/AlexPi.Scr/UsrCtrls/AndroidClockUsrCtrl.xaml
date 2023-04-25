@@ -2,7 +2,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
              xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" x:Name="uc1" x:Class="UsrCtrlPOCs.AndroidClockUsrCtrl" 
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Cursor="Hand" 
-             Unloaded="uc1_Unloaded"
+             Unloaded="OnUnloaded"
              >
   <UserControl.Resources>
     <!--<ufc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />-->

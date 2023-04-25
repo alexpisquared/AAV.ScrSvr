@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr.Vws;
+﻿using AlexPi.Scr.Unclosables;
+
+namespace AlexPi.Scr.Vws;
 public partial class ContainerH : TopmostUnCloseableWindow
 {
   bool _isTalking = false;
