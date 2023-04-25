@@ -10,14 +10,12 @@ global using System.Windows;
 global using System.Windows.Controls;
 global using System.Windows.Media;
 global using System.Windows.Shapes;
-global using StandardLib.Extensions;
-global using WpfUserControlLib.Extensions;
 global using AsLink;
-global using Db.EventLog.DbModel;
 //obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
 global using Db.EventLog.Main;
-global using Microsoft.Expression.Shapes;
 global using Microsoft.Win32;
+global using StandardLib.Extensions;
 global using StandardLib.Services;
 global using UpTimeChart;
+global using WpfUserControlLib.Extensions;
 global using static System.Diagnostics.Trace;
