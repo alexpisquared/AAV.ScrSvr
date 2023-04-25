@@ -141,11 +141,11 @@ public partial class DailyChart : UserControl
     var top = _ah - hgt;
     var wid = Math.Abs(yB - yA);
 
-    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,5:h\\:mm\\:ss} - {tB,5:h\\:mm\\:ss} = {dTime:h\\:mm\\:ss} ";
+    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,8:h\\:mm\\:ss} - {tB,8:h\\:mm\\:ss} = {dTime,8:h\\:mm\\:ss} ";
     Write($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
 
     //if (isLabor)
-    Write($"    {tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}");
+    Write($"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}");
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);
 
