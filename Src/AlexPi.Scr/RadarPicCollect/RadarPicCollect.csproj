@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\AAV.Sys.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\WebScrap\WebScrap.csproj" />
   </ItemGroup>
 

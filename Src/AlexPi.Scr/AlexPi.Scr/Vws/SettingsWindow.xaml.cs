@@ -1,4 +1,6 @@
-﻿namespace AlexPi.Scr;
+﻿using StandardLib.Helpers;
+
+namespace AlexPi.Scr;
 
 public partial class SettingsWindow : Window
 {
@@ -18,7 +20,7 @@ public partial class SettingsWindow : Window
 
     InitializeComponent();
 
-    tbCurVer.Text = $"{VerHelper.CurVerStr()}";
+    tbCurVer.Text = $"{VersionHelper.CurVerStr("")}";
 
     _delay = AppSettings.Instance.DelayMin;
     TransitionSlider.Value = AppSettings.Instance.TransitionSec;

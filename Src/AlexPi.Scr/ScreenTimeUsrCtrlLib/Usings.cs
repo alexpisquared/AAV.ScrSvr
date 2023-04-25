@@ -11,7 +11,6 @@ global using System.Windows.Controls;
 global using System.Windows.Media;
 global using System.Windows.Shapes;
 global using StandardLib.Extensions;
-global using AAV.Sys.Helpers;
 global using WpfUserControlLib.Extensions;
 global using AsLink;
 global using Db.EventLog.DbModel;

@@ -4,7 +4,7 @@ using System.Data.Entity.Migrations;
 using Db.EventLog.DbModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AAV.Sys.Ext;
+using StandardLib.Extensions;
 
 namespace Db.EventLog.Ext
 {

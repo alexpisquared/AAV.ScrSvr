@@ -1,4 +1,4 @@
-﻿using AAV.Sys.Helpers;
+﻿//using AAV.Sys.Helpers;
 
 namespace ScreenTimeUsrCtrlLib.Views;
 
@@ -23,7 +23,7 @@ public partial class ScreenTimeUsrCtrl : UserControl
     {
       await Task.Delay(11); // time to show up.
       ctrlpnl.Visibility = Visibility.Collapsed;
-      Bpr.Beep1of2();
+      //Bpr.Beep1of2();
       //tmi: tbInfo.Text = $"► going {daysBack} days back...";      //var sw = Stopwatch.StartNew();
 
       spArrayHolder.Children.Clear();
@@ -45,7 +45,7 @@ public partial class ScreenTimeUsrCtrl : UserControl
     {
       ctrlpnl.Visibility = Visibility.Visible;
       await Task.Delay(100);
-      Bpr.Beep2of2();
+      //Bpr.Beep2of2();
     }
   }
   public void RedrawOnResize(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }

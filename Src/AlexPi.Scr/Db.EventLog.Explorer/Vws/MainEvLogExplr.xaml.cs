@@ -20,7 +20,7 @@ public partial class MainEvLogExplr //: AAV.WPF.Base.WindowBase
     vizroot.IsEnabled = false;
     try
     {
-      tbCurVer.Text = $"{VerHelper.CurVerStr()}";
+      //tbCurVer.Text = $"{VersionHelper.CurVerStr("")}";
     }
     catch (Exception ex) { ex.Pop(); ; }
     finally { vizroot.IsEnabled = true; }

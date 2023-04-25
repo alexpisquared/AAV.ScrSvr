@@ -1,4 +1,4 @@
-﻿using AAV.Sys.Helpers;
+﻿//using AAV.Sys.Helpers;
 using MailInfoWpfUsrCtrlLib;
 using System.Drawing;
 using System.Windows.Controls;
@@ -11,7 +11,7 @@ namespace AlexPi.Scr.Vws
     {
       InitializeComponent();
 
-      contentControl1.Content = VerHelper.IsVIP
+      contentControl1.Content = false // VerHelper.IsVIP
           ? new MailInfoUserControl { Height = 130, Width = 130 }
           : (object)new Button { Height = 130, Width = 130, Content = "No Mail for the masses :(" };
     }

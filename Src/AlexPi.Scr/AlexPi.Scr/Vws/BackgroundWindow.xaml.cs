@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using AlexPi.Scr.Unclosables;
+using StandardLib.Helpers;
 
 namespace AlexPi.Scr.Vws;
 
@@ -17,7 +18,7 @@ public partial class BackgroundWindow : UnCloseableWindow
     Show();
     Left = trgScreen.Bounds.Left;
     Top = trgScreen.Bounds.Top;
-    Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {(VerHelper.IsVIP ? "VIP  :)" : "!vip   :(")}      {VerHelper.CurVerStr()}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
+    Title = $" {string.Join(" ", Environment.GetCommandLineArgs())} \t\t {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t\t {VersionHelper.CurVerStr("")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 : window.Left)}-{(double.IsNaN(window.Top) ? -1.0 : window.Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
 
     if (showMaximized)
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 //
-using AAV.Sys.Ext;
+using StandardLib.Extensions;
 
 namespace EnvironmentCanadaScrap
 {

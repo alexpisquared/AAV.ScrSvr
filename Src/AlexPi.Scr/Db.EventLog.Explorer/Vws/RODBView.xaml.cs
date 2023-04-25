@@ -1,4 +1,5 @@
 ﻿using Db.EventLog.Ext;
+using StandardLib.Helpers;
 
 namespace Db.EventLog.Explorer;
 
@@ -24,7 +25,7 @@ public partial class RODBView //: AAV.WPF.Base.WindowBase
     try
     {
       tbInfo.Text = $"Loading ... {_localdb}";
-      tbCurVer.Text = $"{VerHelper.CurVerStr()}";
+      tbCurVer.Text = $"{VersionHelper.CurVerStr("")}";
 
       await _db.PcLogics.LoadAsync();
       await _db.EvOfInts.OrderByDescending(r => r.TimeID).LoadAsync(); //tu: error "'EditItem' is not allowed for this view." if Order is done on Local !!!!!!!!!!!!!!

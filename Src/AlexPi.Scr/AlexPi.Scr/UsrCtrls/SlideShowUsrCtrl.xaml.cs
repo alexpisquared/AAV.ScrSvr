@@ -1,7 +1,8 @@
-﻿//using AAV.Sys.Ext;
-using AAV.Sys.Helpers;
+﻿//using StandardLib.Extensions;
+//using AAV.Sys.Helpers;
 using AlexPi.Scr.Vws;
 using AsLink;
+using StandardLib.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -375,7 +376,7 @@ namespace AlexPi.Scr.UsrCtrls
     }
 
     async void btnEdit_Click(object s, RoutedEventArgs e) { ctrlPanel.IsEnabled = false; deleteUsrCtrl1.ShowEditorPanel(_allFiles, _randIdx); await Task.Yield(); }
-    async void btnDele_Click(object s, RoutedEventArgs e) { if (!VerHelper.IsVIP) return; ctrlPanel.IsEnabled = false; new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); await continueWithTheShow("onDele", -123, false); }
+    async void btnDele_Click(object s, RoutedEventArgs e) { if (!EvLogHelper.IsVIP) return; ctrlPanel.IsEnabled = false; new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); await continueWithTheShow("onDele", -123, false); }
 
     public Task<string[]> getFileNamesAsync(string folder, string searchPattern) => Task.Run(() => Directory.GetFiles(folder, searchPattern, SearchOption.AllDirectories));
 

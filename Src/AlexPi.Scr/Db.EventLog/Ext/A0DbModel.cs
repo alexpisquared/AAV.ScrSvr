@@ -1,11 +1,3 @@
-using AAV.Sys.Ext;
-using AAV.Sys.Helpers;
-using Db.EventLog.Ext;
-using System;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.IO;
-
 namespace Db.EventLog.DbModel
 {
   public partial class A0DbModel : DbContext
