@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\Helpers\Tracer.cs" Link="AsLink\Tracer.cs" />
 		<Compile Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.UI\Converters\ConverterEx.cs" Link="AsLink\ConverterEx.cs" />
 	</ItemGroup>
 

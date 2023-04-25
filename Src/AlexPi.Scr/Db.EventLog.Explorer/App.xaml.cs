@@ -9,7 +9,8 @@ public partial class App : Application
       base.OnStartup(e);
       ShutdownMode = ShutdownMode.OnLastWindowClose;
 
-      //todo: use serilog: Tracer.SetupTracingOptions("EvLogExplr", new TraceSwitch("OnlyUsedWhenInConfig", "This is the trace for all               messages... but who cares?") { Level = TraceLevel.Verbose });
+      //todo: use serilog:
+      AAV.Sys.Helpers.Tracer.SetupTracingOptions("EvLogExplr", new TraceSwitch("OnlyUsedWhenInConfig", "This is the trace for all               messages... but who cares?") { Level = TraceLevel.Verbose });
 
       Trace.WriteLine($"\r\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} App.OnStartup() -- e.Args.Length:{e.Args.Length}, e.Args[0]:{e.Args.FirstOrDefault()}, {Environment.CommandLine}");
 
