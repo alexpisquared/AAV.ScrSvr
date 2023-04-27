@@ -1,20 +1,11 @@
-﻿//using AAV.Sys.Helpers;
-using AlexPi.Scr.Unclosables;
-using MailInfoWpfUsrCtrlLib;
-using System.Drawing;
-using System.Windows.Controls;
+﻿namespace AlexPi.Scr.Vws;
 
-namespace AlexPi.Scr.Vws
+public partial class ContainerG : TopmostUnCloseableWindow
 {
-  public partial class ContainerG : TopmostUnCloseableWindow
+  public ContainerG(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
   {
-    public ContainerG(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
-    {
-      InitializeComponent();
+    InitializeComponent();
 
-      contentControl1.Content = false // VerHelper.IsVIP
-          ? new MailInfoUserControl { Height = 130, Width = 130 }
-          : (object)new Button { Height = 130, Width = 130, Content = "No Mail for the masses :(" };
-    }
+    contentControl1.Content = new MailInfoWpfUsrCtrlLib.MailInfoUserControl { Height = 130, Width = 130 }; // new Button { Height = 130, Width = 130, Content = "No Mail for the masses :(" };
   }
 }

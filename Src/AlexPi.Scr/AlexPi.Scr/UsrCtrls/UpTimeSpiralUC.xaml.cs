@@ -37,7 +37,6 @@ public partial class UpTimeSpiralUC : UserControl
 
   void updateTimes(DateTime now) => UpTimeTx = $"  {ts.TotalDaysUp.Add(now - _start),5:h\\:mm}     {ts.WorkedFor:h\\:mm} "; // UpTimePc = $"{(ts.TotalDaysUp.TotalHours <= 0 ? 0 : 100.0 * ts.UsefulTime.TotalHours / (ts.TotalDaysUp.TotalHours + (now - _start).TotalHours)),2:N0} %"; //todo: this calc-n is wrong ...and crowds the screen => suspended till further notice (Aug2019)
 
-  [Obsolete]
   void drawUpTimeSegments(DateTime trgDate)
   {
     grd1.Children.Clear();

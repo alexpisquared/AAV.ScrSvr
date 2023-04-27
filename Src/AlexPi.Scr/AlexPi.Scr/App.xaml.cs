@@ -1,7 +1,4 @@
-﻿using StandardLib.Helpers;
-using StandardLib.Extensions;
-
-namespace AlexPi.Scr;
+﻿namespace AlexPi.Scr;
 public partial class App : System.Windows.Application
 {
   readonly GlobalEventHandler _globalEventHandler = new();
@@ -13,7 +10,7 @@ public partial class App : System.Windows.Application
   static readonly ushort _volume = (ushort)(DateTime.Now.Hour is > 8 and < 21 ? ushort.MaxValue : ushort.MaxValue / 16);
   static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
-  static bool _mustLogEORun = false;
+  static bool? _mustLogEORun = null;
   public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
@@ -28,8 +25,7 @@ public partial class App : System.Windows.Application
     _synth = new(key, true, voice: cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
 
-  //[Obsolete]
-  protected override async void OnStartup(StartupEventArgs sea)
+  protected override void OnStartup(StartupEventArgs sea)
   {
     try
     {
@@ -75,23 +71,6 @@ public partial class App : System.Windows.Application
         case "up":
         case "-u":
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
-        //case "si":                                              // SilentDbUpdate
-        //  var evNo = await EvLogHelper.UpdateEvLogToDb(15, $"");
-        //  var rprt = $"{(evNo < -3 ? "No" : evNo.ToString())} new events found/stored to MDB file.";
-        //  await SpeakAsync(rprt);
-        //  WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}    StartUp() - {rprt}");
-        //  Shutdown();
-        //  return;
-        case "ct": // Chime Test
-          await SpeakAsync($"Testing FreqWalkUp start");
-          Write($"Testing FreqWalkUp start ... ");
-          var sw = Stopwatch.StartNew();
-          //await ChimerAlt.PlayWhistle(_volume);
-          //await ChimerAlt.FreqWalkUp(_volume);
-          sw.Stop();
-          WriteLine($" ... Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0}");
-          await SpeakAsync($"Testing FreqWalkUp finished. Took {sw.Elapsed.TotalSeconds:N0} sec.");
-          return;
       }
 
       showFullScrSvr_ScheduleArming();
@@ -108,15 +87,15 @@ public partial class App : System.Windows.Application
   //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
   protected override void OnExit(ExitEventArgs e)
   {
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   App.OnExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - App.OnExit() \");");
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - App.OnExit() \");");
 
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit() ");
     base.OnExit(e);
 
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   App.OnExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
     Process.GetCurrentProcess().Kill();
 
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   App.OnExit() 3/3 => never got here! ────────────────────────────");
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 3/3 => never got here! ────────────────────────────");
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
@@ -124,35 +103,34 @@ public partial class App : System.Windows.Application
   //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
   public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await _synth.SpeakAsync(msg, voice: voice)); // FaF - Fire and Forget
   public static async Task SpeakAsync(string msg, string voice = "")         /**/ => await _synth.SpeakAsync(msg, voice: voice);
-  [Obsolete]
+
   public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
 
   public const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
 
-  //[Obsolete]
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
-    Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓  EvLogHlpr.Log({msg})");
+    Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓  {msg,-80}");
 
     lock (_thisLock)
     {
-      if (!_mustLogEORun)
-        Write($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
+      if (_mustLogEORun == null)
+        WriteLine($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
+      else if (_mustLogEORun == false)
+        WriteLine($" ... not logged <- flag is set to false .. means: already logged before. ▒▒");
       else
       {
-#if !DEBUG
-        _mustLogEORun = false;
-        EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-IdleTimeoutSec), msg);
-        SpeakFaF(msg);
-        Write($" ... logged SUCCESS!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
-#endif
+        if (!DevOps.IsDbg)
+        {
+          _mustLogEORun = false;
+          EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-IdleTimeoutSec), msg);
+          SpeakFaF(msg);
+        }
+
+        WriteLine($" ... logged SUCCESS ... for Release only, though!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
       }
     }
-
-    Write($"\n");
-
-    //AAV.Sys.Helpers.Bpr.BeepEnd3();
   }
   static void showMiniScrSvr(string args1)
   {
@@ -189,10 +167,9 @@ public partial class App : System.Windows.Application
     _HwndSource.Disposed += (s, e) => miniSS.Close();
   }
 
-  [Obsolete]
   void showFullScrSvr_ScheduleArming()
   {
-    Task.Run(async () =>
+    _ = Task.Run(async () =>
     {
       var sj = new ConfigRandomizer();
       await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!");
@@ -204,70 +181,64 @@ public partial class App : System.Windows.Application
     new ControlPanel(_globalEventHandler).Show();
     if (AppSettings.Instance.IsSaySecOn)
     {
-#if DEBUG
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 4) * 1000)).ContinueWith(_ => SpeakAsync($"4"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 3) * 1000)).ContinueWith(_ => SpeakAsync($"3"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
-#else
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"50"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"40"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"30"));
-      Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"20"));
-      //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
-#endif
+      if (DevOps.IsDbg)
+      {
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 4) * 1000)).ContinueWith(_ => SpeakAsync($"4"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 3) * 1000)).ContinueWith(_ => SpeakAsync($"3"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
+      }
+      else
+      {
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"50"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"40"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"30"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"20"));
+        //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
+      }
     }
 
-    Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Hello?"));
-    Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(armAndLegEvent());
+    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Hello?"));
+    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(ArmAndLegEvent());
   }
 
-  [Obsolete]
-  static Action<Task> armAndLegEvent() => _ =>
+  static Action<Task> ArmAndLegEvent() => _ =>
   {
     _mustLogEORun = true;
 
-#if DEBUG
-    SpeakAsync($"no event logging").Wait();
-#else
-    EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
-#endif
+    if (DevOps.IsDbg)
+      SpeakAsync($"no event logging in debug mode.").Wait();
+    else
+      EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 
-    Task.Run(async () =>
+    _ = Task.Run(async () =>
     {
       if (AppSettings.Instance.AutoLocke && StartedAt == DateTime.MinValue) // suspended <= to simpify maint-ce at home office (2021)
       {
-        App.SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
+        SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
         //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
         await Task.Delay(TimeSpan.FromSeconds(60));
 
-        App.SpeakFaF($"Enforcing lock down now.");
+        SpeakFaF($"Enforcing lock down now.");
         LockWorkStation();
       }
     });
 
-    Task.Run(async () =>
+    _ = Task.Run(async () =>
     {
       try
       {
-        //if (!VerHelper.IsKnownNonVMPC)
-        //{
-        //  await SpeakAsync($"{Environment.MachineName} is not a known non-VM box, thus no Sleep/Hibernation for the PC.");
-        //  return;
-        //}
-
         if (!AppSettings.Instance.AutoSleep)
         {
           await SpeakAsync("Armed! Sleepless mode.");
           return;
         }
 
-#if DEBUG
-        SpeakFaF($"Armed and extremely dangerous!");
-#endif
+        if (DevOps.IsDbg)
+          SpeakFaF($"Armed!");
 
         await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
         await SpeakAsync($"Hey! {(DateTime.Now - StartedAt + TimeSpan.FromSeconds(IdleTimeoutSec)).TotalMinutes:N0} minutes has passed. Turning off ...in a minute."); /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec * 60) + AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
@@ -277,21 +248,11 @@ public partial class App : System.Windows.Application
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by AAV.scr!");                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
         SleepStandby();                                                                                                                                                /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  7/7  after  sleepStandby();.\n");
       }
-      catch (Exception ex) { ex.Pop( "ASYNC void OnStartup()"); }
+      catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
     });
   };
 
-  static void SleepStandby(bool isDeepHyberSleep = false)
-  {
-    //if (!VerHelper.IsKnownNonVMPC)
-    //{
-    //  SpeakFaF($"{Environment.MachineName} is not a known non-VM box");
-    //  return;
-    //}
-
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ...");
-    _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
-  }
+  static void SleepStandby(bool isDeepHyberSleep = false) { WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ..."); _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false); }
 
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
   Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
