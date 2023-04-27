@@ -18,7 +18,7 @@ public class ConfigRandomizer
     if (sa == null)
     {
       WriteLine($"\"{sn}\": [\"abc\", \"efg\", \"hij\"],      // <== if (sc?.Value == null)");
-      return $"{section} not found in appstngs nor secret";
+      return $"{section} not found in app settings nor secrets";
     }
 
     return sa[_random.Next(sa.Length)];

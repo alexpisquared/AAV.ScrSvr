@@ -6,9 +6,9 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>latest</LangVersion>
-	  <UserSecretsId>f0662977-c0c7-4b93-8d37-62fcb71fd167</UserSecretsId>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <UserSecretsId>f0662977-c0c7-4b93-8d37-62fcb71fd167</UserSecretsId>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <!--<UseWindowsForms>true</UseWindowsForms>-->
   </PropertyGroup>
@@ -38,6 +38,7 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1722.45" />
     <!-- //tu: blend/arc problem fix -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
