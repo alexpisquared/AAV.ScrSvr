@@ -12,7 +12,7 @@
     </Grid.RowDefinitions>
     <Rectangle Grid.Row="0" Fill="#FF006DB6"   />
     <Rectangle Grid.Row="1" Fill="#FFDCBF01" />
-    <Viewbox   Grid.RowSpan="2" Stretch="Fill" Margin="100">
+    <Viewbox   Grid.RowSpan="2" Stretch="Fill" Margin="5">
       <Image Source="/Images/UkraineFlag/ukraine-realistic-wavy-flag-free-vector (0).webp" />
       <!--
       <Image Source="/Images/UkraineFlag/ukraine-flag-animated.gif" />

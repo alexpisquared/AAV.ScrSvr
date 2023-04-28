@@ -13,7 +13,6 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
 
     PreviewMouseMove += async (s, e) => minMouseMovePoints = await ExitStrategy.CloseIfBigMoveBoforeGracePeriod(minMouseMovePoints, this, GetType().Name);
 
-    //Closing += UnCloseableWindow_Closing;
     Closed += UnCloseableWindow_Closed;
     Unloaded += UnCloseableWindow_Unloaded;
 
@@ -39,13 +38,11 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
           case Key.F10: _GlobalEventHandler.TglContainerVis("ContainerJ"); break;
           case Key.F11: _GlobalEventHandler.TglContainerVis("ContainerK"); break;
           case Key.F12: _GlobalEventHandler.TglContainerVis("ContainerL"); break;
-          default:
-            //App.StopSpeakingAsync();
-            App.SpeakFaF($"{e.Key} not handled!"); return;
+          default: App.SpeakFaF($"{e.Key} not handled!"); return;
         }
     };
   }
 
-  void UnCloseableWindow_Unloaded(object s, RoutedEventArgs e) => App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {this.GetType().Name}.UnCloseableWindow_Unloaded(). ");
-  void UnCloseableWindow_Closed(object s, EventArgs e) { App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {this.GetType().Name}.UnCloseableWindow_Closed(). "); } 
+  void UnCloseableWindow_Unloaded(object s, RoutedEventArgs e) => App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {GetType().Name}.UnCloseableWindow_Unloaded(). ");
+  void UnCloseableWindow_Closed(object? s,  /**/  EventArgs e) => App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {GetType().Name}.UnCloseableWindow_Closed(). ");
 }

@@ -100,9 +100,12 @@ public partial class App : System.Windows.Application
     Environment.FailFast("Environment.FailFast");
   }
 
-  //public static void StopSpeakingAsync() => _synth.StopSpeakingAsync();
-  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await _synth.SpeakAsync(msg, voice: voice)); // FaF - Fire and Forget
-  public static async Task SpeakAsync(string msg, string voice = "")         /**/ => await _synth.SpeakAsync(msg, voice: voice);
+  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await SpeakAsync(msg, voice: voice)); 
+  public static async Task SpeakAsync(string msg, string voice = "")         
+  {
+    if (AppSettings.Instance.IsSpeechOn)
+      await _synth.SpeakAsync(msg, voice: voice);
+  }
 
   public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
 
