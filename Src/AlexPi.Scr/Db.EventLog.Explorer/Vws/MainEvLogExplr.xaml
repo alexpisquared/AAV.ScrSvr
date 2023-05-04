@@ -5,9 +5,8 @@
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
-    <Style TargetType="{x:Type ContentControl}">
-      <Setter Property="Margin" Value="50"/>
-    </Style>
+    <SolidColorBrush x:Key="h1" Color="#333" />
+    <SolidColorBrush x:Key="h3" Color="#555" />
   </lnk:WindowBase.Resources>
   <Border Background="#c0161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
     <Grid x:Name="vizroot" Margin="5" >
@@ -15,7 +14,146 @@
         <Grid.LayoutTransform>
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
-        <Views:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" >
+          <Grid>
+          <Views:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
+
+        <Grid>
+          <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="HorizontalAlignment" Value="Center"/>
+              <Setter Property="Foreground" Value="#888"/>
+              <Setter Property="FontSize" Value="6"/>
+            </Style>
+            <Style TargetType="{x:Type Rectangle}">
+              <Setter Property="Margin" Value="0 12 0 0"/>
+              <Setter Property="Width" Value=".3"/>
+              <Setter Property="Fill" Value="#555"/>
+            </Style>
+          </Grid.Resources>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition  />
+            <ColumnDefinition Width="0.5*" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock Grid.Column="1"   Text="1"  />
+          <TextBlock Grid.Column="2"   Text="2"  />
+          <TextBlock Grid.Column="4"   Text="4"  />
+          <TextBlock Grid.Column="5"   Text="5"  />
+          <TextBlock Grid.Column="7"   Text="7"  />
+          <TextBlock Grid.Column="8"   Text="8"  />
+          <TextBlock Grid.Column="10"  Text="10"  />
+          <TextBlock Grid.Column="11"  Text="11"  />
+          <TextBlock Grid.Column="13"  Text="13"  />
+          <TextBlock Grid.Column="14"  Text="14"  />
+          <TextBlock Grid.Column="16"  Text="16"  />
+          <TextBlock Grid.Column="17"  Text="17"  />
+          <TextBlock Grid.Column="19"  Text="19"  />
+          <TextBlock Grid.Column="20"  Text="20"  />
+          <TextBlock Grid.Column="22"  Text="22"  />
+          <TextBlock Grid.Column="23"  Text="23"  />
+
+          <Rectangle Grid.Column="1"  />
+          <Rectangle Grid.Column="2"  />
+          <Rectangle Grid.Column="4"  />
+          <Rectangle Grid.Column="5"  />
+          <Rectangle Grid.Column="7"  />
+          <Rectangle Grid.Column="8"  />
+          <Rectangle Grid.Column="10" />
+          <Rectangle Grid.Column="11" />
+          <Rectangle Grid.Column="13" />
+          <Rectangle Grid.Column="14" />
+          <Rectangle Grid.Column="16" />
+          <Rectangle Grid.Column="17" />
+          <Rectangle Grid.Column="19" />
+          <Rectangle Grid.Column="20" />
+          <Rectangle Grid.Column="22" />
+          <Rectangle Grid.Column="23" />
+        </Grid>
+
+            <Grid>
+              <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                  <Setter Property="HorizontalAlignment" Value="Center"/>
+                  <Setter Property="Foreground" Value="#888"/>
+                  <Setter Property="FontSize" Value="8"/>
+                </Style>
+                <Style TargetType="{x:Type Rectangle}">
+                  <Setter Property="Margin" Value="0 12 0 0"/>
+                  <Setter Property="Width" Value="1.3"/>
+                  <Setter Property="Fill" Value="#555"/>
+                </Style>
+              </Grid.Resources>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition  />
+                <ColumnDefinition Width="0.5*" />
+              </Grid.ColumnDefinitions>
+
+              <TextBlock Grid.Column="3"   Text="3"  />
+              <TextBlock Grid.Column="6"   Text="6"  />
+              <TextBlock Grid.Column="9"   Text="9"  />
+              <TextBlock Grid.Column="12"  Text="12" />
+              <TextBlock Grid.Column="15"  Text="15" />
+              <TextBlock Grid.Column="18"  Text="18" />
+              <TextBlock Grid.Column="21"  Text="21" />
+
+              <Rectangle Grid.Column="3"  />
+              <Rectangle Grid.Column="6"  />
+              <Rectangle Grid.Column="9"  />
+              <Rectangle Grid.Column="12" />
+              <Rectangle Grid.Column="15" />
+              <Rectangle Grid.Column="18" />
+              <Rectangle Grid.Column="21" />
+            </Grid>
+          </Grid>
+        </ScrollViewer>
       </Grid>
       <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
       <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="42 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />

@@ -8,8 +8,7 @@
     </Style>
   </UserControl.Resources>
   <Grid>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top">
-      <StackPanel >
+    <StackPanel VerticalAlignment="Top">
         <Grid x:Name="timeTicks">
           <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
@@ -39,7 +38,6 @@
         </Grid>
         <StackPanel x:Name="spArrayHolder" />
       </StackPanel>
-    </ScrollViewer>
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" x:Name="ctrlpnl" >
       <Label  Content=" Re-Draw days back:" VerticalAlignment="Center" FontSize="9" />
