@@ -32,9 +32,9 @@ public partial class DailyChart : UserControl
       _aw = canvasBar.ActualWidth;
       canvasBar.Children.Clear();
 
-      for (var i = .125; i < 1; i += .041666) addRectangle(0, _ah, _aw * i, 1, b1); //addRectangle(0, _ah * .2, _aw * i, 1, b1);
-      for (var i = .125; i < 1; i += .125000) addRectangle(0, _ah, _aw * i, 1, b3); //addRectangle(_ah * .2, _ah * .3, _aw * i, 1, b3);
-      for (var i = 0.25; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
+      //for (var i = .125; i < 1; i += .041666) addRectangle(0, _ah, _aw * i, 1, b1); //addRectangle(0, _ah * .2, _aw * i, 1, b1);
+      //for (var i = .125; i < 1; i += .125000) addRectangle(0, _ah, _aw * i, 1, b3); //addRectangle(_ah * .2, _ah * .3, _aw * i, 1, b3);
+      //for (var i = 0.25; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
 
       await DrawUpDnLine(TrgDateC);
     }

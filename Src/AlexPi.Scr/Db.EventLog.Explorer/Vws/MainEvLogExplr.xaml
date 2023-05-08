@@ -28,8 +28,8 @@
             </Style>
             <Style TargetType="{x:Type Rectangle}">
               <Setter Property="Margin" Value="0 12 0 0"/>
-              <Setter Property="Width" Value=".3"/>
-              <Setter Property="Fill" Value="#555"/>
+              <Setter Property="Width" Value=".15"/>
+              <Setter Property="Fill" Value="#fff"/>
             </Style>
           </Grid.Resources>
           <Grid.ColumnDefinitions>
@@ -104,8 +104,8 @@
                 </Style>
                 <Style TargetType="{x:Type Rectangle}">
                   <Setter Property="Margin" Value="0 12 0 0"/>
-                  <Setter Property="Width" Value="1.3"/>
-                  <Setter Property="Fill" Value="#555"/>
+                  <Setter Property="Width" Value=".6"/>
+                  <Setter Property="Fill" Value="#fff"/>
                 </Style>
               </Grid.Resources>
               <Grid.ColumnDefinitions>
