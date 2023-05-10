@@ -2,7 +2,7 @@
 
 namespace AlexPi.Scr.UsrCtrls;
 
-public partial class GaugeSpeedometer : UserControl
+public partial class GaugeSpeedometer
 {
   const double _ang0 = -130, // 150 ~ 130. 150 = 3.75
       _k = 226.0 / 130,

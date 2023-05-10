@@ -2,7 +2,7 @@
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class ucTimeOutArc : UserControl
+  public partial class ucTimeOutArc
   {
     public ucTimeOutArc()
     {

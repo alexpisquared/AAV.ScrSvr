@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class RadarMultiImgUsrCtrl : UserControl
+  public partial class RadarMultiImgUsrCtrl
   {
     Image[] _Images;        //readonly List<Image> _Images = new List<Image>();
     readonly DispatcherTimer _timer;

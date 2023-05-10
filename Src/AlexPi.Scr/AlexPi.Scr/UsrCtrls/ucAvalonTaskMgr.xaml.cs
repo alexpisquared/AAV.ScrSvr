@@ -2,7 +2,7 @@
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class ucAvalonTaskMgr : UserControl
+  public partial class ucAvalonTaskMgr
   {
     public ucAvalonTaskMgr()
     {

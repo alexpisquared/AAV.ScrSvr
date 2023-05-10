@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class WebBrowserUC : UserControl
+  public partial class WebBrowserUC
   {
     public WebBrowserUC()
     {

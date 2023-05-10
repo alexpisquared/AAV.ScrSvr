@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace UsrCtrlPOCs
 {
-  public partial class AndroidClockUsrCtrl : UserControl
+  public partial class AndroidClockUsrCtrl
   {
     readonly Storyboard sbMoveSecondHandAnlg, sbMoveSecondHandImdt;        //static DoubleAnimation _da = new  DoubleAnimation { Duration = new Duration(TimeSpan.FromSeconds(1.0)) };
 

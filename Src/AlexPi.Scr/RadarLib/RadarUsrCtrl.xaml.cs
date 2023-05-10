@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace RadarLib
 {
-  public partial class RadarUsrCtrl : UserControl
+  public partial class RadarUsrCtrl
   {
     public double AlarmThreshold { set => tbt.Text = string.Format("AlarmThreshold: {0:N2}", value); }
     public RadarUsrCtrl()

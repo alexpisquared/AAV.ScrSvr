@@ -2,7 +2,7 @@
 
 namespace MailInfoWpfUsrCtrlLib
 {
-  public partial class MailInfoUserControl : UserControl
+  public partial class MailInfoUserControl
   {
     public MailInfoUserControl() => InitializeComponent();
   }

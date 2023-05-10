@@ -2,7 +2,7 @@
 
 namespace AlexPi.Scr.UsrCtrls;
 
-public partial class GaugeWeek : UserControl
+public partial class GaugeWeek
 {
   static readonly DoubleAnimation dai, dao, dam;
   static Duration dr = new(TimeSpan.FromSeconds(AppSettings.AnimDurnInSec * 1.0));

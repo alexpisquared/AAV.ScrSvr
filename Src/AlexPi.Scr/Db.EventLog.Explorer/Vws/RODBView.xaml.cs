@@ -3,7 +3,7 @@ using StandardLib.Helpers;
 
 namespace Db.EventLog.Explorer;
 
-public partial class RODBView //: AAV.WPF.Base.WindowBase
+public partial class RODBView 
 {
   readonly A0DbModel _db;
   readonly string _localdb;

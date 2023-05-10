@@ -2,7 +2,7 @@
 
 namespace GaugeUserControlLibrary;
 
-public partial class CpuHistogram : UserControl
+public partial class CpuHistogram
 {
   //987 PerformanceCounter _perfCounCPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
   //777 Process myProcess = Process.GetCurrentProcess();

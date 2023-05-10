@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-    public partial class WeeklyBurnUC : UserControl
+    public partial class WeeklyBurnUC
     {
         //double _aw/*, _ah*/;
         readonly DateTime _start = App.StartedAt;

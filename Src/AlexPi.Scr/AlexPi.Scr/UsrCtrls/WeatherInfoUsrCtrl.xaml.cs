@@ -12,7 +12,7 @@ namespace UsrCtrlPOCs
 	/// <summary>
 	/// Interaction logic for WeatherInfoUsrCtrl.xaml
 	/// </summary>
-	public partial class WeatherInfoUsrCtrl : UserControl
+	public partial class WeatherInfoUsrCtrl
 	{
 		public WeatherInfoUsrCtrl()
 		{

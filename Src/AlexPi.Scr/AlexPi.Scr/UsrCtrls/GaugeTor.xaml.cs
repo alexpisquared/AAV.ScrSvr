@@ -3,7 +3,7 @@ using GaugeUserControlLibrary;
 
 namespace AlexPi.Scr.UsrCtrls;
 
-public partial class GaugeTor : UserControl
+public partial class GaugeTor
 {
   static readonly DoubleAnimation _dai, _dao, _dam;
   static GaugeTor()

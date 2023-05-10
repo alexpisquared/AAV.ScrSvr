@@ -1,6 +1,6 @@
 ﻿namespace AlexPi.Scr.UsrCtrls;
 
-public partial class EnvtCaUsrCtrl : UserControl
+public partial class EnvtCaUsrCtrl
 {
   readonly string[] _sites = new[] { "s0000458_e"/*toronto pearson*/}; //   "s0000785_e"/*toronto island*/        }; //         "s0000773_e",/*richmond hill*/   };       // May 2020: localized to the most informative (with extremums).
   const int _step = 10, _iconHght = 5;

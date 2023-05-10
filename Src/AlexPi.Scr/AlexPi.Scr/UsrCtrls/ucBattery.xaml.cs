@@ -5,7 +5,7 @@ namespace AlexPi.Scr.UsrCtrls
   /// <summary>
   /// Interaction logic for ucBattery.xaml
   /// </summary>
-  public partial class ucBattery : UserControl
+  public partial class ucBattery
   {
     public ucBattery()
     {

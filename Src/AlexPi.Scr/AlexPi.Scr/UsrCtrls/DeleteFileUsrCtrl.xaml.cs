@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class DeleteFileUsrCtrl : UserControl
+  public partial class DeleteFileUsrCtrl
   {
     //blic delegate void EventHandler(object s, EventArgs e);    //A: provided by framework!!!
     public event EventHandler ClosedA;                                //A:

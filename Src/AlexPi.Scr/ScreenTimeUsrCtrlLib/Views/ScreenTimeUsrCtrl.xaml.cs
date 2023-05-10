@@ -4,7 +4,7 @@ using AmbienceLib;
 
 namespace ScreenTimeUsrCtrlLib.Views;
 
-public partial class ScreenTimeUsrCtrl : UserControl
+public partial class ScreenTimeUsrCtrl
 {
   int _daysback = 2;
   Bpr _bpr = new Bpr();

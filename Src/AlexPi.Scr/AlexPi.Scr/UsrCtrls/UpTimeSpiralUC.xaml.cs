@@ -1,6 +1,6 @@
 ﻿namespace AlexPi.Scr.UsrCtrls;
 
-public partial class UpTimeSpiralUC : UserControl
+public partial class UpTimeSpiralUC
 {
   int _drawDelayMsPerDay = 500;
   double _aw, _ah;

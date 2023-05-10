@@ -9,7 +9,7 @@ namespace AlexPi.Scr.UsrCtrls
     /// <summary>
     /// Interaction logic for ArcAnimUC.xaml
     /// </summary>
-    public partial class ArcAnimUC : UserControl
+    public partial class ArcAnimUC
     {
         Storyboard /*sbMoveHands, */sbRotoMobil;
         static DoubleAnimation _da = new() { Duration = new Duration(TimeSpan.FromSeconds(1.0)) };

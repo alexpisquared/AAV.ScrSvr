@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-    public partial class GaugeArrowOne : UserControl
+    public partial class GaugeArrowOne
     {
         const double _ang0 = -150,
             _k = 226.0 / 130,

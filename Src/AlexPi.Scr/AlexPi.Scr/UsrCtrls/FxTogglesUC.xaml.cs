@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace AlexPi.Scr.UsrCtrls
 {
-  public partial class FxTogglesUC : UserControl
+  public partial class FxTogglesUC
   {
     public FxTogglesUC()
     {
