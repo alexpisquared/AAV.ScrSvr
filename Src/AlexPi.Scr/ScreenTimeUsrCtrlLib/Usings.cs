@@ -19,3 +19,4 @@ global using StandardLib.Services;
 global using UpTimeChart;
 global using WpfUserControlLib.Extensions;
 global using static System.Diagnostics.Trace;
+global using System.Security.Principal;
