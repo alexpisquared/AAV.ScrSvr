@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
+    <ProjectReference Include="..\..\..\..\Radar\Src\PixelMeasure\PixelMeasure.csproj" />
     <ProjectReference Include="..\WebScrap\WebScrap.csproj" />
   </ItemGroup>
 

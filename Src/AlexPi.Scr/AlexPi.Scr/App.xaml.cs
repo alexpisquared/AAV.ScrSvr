@@ -202,7 +202,7 @@ public partial class App : System.Windows.Application
       }
     }
 
-    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Rally?"));
+    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Really?"));
     _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(ArmAndLegEvent());
   }
 

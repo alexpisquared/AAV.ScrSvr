@@ -43,7 +43,7 @@ namespace Radar
                 }
             }
             Debug.WriteLine(string.Format("hml.Count:{0} out of ttlArea:{1}", hml.Count, ttlArea));
-            //Color c7 = source.GetPixel(255, 250); //Global Ofc
+            //Color c7 = source. GetPixel(255, 250); //Global Ofc
         }
 
         ///    Monday, March 10, 2008 4:26 AM by Tolgahan Albayrak 
