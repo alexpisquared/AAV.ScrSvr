@@ -95,9 +95,9 @@ namespace AlexPi.Scr.Vws
     {
       switch (cbAll.IsChecked)
       {
+        default: restoreCachedVals(); break;
         case true: cacheCurVals(); setViz_And_ChkBoxVal(true); break;
         case false: cacheCurVals(); setViz_And_ChkBoxVal(false); break;
-        default: restoreCachedVals(); break;
       }
     }
 
