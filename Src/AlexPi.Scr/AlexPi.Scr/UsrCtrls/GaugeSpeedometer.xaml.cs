@@ -1,6 +1,4 @@
-﻿using System.Windows.Media.Animation;
-
-namespace AlexPi.Scr.UsrCtrls;
+﻿namespace AlexPi.Scr.UsrCtrls;
 
 public partial class GaugeSpeedometer
 {

@@ -47,11 +47,10 @@ public partial class EnvtCaUsrCtrl
       tbWindSpeed.Text = $"{sitedata?.currentConditions?.wind?.speed?.Value}";
       tbWindDrktn.Text = $"{sitedata?.currentConditions?.wind?.direction}";
 
-      if (double.TryParse(sitedata?.currentConditions?.wind.bearing.Value, out double bearing))
-        windAngle.Angle = bearing;
-      else
-        windAngle.Angle = Wind360d(sitedata?.currentConditions?.wind?.direction.ToString() ?? "S");
-      
+      windAngle.Angle = double.TryParse(sitedata?.currentConditions?.wind.bearing.Value, out var bearing)
+        ? bearing
+        : Wind360d(sitedata?.currentConditions?.wind?.direction.ToString() ?? "S");
+
       Debug.WriteLine($" === {sitedata?.currentConditions?.wind.direction}   {sitedata?.currentConditions?.wind.bearing.Value}   {windAngle.Angle}");
 
       img1.Source = new BitmapImage(new Uri($"https://weather.gc.ca/weathericons/{(sitedata?.currentConditions?.iconCode?.Value ?? "5"):0#}.gif"));
@@ -175,6 +174,7 @@ public partial class EnvtCaUsrCtrl
 }
 public static class CartesianChartExt
 {
+  [Obsolete]
   public static void LoadDataToChart_24hr(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush dodgerBlue0Grad, decimal YMin, List<DtDc> ooo)
   {
     byte nrm = 64, ext = 0, xff = 128, ngt = 0, day = 255;
@@ -186,15 +186,15 @@ public static class CartesianChartExt
         normMin = new SolidColorBrush(Color.FromRgb(nrm, nrm, xff));
     try
     {
-      var t00 = sd.hourlyForecastGroup.hourlyForecast.Min(r => r.dateTimeUTC).GetDateTimeLcl();
-      var t24 = sd.hourlyForecastGroup.hourlyForecast.Max(r => r.dateTimeUTC).GetDateTimeLcl();
-      var obs = sd.currentConditions.dateTime[0].timeStamp.GetDateTimeLcl();
       var now = DateTime.Now;
+      var t00 = sd.hourlyForecastGroup.hourlyForecast.Min(r => r.dateTimeUTC)?.GetDateTimeLcl() ?? now;
+      var t24 = sd.hourlyForecastGroup.hourlyForecast.Max(r => r.dateTimeUTC)?.GetDateTimeLcl() ?? now;
+      var obs = sd.currentConditions.dateTime[0].timeStamp.GetDateTimeLcl();
       var yst = obs.AddHours(-6);
       var x00 = t00.AddHours(-12);
       var xZZ = t24.AddHours(+12);
-      var sunrz1 = sd.riseSet.dateTime.FirstOrDefault(r => r.zone == validTimeZones.UTC && r.name == dateStampNameType.sunrise).timeStamp.GetDateTimeLcl();
-      var sunst1 = sd.riseSet.dateTime.FirstOrDefault(r => r.zone == validTimeZones.UTC && r.name == dateStampNameType.sunset).timeStamp.GetDateTimeLcl();
+      var sunrz1 = sd.riseSet.dateTime.FirstOrDefault(r => r.zone == validTimeZones.UTC && r.name == dateStampNameType.sunrise)?.timeStamp.GetDateTimeLcl() ?? now;
+      var sunst1 = sd.riseSet.dateTime.FirstOrDefault(r => r.zone == validTimeZones.UTC && r.name == dateStampNameType.sunset)?.timeStamp.GetDateTimeLcl() ?? now;
       var sunrz0 = sunrz1.AddDays(-1);
       var sunst0 = sunst1.AddDays(-1);
       var sunrz2 = sunrz1.AddDays(1);
@@ -209,12 +209,13 @@ public static class CartesianChartExt
 
       //always throws no matter what:        try { if (cc.AxisY?.First()?.Sections != null) cc.AxisY?.First()?.Sections.Clear(); } catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); else Debug.WriteLine("Still throws...."); }
 
+      var extr = new AxisSection { Value = (double)extremMin, SectionWidth = (double)(extremMax - extremMin), Fill = RedTransBluGrad }; cc.VisualElements.Add(new VisualElement { X = extr.Value + extr.SectionWidth / 2, Y = 0, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, UIElement = new TextBlock { Text = "Extreme", FontWeight = FontWeights.Bold, FontSize = 16, Opacity = 0.6 } });
+      var norm = new AxisSection { Value = (double)normalMin, SectionWidth = (double)(normalMax - normalMin), Fill = RedTransBluGrad }; cc.VisualElements.Add(new VisualElement { X = extr.Value + extr.SectionWidth / 2, Y = 0, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, UIElement = new TextBlock { Text = "Normals", FontWeight = FontWeights.Bold, FontSize = 16, Opacity = 0.6 } });
       cc.AxisY.First().Sections = new SectionsCollection
-        {
+      {
           new AxisSection{Value=0, SectionWidth = 10, Fill = dodgerBlue0Grad, Label="LofP 0-100% area" },
-
-          new AxisSection{Value=(double)extremMin, SectionWidth = (double)(extremMax - extremMin), Fill = RedTransBluGrad, Label="Extremes" },
-          new AxisSection{Value=(double)normalMin, SectionWidth = (double)(normalMax - normalMin), Fill = RedTransBluGrad, Label="Normals" }
+          extr, //new AxisSection{Value=(double)extremMin, SectionWidth = (double)(extremMax - extremMin), Fill = RedTransBluGrad, Label="Extremes" },
+          norm, //new AxisSection{Value=(double)normalMin, SectionWidth = (double)(normalMax - normalMin), Fill = RedTransBluGrad, Label="Normals" }
         };
 
       cc.Series = new SeriesCollection(Mappers.Xy<DtDc>().X(dtdc => dtdc.DTime.ToOADate()).Y(dtdc => (double)dtdc.Value)) //you can also configure this type globally, so you don't need to configure every SeriesCollection instance using the type. more info at http://lvcharts.net/App/Index#/examples/v1/wpf/Types%20and%20Configuration
@@ -256,6 +257,8 @@ public static class CartesianChartExt
     }
     catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); else throw; }
   }
+
+  [Obsolete]
   public static void LoadDataToChart_Week(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush DodgerBlue0Grad)
   {
     try
