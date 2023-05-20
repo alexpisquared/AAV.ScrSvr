@@ -13,7 +13,13 @@ namespace AsLink // namespace AlexPi.Scr.AsLink
 
   public partial class AppSettings
   {
-    static readonly string _subFolder = $@"Public\AppData\{Assembly.GetExecutingAssembly().GetName().Name}\{Environment.MachineName}.json";
+#if DEBUG
+    const string suffix = ".DBG";
+#else
+    const string suffix = "";
+#endif
+
+    static readonly string _subFolder = $@"Public\AppData\{Assembly.GetExecutingAssembly().GetName().Name}\{Environment.MachineName}{suffix}.json";
     static readonly string _pathfile = OneDrive.Folder(_subFolder);
     readonly StorageMode _storMode;
 

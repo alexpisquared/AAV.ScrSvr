@@ -18,7 +18,6 @@ public partial class SlideShowUsrCtrl
   readonly Random _rand = new(DateTime.Now.Second);
   Storyboard _sbin, _sbou, _time;
   string[] _allFiles;
-  readonly string _currentFolder;
   string _curHistFile;
   bool _isPlaying = true;
   int _back = 0, _randIdx;
@@ -38,7 +37,6 @@ public partial class SlideShowUsrCtrl
       deleteUsrCtrl1.ClosedB += async (m, i, b) => await continueWithTheShow(m, i, b);
       deleteUsrCtrl1.ClosedC += async (m, i, b) => await continueWithTheShow(m, i, b);
 
-      _currentFolder = (Environment.UserDomainName == "CORP") ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Captures") : OneDrive.Folder(@"Pictures\");
       me1.Volume = .01;
     }
     catch (Exception ex) { _ = ex.Log(); }
@@ -67,13 +65,12 @@ public partial class SlideShowUsrCtrl
       _time = FindResource("sb15") as Storyboard;
 
       tbtr.Text = $"Delay starting...";
-      tbbl.Text = $"{_currentFolder}";
       if (true)
       {
         await Task.Delay(_initlDelay);
 
         var sw = Stopwatch.StartNew();
-        var allFiles = await getFileNamesAsync(_currentFolder, _wildcard);
+        var allFiles = await OneDrive.GetFileNamesAsync(_wildcard);
         sw.Stop();
 
         ttlAvail = allFiles.Length;
@@ -173,7 +170,6 @@ public partial class SlideShowUsrCtrl
       _time = FindResource("sb15") as Storyboard;
 
       tbtr.Text = $"Delay starting...";
-      tbbl.Text = $"{_currentFolder}";
       await Task.Delay(_initlDelay);
 
       var window = Window.GetWindow(this);
@@ -186,7 +182,7 @@ public partial class SlideShowUsrCtrl
 
       var sw = Stopwatch.StartNew();
 
-      _allFiles = await getFileNamesAsync(_currentFolder, _wildcard);                //GetAllFiles(@"C:\", "*").ToArray();
+      _allFiles = await OneDrive.GetFileNamesAsync(_wildcard);                //GetAllFiles(@"C:\", "*").ToArray();
 
       sw.Stop();
 
@@ -360,9 +356,7 @@ public partial class SlideShowUsrCtrl
   async void btnEdit_Click(object s, RoutedEventArgs e) { ctrlPanel.IsEnabled = false; deleteUsrCtrl1.ShowEditorPanel(_allFiles, _randIdx); await Task.Yield(); }
   async void btnDele_Click(object s, RoutedEventArgs e) { if (!EvLogHelper.IsVIP) return; ctrlPanel.IsEnabled = false; _ = new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); await continueWithTheShow("onDele", -123, false); }
 
-  public Task<string[]> getFileNamesAsync(string folder, string searchPattern) => Task.Run(() => Directory.GetFiles(folder, searchPattern, SearchOption.AllDirectories));
 
-  public static Task<FileInfo[]> GetFileInfosAsync(string folder, string searchPattern) => Task.Run(() => new DirectoryInfo(folder).GetFiles(searchPattern, SearchOption.AllDirectories));
 
   IEnumerable<string> GetAllFiles(string path, string searchPattern) => System.IO.Directory.EnumerateFiles(path, searchPattern).Union(
         System.IO.Directory.EnumerateDirectories(path).SelectMany(d =>

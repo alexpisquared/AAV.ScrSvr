@@ -1,0 +1,35 @@
+<UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
+             xmlns:local="clr-namespace:MSGraphSlideshow"
+             xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
+             Loaded="OnLoaded"
+             d:DesignHeight="450" d:DesignWidth="800" Background="#808">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="20"/>
+      <ColumnDefinition Width="22"/>
+      <ColumnDefinition Width="3*"/>
+      <ColumnDefinition Width="3*"/>
+      <ColumnDefinition Width="22"/>
+      <ColumnDefinition Width="20"/>
+    </Grid.ColumnDefinitions>
+
+    <Button Grid.Row="2" Grid.Column="5" IsDefault="True" Click="OnNext"  Content="_Next" />
+
+    <Image         Grid.Row="2" Grid.Column="1" x:Name="Image1" />
+    <Image         Grid.Row="2" Grid.Column="2" x:Name="ImageView1" />
+    <vlc:VideoView Grid.Row="2" Grid.Column="3" x:Name="VideoView1" Background="#555" />
+    <MediaElement  Grid.Row="2" Grid.Column="4" x:Name="Image4" />
+
+    <TextBlock x:Name="Report1" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" FontSize="16" Grid.RowSpan="2" Foreground="#fa0" />
+    <TextBlock x:Name="ReportNext" d:Text="Loadg" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" FontSize="21" Margin="8" HorizontalAlignment="Center" Foreground="#fff" />
+    <TextBlock x:Name="ReportCrnt" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" FontSize="22" Margin="8" HorizontalAlignment="Center" Foreground="#ff0" />
+    <TextBlock x:Name="Report4" d:Text="12323" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3" FontSize="16" Margin="8" Foreground="#f88" />
+
+  </Grid>
+</UserControl>

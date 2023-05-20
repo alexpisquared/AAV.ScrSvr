@@ -55,6 +55,7 @@
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj" />
     <ProjectReference Include="..\..\..\..\Radar\Src\PixelMeasure\PixelMeasure.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
+    <ProjectReference Include="..\MSGraphSlideshow\MSGraphSlideshow.csproj" />
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
   </ItemGroup>

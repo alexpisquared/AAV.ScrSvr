@@ -2,12 +2,14 @@
                               Title="ContainerK" 
                               xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                               xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" 
+                              xmlns:MSGraphSlideshow="clr-namespace:MSGraphSlideshow;assembly=MSGraphSlideshow" 
                               Style="{StaticResource MouseEnterableSlowShowWindow}">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="15" />
   </WindowChrome.WindowChrome>
   <Grid>
-    <UsrCtrls:SlideShowUsrCtrl />
+    <!--<UsrCtrls:SlideShowUsrCtrl />-->
+    <MSGraphSlideshow:MsgSlideshowUsrCtrl />
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>
