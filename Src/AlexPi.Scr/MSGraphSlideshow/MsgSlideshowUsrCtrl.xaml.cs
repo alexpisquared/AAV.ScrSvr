@@ -1,28 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using DemoLibrary;
-using LibVLCSharp.Shared;
-using Microsoft.Graph;
-using StandardLib.Helpers;
-using static System.Diagnostics.Trace;
-
-namespace MSGraphSlideshow;
-
+﻿namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
-  const string _allFilesTxt = @"C:\g\Microsoft-Graph\Src\msgraph-training-uwp\DemoApp\Stuff\AllFiles.txt", thm = "thumbnails,children($expand=thumbnails)";
+  const string _allFilesTxt = @"C:\g\Microsoft-Graph\Src\msgraph-training-uwp\DemoApp\Stuff\AllFiles.txt", _thumbnails = "thumbnails,children($expand=thumbnails)";
   readonly Random _random = new(DateTime.Now.Second);
   GraphServiceClient? _graphServiceClient;
   string[] _allFilesArray = Array.Empty<string>();
   readonly LibVLC _libVLC;
-  const int _period = 5_000;
   int _periodCurrent = 50;
+#if DEBUG
+  const int _periodMs = 5_000;
+#else
+  const int _periodMs = 60_000;
+#endif
 
   public MsgSlideshowUsrCtrl()
   {
@@ -34,8 +23,11 @@ public partial class MsgSlideshowUsrCtrl
   async void OnLoaded(object sender, RoutedEventArgs e)
   {
     var (success, report, result) = await new AuthUsagePOC().LogInAsync();
-
-    Report1.Text = ($"{report}");
+    if (!success)
+    {
+      ReportExcn.Text = ($"{report}");
+      WriteLine($"ERROR: {report}");
+    }
 
     ArgumentNullException.ThrowIfNull(result, nameof(result));
 
@@ -70,7 +62,7 @@ public partial class MsgSlideshowUsrCtrl
 
       ReportNext.Text = $"{file}";
 
-      var driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
+      var driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(_thumbnails).GetAsync();
       ReportNext.Text = $"{.000001 * driveItem.Size,8:N2} mb                    {driveItem.Name}"; // Write($"** {.000001 * driveItem.Size,8:N2} mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
 
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
@@ -82,7 +74,7 @@ public partial class MsgSlideshowUsrCtrl
       await Task.WhenAll(taskStream, taskDelay);
       Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}");
 
-      _periodCurrent = _period;
+      _periodCurrent = _periodMs;
       VideoView1.MediaPlayer?.Stop();
       System.Media.SystemSounds.Beep.Play();
 
@@ -95,21 +87,26 @@ public partial class MsgSlideshowUsrCtrl
       }
       else if (driveItem.Image is not null)
       {
-        ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
         ReportCrnt.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    {driveItem.Image.Width:N0}x{driveItem.Image.Height:N0}    {driveItem.Name}";
+        ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
+        VideoView1.Visibility = Visibility.Hidden;
+        ImageView1.Visibility = Visibility.Visible;
+      }
+      else if (driveItem.Photo is not null)
+      {
+        ReportCrnt.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! PHOTO a new FILE !!!    {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}";
+        ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else
       {
-        ReportCrnt.Text = driveItem.Photo is not null
-          ? $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! PHOTO a new FILE !!!    {driveItem.Name}"
-          : $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
+        ReportCrnt.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
       }
 
       Write($"  {Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} = {.000001 * driveItem.Size / Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} mb/sec.    {driveItem.Name}  \n");
     }
-    catch (Exception ex) { Report4.Text = ex.Message; Trace.WriteLine($"** {ex.Message}  "); }
+    catch (Exception ex) { ReportExcn.Text = $"** ERROR: {ex.Message}\n{ReportCrnt.Text}"; WriteLine($"** ERROR: {ex.Message}  "); }
   }
   string GetNextMediaFile()
   {
@@ -164,8 +161,6 @@ public partial class MsgSlideshowUsrCtrl
     _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
     var driveItem4 = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
-
-    Image4.Source = new Uri(driveItem4.WebUrl); // Image3.Source = new Uri("https://onedrive.live.com/?authkey=undefined&cid=869AFB15787C9269&id=869AFB15787C9269%211118450&parId=869AFB15787C9269%21930167&o=OneUp");
 
     var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
     _ = items.ToList()[12].Folder;
