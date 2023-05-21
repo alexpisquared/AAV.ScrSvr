@@ -37,7 +37,9 @@ public partial class MsgSlideshowUsrCtrl
       await Task.CompletedTask;
     }));
 
-    var start1 = Stopwatch.GetTimestamp();
+        WriteLine($"Log in successful. Loading media files list...");
+
+        var start1 = Stopwatch.GetTimestamp();
 #if DEBUG
     _allFilesArray = System.IO.File.ReadAllLines(_allFilesTxt); //
 #else
