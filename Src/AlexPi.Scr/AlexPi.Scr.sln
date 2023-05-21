@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsControlLib", "..\..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandardLib", "..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj", "{EEA90109-2D68-48CF-A391-372D8D495D11}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{CB638E28-8738-4538-BDAA-0FA56ABC11EB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shareds", "Shareds", "{CB638E28-8738-4538-BDAA-0FA56ABC11EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUserControlLib", "..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj", "{AC9A4A00-59F9-40E0-A342-7C12CE210DF2}"
 EndProject
@@ -46,6 +46,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoLibrary", "..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\DemoLibrary\DemoLibrary.csproj", "{1F212743-CCDF-4248-8D2A-CB05D12BBD32}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Identity.Client.Extensions.Msal", "..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\Microsoft.Identity.Client.Extensions.Msal\Microsoft.Identity.Client.Extensions.Msal.csproj", "{D241FF21-BFA3-4F6E-A6FF-1B20C4304174}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\Shared\Shared.shproj", "{F575599F-41AD-4CDD-B0AD-3B659A43EE84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -456,11 +458,13 @@ Global
 		{EEA90109-2D68-48CF-A391-372D8D495D11} = {CB638E28-8738-4538-BDAA-0FA56ABC11EB}
 		{AC9A4A00-59F9-40E0-A342-7C12CE210DF2} = {CB638E28-8738-4538-BDAA-0FA56ABC11EB}
 		{EC118EF4-A900-4096-BC20-EBECB6D5DDF8} = {CB638E28-8738-4538-BDAA-0FA56ABC11EB}
+		{F575599F-41AD-4CDD-B0AD-3B659A43EE84} = {CB638E28-8738-4538-BDAA-0FA56ABC11EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A19E7263-5923-46AE-992C-7EB5256D7A67}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\Shared\Shared.projitems*{d241ff21-bfa3-4f6e-a6ff-1b20c4304174}*SharedItemsImports = 5
+		..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\Shared\Shared.projitems*{f575599f-41ad-4cdd-b0ad-3b659a43ee84}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

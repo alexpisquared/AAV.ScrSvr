@@ -1,13 +1,13 @@
 <UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:local="clr-namespace:MSGraphSlideshow"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#202" Loaded="OnLoaded">
+             d:DesignHeight="450" d:DesignWidth="800" Background="Transparent" Loaded="OnLoaded">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
-      <RowDefinition Height="20"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="20"/>
@@ -18,12 +18,18 @@
       <ColumnDefinition Width="20"/>
     </Grid.ColumnDefinitions>
     <!--<Button Grid.Row="3" Grid.Column="4" IsDefault="True" Click="OnNext"  Content="_Next" />-->
-    <Image         Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Image1" />
-    <Image         Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
-    <vlc:VideoView Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" x:Name="VideoView1" Background="#033" />
+    <Image         Grid.Row="2"                  Grid.Column="1" Grid.ColumnSpan="2" x:Name="Image1" />
+    <Image         Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="3" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
+    <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="VideoView1" Background="#033" />
 
-    <TextBlock x:Name="ReportNext" d:Text="Loadg" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0"     FontSize="20" Margin="8 8 8 0" HorizontalAlignment="Center" Foreground="#fff" />
-    <TextBlock x:Name="ReportCrnt" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1"     FontSize="20" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#ff0" />
-    <TextBlock x:Name="ReportExcn" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" FontSize="16" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#f88" VerticalAlignment="Bottom" />
+    <TextBlock x:Name="ReportTL"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportTR"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportBL"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportBR"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+
+
+    <TextBlock x:Name="ReportNext" d:Text="Loadg" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0"     FontSize="20" Margin="8 8 8 0" HorizontalAlignment="Center" Foreground="#fff" Padding="5" Background="#111" />
+    <TextBlock x:Name="ReportCrnt" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1"     FontSize="20" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#ff0" Padding="5" Background="#111" />
+    <TextBlock x:Name="ReportExcn" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" FontSize="16" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#f88" Padding="5" Background="#111" VerticalAlignment="Bottom" />
   </Grid>
 </UserControl>

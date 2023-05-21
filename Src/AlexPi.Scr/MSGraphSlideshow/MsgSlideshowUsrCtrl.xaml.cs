@@ -41,7 +41,7 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG
     _allFilesArray = System.IO.File.ReadAllLines(_allFilesTxt); //
 #else
-    allFiles = await OneDrive.GetFileNamesAsync("*.*"); // System.IO.File.WriteAllLines(_allFiles, allFiles);
+    _allFilesArray = await OneDrive.GetFileNamesAsync("*.*"); // System.IO.File.WriteAllLines(_allFiles, allFiles);
 #endif
     WriteLine($"** {_allFilesArray.Length,8:N0}  files in {Stopwatch.GetElapsedTime(start1).TotalSeconds,5:N1} sec.");
 
@@ -63,7 +63,7 @@ public partial class MsgSlideshowUsrCtrl
       ReportNext.Text = $"{file}";
 
       var driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(_thumbnails).GetAsync();
-      ReportNext.Text = $"{.000001 * driveItem.Size,8:N2} mb                    {driveItem.Name}"; // Write($"** {.000001 * driveItem.Size,8:N2} mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      ReportNext.Text = $"{.000001 * driveItem.Size,8:N2} mb                              {driveItem.Name}"; // Write($"** {.000001 * driveItem.Size,8:N2} mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
 
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return;
@@ -76,7 +76,9 @@ public partial class MsgSlideshowUsrCtrl
 
       _periodCurrent = _periodMs;
       VideoView1.MediaPlayer?.Stop();
+#if DEBUG
       System.Media.SystemSounds.Beep.Play();
+#endif
 
       if (driveItem.Video is not null)
       {
@@ -104,9 +106,20 @@ public partial class MsgSlideshowUsrCtrl
         ReportCrnt.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
       }
 
+      ReportTL.Text = $"{driveItem.CreatedDateTime:yyyy-MM-dd}";
+      ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
+      ReportBL.Text = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
+      ReportBR.Text = $"{driveItem.LastModifiedBy}    {driveItem.LastModifiedByUser}  ";
+
       Write($"  {Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} = {.000001 * driveItem.Size / Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} mb/sec.    {driveItem.Name}  \n");
     }
-    catch (Exception ex) { ReportExcn.Text = $"** ERROR: {ex.Message}\n{ReportCrnt.Text}"; WriteLine($"** ERROR: {ex.Message}  "); }
+    catch (Exception ex)
+    {
+      ReportExcn.Text = $"** ERROR: {ex.Message}\n{ReportCrnt.Text}"; 
+      WriteLine($"ERROR: {ex.Message}  {ReportCrnt.Text}"); 
+      System.Media.SystemSounds.Hand.Play();
+      await Task.Delay(15_000);
+    }
   }
   string GetNextMediaFile()
   {
