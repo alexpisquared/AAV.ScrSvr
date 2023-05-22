@@ -4,15 +4,14 @@
                 xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls"                 
                 Style="{StaticResource MouseEnterableSlowShowWindow}">  <WindowChrome.WindowChrome>    <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />  </WindowChrome.WindowChrome>
   <Grid>
-    <Viewbox>
+    <!--<Viewbox>
       <Grid>
         <Image Source="/AlexPi.Scr;component/Images/WPF-Gauge-Car-Dashboard.png" />
         <UsrCtrls:GaugeArrowOne x:Name="ao1" GaugeName="Explr (Mb)" GaugeText="120 Mb" Height="190" Width="190" HorizontalAlignment="Left"  Margin="125,245,0,137" />
         <UsrCtrls:GaugeArrowOne x:Name="ao2" GaugeName="Free (Gb)"  GaugeText="120 Mb" Height="190" Width="190" HorizontalAlignment="Right" Margin="0,245,124,137" />
       </Grid>
-    </Viewbox>
-
+    </Viewbox>-->
+    <UsrCtrls:SlideShowUsrCtrl />
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
-
   </Grid>
 </lnk:TopmostUnCloseableWindow>

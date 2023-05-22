@@ -32,18 +32,18 @@
         </StackPanel.Resources>
         
         <CheckBox  Content="AllNoneCache" x:Name="cbAll"  Click="onTglAll"  FontWeight="Bold" IsThreeState="True" IsChecked="{x:Null}" />
-        <CheckBox  Content="F1  - Meteo " x:Name="ContainerA" />
-        <CheckBox  Content="F2  - CPU   " x:Name="ContainerB" />
-        <CheckBox  Content="F3  - Radar " x:Name="ContainerC" />
-        <CheckBox  Content="F4  - Clock " x:Name="ContainerD" />
-        <CheckBox  Content="F5  - BrnOut" x:Name="ContainerE" />
-        <CheckBox  Content="F6  - Stngs " x:Name="ContainerF" />
-        <CheckBox  Content="F7  - Mail  " x:Name="ContainerG" />
-        <CheckBox  Content="F8  - Prgrs " x:Name="ContainerH" />
-        <CheckBox  Content="F9  - 3gage " x:Name="ContainerI" />
-        <CheckBox  Content="F10 - Flag!!" x:Name="ContainerJ" />
-        <CheckBox  Content="F11 - Photos" x:Name="ContainerK" />
-        <CheckBox  Content="F12 - Web-Vw" x:Name="ContainerL" />
+        <CheckBox  Content="F1  Meteo " x:Name="ContainerA" />
+        <CheckBox  Content="F2  CPU   " x:Name="ContainerB" />
+        <CheckBox  Content="F3  Radar " x:Name="ContainerC" />
+        <CheckBox  Content="F4  Clock " x:Name="ContainerD" />
+        <CheckBox  Content="F5  BrnOut" x:Name="ContainerE" />
+        <CheckBox  Content="F6  Stngs " x:Name="ContainerF" />
+        <CheckBox  Content="F7  Mail  " x:Name="ContainerG" />
+        <CheckBox  Content="F8  Prgrs " x:Name="ContainerH" />
+        <CheckBox  Content="F9  OldPic" x:Name="ContainerI" />
+        <CheckBox  Content="F10 Flag!!" x:Name="ContainerJ" />
+        <CheckBox  Content="F11 Photos" x:Name="ContainerK" />
+        <CheckBox  Content="F12 Web-Vw" x:Name="ContainerL" />
       </StackPanel>
     </Viewbox>
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />

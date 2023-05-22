@@ -7,10 +7,8 @@
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="15" />
   </WindowChrome.WindowChrome>
-  <Grid>
-    <!--<UsrCtrls:SlideShowUsrCtrl />-->
+  <Grid>    
     <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1"/>
-
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>
 </lnk:TopmostUnCloseableWindow>

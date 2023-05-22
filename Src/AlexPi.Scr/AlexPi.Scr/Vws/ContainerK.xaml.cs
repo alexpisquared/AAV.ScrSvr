@@ -1,6 +1,4 @@
-﻿using MSGraphSlideshow;
-
-namespace AlexPi.Scr.Vws;
+﻿namespace AlexPi.Scr.Vws;
 
 public partial class ContainerK : TopmostUnCloseableWindow
 {
