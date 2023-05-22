@@ -1,6 +1,7 @@
 <UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:local="clr-namespace:MSGraphSlideshow"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
+             xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
     <Style TargetType="TextBlock">
@@ -10,20 +11,21 @@
       <Setter Property="Background"       Value="#8000" />
     </Style>
     <Style TargetType="Button">
-      <Setter Property="Padding"          Value="8 0" />
-      <Setter Property="FontSize"         Value="26" />
+      <Setter Property="Padding"          Value="2" />
+      <Setter Property="FontSize"         Value="16" />
       <Setter Property="Foreground"       Value="#0ff" />
       <Setter Property="Background"       Value="Transparent" />
       <Setter Property="BorderThickness"  Value="0"/>
     </Style>
 
     <Duration x:Key="inOuTime">0:0:05</Duration>
-    <Duration x:Key="showTime">0:0:15</Duration>
+    <Duration x:Key="showTime">0:0:59</Duration>
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt" />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:54" />
       <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar" />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt" BeginTime="0:0:10" />
+      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc" Timeline.DesiredFrameRate="30" />
       <!--
       <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="progressArc" From="0" To="360" Storyboard.TargetProperty="StartAngle" Timeline.DesiredFrameRate="60" />
       <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
@@ -47,11 +49,12 @@
       <TextBlock x:Name="ReportBL" d:Text="12323" Grid.RowSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Left"  />
       <TextBlock x:Name="ReportBR" d:Text="12323" Grid.RowSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
 
-      <Button Grid.Row="3" IsDefault="True" Click="OnNext"  Content="_Next" HorizontalAlignment="Center" />
     </Grid>
 
     <TextBlock   x:Name="ReportTC" d:Text="12323" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"    />
     <TextBlock   x:Name="ReportBC" d:Text="12323" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
     <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Value="33" BorderThickness="0" Height="5" Margin="1" Foreground="#0d0" Background="#f0f" />
+    <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#0d0" />
+    <Button      Content="_Next" IsDefault="True" Click="OnNext" HorizontalAlignment="Right" VerticalAlignment="Center" />
   </Grid>
 </UserControl>
