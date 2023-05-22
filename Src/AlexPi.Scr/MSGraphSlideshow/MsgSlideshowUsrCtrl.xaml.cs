@@ -120,7 +120,7 @@ public partial class MsgSlideshowUsrCtrl
       System.Media.SystemSounds.Hand.Play();
 
             if (Debugger.IsAttached)
-                Debugger.Break;
+                Debugger.Break();
             else
                 await Task.Delay(15_000);
     }
