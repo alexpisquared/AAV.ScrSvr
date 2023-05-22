@@ -37,8 +37,10 @@ public partial class MsgSlideshowUsrCtrl
       await Task.CompletedTask;
     }));
 
-    var start1 = Stopwatch.GetTimestamp();
-#if DEBUG
+        WriteLine($"Log in successful. Loading media files list...");
+
+        var start1 = Stopwatch.GetTimestamp();
+#if !DEBUG
     _allFilesArray = System.IO.File.ReadAllLines(_allFilesTxt); //
 #else
     _allFilesArray = await OneDrive.GetFileNamesAsync("*.*"); // System.IO.File.WriteAllLines(_allFiles, allFiles);
@@ -58,9 +60,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
 
-      var file = GetNextMediaFile();
-
-      ReportNext.Text = $"{file}";
+      var file = ReportNext.Text = GetNextMediaFile();
 
       var driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(_thumbnails).GetAsync();
       ReportNext.Text = $"{.000001 * driveItem.Size,8:N2} mb                              {driveItem.Name}"; // Write($"** {.000001 * driveItem.Size,8:N2} mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
@@ -115,10 +115,14 @@ public partial class MsgSlideshowUsrCtrl
     }
     catch (Exception ex)
     {
-      ReportExcn.Text = $"** ERROR: {ex.Message}\n{ReportCrnt.Text}"; 
-      WriteLine($"ERROR: {ex.Message}  {ReportCrnt.Text}"); 
+      ReportExcn.Text = $"** ERROR: {ex.Message}\n  {ReportNext.Text}\n  {ReportCrnt.Text}"; 
+      WriteLine($"\nERROR for  {ReportNext.Text}  {ReportCrnt.Text}  {ex.Message}\n"); 
       System.Media.SystemSounds.Hand.Play();
-      await Task.Delay(15_000);
+
+            if (Debugger.IsAttached)
+                Debugger.Break();
+            else
+                await Task.Delay(15_000);
     }
   }
   string GetNextMediaFile()
