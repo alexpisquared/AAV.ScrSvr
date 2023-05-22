@@ -20,7 +20,7 @@
     <!--<Button Grid.Row="3" Grid.Column="4" IsDefault="True" Click="OnNext"  Content="_Next" />-->
     <Image         Grid.Row="2"                  Grid.Column="1" Grid.ColumnSpan="2" x:Name="Image1" />
     <Image         Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="3" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
-    <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="VideoView1" Background="#033" />
+    <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="VideoView1" Background="Transparent" />
 
     <TextBlock x:Name="ReportTL"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
     <TextBlock x:Name="ReportTR"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
