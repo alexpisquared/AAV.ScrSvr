@@ -16,34 +16,32 @@
       <Setter Property="BorderThickness"  Value="0"/>
     </Style>
 
-    <Duration x:Key="_inOutMs"   >0:0:05</Duration>
-    <Duration x:Key="_showtimeMs">0:0:48</Duration>
+    <Duration x:Key="inOuTime">0:0:05</Duration>
+    <Duration x:Key="showTime">0:0:48</Duration>
 
-    <Storyboard x:Key="sbIn">
-      <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{StaticResource _inOutMs}" Storyboard.TargetName="me1"  />
-    </Storyboard>
-    <Storyboard x:Key="sbOu">
-      <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="{StaticResource _inOutMs}" Storyboard.TargetName="me1" />
-    </Storyboard>
-    <Storyboard x:Key="sb15">
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pb1" From="0" To="100" Storyboard.TargetProperty="Value"    />
-      <DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="pbX" From="0" To="360" Storyboard.TargetProperty="StartAngle" Timeline.DesiredFrameRate="60" />
-      <!--<DoubleAnimation Duration="{StaticResource _showtimeMs}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
+
+    <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity"    From="0" To="1"   Storyboard.TargetName="mediaElmnt" />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity"    From="1" To="0"   Storyboard.TargetName="mediaElmnt" BeginTime="0:0:10" />
+      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"      From="0" To="100" Storyboard.TargetName="progressBar" />
+      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="StartAngle" From="0" To="360" Storyboard.TargetName="progressArc" Timeline.DesiredFrameRate="60" />
+      <!--
+      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
     </Storyboard>
 
   </UserControl.Resources>
   <Grid>
     <Grid x:Name="ctrlPanel">
 
-      <MediaElement Name="me1" LoadedBehavior="Manual" MediaOpened="on_MediaOpened" MediaFailed="on_MediaFailed" MediaEnded="on_MediaEnded" Margin="-10"/>
+      <MediaElement Name="mediaElmnt" LoadedBehavior="Manual" MediaOpened="on_MediaOpened" MediaFailed="on_MediaFailed" MediaEnded="on_MediaEnded" Margin="-10"/>
 
       <TextBlock Name="tbtl" Text="tl" VerticalAlignment="Top"    HorizontalAlignment="Left"  Margin="10 5" FontWeight="Medium" FontSize="26"/>
       <TextBlock Name="tbbl" Text="bl" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="10 5" FontWeight="Medium" FontSize="26"/>
       <TextBlock Name="tbtr" Text="tr" VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="10 5" FontWeight="Medium" TextAlignment="Right" />
       <TextBlock Name="tbbr" Text="br" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10 5" FontWeight="Medium" TextAlignment="Right" />
 
-      <ProgressBar x:Name="pb1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Grid.Column="2" Value="33" BorderThickness="0" Height="5" Margin="10"    Background="#f0f" Foreground="#060" />
-      <ed:Arc      x:Name="pbX" StartAngle="+1" EndAngle="+360" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="#f0f" Margin="10 50" />
+      <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Grid.Column="2" Value="33" BorderThickness="0" Height="5" Margin="10"    Background="#f0f" Foreground="#060" />
+      <ed:Arc      x:Name="progressArc" StartAngle="+1" EndAngle="+360" Stretch="None" Width="80" Height="80" StrokeThickness="40" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="#f0f" Margin="10 50" />
 
       <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"    HorizontalAlignment="Center">
         <Button Content="    &lt;_,    " Name="btnPrev" Click="btnPrev_Click" />

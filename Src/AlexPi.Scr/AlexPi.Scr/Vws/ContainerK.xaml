@@ -9,7 +9,7 @@
   </WindowChrome.WindowChrome>
   <Grid>
     <!--<UsrCtrls:SlideShowUsrCtrl />-->
-    <MSGraphSlideshow:MsgSlideshowUsrCtrl />
+    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1"/>
 
     <Button Style="{StaticResource aav_cancel_button}" Click="onClose" />
   </Grid>

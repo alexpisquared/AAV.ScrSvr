@@ -1,21 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Threading;
-using System.Xml.Linq;
+using System.Windows.Media.Animation;
 
 namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
-  const string _allFilesTxt = @"C:\g\Microsoft-Graph\Src\msgraph-training-uwp\DemoApp\Stuff\AllFiles.txt", _thumbnails = "thumbnails,children($expand=thumbnails)";
+  const string _thumbnails = "thumbnails,children($expand=thumbnails)";
+  Storyboard _sbIntroOutro;
   readonly Random _random = new(DateTime.Now.Second);
   GraphServiceClient? _graphServiceClient;
   string[] _allFilesArray = Array.Empty<string>();
   readonly LibVLC _libVLC;
-  int _periodCurrent = 50;
+  TimeSpan _periodCurrent = TimeSpan.FromMicroseconds(22);
   readonly CancellationTokenSource _cancellationTokenSource = new();
+
+  public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
 #if DEBUG
-  const int _periodMs = 5_000;
 #else
-  const int _periodMs = 60_000;
 #endif
 
   public MsgSlideshowUsrCtrl()
@@ -27,14 +28,16 @@ public partial class MsgSlideshowUsrCtrl
 
   async void OnLoaded(object sender, RoutedEventArgs e)
   {
-    var (success, report, result) = await new AuthUsagePOC().LogInAsync();
+    _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
+
+    var (success, report, result) = await new AuthUsagePOC().LogInAsync(ClientId);
     if (!success)
     {
       ReportBC.Text = ($"{report}");
       WriteLine($"ERROR: {report}");
     }
 
-    ArgumentNullException.ThrowIfNull(result, nameof(result));
+    ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
 
     _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
     {
@@ -45,8 +48,8 @@ public partial class MsgSlideshowUsrCtrl
     WriteLine($"Log in successful. Loading media files list...");
 
     var start1 = Stopwatch.GetTimestamp();
-#if !DEBUG
-    _allFilesArray = System.IO.File.ReadAllLines(_allFilesTxt); //
+#if DEBUG
+    _allFilesArray = System.IO.File.ReadAllLines(@"C:\g\Microsoft-Graph\Src\msgraph-training-uwp\DemoApp\Stuff\AllFiles.txt"); //
 #else
     _allFilesArray = await OneDrive.GetFileNamesAsync("*.*"); // System.IO.File.WriteAllLines(_allFiles, allFiles);
 #endif
@@ -81,7 +84,7 @@ public partial class MsgSlideshowUsrCtrl
       await Task.WhenAll(taskStream, taskDelay);
       Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}");
 
-      _periodCurrent = _periodMs;
+      _periodCurrent = _sbIntroOutro.Duration.TimeSpan;
       VideoView1.MediaPlayer?.Stop();
 #if DEBUG
       System.Media.SystemSounds.Beep.Play();
@@ -114,11 +117,15 @@ public partial class MsgSlideshowUsrCtrl
       }
 
       ReportTL.Text = $"{driveItem.CreatedDateTime:yyyy-MM-dd}";
-      ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
-      ReportBL.Text = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
-      ReportBR.Text = $"{driveItem.LastModifiedBy}    {driveItem.LastModifiedByUser}  ";
+      //ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
+      //ReportBL.Text = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
+      //ReportBR.Text = $"{driveItem.LastModifiedBy}    {driveItem.LastModifiedByUser}  ";
+
+      _sbIntroOutro.Begin();
 
       Write($"  {Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} = {.000001 * driveItem.Size / Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} mb/sec.    {driveItem.Name}  \n");
+      
+      ReportBC.Text = "";
     }
     catch (OperationCanceledException ex)
     {
@@ -126,7 +133,7 @@ public partial class MsgSlideshowUsrCtrl
     }
     catch (Exception ex)
     {
-      ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}\n  {ReportTC.Text}";
+      ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
       WriteLine($"\nERROR for  {file}  {ReportTC.Text}  {ex.Message}\n");
       System.Media.SystemSounds.Hand.Play();
 

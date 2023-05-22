@@ -3,20 +3,20 @@
 public partial class SlideShowUsrCtrl
 {
 #if DEBUG
-  readonly int _showtimeMs = 4_000;
+  readonly int showTime = 4_000;
   readonly int _initlDelay = 250;
   readonly int _inAndOutMs = 2_000;
   int _take = 5;
   readonly string _wildcard = "*.jpg";
 #else
   readonly string _wildcard = "*.*";
-  readonly int _showtimeMs = 60_000;
+  readonly int showTime = 60_000;
   readonly int _initlDelay = 2_500;
   readonly int _inAndOutMs = 5_000;
   int _take = 100;
 #endif
   readonly Random _rand = new(DateTime.Now.Second);
-  Storyboard _sbin, _sbou, _time;
+  Storyboard _sbIntroOutro;
   string[] _allFiles;
   string _curHistFile;
   bool _isPlaying = true;
@@ -37,7 +37,7 @@ public partial class SlideShowUsrCtrl
       deleteUsrCtrl1.ClosedB += async (m, i, b) => await continueWithTheShow(m, i, b);
       deleteUsrCtrl1.ClosedC += async (m, i, b) => await continueWithTheShow(m, i, b);
 
-      me1.Volume = .01;
+      mediaElmnt.Volume = .01;
     }
     catch (Exception ex) { _ = ex.Log(); }
   }
@@ -60,9 +60,7 @@ public partial class SlideShowUsrCtrl
 
     try
     {
-      _sbin = FindResource("sbIn") as Storyboard;
-      _sbou = FindResource("sbOu") as Storyboard;
-      _time = FindResource("sb15") as Storyboard;
+      _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
       tbtr.Text = $"Delay starting...";
       if (true)
@@ -118,16 +116,16 @@ public partial class SlideShowUsrCtrl
         tbbl.Text = $"{(File.Exists(file) ? "" : "!Exists!")}";
         tbbl.Text = $"{++currentIdx} / {filesToShow.Count}";
 
-        me1.Source = new Uri(file);
-        _sbin.Begin();
+        mediaElmnt.Source = new Uri(file);
+        _sbIntroOutro.Begin();
 
-        var showtimeMs = TimeSpan.FromMilliseconds(_showtimeMs);
+        var showtimeMs = TimeSpan.FromMilliseconds(showTime);
         if (MediaHelper.IsVideo(file))
         {
           for (var i = 0; i < 10; i++)
           {
             await Task.Delay(250);
-            if (me1.NaturalDuration.HasTimeSpan)
+            if (mediaElmnt.NaturalDuration.HasTimeSpan)
             {
               break;
             }
@@ -135,20 +133,19 @@ public partial class SlideShowUsrCtrl
             tbbl.Text += ($"  ({i} tries) ");
           }
 
-          tbbl.Text += tbtl.Text = $" {me1.NaturalDuration.TimeSpan:m\\:ss}";
+          tbbl.Text += tbtl.Text = $" {mediaElmnt.NaturalDuration.TimeSpan:m\\:ss}";
 
-          showtimeMs += me1.NaturalDuration.TimeSpan;
+          showtimeMs += mediaElmnt.NaturalDuration.TimeSpan;
         }
         else
         {
           Debug.WriteLine($"  not video.");
         }
 
-        me1.Play();
+        mediaElmnt.Play();
         await Task.Delay(showtimeMs);
-        _sbou.Begin();
         await Task.Delay(_inAndOutMs);
-        me1.Pause();
+        mediaElmnt.Pause();
 
         //Visibility = Visibility.Hidden;
         //await Task.Delay(12000); //2022-01: let see other controls
@@ -165,9 +162,7 @@ public partial class SlideShowUsrCtrl
   {
     try
     {
-      _sbin = FindResource("sbIn") as Storyboard;
-      _sbou = FindResource("sbOu") as Storyboard;
-      _time = FindResource("sb15") as Storyboard;
+      _sbIntroOutro = FindResource("_sbIntroOutro") as Storyboard;
 
       tbtr.Text = $"Delay starting...";
       await Task.Delay(_initlDelay);
@@ -236,21 +231,21 @@ public partial class SlideShowUsrCtrl
     Debug.WriteLine($"---");
     try
     {
-      me1.Source = new Uri(file);
-      //me1.Play(); Debug.WriteLine($"--- Play()");
-      me1.Pause(); Debug.WriteLine($"--- Pause()");
-      me1.Volume = .01;
+      mediaElmnt.Source = new Uri(file);
+      //mediaElmnt.Play(); Debug.WriteLine($"--- Play()");
+      mediaElmnt.Pause(); Debug.WriteLine($"--- Pause()");
+      mediaElmnt.Volume = .01;
 
       //tbbl.Text = "";
 
-      var showtimeTs = TimeSpan.FromMilliseconds(_showtimeMs - _inAndOutMs);
+      var showtimeTs = TimeSpan.FromMilliseconds(showTime - _inAndOutMs);
       if (MediaHelper.IsVideo(file))
       {
         for (var i = 0; i < 100; i++)
         {
           tbbl.Text += ($" (got duration in {i + 1} tries) ");
           await Task.Delay(100);
-          if (me1.NaturalDuration.HasTimeSpan)
+          if (mediaElmnt.NaturalDuration.HasTimeSpan)
           {
             break;
           }
@@ -258,12 +253,12 @@ public partial class SlideShowUsrCtrl
 
         Debug.WriteLine($"--- {tbbl.Text}");
 
-        if (false) { tbbl.Text += $" {me1.NaturalDuration.TimeSpan:m\\:ss}"; showtimeTs += (me1.NaturalDuration.HasTimeSpan ? me1.NaturalDuration.TimeSpan : showtimeTs); }
+        if (false) { tbbl.Text += $" {mediaElmnt.NaturalDuration.TimeSpan:m\\:ss}"; showtimeTs += (mediaElmnt.NaturalDuration.HasTimeSpan ? mediaElmnt.NaturalDuration.TimeSpan : showtimeTs); }
         else
-        if (me1.NaturalDuration.HasTimeSpan && me1.NaturalDuration != Duration.Automatic && me1.NaturalDuration.TimeSpan.TotalMilliseconds > _showtimeMs)
+        if (mediaElmnt.NaturalDuration.HasTimeSpan && mediaElmnt.NaturalDuration != Duration.Automatic && mediaElmnt.NaturalDuration.TimeSpan.TotalMilliseconds > showTime)
         {
-          me1.Position = TimeSpan.FromMilliseconds(_rand.Next((int)me1.NaturalDuration.TimeSpan.TotalMilliseconds - _showtimeMs));
-          tbbl.Text += $" ··· {me1.Position:m\\:ss} / {me1.NaturalDuration.TimeSpan:m\\:ss}";
+          mediaElmnt.Position = TimeSpan.FromMilliseconds(_rand.Next((int)mediaElmnt.NaturalDuration.TimeSpan.TotalMilliseconds - showTime));
+          tbbl.Text += $" ··· {mediaElmnt.Position:m\\:ss} / {mediaElmnt.NaturalDuration.TimeSpan:m\\:ss}";
         }
       }
       else
@@ -271,15 +266,14 @@ public partial class SlideShowUsrCtrl
         Debug.WriteLine($"  not video.");
       }
 
-      me1.Play(); Debug.WriteLine($"--- Play()");
-      _sbin.Begin();
-      _time.Begin();
+      mediaElmnt.Play(); Debug.WriteLine($"--- Play()");
+      _sbIntroOutro.Begin();
 
       if (autohide)
       {
         await Task.Delay(showtimeTs);
-        _sbou.Begin(); await Task.Delay(_inAndOutMs);
-        me1.Pause();
+        await Task.Delay(_inAndOutMs);
+        mediaElmnt.Pause();
 
         Visibility = Visibility.Hidden;
         await Task.Delay(_inAndOutMs * 2); //2022-01: let see other controls
