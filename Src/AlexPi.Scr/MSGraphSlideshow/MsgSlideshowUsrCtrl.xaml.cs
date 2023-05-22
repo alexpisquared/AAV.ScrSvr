@@ -6,8 +6,8 @@ namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
-  Storyboard _sbIntroOutro;
-  readonly Random _random = new(DateTime.Now.Second);
+  Storyboard? _sbIntroOutro;
+  readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
   string[] _allFilesArray = Array.Empty<string>();
   readonly LibVLC _libVLC;
@@ -29,7 +29,6 @@ public partial class MsgSlideshowUsrCtrl
   async void OnLoaded(object sender, RoutedEventArgs e)
   {
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
-
     var (success, report, result) = await new AuthUsagePOC().LogInAsync(ClientId);
     if (!success)
     {
@@ -38,6 +37,7 @@ public partial class MsgSlideshowUsrCtrl
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
+    ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
 
     _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
     {
@@ -55,8 +55,8 @@ public partial class MsgSlideshowUsrCtrl
 #endif
     WriteLine($"** {_allFilesArray.Length,8:N0}  files in {Stopwatch.GetElapsedTime(start1).TotalSeconds,5:N1} sec.");
 
-    if (DesignerProperties.GetIsInDesignMode(this)) 
-      return;    
+    if (DesignerProperties.GetIsInDesignMode(this))
+      return;
 
     while (true)
     {
@@ -93,27 +93,27 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Video is not null)
       {
         var durationInMs = StartPlayingMediaStream(taskStream.Result);
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    {durationInMs * .001:N0} sec    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb    {durationInMs * .001:N0} sec    {driveItem.Name}";
         ImageView1.Visibility = Visibility.Hidden;
         VideoView1.Visibility = Visibility.Visible;
       }
       else if (driveItem.Image is not null)
       {
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    {driveItem.Image.Width:N0}x{driveItem.Image.Height:N0}    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb    {driveItem.Image.Width:N0}x{driveItem.Image.Height:N0}    {driveItem.Name}";
         ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else if (driveItem.Photo is not null)
       {
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! PHOTO a new FILE !!!    {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! PHOTO a new FILE !!!    {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}";
         ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else
       {
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  {Stopwatch.GetElapsedTime(start).TotalSeconds:N1} sec    !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
       }
 
       ReportTL.Text = $"{driveItem.CreatedDateTime:yyyy-MM-dd}";
@@ -124,7 +124,7 @@ public partial class MsgSlideshowUsrCtrl
       _sbIntroOutro.Begin();
 
       Write($"  {Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} = {.000001 * driveItem.Size / Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} mb/sec.    {driveItem.Name}  \n");
-      
+
       ReportBC.Text = "";
     }
     catch (OperationCanceledException ex)
@@ -162,7 +162,14 @@ public partial class MsgSlideshowUsrCtrl
     var media = new LibVLCSharp.Shared.Media(_libVLC, new StreamMediaInput(stream));
 
     _ = VideoView1.MediaPlayer?.Play(media); // non-blocking
-    VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(media.Duration / 2));
+
+    if (media.Duration > _periodCurrent.TotalMicroseconds)
+    {
+      var diffMs = media.Duration - _periodCurrent.TotalMicroseconds;
+      var seekToMs = _random.Next((int)diffMs);
+
+      VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
+    }
 
     return media.Duration; // in ms
   }
