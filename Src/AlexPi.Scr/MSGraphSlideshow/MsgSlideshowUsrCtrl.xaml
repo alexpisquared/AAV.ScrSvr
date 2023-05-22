@@ -9,27 +9,19 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="20"/>
-      <ColumnDefinition Width="52"/>
-      <ColumnDefinition Width="3*"/>
-      <ColumnDefinition Width="3*"/>
-      <ColumnDefinition Width="52"/>
-      <ColumnDefinition Width="20"/>
-    </Grid.ColumnDefinitions>
-    <!--<Button Grid.Row="3" Grid.Column="4" IsDefault="True" Click="OnNext"  Content="_Next" />-->
-    <Image         Grid.Row="2"                  Grid.Column="1" Grid.ColumnSpan="2" x:Name="Image1" />
-    <Image         Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="3" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
-    <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="3" x:Name="VideoView1" Background="Transparent" />
+    <Image         Grid.Row="2"                  x:Name="Image1" />
+    <Image         Grid.Row="0" Grid.RowSpan="4" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
+    <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" x:Name="VideoView1" Background="Transparent" Opacity=".5"/>
 
-    <TextBlock x:Name="ReportTL"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
-    <TextBlock x:Name="ReportTR"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Top"    HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
-    <TextBlock x:Name="ReportBL"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
-    <TextBlock x:Name="ReportBR"   d:Text="12323" Grid.RowSpan="4" Grid.ColumnSpan="5" FontSize="26" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportTL"   d:Text="12323" Grid.RowSpan="4" FontSize="26" VerticalAlignment="Top"    HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportTR"   d:Text="12323" Grid.RowSpan="4" FontSize="26" VerticalAlignment="Top"    HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportBL"   d:Text="12323" Grid.RowSpan="4" FontSize="26" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
+    <TextBlock x:Name="ReportBR"   d:Text="12323" Grid.RowSpan="4" FontSize="26" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#ff0" Background="#8000" Padding="8 3 8 5" />
 
-
-    <TextBlock x:Name="ReportNext" d:Text="Loadg" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0"     FontSize="20" Margin="8 8 8 0" HorizontalAlignment="Center" Foreground="#fff" Padding="5" Background="#111" />
-    <TextBlock x:Name="ReportCrnt" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="1"     FontSize="20" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#ff0" Padding="5" Background="#111" />
-    <TextBlock x:Name="ReportExcn" d:Text="12323" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="4" FontSize="16" Margin="8 8 8 8" HorizontalAlignment="Center" Foreground="#f88" Padding="5" Background="#111" VerticalAlignment="Bottom" />
+    <TextBlock x:Name="ReportTC" d:Text="12323" Grid.Row="0"     FontSize="20" Margin="8 0" HorizontalAlignment="Center" Foreground="#ff0" Padding="5" Background="#8111" />
+    <TextBlock x:Name="ReportBC" d:Text="12323" Grid.RowSpan="4" FontSize="16" Margin="8 8" HorizontalAlignment="Center" Foreground="#f88" Padding="5" Background="#8111" VerticalAlignment="Bottom" />
+    
+    <Button Grid.Row="3" IsDefault="True" Click="OnNext"  Content="_Next" HorizontalAlignment="Center" />
+    
   </Grid>
 </UserControl>
