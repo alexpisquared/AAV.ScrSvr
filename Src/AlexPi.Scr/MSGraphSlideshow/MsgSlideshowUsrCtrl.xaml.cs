@@ -22,7 +22,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     InitializeComponent();
     _libVLC = new LibVLC();
-    VideoView1.MediaPlayer = new LibVLCSharp.Shared.MediaPlayer(_libVLC);
+    VideoView1.MediaPlayer = new MediaPlayer(_libVLC);
   }
 
   async void OnLoaded(object sender, RoutedEventArgs e)
@@ -183,10 +183,9 @@ public partial class MsgSlideshowUsrCtrl
   static long GetDuration(DriveItem driveItem, Media media)
   {
     if (media.Duration > 0)
-      return
-        media.Duration;        
-   
-    switch (Path.GetExtension( driveItem.Name).ToLower())
+      return media.Duration;
+
+    switch (Path.GetExtension(driveItem.Name).ToLower())
     {
       case ".mts": return (driveItem.Size ?? 0) / (20298 * 1024 / 13000); // 20298 * 1024 bytes ~~ 13000 ms
       default: return 0;

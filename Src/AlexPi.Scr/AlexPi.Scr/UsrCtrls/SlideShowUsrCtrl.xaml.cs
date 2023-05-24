@@ -17,7 +17,7 @@ public partial class SlideShowUsrCtrl
 #endif
   readonly Random _rand = new(DateTime.Now.Second);
   Storyboard _sbIntroOutro;
-  string[] _allFiles;
+  SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   string _curHistFile;
   bool _isPlaying = true;
   int _back = 0, _randIdx;
@@ -42,7 +42,7 @@ public partial class SlideShowUsrCtrl
     catch (Exception ex) { _ = ex.Log(); }
   }
 
-  async Task continueWithTheShow(string msg, int i, bool b) { Debug.WriteLine($"{msg} {i} {b}"); ctrlPanel.IsEnabled = true; await runMainLoop(_allFiles.Length); }
+  async Task continueWithTheShow(string msg, int i, bool b) { Debug.WriteLine($"{msg} {i} {b}"); ctrlPanel.IsEnabled = true; await runMainLoop(); }
 
   void onPreviewKeyUp(object s, System.Windows.Input.KeyEventArgs e)
   {
@@ -175,42 +175,24 @@ public partial class SlideShowUsrCtrl
       }
       window.PreviewKeyUp += onPreviewKeyUp;
 
-      var sw = Stopwatch.StartNew();
-
-      _allFiles = await OneDrive.GetFileNamesAsync(_wildcard);                //GetAllFiles(@"C:\", "*").ToArray();
-
-      sw.Stop();
-
-      var ttlAvail = _allFiles.Length;
-
-      tbtl.Text = $"Loaded  {ttlAvail:N0}  files in  {sw.Elapsed:m\\:ss\\.f}";
-
-      if (ttlAvail < 1)
-      {
-        tbtl.Text += " ... No show  :(";
-      }
-      else
-      {
-        await runMainLoop(ttlAvail);
-      }
+      await runMainLoop();
     }
     catch (Exception ex) { tbtl.Foreground = new SolidColorBrush(Colors.Orange); tbtl.Text = ex.Log(); }
   }
-  async Task runMainLoop(int ttlAvail)
+  async Task runMainLoop()
   {
     _isPlaying = true;
     btnPlay.Visibility = Visibility.Hidden;
 
     do
     {
-      _randIdx = _rand.Next(ttlAvail);
-      var file = _allFiles[_randIdx];
+      var file = _sizeWeightedRandomPicker.PickRandomFile().FullName;
       if (_blackList.Contains(Path.GetExtension(file).ToLower()))
       {
         continue;
       }
 
-      tbbr.Text = $"{_randIdx,6:N0} / {ttlAvail:N0}";
+      //tbbr.Text = $"{_randIdx,6:N0} / {ttlAvail:N0}";
       tbtr.Text = $"{Path.GetDirectoryName(file)} \r\n{Path.GetFileName(file)} \r\n";                    //tbtl.Text = $"{f.FileCreated:yyyy-MM-dd  HH}";
 
       tbtl.Text = $"{new FileInfo(file).LastWriteTime:MMM dd, yyyy  ddd}";
@@ -241,15 +223,27 @@ public partial class SlideShowUsrCtrl
       var showtimeTs = TimeSpan.FromMilliseconds(showTime - _inAndOutMs);
       if (MediaHelper.IsVideo(file))
       {
-        for (var i = 0; i < 100; i++)
+        tbbl.Text += $" got duration in tries: ";
+        for (var i = 1; i < 88; i++)
         {
-          tbbl.Text += ($" (got duration in {i + 1} tries) ");
+          tbbl.Text += "·";
           await Task.Delay(100);
           if (mediaElmnt.NaturalDuration.HasTimeSpan)
           {
+            tbbl.Text += $" {i}";
             break;
           }
         }
+
+        var fallbackDuration = 0L;
+        if (mediaElmnt.NaturalDuration.HasTimeSpan == false)
+          fallbackDuration = (long)mediaElmnt.NaturalDuration.TimeSpan.TotalMilliseconds;
+        else
+          switch (Path.GetExtension(file).ToLower())
+          {
+            case ".mts": fallbackDuration = (new FileInfo(file).Length) / (20298 * 1024 / 13000); break; // 20298 * 1024 bytes ~~ 13000 ms
+            default: fallbackDuration = 0; break;
+          }
 
         Debug.WriteLine($"--- {tbbl.Text}");
 
@@ -293,7 +287,7 @@ public partial class SlideShowUsrCtrl
       btnPrev.Visibility = Visibility.Hidden;
 
       lbxHist.SelectedIndex = histIdx = HistList.Count - (++_back) - 1;
-      _curHistFile = _allFiles[HistSlct = _randIdx = HistList[histIdx]];
+      //_curHistFile = _allFiles[HistSlct = _randIdx = HistList[histIdx]];
       Clipboard.SetText(_curHistFile);
       await showFile(_curHistFile, false);
       btnNext.Visibility = btnEdit.Visibility = Visibility.Visible;
@@ -314,9 +308,9 @@ public partial class SlideShowUsrCtrl
       btnPrev.Visibility = Visibility.Hidden;
 
       lbxHist.SelectedIndex = histIdx = HistList.Count - (--_back) - 1;
-      var file = _allFiles[HistList[histIdx]];
-      Clipboard.SetText(file);
-      await showFile(file, false);
+      //var file = _allFiles[HistList[histIdx]];
+      //Clipboard.SetText(file);
+      //await showFile(file, false);
       btnNext.Visibility = Visibility.Visible;
     }
     catch (Exception ex) { tbtl.Foreground = new SolidColorBrush(Colors.Orange); tbtl.Text = ex.Log(); }
@@ -326,11 +320,11 @@ public partial class SlideShowUsrCtrl
       btnNext.Visibility = histIdx < HistList.Count - 1 ? Visibility.Visible : Visibility.Hidden;
       if (btnNext.Visibility == Visibility.Hidden)
       {
-        await runMainLoop(_allFiles.Length);
+        await runMainLoop();
       }
     }
   }
-  async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop(_allFiles.Length);
+  async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop();
 
   async void lbxHist_SelectionChanged(object s, SelectionChangedEventArgs e)
   {
@@ -343,12 +337,12 @@ public partial class SlideShowUsrCtrl
     {
       _isPlaying = false;
       _randIdx = (int)e.AddedItems[0];
-      await showFile(_allFiles[_randIdx], false);
+      //await showFile(_allFiles[_randIdx], false);
     }
   }
 
-  async void btnEdit_Click(object s, RoutedEventArgs e) { ctrlPanel.IsEnabled = false; deleteUsrCtrl1.ShowEditorPanel(_allFiles, _randIdx); await Task.Yield(); }
-  async void btnDele_Click(object s, RoutedEventArgs e) { if (!EvLogHelper.IsVIP) return; ctrlPanel.IsEnabled = false; _ = new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); await continueWithTheShow("onDele", -123, false); }
+  async void btnEdit_Click(object s, RoutedEventArgs e) { ctrlPanel.IsEnabled = false; /*deleteUsrCtrl1.ShowEditorPanel(_allFiles, _randIdx); */await Task.Yield(); }
+  async void btnDele_Click(object s, RoutedEventArgs e) { if (!EvLogHelper.IsVIP) return; ctrlPanel.IsEnabled = false; /*_ = new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); */await continueWithTheShow("onDele", -123, false); }
 
 
 
