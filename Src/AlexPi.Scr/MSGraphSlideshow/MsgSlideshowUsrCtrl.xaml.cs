@@ -44,14 +44,11 @@ public partial class MsgSlideshowUsrCtrl
       await Task.CompletedTask;
     }));
 
-    WriteLine($"Log in successful. Loading media files list...");
-
 #if DEBUG
-    // _sizeWeightedRandomPicker.Serialize();
 #else
 #endif
 
-    if (DesignerProperties.GetIsInDesignMode(this)) return;
+    if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode for the consumers is a quiet one.
 
     while (true)
     {
@@ -90,7 +87,7 @@ public partial class MsgSlideshowUsrCtrl
 
       if (driveItem.Video is not null)
       {
-        var durationInMs = await StartPlayingMediaStream(taskStream.Result);
+        var durationInMs = await StartPlayingMediaStream(taskStream.Result, driveItem);
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb    {durationInMs * .001:N0} sec    {driveItem.Name}";
         ImageView1.Visibility = Visibility.Hidden;
         VideoView1.Visibility = Visibility.Visible;
@@ -104,14 +101,14 @@ public partial class MsgSlideshowUsrCtrl
       }
       else if (driveItem.Photo is not null)
       {
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! PHOTO a new FILE !!!    {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! PHOTO a new FILE !!!    {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         ImageView1.Source = await GetBipmapFromStream(taskStream.Result);
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else
       {
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
       }
 
       ReportTL.Text = $"{driveItem.CreatedDateTime:yyyy-MM-dd}";
@@ -121,7 +118,7 @@ public partial class MsgSlideshowUsrCtrl
 
       _sbIntroOutro.Begin();
 
-      Write($"*{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} mb {Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} s.{driveItem.Name,52}  ");
+      Write($"{DateTime.Now:HH:mm:ss.f}  dnld {.000001 * driveItem.Size,5:N1} mb in{Stopwatch.GetElapsedTime(start).TotalSeconds,4:N0} s.{driveItem.Name,52}  ");
 
       ReportBC.Text = "";
     }
@@ -152,25 +149,51 @@ public partial class MsgSlideshowUsrCtrl
 
     throw new Exception("No suitable media files found ▄▀▄▀▄▀▄▀▄▀▄▀");
   }
-  async Task<long> StartPlayingMediaStream(Stream stream)
+  async Task<long> StartPlayingMediaStream(Stream stream, DriveItem driveItem)
   {
-    var media = new LibVLCSharp.Shared.Media(_libVLC, new StreamMediaInput(stream));
+    var media = new Media(_libVLC, new StreamMediaInput(stream));
 
     _ = VideoView1.MediaPlayer?.Play(media); // non-blocking
 
-    for (int i = 0; i < 5 && media.Duration <= 0; i++) { await Task.Delay(1_000); }
+    for (int i = 0; i < 3 && media.Duration <= 0; i++) await Task.Delay(333);
 
-    if (media.Duration > _periodCurrent.TotalMicroseconds)
+    var durationMs = GetDuration(driveItem, media);
+    Write($"    Duration:{durationMs * .001,4:N0} s  ==> starting from ");
+    if (durationMs > _periodCurrent.TotalMilliseconds)
     {
-      var diffMs = media.Duration - _periodCurrent.TotalMicroseconds;
+      var diffMs = durationMs - _periodCurrent.TotalMilliseconds;
       var seekToMs = _random.Next((int)diffMs);
 
+      //await Task.Delay(2_500);
       VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
-      Write($"    Duration:{media.Duration*.001,4:N0} s ==> starting from {seekToMs} ms. \n");    }    
-      Write($"    Duration:{media.Duration*.001,4:N0} s ==> starting from the START. \n");
+      Write($"{seekToMs * .001,4:N0} s. \n");
+    }
+    else if (durationMs > 0)
+    {
+      WriteLine($"the START.   :it is < period: {_periodCurrent.TotalSeconds,4:N0} s. ");
+      await Task.Delay((int)durationMs);
+      _cancellationTokenSource.Cancel();
+    }
+    else
+      WriteLine($"the START.   Prorate this extension!!! ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
 
-    return media.Duration; // in ms
+    return durationMs; // in ms
   }
+
+  static long GetDuration(DriveItem driveItem, Media media)
+  {
+    if (media.Duration > 0)
+      return
+        media.Duration;        
+   
+    switch (Path.GetExtension( driveItem.Name).ToLower())
+    {
+      case ".mts": return (driveItem.Size ?? 0) / (20298 * 1024 / 13000); // 20298 * 1024 bytes ~~ 13000 ms
+      default: return 0;
+    }
+  }
+
+
   static async Task<BitmapImage> GetBipmapFromStream(Stream? stream)
   {
     ArgumentNullException.ThrowIfNull(stream, nameof(stream));
