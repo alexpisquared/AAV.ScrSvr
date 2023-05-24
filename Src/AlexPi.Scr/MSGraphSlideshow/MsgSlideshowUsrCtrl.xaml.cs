@@ -69,6 +69,7 @@ public partial class MsgSlideshowUsrCtrl
     try
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+      ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
       var driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(_thumbnails).GetAsync();      //file = $"{.000001 * driveItem.Size,8:N2} mb                              {driveItem.Name}"; // Write($"** {.000001 * driveItem.Size,8:N2} mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
 
@@ -79,7 +80,7 @@ public partial class MsgSlideshowUsrCtrl
       var taskStream = _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
       var taskDelay = Task.Delay(_periodCurrent, _cancellationTokenSource.Token);
       await Task.WhenAll(taskStream, taskDelay);
-      Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}s to get {file}");
+      // Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}s ");
 
       _periodCurrent = _sbIntroOutro.Duration.TimeSpan;
       VideoView1.MediaPlayer?.Stop();
@@ -120,7 +121,7 @@ public partial class MsgSlideshowUsrCtrl
 
       _sbIntroOutro.Begin();
 
-      Write($"  {Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} = {.000001 * driveItem.Size / Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} mb/sec.    {driveItem.Name}  \n");
+      Write($"*{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N1} mb {Stopwatch.GetElapsedTime(start).TotalSeconds,4:N1} s.{driveItem.Name,52}  ");
 
       ReportBC.Text = "";
     }
@@ -157,7 +158,7 @@ public partial class MsgSlideshowUsrCtrl
 
     _ = VideoView1.MediaPlayer?.Play(media); // non-blocking
 
-    for (int i = 0; i < 8 && media.Duration <= 0; i++) { await Task.Delay(1_000); }
+    for (int i = 0; i < 5 && media.Duration <= 0; i++) { await Task.Delay(1_000); }
 
     if (media.Duration > _periodCurrent.TotalMicroseconds)
     {
@@ -165,10 +166,8 @@ public partial class MsgSlideshowUsrCtrl
       var seekToMs = _random.Next((int)diffMs);
 
       VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
-      WriteLine($"    media.Duration: {media.Duration,8} ms ... starting from {seekToMs} ms.");
-    }
-    
-    WriteLine($"    media.Duration: {media.Duration,8} ms ... starting from the START.");
+      Write($"    Duration:{media.Duration*.001,4:N0} s ==> starting from {seekToMs} ms. \n");    }    
+      Write($"    Duration:{media.Duration*.001,4:N0} s ==> starting from the START. \n");
 
     return media.Duration; // in ms
   }
