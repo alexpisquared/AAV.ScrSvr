@@ -15,8 +15,8 @@
       <Setter Property="BorderThickness"  Value="0"/>
     </Style>
 
-    <Duration x:Key="inOuTime">0:0:05</Duration>
-    <Duration x:Key="showTime">0:0:59</Duration>
+    <Duration x:Key="inOuTime">0:0:03</Duration>
+    <Duration x:Key="showTime">0:0:09</Duration>
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
@@ -50,6 +50,8 @@
     <TextBlock   x:Name="ReportBC" d:Text="12323" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#3333" />
     <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="333" Value="33" BorderThickness="0" Height="5" Margin="1" Foreground="#0d0" Background="#f0f" />
     <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#0d0" />
-    <Button      Content="_Next" IsDefault="True" Click="OnNext" HorizontalAlignment="Right" VerticalAlignment="Center" />
+
+    <CheckBox    Content="_On"   IsChecked="True" x:Name="chkIsOn" HorizontalAlignment="Left" VerticalAlignment="Center" />
+    <Button      Content="_Next" IsDefault="True"  Click="OnNext"  HorizontalAlignment="Right" VerticalAlignment="Center" />
   </Grid>
 </UserControl>

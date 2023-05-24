@@ -9,11 +9,10 @@ public partial class MsgSlideshowUsrCtrl
   Storyboard? _sbIntroOutro;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
-  string[] _allFilesArray = Array.Empty<string>();
   readonly LibVLC _libVLC;
   TimeSpan _periodCurrent = TimeSpan.FromMicroseconds(22);
   readonly CancellationTokenSource _cancellationTokenSource = new();
-
+  SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
 #if DEBUG
 #else
@@ -47,22 +46,20 @@ public partial class MsgSlideshowUsrCtrl
 
     WriteLine($"Log in successful. Loading media files list...");
 
-    var start1 = Stopwatch.GetTimestamp();
 #if DEBUG
-    _allFilesArray = System.IO.File.ReadAllLines(@"C:\g\Microsoft-Graph\Src\msgraph-training-uwp\DemoApp\Stuff\AllFiles.txt"); //
+    // _sizeWeightedRandomPicker.Serialize();
 #else
-    _allFilesArray = await OneDrive.GetFileNamesAsync("*.*"); // System.IO.File.WriteAllLines(_allFiles, allFiles);
 #endif
-    WriteLine($"** {_allFilesArray.Length,8:N0}  files in {Stopwatch.GetElapsedTime(start1).TotalSeconds,5:N1} sec.");
 
-    if (DesignerProperties.GetIsInDesignMode(this))
-      return;
+    if (DesignerProperties.GetIsInDesignMode(this)) return;
 
     while (true)
     {
-      await LoadWaitThenShowNext();
+      if (chkIsOn.IsChecked == true)
+        await LoadWaitThenShowNext();
+      else
+        await Task.Delay(100);
     }
-    //await Testingggggggg(thm, file);
   }
 
   async Task LoadWaitThenShowNext()
@@ -82,7 +79,7 @@ public partial class MsgSlideshowUsrCtrl
       var taskStream = _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
       var taskDelay = Task.Delay(_periodCurrent, _cancellationTokenSource.Token);
       await Task.WhenAll(taskStream, taskDelay);
-      Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}");
+      Write($"{Stopwatch.GetElapsedTime(start).TotalSeconds,8:N2}s to get {file}");
 
       _periodCurrent = _sbIntroOutro.Duration.TimeSpan;
       VideoView1.MediaPlayer?.Stop();
@@ -92,7 +89,7 @@ public partial class MsgSlideshowUsrCtrl
 
       if (driveItem.Video is not null)
       {
-        var durationInMs = StartPlayingMediaStream(taskStream.Result);
+        var durationInMs = await StartPlayingMediaStream(taskStream.Result);
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N2} mb    {durationInMs * .001:N0} sec    {driveItem.Name}";
         ImageView1.Visibility = Visibility.Hidden;
         VideoView1.Visibility = Visibility.Visible;
@@ -145,23 +142,22 @@ public partial class MsgSlideshowUsrCtrl
   }
   string GetNextMediaFile()
   {
-    for (var i = 0; i < _allFilesArray.Length; i++)
+    for (var i = 0; i < _sizeWeightedRandomPicker.Count; i++)
     {
-      var next = _random.Next(_allFilesArray.Length);
-      var file = _allFilesArray[next][(OneDrive.Root.Length - Environment.UserName.Length + 5)..];
-      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb
-      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      var file = _sizeWeightedRandomPicker.PickRandomFile().FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
       if (!file.EndsWith(".nar"))
         return file;
     }
 
     throw new Exception("No suitable media files found ▄▀▄▀▄▀▄▀▄▀▄▀");
   }
-  long StartPlayingMediaStream(Stream stream)
+  async Task<long> StartPlayingMediaStream(Stream stream)
   {
     var media = new LibVLCSharp.Shared.Media(_libVLC, new StreamMediaInput(stream));
 
     _ = VideoView1.MediaPlayer?.Play(media); // non-blocking
+
+    for (int i = 0; i < 8 && media.Duration <= 0; i++) { await Task.Delay(1_000); }
 
     if (media.Duration > _periodCurrent.TotalMicroseconds)
     {
@@ -169,7 +165,10 @@ public partial class MsgSlideshowUsrCtrl
       var seekToMs = _random.Next((int)diffMs);
 
       VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
+      WriteLine($"    media.Duration: {media.Duration,8} ms ... starting from {seekToMs} ms.");
     }
+    
+    WriteLine($"    media.Duration: {media.Duration,8} ms ... starting from the START.");
 
     return media.Duration; // in ms
   }
