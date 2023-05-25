@@ -18,6 +18,15 @@ public partial class MsgSlideshowUsrCtrl
     VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
     VideoView1.MediaPlayer.EndReached += OnEndReached;
     _ = new DispatcherTimer(TimeSpan.FromMicroseconds(50), DispatcherPriority.Background, new EventHandler(OnTimerTick), Dispatcher.CurrentDispatcher);
+
+#if DEBUG
+    var showTime = (System.Windows.Duration)FindResource("showTime");
+    showTime = new System.Windows.Duration(TimeSpan.FromSeconds(9));
+
+    ((Storyboard)this.FindResource("_sbIntroOutro")).Duration = showTime;
+    ((DoubleAnimation)this.FindResource("_d1IntroOutro")).Duration = showTime;
+    ((DoubleAnimation)this.FindResource("_d2IntroOutro")).Duration = showTime;
+#endif
   }
 
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
@@ -31,6 +40,7 @@ public partial class MsgSlideshowUsrCtrl
   async void OnLoaded(object sender, RoutedEventArgs e)
   {
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
+
     var (success, report, result) = await new AuthUsagePOC().LogInAsync(ClientId);
     if (!success)
     {
@@ -46,10 +56,6 @@ public partial class MsgSlideshowUsrCtrl
       requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
       await Task.CompletedTask;
     }));
-
-#if DEBUG
-#else
-#endif
 
     if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode for the consumers is a quiet one.
 
@@ -180,7 +186,10 @@ public partial class MsgSlideshowUsrCtrl
       var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
       var file = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
       if (_blackList.Contains(Path.GetExtension(file).ToLower()) == false
-        && 16_000_000 < fileinfo.Length && fileinfo.Length < 30_000_000)
+#if DEBUG
+        && 16_000_000 < fileinfo.Length && fileinfo.Length < 30_000_000
+#endif
+        )
         return file;
     }
 

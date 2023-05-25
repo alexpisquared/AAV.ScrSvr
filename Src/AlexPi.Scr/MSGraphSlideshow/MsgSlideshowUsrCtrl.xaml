@@ -16,13 +16,16 @@
     </Style>
 
     <Duration x:Key="inOuTime">0:0:03</Duration>
-    <Duration x:Key="showTime">0:0:09</Duration>
+    <Duration x:Key="showTime">0:0:59</Duration>
+
+    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar" x:Key="_d1IntroOutro" />
+    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:54" />
-      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar" />
-      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc" Timeline.DesiredFrameRate="30" />
+      <StaticResource ResourceKey="_d1IntroOutro" />
+      <StaticResource ResourceKey="_d2IntroOutro" />
       <!--
       <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
     </Storyboard>
