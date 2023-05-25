@@ -16,7 +16,7 @@
     </Style>
 
     <Duration x:Key="inOuTime">0:0:03</Duration>
-    <Duration x:Key="showTime">0:0:09</Duration>
+    <Duration x:Key="showTime">0:0:59</Duration>
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
@@ -38,10 +38,10 @@
       </Grid.RowDefinitions>
       <Image         Grid.Row="2"                  x:Name="Image1" />
       <Image         Grid.Row="0" Grid.RowSpan="4" x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
-      <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" x:Name="VideoView1" Background="Transparent" Visibility="Collapsed">
-        <TextBlock   x:Name="ReportTC" d:Text="12323" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"    Background="#3333" />
+      <vlc:VideoView Grid.Row="2" Grid.RowSpan="1" x:Name="VideoView1" Background="Transparent" Visibility="Visible">
+        <TextBlock   x:Name="ReportTC" d:Text="12323" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"    Background="#3333" Foreground="#FF0" />
       </vlc:VideoView>
-
+      
       <TextBlock x:Name="ReportTR" d:Text="12323" Grid.RowSpan="4" VerticalAlignment="Top"    HorizontalAlignment="Right" Background="#3333" />
       <TextBlock x:Name="ReportTL" d:Text="12323" Grid.RowSpan="1" VerticalAlignment="Top"    HorizontalAlignment="Left"  Background="#3333" />
       <TextBlock x:Name="ReportBL" d:Text="12323" Grid.RowSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="#3333" />

@@ -21,7 +21,7 @@ public partial class MsgSlideshowUsrCtrl
   public MsgSlideshowUsrCtrl()
   {
     InitializeComponent();
-    _libVLC = new LibVLC();
+    _libVLC = new LibVLC(enableDebugLogs: true);
     VideoView1.MediaPlayer = new MediaPlayer(_libVLC);
   }
 
