@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
-using Microsoft.Graph;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 26;
@@ -16,24 +10,22 @@ public partial class MsgSlideshowUsrCtrl
   TimeSpan _periodCurrent = TimeSpan.FromMicroseconds(22);
   CancellationTokenSource _cancellationTokenSource = new();
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  readonly DispatcherTimer _seekBarTimer;
 
   public MsgSlideshowUsrCtrl()
   {
     InitializeComponent();
     _libVLC = new LibVLC(enableDebugLogs: true);
     VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
-
     VideoView1.MediaPlayer.EndReached += OnEndReached;
-    _seekBarTimer = new(TimeSpan.FromMicroseconds(50), DispatcherPriority.Background, new EventHandler(OnTimerTick), Dispatcher.CurrentDispatcher);
+    _ = new DispatcherTimer(TimeSpan.FromMicroseconds(50), DispatcherPriority.Background, new EventHandler(OnTimerTick), Dispatcher.CurrentDispatcher);
   }
 
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
   void OnTimerTick(object? sender, EventArgs e)
   {
     //try    {
-      SeekBar.Maximum = 1; 
-      SeekBar.Value = VideoView1.MediaPlayer?.Position ?? 0;
+    SeekBar.Maximum = 1;
+    SeekBar.Value = VideoView1.MediaPlayer?.Position ?? 0;
     //}    catch (Exception ex)    {      WriteLine(ex);    }
   }
   async void OnLoaded(object sender, RoutedEventArgs e)
@@ -76,7 +68,7 @@ public partial class MsgSlideshowUsrCtrl
   async Task LoadWaitThenShowNext()
   {
     string adtn = "---", report2 = "---";
-    TimeSpan periodOrDnldTime = TimeSpan.Zero;
+    var periodOrDnldTime = TimeSpan.Zero;
     DriveItem? driveItem = default;
 
     var file = GetRandomMediaFile();
@@ -155,7 +147,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       WriteLine($"{DateTime.Now:HH:mm:ss.f}  dnld{.000001 * driveItem?.Size,6:N1}mb in{periodOrDnldTime.TotalSeconds,3:N0}s{adtn,20}{driveItem?.Name,52}  {report2} ");
       ReportBC.Text = "";
-      ReportTL.Text = $"{driveItem.CreatedDateTime:yyyy-MM-dd}";
+      ReportTL.Text = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       //ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
       //ReportBL.Text = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
       //ReportBR.Text = $"{driveItem.LastModifiedBy}    {driveItem.LastModifiedByUser}  ";
@@ -202,15 +194,15 @@ public partial class MsgSlideshowUsrCtrl
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@@");
 
     VideoView1.MediaPlayer.Volume = _volumePerc;
-    var playSucces = VideoView1.MediaPlayer.Play(media); 
+    var playSucces = VideoView1.MediaPlayer.Play(media);
     rv = ($"►{(playSucces ? "+" : "-")} ");
 
-    int i=1;
+    var i = 1;
     for (; i < 32 && media.Duration <= 0; i++)
     {
       await Task.Delay(50);
     }
-        
+
     rv += ($" got durn on i={i} try");
 
     VideoView1.MediaPlayer.Volume = _volumePerc;
@@ -258,17 +250,18 @@ public partial class MsgSlideshowUsrCtrl
   }
   static long TryGetBetterDuration(DriveItem driveItem, Media media)
   {
-    if (media.Duration > 0)
-      return media.Duration;
-
-    return Path.GetExtension(driveItem.Name).ToLower() switch
-    {
-      ".mts" => (driveItem.Size ?? 0) / (20298 * 1024 / 13000),// 20298 * 1024 bytes ~~ 13000 ms
-      _ => 0,
-    };
+    return media.Duration > 0
+      ? media.Duration
+      : Path.GetExtension(driveItem.Name).ToLower() switch
+      {
+        ".mts" => (driveItem.Size ?? 0) / (20298 * 1024 / 13000),// 20298 * 1024 bytes ~~ 13000 ms
+        _ => 0,
+      };
   }
 
+#pragma warning disable IDE0051 // Remove unused private members
   async Task Testingggggggg(string thm, string file)
+#pragma warning restore IDE0051 // Remove unused private members
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
