@@ -132,7 +132,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         adtn = $"img";
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}";
-        streamReport = $"{driveItem.Image.Width,28:N0}x{driveItem.Image.Height,-8:N0}";
+        streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result)).bitmapImage;
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -196,7 +196,17 @@ public partial class MsgSlideshowUsrCtrl
       ".ini",
       ".log",
 #if DEBUG
+      ".3gp",
+      ".dng",
       ".jpg",
+      ".mov",
+      ".mp4",
+      ".mpg",
+      ".mpo",
+      ".MPO",
+      ".mts",
+      ".png",
+      ".wmv",
 #endif
       ".manifest",
       ".nar",
@@ -212,7 +222,7 @@ public partial class MsgSlideshowUsrCtrl
       var file = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
       if (_blackList.Contains(Path.GetExtension(file).ToLower()) == false
 #if DEBUG
-        && 5_000_000 < fileinfo.Length && fileinfo.Length < 10_000_000
+        && 5_000_000 < fileinfo.Length && fileinfo.Length < 20_000_000
 #endif
         )
         return file;
@@ -247,11 +257,9 @@ public partial class MsgSlideshowUsrCtrl
       report2 += ($"{seekToMs * .001,3:N0}s               .");
     }
     else if (durationMs > 0)
-    {
-      report2 += ($"{'°',3:N0}  :it's <{_maxShowTime.TotalSeconds,3}s prd");
-    }
+      report2 += ($"  °  :it's <{_maxShowTime.TotalSeconds,3}s prd");
     else
-      report2 += ($"the START.   Prorate this extension!!! ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
+      report2 += ($"  °  Prorate this ext! ▄▀▄▀");
 
     return (durationMs, report2); // in ms
   }
@@ -283,6 +291,7 @@ public partial class MsgSlideshowUsrCtrl
       ? (media.Duration, rv)
       : Path.GetExtension(driveItem.Name).ToLower() switch
       {
+        ".m2ts" => ((driveItem.Size ?? 0) / (38208 * 1024 / 13000), rv),
         ".mts" => ((driveItem.Size ?? 0) / (20298 * 1024 / 13000), rv),
         _ => (0, "//todo"),
       };

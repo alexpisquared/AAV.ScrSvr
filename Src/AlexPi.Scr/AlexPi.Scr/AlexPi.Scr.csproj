@@ -11,6 +11,8 @@
     <UserSecretsId>f0662977-c0c7-4b93-8d37-62fcb71fd167</UserSecretsId>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <!--<UseWindowsForms>true</UseWindowsForms>-->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

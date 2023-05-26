@@ -8,3 +8,5 @@ using System.Windows;
                                               //(used if a resource is not found in the page,
                                               // app, or any theme specific resource dictionaries)
 )]
+
+[assembly: AssemblyVersion("0.27.*")]         //n84: <== add this here and these 2 lines to CsProj:
