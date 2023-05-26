@@ -8,7 +8,7 @@ public partial class MsgSlideshowUsrCtrl
   GraphServiceClient? _graphServiceClient;
   readonly LibVLC _libVLC;
   TimeSpan _maxShowTime = TimeSpan.FromMicroseconds(22);
-  CancellationTokenSource _cancellationTokenSource;
+  CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
 #if DEBUG
   const int _maxMs = 9000;
@@ -75,13 +75,13 @@ public partial class MsgSlideshowUsrCtrl
     }
   }
   void OnClose(object sender, RoutedEventArgs e) => Close();
-  void OnNext(object sender, RoutedEventArgs e) => _cancellationTokenSource.Cancel();
-  void OnEndReached(object? sender, EventArgs e) => _cancellationTokenSource.Cancel();
+  void OnNext(object sender, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnEndReached(object? sender, EventArgs e) => _cancellationTokenSource?.Cancel();
 
   async Task LoadWaitThenShowNext()
   {
     string adtn = "----", streamReport = "-- ", cnacReport = "";
-    var periodOrDnldTime = TimeSpan.Zero;
+    var dnldTime = TimeSpan.Zero;
     DriveItem? driveItem = default;
 
     var file = GetRandomMediaFile();
@@ -97,14 +97,13 @@ public partial class MsgSlideshowUsrCtrl
 
       ReportTR.Content += $"{driveItem.Name}  {.000001 * driveItem.Size,8:N1}mb ...\n";
 
-      var start = Stopwatch.GetTimestamp();
-
-      var taskStream = _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+      var taskStream = TaskDownloadStream(file);
       try
       {
         _cancellationTokenSource = new();
         var taskDelay = Task.Delay(_currentShowTimeMS, _cancellationTokenSource.Token);
         await Task.WhenAll(taskStream, taskDelay);
+        dnldTime = taskStream.Result.dnldTime;
       }
       catch (OperationCanceledException) { cnacReport = ($"<<<Cancel>>"); }
       catch (Exception ex)
@@ -115,9 +114,7 @@ public partial class MsgSlideshowUsrCtrl
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
-      finally { _cancellationTokenSource.Dispose(); }
-
-      periodOrDnldTime = Stopwatch.GetElapsedTime(start);
+      finally { _cancellationTokenSource?.Dispose(); }
 
       _maxShowTime = TimeSpan.FromMilliseconds(_maxMs);
 
@@ -133,14 +130,14 @@ public partial class MsgSlideshowUsrCtrl
         adtn = $"img";
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
-        ImageView1.Source = (await GetBipmapFromStream(taskStream.Result)).bitmapImage;
+        ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else if (driveItem.Video is not null)
       {
         adtn = $"Video";
-        var (durationInMs, report) = await StartPlayingMediaStream(taskStream.Result, driveItem);
+        var (durationInMs, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name,-52}";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
@@ -150,7 +147,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         adtn = $"Photo■■";
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
-        ImageView1.Source = (await GetBipmapFromStream(taskStream.Result)).bitmapImage;
+        ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
@@ -173,7 +170,7 @@ public partial class MsgSlideshowUsrCtrl
     }
     finally
     {
-      WriteLine($"{DateTime.Now:HH:mm:ss.f}  dnld{.000001 * driveItem?.Size,6:N1}mb in{periodOrDnldTime.TotalSeconds,3:N0}s{adtn,8}  {streamReport,-55}{driveItem?.Name,52}  {cnacReport}");
+      WriteLine($"{DateTime.Now:HH:mm:ss.f}  dnld{.000001 * driveItem?.Size,6:N1}mb in{dnldTime.TotalSeconds,3:N0}s{adtn,8}  {streamReport,-55}{driveItem?.Name,52}  {cnacReport}");
       ReportBC.Text = "";
       ReportTL.Text = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       //ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
@@ -183,6 +180,17 @@ public partial class MsgSlideshowUsrCtrl
       _currentShowTimeMS = _maxMs;
     }
   }
+
+  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStream(string file)
+  {
+    ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+    var start = Stopwatch.GetTimestamp();
+    var stream =  await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+    var dnldTm = Stopwatch.GetElapsedTime(start);
+
+    return (stream, dnldTm);
+  }
+
   string GetRandomMediaFile()
   {
     var _blackList = new string[] {
