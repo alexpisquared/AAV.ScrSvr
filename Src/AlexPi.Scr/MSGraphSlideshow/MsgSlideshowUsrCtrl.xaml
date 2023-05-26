@@ -46,7 +46,7 @@
         </StackPanel>
       </vlc:VideoView>
       
-      <Label     x:Name="ReportTR" d:Content="2023-05-25&#10;adfsaf" VerticalAlignment="Top"    HorizontalAlignment="Right" Background="#3333" HorizontalContentAlignment="Right" Foreground="#f0f" />
+      <Label     x:Name="ReportTR" d:Content="2023-05-25&#10;adfsaf" VerticalAlignment="Top"    HorizontalAlignment="Right" Background="#3333" HorizontalContentAlignment="Right" Foreground="#f8f" />
       <TextBlock x:Name="ReportTL" d:Text="Abc efg 12323" VerticalAlignment="Top"    HorizontalAlignment="Left"  Background="#3333" />
       <TextBlock x:Name="ReportBL" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="#3333" />
       <TextBlock x:Name="ReportBR" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#3333" />
