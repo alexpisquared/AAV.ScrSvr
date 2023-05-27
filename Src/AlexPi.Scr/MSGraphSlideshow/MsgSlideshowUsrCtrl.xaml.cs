@@ -7,7 +7,6 @@ public partial class MsgSlideshowUsrCtrl
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
   readonly LibVLC _libVLC;
-  TimeSpan _maxShowTime = TimeSpan.FromMicroseconds(22);
   CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
 #if DEBUG
@@ -15,7 +14,7 @@ public partial class MsgSlideshowUsrCtrl
 #else
   const int _maxMs = 59000;
 #endif
-  int _currentShowTimeMS = _maxMs;
+  int _currentShowTimeMS = 0;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -110,14 +109,12 @@ public partial class MsgSlideshowUsrCtrl
       catch (Exception ex)
       {
         ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
-        WriteLine($"\nERROR inner for  {file}  {ReportTC.Text}  {ex.Message}\n");
+        WriteLine($"\nERROR inner for  {file}  {ReportBC.Text}  {ex.Message}\n");
         System.Media.SystemSounds.Hand.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
-
-      _maxShowTime = TimeSpan.FromMilliseconds(_maxMs);
 
       ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@++++++++@");
       //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
@@ -130,17 +127,19 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
-        ReportTC.Text = $"{.000001 * driveItem.Size,5:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}  ";
+        ReportBC.Text = $"{.000001 * driveItem.Size,5:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}  ";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         //VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
+        SetAnimeDurationInMS(_maxMs);
+        _sbIntroOutro?.Begin();
       }
       else if (driveItem.Video is not null)
       {
         mediaType = $"Video";
         var (durationInMs, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
-        ReportTC.Text = $"{.000001 * driveItem.Size,6:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name}  ";
+        ReportBC.Text = $"{.000001 * driveItem.Size,6:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name}  ";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
         VideoView1.Visibility = Visibility.Visible;
@@ -148,7 +147,7 @@ public partial class MsgSlideshowUsrCtrl
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
+        ReportBC.Text = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         //VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -156,13 +155,13 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Text = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
       }
     }
     catch (Exception ex)
     {
       ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
-      WriteLine($"\nERROR outer for  {file}  {ReportTC.Text}  {ex.Message}\n");
+      WriteLine($"\nERROR outer for  {file}  {ReportBC.Text}  {ex.Message}\n");
       System.Media.SystemSounds.Hand.Play();
 
       if (Debugger.IsAttached)
@@ -173,7 +172,6 @@ public partial class MsgSlideshowUsrCtrl
     finally
     {
       WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-55}{driveItem?.Name,52}  {cancelReport}");
-      ReportBC.Text = "";
       ReportTL.Text = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       //ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
       //ReportBL.Text = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
@@ -260,9 +258,9 @@ public partial class MsgSlideshowUsrCtrl
     _sbIntroOutro?.Begin();
 
     var report2 = $"{report}{durationMs * .001,4:N0}s-durn: seekTo";
-    if (durationMs > _maxShowTime.TotalMilliseconds)
+    if (durationMs > _currentShowTimeMS)
     {
-      var diffMs = durationMs - _maxShowTime.TotalMilliseconds;
+      var diffMs = durationMs - _currentShowTimeMS;
       var seekToMs = _random.Next((int)diffMs);
       var percd100 = (double)seekToMs / durationMs;
       SeekBar.Value = percd100;
@@ -286,11 +284,11 @@ public partial class MsgSlideshowUsrCtrl
       rectRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
     }
     else if (durationMs > 0)
-      report2 += ($"  °  :it's <{_maxShowTime.TotalSeconds,3}s prd");
+      report2 += ($"  °  :it's <{_maxMs*.001,3:N0}s prd");
     else
       report2 += ($"  °  Prorate this ext! ▄▀▄▀");
 
-    if (durationMs <= _maxShowTime.TotalMilliseconds)
+    if (durationMs <= _currentShowTimeMS)
     {
       rectMiddl.Width = 0;
     }
