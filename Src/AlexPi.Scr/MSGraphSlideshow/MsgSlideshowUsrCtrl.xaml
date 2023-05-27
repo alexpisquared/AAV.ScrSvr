@@ -2,7 +2,7 @@
              xmlns:local="clr-namespace:MSGraphSlideshow"
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
              xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Transparent" Loaded="OnLoaded">
+             d:DesignHeight="450" d:DesignWidth="900" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
     <Style TargetType="TextBlock">
       <Setter Property="FontSize"         Value="26" />
@@ -29,37 +29,47 @@
       <!--
       <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
     </Storyboard>
-
   </UserControl.Resources>
-  <Grid>
     <Grid Name="mediaElmnt" >
-      <Image         x:Name="Image1" />
       <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
-      <vlc:VideoView x:Name="VideoView1" d:Visibility="Collapsed" Margin="0 5 0 0" Background="Transparent" >
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
-          <ProgressBar x:Name="SeekBar" Width="500" Value=".33" Maximum="1" BorderThickness="0" Height="5" Margin="0" Foreground="#0d0" Background="#808" />
-          <TextBlock   x:Name="ReportTC" d:Text="12323" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"    Background="#8000" Foreground="#FF0" />
-          <!--<Button Content="PLAY" x:Name="PlayButton" Height="25" Width="50" Click="Play_Clicked" />
+      <vlc:VideoView x:Name="VideoView1" Margin="0 0 0 0" Background="Transparent" >
+        <Grid>
+          <TextBlock   x:Name="ReportTC" d:Text="12323" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" Background="#8000" Foreground="#FF0" />
+          <!--
+          <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Content="PLAY" x:Name="PlayButton" Height="25" Width="50" Click="Play_Clicked" />
           <Button Content="Paus" x:Name="PausButton" Height="25" Width="50" Click="Paus_Clicked" />
           <Button Content="STOP" x:Name="StopButton" Height="25" Width="50" Click="Stop_Clicked" />
-          <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>-->
-        </StackPanel>
+          <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>
+          </StackPanel>
+          -->
+
+          <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="500" Value="50"             BorderThickness="0" Height="10" Margin="00" Foreground="#0d0" Background="#808" />
+
+          <Viewbox VerticalAlignment="Top" HorizontalAlignment="Center" Width="500" Height="10" Margin="0 10" Stretch="Uniform">
+            <StackPanel  x:Name="rectTotal" Width="1000"   Orientation="Horizontal" Height="30" >
+              <Rectangle x:Name="rectStart" Width="800" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+              <Rectangle x:Name="rectMiddl" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="#00f" />
+              <Rectangle x:Name="rectRest1" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+            </StackPanel>
+          </Viewbox>
+
+          <ProgressBar x:Name="SeekBar"     VerticalAlignment="Top" HorizontalAlignment="Center" Width="500" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#0d0" Background="#808" Opacity="1"/>
+
+          <Label       x:Name="ReportTR" d:Content="2023-05-25&#10;adfsaf" VerticalAlignment="Top"    HorizontalAlignment="Right" Background="#3333" HorizontalContentAlignment="Right" Foreground="#fcf" />
+          <TextBlock   x:Name="ReportTL" d:Text="Abc efg 12323" VerticalAlignment="Top"    HorizontalAlignment="Left"   FontSize="26" Background="#8000" Foreground="#FF0" />
+          <TextBlock   x:Name="ReportBL" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Left"   FontSize="20" Background="#8000" Foreground="#FF0" />
+          <TextBlock   x:Name="ReportBR" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Right"  FontSize="20" Background="#8000" Foreground="#FF0" />
+          <TextBlock   x:Name="ReportBC" d:Text="ERROR REPORT"  VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="16" Background="#3333" Foreground="#Fa0" />
+
+          <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#0d0" Bckgr="#808" />
+
+          <CheckBox    Content="_On"   IsChecked="True" x:Name="chkIsOn" VerticalAlignment="Center" HorizontalAlignment="Left"   />
+          <Button      Content="_Next" IsDefault="True"  Click="OnNext"  VerticalAlignment="Center" HorizontalAlignment="Right"  />
+        </Grid>
       </vlc:VideoView>
-      
-      <Label     x:Name="ReportTR" d:Content="2023-05-25&#10;adfsaf" VerticalAlignment="Top"    HorizontalAlignment="Right" Background="#3333" HorizontalContentAlignment="Right" Foreground="#f8f" />
-      <TextBlock x:Name="ReportTL" d:Text="Abc efg 12323" VerticalAlignment="Top"    HorizontalAlignment="Left"  Background="#3333" />
-      <TextBlock x:Name="ReportBL" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Background="#3333" />
-      <TextBlock x:Name="ReportBR" d:Text="Abc efg 12323" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#3333" />
     </Grid>
-
-    <TextBlock   x:Name="ReportBC" d:Text="12323" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#3333" />
-    <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="500" Value="33" BorderThickness="0" Height="5" Margin="0" Foreground="#0d0" Background="#808" />
-    <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#0d0" Bckgr="#808" />
-
-    <CheckBox    Content="_On"   IsChecked="True" x:Name="chkIsOn" HorizontalAlignment="Left"   VerticalAlignment="Center" />
-    <Button      Content="_Next" IsDefault="True"  Click="OnNext"  HorizontalAlignment="Center" VerticalAlignment="Top" />
-
-    <!--https://stackoverflow.com/questions/60968814/how-to-intercept-errors-and-change-the-style-of-libvlcsharp-xamarin-forms
+  <!--https://stackoverflow.com/questions/60968814/how-to-intercept-errors-and-change-the-style-of-libvlcsharp-xamarin-forms
     <vlc:MediaPlayerElement x:Name="VideoView"
                             AbsoluteLayout.LayoutFlags="All"
                             EnableRendererDiscovery="False"
@@ -106,5 +116,4 @@
         </vlc:PlaybackControls>
       </vlc:MediaPlayerElement.PlaybackControls>
     </vlc:MediaPlayerElement>-->
-  </Grid>
 </UserControl>

@@ -23,7 +23,7 @@ public partial class MsgSlideshowUsrCtrl
     _libVLC = new LibVLC(enableDebugLogs: true);
     VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
     VideoView1.MediaPlayer.EndReached += OnEndReached;
-    _ = new DispatcherTimer(TimeSpan.FromMicroseconds(50), DispatcherPriority.Background, new EventHandler(OnTimerTick), Dispatcher.CurrentDispatcher);
+    _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
   }
 
   void SetAnimeDurationInMS(long ms)
@@ -37,11 +37,12 @@ public partial class MsgSlideshowUsrCtrl
   }
 
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
-  void OnTimerTick(object? sender, EventArgs e)
+  void OnMoveProgressBarTimerTick(object? sender, EventArgs e)
   {
     //try    {
     SeekBar.Maximum = 1;
     SeekBar.Value = VideoView1.MediaPlayer?.Position ?? 0;
+    //WriteLine($"  Psn:{VideoView1.MediaPlayer?.Position,6:N2}   timer");
     //}    catch (Exception ex)    {      WriteLine(ex);    }
   }
   async void OnLoaded(object sender, RoutedEventArgs e)
@@ -80,9 +81,9 @@ public partial class MsgSlideshowUsrCtrl
 
   async Task LoadWaitThenShowNext()
   {
-    string adtn = "----", streamReport = "-- ", cnacReport = "";
+    string mediaType = "----", streamReport = "-- ", cancelReport = "";
     var dnldTime = TimeSpan.Zero;
-    DriveItem? driveItem = default;
+    var driveItem = (DriveItem?)default;
 
     var file = GetRandomMediaFile();
 
@@ -95,7 +96,7 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return;
 
-      ReportTR.Content += $"{driveItem.Name}  {.000001 * driveItem.Size,8:N1}mb ...\n";
+      ReportTR.Content += $" {driveItem.Name} \n";
 
       var taskStream = TaskDownloadStream(file);
       try
@@ -105,7 +106,7 @@ public partial class MsgSlideshowUsrCtrl
         await Task.WhenAll(taskStream, taskDelay);
         dnldTime = taskStream.Result.dnldTime;
       }
-      catch (OperationCanceledException) { cnacReport = ($"<<<Cancel>>"); }
+      catch (OperationCanceledException) { cancelReport = "<CTS.Cancel>"; }
       catch (Exception ex)
       {
         ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
@@ -114,12 +115,13 @@ public partial class MsgSlideshowUsrCtrl
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
-      finally { _cancellationTokenSource?.Dispose(); }
+      finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       _maxShowTime = TimeSpan.FromMilliseconds(_maxMs);
 
-      if (VideoView1.MediaPlayer?.CanPause == true)
-        VideoView1.MediaPlayer?.Pause();
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@++++++++@");
+      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
+      VideoView1.MediaPlayer.Stop();
 
 #if DEBUG
       System.Media.SystemSounds.Beep.Play();
@@ -127,33 +129,33 @@ public partial class MsgSlideshowUsrCtrl
 
       if (driveItem.Image is not null)
       {
-        adtn = $"img";
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}";
+        mediaType = $"img";
+        ReportTC.Text = $"{.000001 * driveItem.Size,5:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}  ";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoView1.Visibility = Visibility.Hidden;
+        //VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else if (driveItem.Video is not null)
       {
-        adtn = $"Video";
+        mediaType = $"Video";
         var (durationInMs, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
-        ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name,-52}";
+        ReportTC.Text = $"{.000001 * driveItem.Size,6:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name}  ";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
         VideoView1.Visibility = Visibility.Visible;
       }
       else if (driveItem.Photo is not null)
       {
-        adtn = $"Photo■■";
+        mediaType = $"■Photo■";
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoView1.Visibility = Visibility.Hidden;
+        //VideoView1.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else
       {
-        adtn = $"■ else ■";
+        mediaType = $"■ else ■";
         ReportTC.Text = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
       }
     }
@@ -170,7 +172,7 @@ public partial class MsgSlideshowUsrCtrl
     }
     finally
     {
-      WriteLine($"{DateTime.Now:HH:mm:ss.f}  dnld{.000001 * driveItem?.Size,6:N1}mb in{dnldTime.TotalSeconds,3:N0}s{adtn,8}  {streamReport,-55}{driveItem?.Name,52}  {cnacReport}");
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-55}{driveItem?.Name,52}  {cancelReport}");
       ReportBC.Text = "";
       ReportTL.Text = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       //ReportTR.Text = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
@@ -185,7 +187,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream =  await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+    var stream = await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     return (stream, dnldTm);
@@ -206,12 +208,13 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG
       ".3gp",
       ".dng",
-      ".jpg",
+      //".jpg",
       ".mov",
       ".mp4",
       ".mpg",
       ".mpo",
       ".MPO",
+      ".m2ts",
       ".mts",
       ".png",
       ".wmv",
@@ -230,7 +233,7 @@ public partial class MsgSlideshowUsrCtrl
       var file = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
       if (_blackList.Contains(Path.GetExtension(file).ToLower()) == false
 #if DEBUG
-        && 5_000_000 < fileinfo.Length && fileinfo.Length < 20_000_000
+        && 2_000_000 < fileinfo.Length && fileinfo.Length < 90_000_000
 #endif
         )
         return file;
@@ -244,8 +247,9 @@ public partial class MsgSlideshowUsrCtrl
 
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@@");
 
+    //VideoView1.MediaPlayer.Media = media;
     var playSucces = VideoView1.MediaPlayer.Play(media);
-    var report2 = $"►{(playSucces ? "+" : "-")} ";
+    //var report2 = $"►{(playSucces ? "+" : "-")} ";
 
     VideoView1.MediaPlayer.Volume = _volumePerc;
     VideoView1.MediaPlayer.Mute = VideoView1.MediaPlayer.Volume != _volumePerc;
@@ -255,19 +259,41 @@ public partial class MsgSlideshowUsrCtrl
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
 
-    report2 += ($"{report}{durationMs * .001,4:N0}s-durn: seekTo");
+    var report2 = $"{report}{durationMs * .001,4:N0}s-durn: seekTo";
     if (durationMs > _maxShowTime.TotalMilliseconds)
     {
       var diffMs = durationMs - _maxShowTime.TotalMilliseconds;
       var seekToMs = _random.Next((int)diffMs);
+      var percd100 = (double)seekToMs / durationMs;
+      SeekBar.Value = percd100;
 
-      VideoView1.MediaPlayer?.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
-      report2 += ($"{seekToMs * .001,3:N0}s               .");
+      //await Task.Delay(2000);      System.Media.SystemSounds.Hand.Play();
+
+      VideoView1.MediaPlayer.SetPause(true);
+      VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
+      VideoView1.MediaPlayer.SetPause(false);
+
+      //while (VideoView1.MediaPlayer.Position < percd100)      {        VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMs));        await Task.Delay(10);        Write("!");      }
+
+      //WriteLine($"      {percd100,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMs):mm\\:ss}         <== new setting to !!!!!!!");
+      //WriteLine($"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
+
+      report2 += $"{seekToMs * .001,3:N0}s {(VideoView1.MediaPlayer.Position < percd100 ? ("FAILED " + Path.GetExtension(driveItem.Name).ToLower()): "++")}";
+
+      var k = 1000.0 / durationMs;
+      rectStart.Width = seekToMs * k;
+      rectMiddl.Width = _currentShowTimeMS * k;
+      rectRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
     }
     else if (durationMs > 0)
       report2 += ($"  °  :it's <{_maxShowTime.TotalSeconds,3}s prd");
     else
       report2 += ($"  °  Prorate this ext! ▄▀▄▀");
+
+    if (durationMs <= _maxShowTime.TotalMilliseconds)
+    {
+      rectMiddl.Width = 0;
+    }
 
     return (durationMs, report2); // in ms
   }
@@ -311,7 +337,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
-    Image1.Source = (await GetBipmapFromStream(await _graphServiceClient.Me.Photo.Content.Request().GetAsync())).bitmapImage;
+    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient.Me.Photo.Content.Request().GetAsync())).bitmapImage;
     _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
