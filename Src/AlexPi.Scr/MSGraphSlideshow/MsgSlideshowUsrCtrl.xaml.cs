@@ -39,8 +39,8 @@ public partial class MsgSlideshowUsrCtrl
   void OnMoveProgressBarTimerTick(object? sender, EventArgs e)
   {
     //try    {
-    SeekBar.Maximum = 1;
-    SeekBar.Value = VideoView1.MediaPlayer?.Position ?? 0;
+    VideoProgress.Maximum = 1;
+    VideoProgress.Value = VideoView1.MediaPlayer?.Position ?? 0;
     //WriteLine($"  Psn:{VideoView1.MediaPlayer?.Position,6:N2}   timer");
     //}    catch (Exception ex)    {      WriteLine(ex);    }
   }
@@ -84,20 +84,20 @@ public partial class MsgSlideshowUsrCtrl
     var dnldTime = TimeSpan.Zero;
     var driveItem = (DriveItem?)default;
 
-    var file = GetRandomMediaFile();
+    var pathfile = GetRandomMediaFile();
 
     try
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
-      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(pathfile).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return;
 
       ReportTR.Content += $" {driveItem.Name} \n";
 
-      var taskStream = TaskDownloadStream(file);
+      var taskStream = TaskDownloadStream(pathfile);
       try
       {
         _cancellationTokenSource = new();
@@ -108,8 +108,8 @@ public partial class MsgSlideshowUsrCtrl
       catch (OperationCanceledException) { cancelReport = "<CTS.Cancel>"; }
       catch (Exception ex)
       {
-        ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
-        WriteLine($"\nERROR inner for  {file}  {ReportBC.Text}  {ex.Message}\n");
+        ReportBC.Text = $"** ERROR: {ex.Message}\n  {pathfile}";
+        WriteLine($"\nERROR inner for  {pathfile}  {ReportBC.Text}  {ex.Message}\n");
         System.Media.SystemSounds.Hand.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
@@ -127,10 +127,10 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
-        ReportBC.Text = $"{.000001 * driveItem.Size,5:N1}mb    {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}    {driveItem.Name}  ";
+        ReportBC.Text = $"{.000001 * driveItem.Size,5:N1}mb        {driveItem.Image.Width,8:N0}x{driveItem.Image.Height,-8:N0}        {driveItem.Name}  ";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        //VideoView1.Visibility = Visibility.Hidden;
+        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
@@ -139,29 +139,31 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"Video";
         var (durationInMs, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
-        ReportBC.Text = $"{.000001 * driveItem.Size,6:N1}mb    {durationInMs * .001:N0}s-durn    {driveItem.Name}  ";
+        ReportBC.Text = $"{.000001 * driveItem.Size,6:N1}mb        {durationInMs * .001:N0}s-durn        {driveItem.Name}  ";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-        VideoView1.Visibility = Visibility.Visible;
+        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Visible;        //VideoView1.Visibility =
       }
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
         ReportBC.Text = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake}x{driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
+        WriteLine($"  {pathfile}  {ReportBC.Text}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        //VideoView1.Visibility = Visibility.Hidden;
+        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
         ImageView1.Visibility = Visibility.Visible;
       }
       else
       {
         mediaType = $"■ else ■";
         ReportBC.Text = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        WriteLine($"  {pathfile}  {ReportBC.Text}  ");
       }
     }
     catch (Exception ex)
     {
-      ReportBC.Text = $"** ERROR: {ex.Message}\n  {file}";
-      WriteLine($"\nERROR outer for  {file}  {ReportBC.Text}  {ex.Message}\n");
+      ReportBC.Text = $"** ERROR: {ex.Message}\n  {pathfile}";
+      WriteLine($"\nERROR outer for  {pathfile}  {ReportBC.Text}  {ex.Message}\n");
       System.Media.SystemSounds.Hand.Play();
 
       if (Debugger.IsAttached)
@@ -228,13 +230,13 @@ public partial class MsgSlideshowUsrCtrl
     for (var i = 0; i < _sizeWeightedRandomPicker.Count; i++)
     {
       var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
-      var file = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
-      if (_blackList.Contains(Path.GetExtension(file).ToLower()) == false
+      var pathfile = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
         && 2_000_000 < fileinfo.Length && fileinfo.Length < 90_000_000
 #endif
         )
-        return file;
+        return pathfile;
     }
 
     throw new Exception("No suitable media files found ▄▀▄▀▄▀▄▀▄▀▄▀");
@@ -263,7 +265,7 @@ public partial class MsgSlideshowUsrCtrl
       var diffMs = durationMs - _currentShowTimeMS;
       var seekToMs = _random.Next((int)diffMs);
       var percd100 = (double)seekToMs / durationMs;
-      SeekBar.Value = percd100;
+      VideoProgress.Value = percd100;
 
       //await Task.Delay(2000);      System.Media.SystemSounds.Hand.Play();
 
@@ -276,7 +278,7 @@ public partial class MsgSlideshowUsrCtrl
       //WriteLine($"      {percd100,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMs):mm\\:ss}         <== new setting to !!!!!!!");
       //WriteLine($"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
-      report2 += $"{seekToMs * .001,3:N0}s {(VideoView1.MediaPlayer.Position < percd100 ? ("FAILED " + Path.GetExtension(driveItem.Name).ToLower()): "++")}";
+      report2 += $"{seekToMs * .001,3:N0}s {(VideoView1.MediaPlayer.Position < percd100 ? ("FAILED " + Path.GetExtension(driveItem.Name).ToLower()) : "++")}";
 
       var k = 1000.0 / durationMs;
       rectStart.Width = seekToMs * k;
@@ -284,7 +286,7 @@ public partial class MsgSlideshowUsrCtrl
       rectRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
     }
     else if (durationMs > 0)
-      report2 += ($"  °  :it's <{_maxMs*.001,3:N0}s prd");
+      report2 += ($"  °  :it's <{_maxMs * .001,3:N0}s prd");
     else
       report2 += ($"  °  Prorate this ext! ▄▀▄▀");
 
