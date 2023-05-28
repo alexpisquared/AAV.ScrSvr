@@ -26,15 +26,15 @@
       <Grid Margin="6">
         <Grid.Resources>
           <Style TargetType="TextBlock">
-            <Setter Property="Padding"          Value="8 0" />
+            <Setter Property="Padding"          Value="0 0" />
             <Setter Property="FontSize"         Value="26" />
             <Setter Property="Foreground"       Value="#fff0" />
           </Style>
           <Style TargetType="Label">
-            <Setter Property="Padding"          Value="8 0" />
-            <Setter Property="FontSize"         Value="26" />
+            <Setter Property="Padding"          Value="12 0 12 8" />
+            <Setter Property="FontSize"         Value="32" />
             <Setter Property="Foreground"       Value="#fff0" />
-            <Setter Property="Background"       Value="#8000" />
+            <Setter Property="Background"       Value="#3000" />
           </Style>
           <Style TargetType="Button">
             <Setter Property="Padding"          Value="8 0" />
@@ -52,7 +52,7 @@
           </Style>
         </Grid.Resources>
         <!--
-          <TextBlock   x:Name="ReportTC" d:Text="12323" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" Background="#8000" Foreground="#FF0" />
+          <TextBlock   x:Name="ReportTC" d:Content="12323" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20" Background="#8000" Foreground="#FF0" />
           <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="PLAY" x:Name="PlayButton" Height="25" Width="50" Click="Play_Clicked" />
           <Button Content="Paus" x:Name="PausButton" Height="25" Width="50" Click="Paus_Clicked" />
@@ -60,7 +60,7 @@
           <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>
           </StackPanel>
           -->
-        <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value="50"             BorderThickness="0" Height="10" Margin="00" Foreground="#0d0" Background="#808" />
+        <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value="50"             BorderThickness="0" Height="10" Margin="00" Foreground="#606" Background="#1d0" />
 
         <Viewbox    x:Name="VideoInterval" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Height="10" Margin="0 10" Stretch="Uniform">
           <StackPanel  x:Name="rectTotal" Width="1000"   Orientation="Horizontal" Height="30" >
@@ -70,15 +70,16 @@
           </StackPanel>
         </Viewbox>
 
-        <ProgressBar x:Name="VideoProgress" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#0d0" Background="#808" Opacity="1"/>
+        <ProgressBar x:Name="VideoProgress" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#606" Background="#1d0" Opacity="1"/>
 
-        <Label       x:Name="ReportTR" d:Content="26.jpg&#10;abcd" VerticalAlignment="Top"    HorizontalAlignment="Right"  FontSize="14" Width="180"/>
-        <TextBlock   x:Name="ReportTL" d:Text="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   FontSize="32" />
-        <TextBlock   x:Name="ReportBL" d:Text="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Left"   FontSize="20" />
-        <TextBlock   x:Name="ReportBR" d:Text="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Right"  FontSize="20" />
-        <TextBlock   x:Name="ReportBC" d:Text="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="26" />
+        <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
+        <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />
+        <Label x:Name="Repor_TR" d:Content="26.jpg&#10;abcd"    VerticalAlignment="Top"    HorizontalAlignment="Right"  FontSize="14" Width="180" Margin="0 52"/>
+        <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Left"   />
+        <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
+        <Label x:Name="ReportBC" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f40"/>
 
-        <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#0d0" Bckgr="#808" />
+        <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
 
         <CheckBox    Content="_On"   IsChecked="True" x:Name="chkIsOn" VerticalAlignment="Center" HorizontalAlignment="Left"   />
         <Button      Content="_Next" IsDefault="True"  Click="OnNext"  VerticalAlignment="Center" HorizontalAlignment="Right"  />
