@@ -4,7 +4,7 @@
              xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
              d:DesignHeight="450" d:DesignWidth="1200" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
-    <Duration x:Key="inOuTime">0:0:03</Duration>
+    <Duration x:Key="inOuTime">0:0:06</Duration>
     <Duration x:Key="showTime">0:0:59</Duration>
 
     <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar" x:Key="_d1IntroOutro" />
@@ -12,19 +12,17 @@
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:54" />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:51" />
       <StaticResource ResourceKey="_d1IntroOutro" />
       <StaticResource ResourceKey="_d2IntroOutro" />
-      <!--
-      <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetName="el1" From="0" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" />-->
     </Storyboard>
-    <!--NOTE: for some reason this does not work for when inside the vlc:VideoView: moved inside the VideoView-->
   </UserControl.Resources>
   <Grid Name="mediaElmnt" >
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Margin="0 0 0 0" Background="Transparent" >
       <Grid Margin="6">
         <Grid.Resources>
+          <!--NOTE: for some reason this does not work for when inside the <UserControl.Resources> ==>  moved to here inside the VideoView-->
           <Style TargetType="TextBlock">
             <Setter Property="Padding"          Value="0 0" />
             <Setter Property="FontSize"         Value="26" />
@@ -62,22 +60,22 @@
           -->
         <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value="50"             BorderThickness="0" Height="10" Margin="00" Foreground="#606" Background="#1d0" />
 
-        <Viewbox    x:Name="VideoInterval" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Height="10" Margin="0 10" Stretch="Uniform">
-          <StackPanel  x:Name="rectTotal" Width="1000"   Orientation="Horizontal" Height="30" >
+        <Viewbox   x:Name="VideoInterval" Width="1000" VerticalAlignment="Top" HorizontalAlignment="Center" Height="10" Margin="0 10" Stretch="Uniform">
+          <StackPanel  x:Name="rectTotal" Width="1000" Orientation="Horizontal" Height="30" >
             <Rectangle x:Name="rectStart" Width="800" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
-            <Rectangle x:Name="rectMiddl" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="#00f" />
+            <Rectangle x:Name="rectMiddl" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="#f00" />
             <Rectangle x:Name="rectRest1" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
           </StackPanel>
         </Viewbox>
 
-        <ProgressBar x:Name="VideoProgress" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#606" Background="#1d0" Opacity="1"/>
+        <ProgressBar x:Name="VideoProgress" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#606" Background="#1d0" />
 
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
         <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />
-        <Label x:Name="Repor_TR" d:Content="26.jpg&#10;abcd"    VerticalAlignment="Top"    HorizontalAlignment="Right"  FontSize="14" Width="180" Margin="0 52"/>
+        <Label x:Name="ReportBC" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f40"/>
         <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Left"   />
         <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
-        <Label x:Name="ReportBC" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f40"/>
+        <Label x:Name="Repor_TR" d:Content="26.jpg&#10;abcd"    VerticalAlignment="Bottom" HorizontalAlignment="Right"  FontSize="14" Width="180" Margin="0 52"/>
 
         <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
 

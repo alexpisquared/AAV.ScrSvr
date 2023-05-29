@@ -1,7 +1,8 @@
 {
   "profiles": {
     "AlexPi.Scr": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "\"by Task Scheduler\""
     }
   }
 }

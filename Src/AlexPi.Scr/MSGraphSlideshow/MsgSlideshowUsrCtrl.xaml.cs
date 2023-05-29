@@ -141,7 +141,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"Video";
         var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
-        ReportTR.Content = $"{(isExact?'=':'~')}{durationInMs * .001:N0} s";
+        ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
         ReportBL.Content = $"{.000001 * driveItem.Size,6:N1}mb";
         ReportBR.Content = $"{driveItem.Name}";
         streamReport = report;
@@ -172,16 +172,13 @@ public partial class MsgSlideshowUsrCtrl
 
       if (Debugger.IsAttached)
         Debugger.Break();
-      else
-        await Task.Delay(15_000);
+      //else
+      //  await Task.Delay(15_000);
     }
     finally
     {
       WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-55}{driveItem?.Name,52}  {cancelReport}");
       ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
-      //ReportTR.Content = $"{driveItem.LastModifiedDateTime:yyyy-MM-dd}";
-      //ReportBL.Content = $"{driveItem.CreatedBy}    {driveItem.CreatedByUser}  ";
-      //ReportBR.Content = $"{driveItem.LastModifiedBy}    {driveItem.LastModifiedByUser}  ";
 
       _currentShowTimeMS = _maxMs;
     }
@@ -252,7 +249,7 @@ public partial class MsgSlideshowUsrCtrl
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@@");
 
     //VideoView1.MediaPlayer.Media = media;
-    var playSucces = VideoView1.MediaPlayer.Play(media);
+    _ = VideoView1.MediaPlayer.Play(media);
     //var report2 = $"►{(playSucces ? "+" : "-")} ";
 
     VideoView1.MediaPlayer.Volume = _volumePerc;

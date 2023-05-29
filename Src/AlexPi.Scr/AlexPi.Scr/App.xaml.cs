@@ -52,6 +52,10 @@ public partial class App : System.Windows.Application
       _ = AAV.Sys.Helpers.Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
       WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VersionHelper.CurVerStr("")}   args: {string.Join(", ", sea.Args)}.");
 
+      if (!ShutdownIfAlreadyRunning())
+        return;
+
+
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
 
       //todo: Current.DispatcherUnhandledException += WPF.Helpers.UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
@@ -83,6 +87,30 @@ public partial class App : System.Windows.Application
 
     //tmi: WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
   }
+
+  bool ShutdownIfAlreadyRunning()
+  {
+    var me = Process.GetCurrentProcess();
+    if (Process.GetProcessesByName(me.ProcessName).Any(p => p.Id != me.Id && p.MainModule?.FileName == me.MainModule?.FileName))
+    {
+      WriteLine($"  Another instance is running.  Shutting down this instance.");
+      Shutdown();
+      return false;
+    }
+    else
+    {
+      if (Environment.GetCommandLineArgs().Any(a => a.Contains("by Task Scheduler")))
+      {
+        WriteLine($"  Launching another instance lest be closed by unidling.");
+        Process.Start(me.MainModule?.FileName ?? "Notepad.exe", "Un-idleable instance");
+        Shutdown();
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnSessionEnding().   "); WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▀App.OnSessionEnding()"); base.OnSessionEnding(e); }
   //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
   protected override void OnExit(ExitEventArgs e)
@@ -100,8 +128,8 @@ public partial class App : System.Windows.Application
     Environment.FailFast("Environment.FailFast");
   }
 
-  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await SpeakAsync(msg, voice: voice)); 
-  public static async Task SpeakAsync(string msg, string voice = "")         
+  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await SpeakAsync(msg, voice: voice));
+  public static async Task SpeakAsync(string msg, string voice = "")
   {
     //WriteLine(msg);
 
