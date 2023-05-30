@@ -115,15 +115,21 @@ public partial class App : System.Windows.Application
   //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
   protected override void OnExit(ExitEventArgs e)
   {
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - App.OnExit() \");");
-
-    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit() ");
     base.OnExit(e);
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - App.OnExit() \");");
+    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit() ");
+  }
 
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
+  void MustExit()
+  {
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - MustExit() \");");
+
+    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - MustExit() ");
+
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
     Process.GetCurrentProcess().Kill();
 
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 3/3 => never got here! ────────────────────────────");
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 3/3 => never got here! ────────────────────────────");
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
@@ -236,7 +242,7 @@ public partial class App : System.Windows.Application
     _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(ArmAndLegEvent());
   }
 
-  static Action<Task> ArmAndLegEvent() => _ =>
+  Action<Task> ArmAndLegEvent() => _ =>
   {
     _mustLogEORun = true;
 
@@ -285,7 +291,12 @@ public partial class App : System.Windows.Application
     });
   };
 
-  static void SleepStandby(bool isDeepHyberSleep = false) { WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ..."); _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false); }
+  void SleepStandby(bool isDeepHyberSleep = false)
+  {
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ...");
+    _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
+    MustExit();
+  }
 
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
   Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
