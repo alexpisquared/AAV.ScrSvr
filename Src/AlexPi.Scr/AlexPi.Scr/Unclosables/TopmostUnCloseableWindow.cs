@@ -12,5 +12,6 @@ public partial class TopmostUnCloseableWindow : UnCloseableWindow
   {
     AppSettings.Instance.SaveIfDirty_TODO();
     Close();
+    App.Current.Shutdown();
   }
 }

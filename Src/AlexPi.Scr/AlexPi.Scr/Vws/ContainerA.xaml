@@ -2,7 +2,7 @@
                               xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                               xmlns:UCs="clr-namespace:AlexPi.Scr.UsrCtrls" 
                               x:Class="AlexPi.Scr.Vws.ContainerA" mc:Ignorable="d" 
-                              Title="ContainerA - 1" 
+                              Title="A - 1" 
                               Style="{StaticResource MouseEnterableSlowShowWindow}" Loaded="TopmostUnCloseableWindow_Loaded" Unloaded="OnUnloaded">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />

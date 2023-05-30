@@ -1,7 +1,7 @@
 ﻿<lnk:TopmostUnCloseableWindow Width="500" Height="500" Left="1400" Top="0" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="AlexPi.Scr.Vws.ContainerC" mc:Ignorable="d" 
                              xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables"                              
                              xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" 
-                             Title="ContainerC - 3" Style="{StaticResource MouseEnterableSlowShowWindow}">
+                             Title="C - 3" Style="{StaticResource MouseEnterableSlowShowWindow}">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
   </WindowChrome.WindowChrome>
