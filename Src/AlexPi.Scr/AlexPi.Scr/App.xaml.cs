@@ -1,6 +1,7 @@
 ﻿namespace AlexPi.Scr;
 public partial class App : System.Windows.Application
 {
+  #region fields
   readonly GlobalEventHandler _globalEventHandler = new();
   bool _showBackWindowMaximized = false;
   static TraceSwitch? CurTraceLevel;
@@ -11,21 +12,22 @@ public partial class App : System.Windows.Application
   static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
   static bool? _mustLogEORun = null;
+  const string _unidle = "Un-idleable instance", _bts = "by Task Scheduler";
   public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
-    GraceEvLogAndLockPeriodSec = 06, _ScrSvrShowDelayMs = 500;
+    GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 500;
 #else
     GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000;
 #endif
+  #endregion
   static App()
   {
     var cfg = new ConfigRandomizer();
     var key = cfg.GetValue("AppSecrets:MagicSpeech").Replace("ReplaceDeployReplace", string.Format("{0}{1}{0}79{1}8f86{1}3a6{1}f32d{0}", 4, 5)); // a silly primitive ... just for laughs.
     _synth = new(key, true, voice: cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
-
-  protected override void OnStartup(StartupEventArgs sea)
+  protected override async void OnStartup(StartupEventArgs sea)
   {
     try
     {
@@ -52,9 +54,7 @@ public partial class App : System.Windows.Application
       _ = AAV.Sys.Helpers.Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
       WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VersionHelper.CurVerStr("")}   args: {string.Join(", ", sea.Args)}.");
 
-      if (!ShutdownIfAlreadyRunning())
-        return;
-
+      //if (!ShutdownIfAlreadyRunning())        return;
 
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
 
@@ -77,17 +77,112 @@ public partial class App : System.Windows.Application
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
       }
 
-      showFullScrSvr_ScheduleArming();
+      /// if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
+      /// if yes dismissed  - close app.
+      /// if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
+      /// 
+
+      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts)))
+        await Wait1minuteThenRelaunch();
+      else
+        _ = FullScrSvrModeWithEventLoggin(Environment.GetCommandLineArgs().Any(a => a.Contains(_unidle)));
     }
-    catch (Exception ex)
+    catch (Exception ex) { _ = ex.Log(optl: "ASYNC void OnStartup()"); ex.Pop("ASYNC void OnStartup()"); }
+  }
+  async Task Wait1minuteThenRelaunch()
+  {
+    _ = Task.Run(async () =>
     {
-      _ = ex.Log(optl: "ASYNC void OnStartup()");
-      ex.Pop("ASYNC void OnStartup()");
+      var sj = new ConfigRandomizer();
+      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!");
+      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
+    });
+
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+
+    new ControlPanel(_globalEventHandler).Show();
+
+    if (AppSettings.Instance.IsSaySecOn)
+    {
+      if (DevOps.IsDbg)
+      {
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 4) * 1000)).ContinueWith(_ => SpeakAsync($"4"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 3) * 1000)).ContinueWith(_ => SpeakAsync($"3"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
+      }
+      else
+      {
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"50"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"40"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"30"));
+        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"20"));
+        //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
+      }
     }
 
-    //tmi: WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - StartedAt):mm\\:ss\\.ff}    StartUp() - EOMethof.");
+    await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000);
+    await SpeakAsync($"Really?");
+
+    WriteLine($"  Launching another instance lest be closed by unidling.");
+    var me = Process.GetCurrentProcess();
+    _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", _unidle);
+    Shutdown();
   }
 
+  async Task FullScrSvrModeWithEventLoggin(bool skipLogging)
+  {
+    _mustLogEORun = true;
+
+    if (DevOps.IsDbg || skipLogging)
+      await SpeakAsync($"event logging is off.");
+    else
+      EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
+
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+
+    new ControlPanel(_globalEventHandler).Show();
+
+    _ = Task.Run(async () =>
+    {
+      if (AppSettings.Instance.AutoLocke && StartedAt == DateTime.MinValue) // suspended <= to simpify maint-ce at home office (2021)
+      {
+        SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
+        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
+        //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
+        await Task.Delay(TimeSpan.FromSeconds(60));
+
+        SpeakFaF($"Enforcing lock down now.");
+        LockWorkStation();
+      }
+    });
+
+    _ = Task.Run(async () =>
+    {
+      try
+      {
+        if (!AppSettings.Instance.AutoSleep)
+        {
+          await SpeakAsync("Armed! Sleepless mode.");
+          return;
+        }
+
+        if (DevOps.IsDbg)
+          SpeakFaF($"Armed!");
+
+        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+        await SpeakAsync($"Hey! {(DateTime.Now - StartedAt + TimeSpan.FromSeconds(IdleTimeoutSec)).TotalMinutes:N0} minutes has passed. Turning off ...in a minute."); /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec / 60) + AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
+        await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
+        await SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");                                                                           /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
+        await Task.Delay(TimeSpan.FromMinutes(0.50));                                                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  5/7  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.\n");
+        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by AAV.scr!");                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
+        SleepStandby();                                                                                                                                                /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  7/7  after  sleepStandby();.\n");
+      }
+      catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
+    });
+  }
   bool ShutdownIfAlreadyRunning()
   {
     var me = Process.GetCurrentProcess();
@@ -97,15 +192,13 @@ public partial class App : System.Windows.Application
       Shutdown();
       return false;
     }
-    else
+
+    if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts)))
     {
-      if (Environment.GetCommandLineArgs().Any(a => a.Contains("by Task Scheduler")))
-      {
-        WriteLine($"  Launching another instance lest be closed by unidling.");
-        Process.Start(me.MainModule?.FileName ?? "Notepad.exe", "Un-idleable instance");
-        Shutdown();
-        return false;
-      }
+      WriteLine($"  Launching another instance lest be closed by unidling.");
+      _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", "Un-idleable instance");
+      Shutdown();
+      return false;
     }
 
     return true;
@@ -143,10 +236,11 @@ public partial class App : System.Windows.Application
       await _synth.SpeakAsync(msg, voice: voice);
   }
 
-  public static void SayExe(string msg)                                      /**/ => SpeechSynth.SayExe(msg);
+  [Obsolete]
+  public static void SayExe(string msg) => SpeechSynth.SayExe(msg);
 
   public const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
-  public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
+  public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;
 
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
@@ -205,91 +299,6 @@ public partial class App : System.Windows.Application
     var _HwndSource = new HwndSource(hwndSourceParameters) { RootVisual = miniSS.LayoutRoot };
     _HwndSource.Disposed += (s, e) => miniSS.Close();
   }
-
-  void showFullScrSvr_ScheduleArming()
-  {
-    _ = Task.Run(async () =>
-    {
-      var sj = new ConfigRandomizer();
-      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!");
-      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
-    });
-
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
-
-    new ControlPanel(_globalEventHandler).Show();
-    if (AppSettings.Instance.IsSaySecOn)
-    {
-      if (DevOps.IsDbg)
-      {
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 4) * 1000)).ContinueWith(_ => SpeakAsync($"4"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 3) * 1000)).ContinueWith(_ => SpeakAsync($"3"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
-      }
-      else
-      {
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"50"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"40"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"30"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"20"));
-        //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
-      }
-    }
-
-    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000)).ContinueWith(_ => SpeakAsync($"Really?"));
-    _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 00) * 1000)).ContinueWith(ArmAndLegEvent());
-  }
-
-  Action<Task> ArmAndLegEvent() => _ =>
-  {
-    _mustLogEORun = true;
-
-    if (DevOps.IsDbg)
-      SpeakAsync($"no event logging in debug mode.").Wait();
-    else
-      EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
-
-    _ = Task.Run(async () =>
-    {
-      if (AppSettings.Instance.AutoLocke && StartedAt == DateTime.MinValue) // suspended <= to simpify maint-ce at home office (2021)
-      {
-        SpeakFaF($"Locking in          {AppSettings.Instance.Min2Locke} minutes.");
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Locke));
-        //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($" {AppSettings.Instance.Min2Locke} minutes has passed. Computer to be Locked in a minute ..."); //try to speak async so that dismissal by user was possible (i.e., not locked the UI):
-        await Task.Delay(TimeSpan.FromSeconds(60));
-
-        SpeakFaF($"Enforcing lock down now.");
-        LockWorkStation();
-      }
-    });
-
-    _ = Task.Run(async () =>
-    {
-      try
-      {
-        if (!AppSettings.Instance.AutoSleep)
-        {
-          await SpeakAsync("Armed! Sleepless mode.");
-          return;
-        }
-
-        if (DevOps.IsDbg)
-          SpeakFaF($"Armed!");
-
-        await Task.Delay(TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25));                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(AppSettings.Instance.Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-        await SpeakAsync($"Hey! {(DateTime.Now - StartedAt + TimeSpan.FromSeconds(IdleTimeoutSec)).TotalMinutes:N0} minutes has passed. Turning off ...in a minute."); /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec / 60) + AppSettings.Instance.Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
-        await Task.Delay(TimeSpan.FromMinutes(1.15));                                                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
-        await SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");                                                                           /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
-        await Task.Delay(TimeSpan.FromMinutes(0.50));                                                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  5/7  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.\n");        //await EvLogHelper.UpdateEvLogToDb(10, $"The Enforcing-Sleep moment.");
-        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by AAV.scr!");                                                                                  /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  6/7  after  LogScrSvrUptime.\n");
-        SleepStandby();                                                                                                                                                /**/ Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  7/7  after  sleepStandby();.\n");
-      }
-      catch (Exception ex) { ex.Pop("ASYNC void OnStartup()"); }
-    });
-  };
 
   void SleepStandby(bool isDeepHyberSleep = false)
   {
