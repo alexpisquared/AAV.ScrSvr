@@ -98,10 +98,8 @@ public partial class App : System.Windows.Application
       SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
     });
 
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
-
-    new ControlPanel(_globalEventHandler).Show();
-
+    //foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+    
     if (AppSettings.Instance.IsSaySecOn)
     {
       if (DevOps.IsDbg)

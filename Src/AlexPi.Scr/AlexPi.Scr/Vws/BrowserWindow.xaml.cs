@@ -1,6 +1,6 @@
 ﻿namespace AlexPi.Scr;
 
-public partial class BrowserWindow : Window
+public partial class BrowserWindow 
 {
   public BrowserWindow()
   {

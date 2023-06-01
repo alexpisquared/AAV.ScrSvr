@@ -5,7 +5,7 @@ namespace Db.EventLog.Explorer
     /// <summary>
     /// Interaction logic for xBindingErrorPOC.xaml
     /// </summary>
-    public partial class xBindingErrorPOC : Window
+    public partial class xBindingErrorPOC 
     {
         public xBindingErrorPOC()
         {

@@ -6,7 +6,7 @@ namespace AlexPi.Scr
     /// <summary>
     /// Interaction logic for zDev.xaml
     /// </summary>
-    public partial class zDev : Window
+    public partial class zDev 
     {
         public zDev()
         {

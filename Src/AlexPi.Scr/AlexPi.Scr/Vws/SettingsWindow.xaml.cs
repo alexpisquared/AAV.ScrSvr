@@ -2,7 +2,7 @@
 
 namespace AlexPi.Scr;
 
-public partial class SettingsWindow : Window
+public partial class SettingsWindow 
 {
   bool _manual = false;
   readonly NotifyIcon _ni = new();
