@@ -12,7 +12,7 @@ public partial class TopmostUnCloseableWindow : UnCloseableWindow
   {
     AppSettings.Instance.SaveIfDirty_TODO();
     Close();
-    await App.SpeakAsync("Closing ");
+    await App.SpeakAsync("Closing");
     await Task.Delay(512); // :Speak underestimates the time needed to speak the text.
     Application.Current.Shutdown();
   }

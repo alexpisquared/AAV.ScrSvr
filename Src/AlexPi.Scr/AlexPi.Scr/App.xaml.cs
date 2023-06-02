@@ -13,12 +13,12 @@ public partial class App : System.Windows.Application
   static readonly object _thisLock = new();
   static bool? _mustLogEORun = null;
   const string _unidle = "Un-idleable instance", _bts = "by Task Scheduler";
-  public static readonly DateTime StartedAt = DateTime.Now;
+  public static readonly DateTime StartedAt = DateTime.Now;  
   public const int
 #if DEBUG
-    GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 500;
+    GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 500, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #else
-    GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000;
+    GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #endif
   #endregion
   static App()
@@ -99,7 +99,7 @@ public partial class App : System.Windows.Application
     });
 
     //foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
-    
+
     if (AppSettings.Instance.IsSaySecOn)
     {
       if (DevOps.IsDbg)
@@ -128,7 +128,6 @@ public partial class App : System.Windows.Application
     _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", _unidle);
     Shutdown();
   }
-
   async Task FullScrSvrModeWithEventLoggin(bool skipLogging)
   {
     _mustLogEORun = true;
@@ -201,16 +200,16 @@ public partial class App : System.Windows.Application
 
     return true;
   }
-
   protected override void OnSessionEnding(SessionEndingCancelEventArgs e) { LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnSessionEnding().   "); WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▀App.OnSessionEnding()"); base.OnSessionEnding(e); }
-  //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
-  protected override void OnExit(ExitEventArgs e)
+  protected override async void OnExit(ExitEventArgs e)
   {
     base.OnExit(e);
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  App.OnExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - App.OnExit() \");");
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - App.OnExit() ");
+    await SpeakAsync("Closed");
+    await Task.Delay(512); // :Speak underestimates the time needed to speak the text.
   }
-
+  //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
   void MustExit()
   {
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - MustExit() \");");
@@ -224,7 +223,7 @@ public partial class App : System.Windows.Application
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
-
+  public static void SayExe(string msg) => SpeechSynth.SayExe(msg);
   public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await SpeakAsync(msg, voice: voice));
   public static async Task SpeakAsync(string msg, string voice = "")
   {
@@ -233,13 +232,7 @@ public partial class App : System.Windows.Application
     if (AppSettings.Instance.IsSpeechOn)
       await _synth.SpeakAsync(msg, voice: voice);
   }
-
-  [Obsolete]
-  public static void SayExe(string msg) => SpeechSynth.SayExe(msg);
-
-  public const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;
-
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
     Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓  {msg,-80}");
@@ -297,14 +290,12 @@ public partial class App : System.Windows.Application
     var _HwndSource = new HwndSource(hwndSourceParameters) { RootVisual = miniSS.LayoutRoot };
     _HwndSource.Disposed += (s, e) => miniSS.Close();
   }
-
   void SleepStandby(bool isDeepHyberSleep = false)
   {
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}\t Starting {(isDeepHyberSleep ? "Hibernating" : "LightSleeping")}:  SetSuspendState(); ...");
     _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
     MustExit();
   }
-
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
   Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
   Window? _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
@@ -317,9 +308,7 @@ public partial class App : System.Windows.Application
   Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
   Window? _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
   Window? _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
-
   public static bool CloseOnUnIdle { get; set; } = true;
-
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
   [DllImport("user32")] public static extern void LockWorkStation();

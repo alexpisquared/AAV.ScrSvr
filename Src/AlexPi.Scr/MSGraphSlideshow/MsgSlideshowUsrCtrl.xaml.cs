@@ -34,7 +34,6 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d1IntroOutro")).Duration = showTime;
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration = showTime;
   }
-
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
   void OnMoveProgressBarTimerTick(object? sender, EventArgs e)
   {
@@ -95,7 +94,8 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return;
 
-      Repor_TR.Content += $"{driveItem.Name}\n";
+      HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}mb";
+      HistoryR.Content += $"{driveItem.Name}\n";
 
       var taskStream = TaskDownloadStream(pathfile);
       try
@@ -124,12 +124,13 @@ public partial class MsgSlideshowUsrCtrl
       System.Media.SystemSounds.Hand.Play();
 #endif
 
+      ReportBR.Content = $"{driveItem.Name}";
+      ReportBL.Content = $"{.000001 * driveItem.Size,5:N1}mb";
+
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
         ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
-        ReportBL.Content = $"{.000001 * driveItem.Size,6:N1}mb";
-        ReportBR.Content = $"{driveItem.Name}";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
@@ -142,8 +143,6 @@ public partial class MsgSlideshowUsrCtrl
         mediaType = $"Video";
         var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
         ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
-        ReportBL.Content = $"{.000001 * driveItem.Size,6:N1}mb";
-        ReportBR.Content = $"{driveItem.Name}";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
         VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Visible;        //VideoView1.Visibility =
@@ -183,7 +182,6 @@ public partial class MsgSlideshowUsrCtrl
       _currentShowTimeMS = _maxMs;
     }
   }
-
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStream(string file)
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
@@ -193,7 +191,6 @@ public partial class MsgSlideshowUsrCtrl
 
     return (stream, dnldTm);
   }
-
   string GetRandomMediaFile()
   {
     var _blackList = new string[] {
