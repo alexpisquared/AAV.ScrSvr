@@ -13,7 +13,7 @@ public partial class App : System.Windows.Application
   static readonly object _thisLock = new();
   static bool? _mustLogEORun = null;
   const string _unidle = "Un-idleable instance", _bts = "by Task Scheduler";
-  public static readonly DateTime StartedAt = DateTime.Now;  
+  public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
     GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 500, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
@@ -98,7 +98,7 @@ public partial class App : System.Windows.Application
       SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
     });
 
-    //foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
     if (AppSettings.Instance.IsSaySecOn)
     {
@@ -296,6 +296,7 @@ public partial class App : System.Windows.Application
     _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
     MustExit();
   }
+  #region Ctrls
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
   Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
   Window? _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
@@ -312,6 +313,7 @@ public partial class App : System.Windows.Application
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
   [DllImport("user32")] public static extern void LockWorkStation();
+  #endregion
 }
 /// Install-Package Expression.Blend.Sdk
 /// Use for deployment:  Release + Any CPU  
@@ -320,3 +322,4 @@ public partial class App : System.Windows.Application
 //Okay Alex all set I have submitted that for you! You should get a return label emailed to you within the next day or so.Alternatively even without the label you can simply pack your items in a box and bring it to a Canada Post location with the Return ID Number PR823007. Canada Post will provide you with a receipt and take care of things from there!
 //03:58 PMDorian
 //Sorry for the mixup Alex and Thanks for your patience while we got everything sorted I really appreciate it! Let me know if you had any other questions at all or anything else you wanted to look into today.
+

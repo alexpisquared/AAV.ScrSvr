@@ -94,8 +94,7 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return;
 
-      HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}mb";
-      HistoryR.Content += $"{driveItem.Name}\n";
+      HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
       var taskStream = TaskDownloadStream(pathfile);
       try
@@ -108,8 +107,8 @@ public partial class MsgSlideshowUsrCtrl
       catch (OperationCanceledException) { cancelReport = "<CTS.Cancel>"; }
       catch (Exception ex)
       {
-        ReportBC.Content = $"** ERROR: {ex.Message}\n  {pathfile}";
-        WriteLine($"\nERROR inner for  {pathfile}  {ReportBC.Content}  {ex.Message}\n");
+        ReportBC.Content = $"{ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+        WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR inner   {ReportBC.Content}  ");
         System.Media.SystemSounds.Beep.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
@@ -124,8 +123,9 @@ public partial class MsgSlideshowUsrCtrl
       System.Media.SystemSounds.Hand.Play();
 #endif
 
+      HistoryR.Content += $"{ReportBR.Content}\n";
       ReportBR.Content = $"{driveItem.Name}";
-      ReportBL.Content = $"{.000001 * driveItem.Size,5:N1}mb";
+      ReportBL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
       if (driveItem.Image is not null)
       {
@@ -162,17 +162,17 @@ public partial class MsgSlideshowUsrCtrl
         ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
       }
+
+      ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
     }
     catch (Exception ex)
     {
-      ReportBC.Content = $"** ERROR: {ex.Message}\n  {pathfile}";
-      WriteLine($"\nERROR outer for  {pathfile}  {ReportBC.Content}  {ex.Message}\n");
+      ReportBC.FontSize = 60;
+      ReportBC.Content = $"{ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR outer   {ReportBC.Content}  ");
       System.Media.SystemSounds.Beep.Play();
 
-      if (Debugger.IsAttached)
-        Debugger.Break();
-      //else
-      //  await Task.Delay(15_000);
+      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
     finally
     {
