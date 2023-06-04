@@ -56,18 +56,7 @@ public partial class AppSettings
       {
         lock (_syncRoot)
         {
-          if (_instance == null)
-          {
-            _instance = JsonFileSerializer.Load<AppSettings>(_pathfile);
-            //_storMode == StorageMode.IsoProgDt ? JsonIsoFileSerializer.Load<AppSettings>() as AppSettings :
-            //_storMode == StorageMode.IsoUsrLcl ? JsonIsoFileSerializer.Load<AppSettings>(null, IsoConst.ULocA) as AppSettings :
-            //_storMode == StorageMode.IsoUsrRoa ? JsonIsoFileSerializer.Load<AppSettings>(null, IsoConst.URoaA) as AppSettings :
-            //_storMode == StorageMode.OneDriveU ? JsonFileSerializer.Load<AppSettings>(_pathfile) as AppSettings :
-            //_storMode == StorageMode.OneDrAlex ? JsonFileSerializer.Load<AppSettings>(_pathfile) as AppSettings : JsonIsoFileSerializer.Load<AppSettings>() as AppSettings;
-          }
-
-          if (_instance == null)
-            _instance = new AppSettings();
+          _instance ??= JsonFileSerializer.Load<AppSettings>(_pathfile) ?? new AppSettings();
         }
       }
 
