@@ -25,7 +25,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
   async void updateGuiOn1secTimerTick()
   {
     var tnow = DateTime.Now;
-    var idle = tnow - App.StartedAt + TimeSpan.FromSeconds(App.IdleTimeoutSec);
+    var idle = tnow - App.StartedAt + TimeSpan.FromSeconds(App.Ssto_GpSec);
     var left = App.StartedAt.AddMinutes(AppSettings.Instance.Min2Sleep) - tnow;
     tbOutOffL.Text = idle.TotalMinutes < 60 ? $"{idle:m\\:ss}" : $"{idle:h\\:mm\\:ss} ";
 

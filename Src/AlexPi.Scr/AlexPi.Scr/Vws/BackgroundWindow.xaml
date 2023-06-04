@@ -1,7 +1,7 @@
 ﻿<lnk:UnCloseableWindow x:Class="AlexPi.Scr.Vws.BackgroundWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
                        xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                        Title="Background !Topmost Window" 
-                       WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="#101" SizeToContent="Height">
+                       WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="Transparent" SizeToContent="Height">
   <lnk:UnCloseableWindow.Resources>
     <Storyboard x:Key="FadingOut">
       <DoubleAnimation From="1" To="0.01" Duration="0:1:15" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" />

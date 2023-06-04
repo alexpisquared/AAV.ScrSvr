@@ -33,8 +33,8 @@ public static class ExitStrategy
 
     switch (Environment.MachineName) // balck/white listing
     {
-      default:            /**/ await App.SpeakAsync($"home.  CloseOnUnIdle = {App.CloseOnUnIdle}."); WriteLine($"before App.Current.Shutdown(33)"); Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
-      case "CA03-APIGID": /**/ await App.SpeakAsync($"Secure-most"); WriteLine($"BackDoor_Minuted()             "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking is required
+      default:            /**/ WriteLine($"before App.Current.Shutdown(33)"); Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
+      case "CA03-APIGID": /**/ WriteLine($"Secure-most: BackDoor_Minuted()"); return await BackDoor_Minuted(key, window);     // black-listed: office - locking is required
     }
   }
   public static async Task<bool> BackDoor_Minuted(Key key, Window window)
