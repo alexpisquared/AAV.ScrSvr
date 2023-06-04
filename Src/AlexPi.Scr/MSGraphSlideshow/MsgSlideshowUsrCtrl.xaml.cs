@@ -10,9 +10,9 @@ public partial class MsgSlideshowUsrCtrl
   CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
 #if DEBUG
-  const int _maxMs = 9000;
+  const int _maxMs = 9_000;
 #else
-  const int _maxMs = 59000;
+  const int _maxMs = 59_000;
 #endif
   int _currentShowTimeMS = 0;
 
@@ -35,7 +35,7 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration = showTime;
   }
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
-  void OnMoveProgressBarTimerTick(object? sender, EventArgs e)
+  void OnMoveProgressBarTimerTick(object? s, EventArgs e)
   {
     //try    {
     VideoProgress.Maximum = 1;
@@ -43,7 +43,7 @@ public partial class MsgSlideshowUsrCtrl
     //WriteLine($"  Psn:{VideoView1.MediaPlayer?.Position,6:N2}   timer");
     //}    catch (Exception ex)    {      WriteLine(ex);    }
   }
-  async void OnLoaded(object sender, RoutedEventArgs e)
+  async void OnLoaded(object s, RoutedEventArgs e)
   {
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
@@ -73,9 +73,11 @@ public partial class MsgSlideshowUsrCtrl
         await Task.Delay(100);
     }
   }
-  void OnClose(object sender, RoutedEventArgs e) => Close();
-  void OnNext(object sender, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
-  void OnEndReached(object? sender, EventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnClose(object s, RoutedEventArgs e) => Close();
+  void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((System.Windows.Controls.CheckBox)s).IsChecked ?? false; }
+  void OnPrev(object s, RoutedEventArgs e) { }
+  void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
 
   async Task LoadWaitThenShowNext()
   {

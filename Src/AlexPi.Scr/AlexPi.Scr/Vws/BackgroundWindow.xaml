@@ -1,7 +1,7 @@
 ﻿<lnk:UnCloseableWindow x:Class="AlexPi.Scr.Vws.BackgroundWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
                        xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                        Title="Background !Topmost Window" 
-                       WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="#8000" Topmost="False" >
+                       WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="#101" SizeToContent="Height">
   <lnk:UnCloseableWindow.Triggers>
     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
       <BeginStoryboard>
@@ -12,16 +12,11 @@
     </EventTrigger>
   </lnk:UnCloseableWindow.Triggers>
 
-  <TextBlock Foreground="#09f" Margin="8" FontSize="20" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" VerticalAlignment="Top" HorizontalAlignment="Left" MouseMove="onShow" MouseEnter="onShow" MouseLeave="onHide" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" x:Name="ths">
-    <TextBlock.Triggers>
-      <!--<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-        <BeginStoryboard>
-          <Storyboard>
-            <DoubleAnimation From="1" To="0" Duration="0:2:15" Storyboard.TargetProperty="Opacity" />
-          </Storyboard>
-        </BeginStoryboard>
-      </EventTrigger>-->
-    </TextBlock.Triggers>
-  </TextBlock>
+  <Viewbox>
+    <Grid>
+      <Rectangle     Stroke="#faf" Fill="#303" StrokeThickness=".333" />
+      <TextBlock Foreground="#faf" Margin="20 10 20 13" FontSize="26" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" MouseMove="onShow" MouseEnter="onShow" MouseLeave="onHide" />
+    </Grid>
+  </Viewbox>
 
 </lnk:UnCloseableWindow>
