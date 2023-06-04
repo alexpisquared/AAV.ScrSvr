@@ -20,6 +20,8 @@ namespace RadarLib;
 public partial class RadarUsrCtrl
 {
   public double AlarmThreshold { set => tbt.Text = string.Format("AlarmThreshold: {0:N2}", value); }
+
+  [Obsolete] //todo: why VS made it obsolete????????
   public RadarUsrCtrl()
   {
     InitializeComponent();
@@ -43,7 +45,7 @@ public partial class RadarUsrCtrl
     _ = keyFocusBtn.Focus();
   }
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   async void onKeyDownAsync(object s, System.Windows.Input.KeyEventArgs e) => await OnKeyDown__Async(e.Key);
 
   delegate void NoArgDelegate();
@@ -59,6 +61,7 @@ public partial class RadarUsrCtrl
   readonly int bakPace = 5;
   const int pause500ms = 500;
 
+  [Obsolete] //todo: why VS made it obsolete????????
   async Task moveTimeAsync(int timeMin)
   {
     _animation_Timer.Stop();
@@ -141,7 +144,7 @@ public partial class RadarUsrCtrl
     return t;
   }
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   public async Task OnKeyDown__Async(Key key)
   {
     switch (key)
@@ -286,7 +289,7 @@ public partial class RadarUsrCtrl
       {
         result.Add(new MyImage(new BitmapImage(new Uri(filename)), System.IO.Path.GetFileNameWithoutExtension(filename)));
       }
-      catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod().Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
+      catch (Exception ex) { Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod().Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
     }
     return result;
   }
@@ -337,6 +340,7 @@ public partial class RadarUsrCtrl
     await showPicX(_curPicIdx);
   }
 
+  [Obsolete] //todo: why VS made it obsolete????????
   void fetchFromWeb____Tick(object s, EventArgs e)
   {
     _getFromWebTimer.Stop();
@@ -344,7 +348,7 @@ public partial class RadarUsrCtrl
     fetchFromWebBegin();
   }
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   void fetchFromWebBegin()
   {
     btnSnow.IsEnabled = !(btnRain.IsEnabled = (RadarPicCollector.RainOrSnow != "RAIN"));
@@ -356,12 +360,13 @@ public partial class RadarUsrCtrl
     _ = keyFocusBtn.Focus();
   }
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   void fetchFromWebBlockingCall_FetchRad(int stationIndex) => MainCanvas.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new OneArgDelegate(updateUI_), _radarPicCollector.DownloadRadarPicsNextBatch(stationIndex));
 
+  [Obsolete] //todo: why VS made it obsolete????????
   async void updateUI_(string title) => await updateUIAsync(title);
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   async Task updateUIAsync(string title)
   {
     _animationLength = _radarPicCollector.Pics.Count - 1;
@@ -376,14 +381,18 @@ public partial class RadarUsrCtrl
 
   void onPopupTpl(object s, RoutedEventArgs e) { }//new RadarTpl.MainWindow().Show(); }
 
+  [Obsolete] //todo: why VS made it obsolete????????
   void onRain(object s, RoutedEventArgs e) { RadarPicCollector.RainOrSnow = "RAIN"; fetchFromWebBegin(); }
+
+  [Obsolete] //todo: why VS made it obsolete????????
   void onSnow(object s, RoutedEventArgs e) { RadarPicCollector.RainOrSnow = "SNOW"; fetchFromWebBegin(); }
 
+  [Obsolete] //todo: why VS made it obsolete????????
   void onF5(object s, RoutedEventArgs e) => fetchFromWebBegin();
 
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   async void onKeyDown(object s, KeyEventArgs e) => await OnKeyDown__Async(e.Key);
-  [Obsolete]
+  [Obsolete] //todo: why VS made it obsolete????????
   async void keyFocusBtn_ClickAsync(object s, System.Windows.RoutedEventArgs e) => await OnKeyDown__Async(Key.Space);
 
   void Hyperlink_RequestNavigate(object s, System.Windows.Navigation.RequestNavigateEventArgs e) { _ = Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)); e.Handled = true; }
@@ -419,10 +428,8 @@ public static class WpfUtils
 {
   public static Window? FindParentWindow(FrameworkElement element)
   {
-    if (element.Parent == null) return null;
+    // if (element.Parent == null) return null;
 
-    if (element.Parent as Window != null) return element.Parent as Window;
-
-    return element.Parent as FrameworkElement != null ? FindParentWindow(element.Parent as FrameworkElement) : null;
+    return element.Parent as Window != null ? element.Parent as Window : element.Parent as FrameworkElement != null ? FindParentWindow(element.Parent as FrameworkElement) : null;
   }
 }

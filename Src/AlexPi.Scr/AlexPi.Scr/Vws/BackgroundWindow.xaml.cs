@@ -6,7 +6,7 @@ public partial class BackgroundWindow : UnCloseableWindow
   public BackgroundWindow(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
   {
     InitializeComponent();
-    DataContext = this;    
+    DataContext = this;
   }
   public void ShowOnTargetScreen(System.Windows.Forms.Screen trgScreen, bool showMaximized)
   {
@@ -30,19 +30,5 @@ public partial class BackgroundWindow : UnCloseableWindow
     }
   }
 
-  void onShow(object s, MouseEventArgs e)
-  {
-    try
-    {
-
-      var sb = (Storyboard)FindResource("FadingOut");
-      //sb.TargetName = "wnd";
-      sb.Stop();
-      sb.Begin();
-    }
-    catch (Exception ex)
-    {
-      tbk1.Text = ex.Message;
-    }
-  }
+  void onShow(object s, MouseEventArgs e) { try { ((Storyboard)FindResource("FadingOut")).Begin(); } catch (Exception ex) { tbk1.Text = ex.Message; } }
 }
