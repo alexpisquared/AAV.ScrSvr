@@ -2,20 +2,21 @@
                        xmlns:lnk="clr-namespace:AlexPi.Scr.Unclosables" 
                        Title="Background !Topmost Window" 
                        WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Background="#101" SizeToContent="Height">
+  <lnk:UnCloseableWindow.Resources>
+    <Storyboard x:Key="FadingOut">
+      <DoubleAnimation From="1" To="0.01" Duration="0:1:15" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" />
+    </Storyboard>
+  </lnk:UnCloseableWindow.Resources>
   <lnk:UnCloseableWindow.Triggers>
     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-      <BeginStoryboard>
-        <Storyboard>
-          <DoubleAnimation From="1" To="0" Duration="0:2:15" Storyboard.TargetProperty="Opacity" />
-        </Storyboard>
-      </BeginStoryboard>
+      <BeginStoryboard Storyboard="{StaticResource FadingOut}" />
     </EventTrigger>
   </lnk:UnCloseableWindow.Triggers>
 
-  <Viewbox>
+  <Viewbox x:Name="wnd">
     <Grid>
       <Rectangle     Stroke="#faf" Fill="#303" StrokeThickness=".333" />
-      <TextBlock Foreground="#faf" Margin="20 10 20 13" FontSize="26" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" MouseMove="onShow" MouseEnter="onShow" MouseLeave="onHide" />
+      <TextBlock Foreground="#faf" Margin="20 10 20 13" FontSize="26" Text="{Binding Path=Title, FallbackValue='123456789 654321'}" MouseMove="onShow" MouseEnter="onShow" x:Name="tbk1"/>
     </Grid>
   </Viewbox>
 

@@ -2,10 +2,11 @@
 
 public partial class BackgroundWindow : UnCloseableWindow
 {
-  public BackgroundWindow(AlexPi.Scr.Logic.GlobalEventHandler globalEventHandler) : base(globalEventHandler)
+  public BackgroundWindow() : base(null) { }
+  public BackgroundWindow(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
   {
     InitializeComponent();
-    DataContext = this;
+    DataContext = this;    
   }
   public void ShowOnTargetScreen(System.Windows.Forms.Screen trgScreen, bool showMaximized)
   {
@@ -29,6 +30,19 @@ public partial class BackgroundWindow : UnCloseableWindow
     }
   }
 
-  void onShow(object s, MouseEventArgs e) => ((TextBlock)s).Opacity = 1;
-  void onHide(object s, MouseEventArgs e) => ((TextBlock)s).Opacity = 0;
+  void onShow(object s, MouseEventArgs e)
+  {
+    try
+    {
+
+      var sb = (Storyboard)FindResource("FadingOut");
+      //sb.TargetName = "wnd";
+      sb.Stop();
+      sb.Begin();
+    }
+    catch (Exception ex)
+    {
+      tbk1.Text = ex.Message;
+    }
+  }
 }
