@@ -223,13 +223,13 @@ public partial class App : System.Windows.Application
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
-  public static void SayExe(string msg) => SpeechSynth.SayExe(msg);
-  public static void SpeakFaF(string msg, string voice = "") => Task.Run(async () => await SpeakAsync(msg, voice: voice));
-  public static async Task SpeakAsync(string msg, string voice = "")
+  public static void SayFree(string msg) => SpeechSynth.SpeakFree(msg);
+  public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann ));
+  public static async Task SpeakAsync(string msg, string voice = "", bool ignoreBann = false)
   {
     //WriteLine(msg);
 
-    if (AppSettings.Instance.IsSpeechOn)
+    if (AppSettings.Instance.IsSpeechOn || ignoreBann)
       await _synth.SpeakAsync(msg, voice: voice);
   }
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;

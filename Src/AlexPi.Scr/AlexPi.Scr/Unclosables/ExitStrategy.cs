@@ -5,7 +5,7 @@ public static class ExitStrategy
   {
     if (App.CloseOnUnIdle && (DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec) // ignore mouse moves after the grace period (to adjust layout of windows and such).
     {
-      Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}    MouseMove #{minMaouseMovePoints,4} in {typeName}.");
       if (--minMaouseMovePoints < 0)
         _ = await CloseBasedOnPCName(Key.Escape, wdw);
       else if (minMaouseMovePoints % 10 == 0)
@@ -29,12 +29,12 @@ public static class ExitStrategy
 
     //AAV.Sys.Helpers.Bpr.OKbFaF(); // why so slow to close the app?
 
-    Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}  CloseBasedOnPCName(Key.{key}, {window.GetType().FullName})   ");
+    Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - App.StartedAt:mm\\:ss\\.ff}  CloseBasedOnPCName(Key.{key}, {window.GetType().FullName})   ");
 
     switch (Environment.MachineName) // balck/white listing
     {
-      default:            /**/ App.SpeakFaF($"home.  {App.CloseOnUnIdle}    "); Trace.WriteLine($"before App.Current.Shutdown(33)"); Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
-      case "CA03-APIGID": /**/ App.SpeakFaF($"Secure-most"); Trace.WriteLine($"BackDoor_Minuted()             "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking is required
+      default:            /**/ await App.SpeakAsync($"home.  CloseOnUnIdle = {App.CloseOnUnIdle}."); WriteLine($"before App.Current.Shutdown(33)"); Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
+      case "CA03-APIGID": /**/ await App.SpeakAsync($"Secure-most"); WriteLine($"BackDoor_Minuted()             "); return await BackDoor_Minuted(key, window);   // black-listed: office - locking is required
     }
   }
   public static async Task<bool> BackDoor_Minuted(Key key, Window window)
@@ -90,13 +90,13 @@ public static class ExitStrategy
     bool keyUpHandled;
     if ((DateTime.Now - App.StartedAt).TotalSeconds < App.GraceEvLogAndLockPeriodSec)
     {
-      await App.SpeakAsync($"Right on time.");
+      await App.SpeakAsync($"Right on time.", ignoreBann: true);
       keyUpHandled = false;
     }
     else
     {
       App.LockWorkStation();
-      await App.SpeakAsync($"Nice try.");
+      await App.SpeakAsync($"Nice try.", ignoreBann: true);
       keyUpHandled = true;
     }
 

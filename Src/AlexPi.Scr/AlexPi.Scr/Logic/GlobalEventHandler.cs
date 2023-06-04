@@ -1,57 +1,52 @@
-﻿using AsLink;
-using System.Windows;
-using System.Windows.Controls;
+﻿namespace AlexPi.Scr.Logic;
 
-namespace AlexPi.Scr.Logic
+public class GlobalEventHandler
 {
-  public  class GlobalEventHandler
+  public GlobalEventHandler() { }
+
+  internal void TglContainerVis(CheckBox checkBox)
   {
-    public GlobalEventHandler() { }
+    TglContainerVis(checkBox.Name, checkBox.IsChecked == false);
+    checkBox.IsChecked = checkBox.IsChecked == false;
+  }
 
-    internal  void TglContainerVis(CheckBox checkBox)
+  internal void TglContainerVis(string name, bool isVisible)
+  {
+    var vis = isVisible ? Visibility.Visible : Visibility.Collapsed;
+    switch (name)
     {
-      TglContainerVis(checkBox.Name, checkBox.IsChecked == false);
-      checkBox.IsChecked = checkBox.IsChecked == false ? true : false;
+      case "ContainerA": ((App)Application.Current).CntrA.Visibility = vis; AppSettings.Instance.CtrlA = isVisible; break;
+      case "ContainerB": ((App)Application.Current).CntrB.Visibility = vis; AppSettings.Instance.CtrlB = isVisible; break;
+      case "ContainerC": ((App)Application.Current).CntrC.Visibility = vis; AppSettings.Instance.CtrlC = isVisible; break;
+      case "ContainerD": ((App)Application.Current).CntrD.Visibility = vis; AppSettings.Instance.CtrlD = isVisible; break;
+      case "ContainerE": ((App)Application.Current).CntrE.Visibility = vis; AppSettings.Instance.CtrlE = isVisible; break;
+      case "ContainerF": ((App)Application.Current).CntrF.Visibility = vis; AppSettings.Instance.CtrlF = isVisible; break;
+      case "ContainerG": ((App)Application.Current).CntrG.Visibility = vis; AppSettings.Instance.CtrlG = isVisible; break;
+      case "ContainerH": ((App)Application.Current).CntrH.Visibility = vis; AppSettings.Instance.CtrlH = isVisible; break;
+      case "ContainerI": ((App)Application.Current).CntrI.Visibility = vis; AppSettings.Instance.CtrlI = isVisible; break;
+      case "ContainerJ": ((App)Application.Current).CntrJ.Visibility = vis; AppSettings.Instance.CtrlJ = isVisible; break;
+      case "ContainerK": ((App)Application.Current).CntrK.Visibility = vis; AppSettings.Instance.CtrlK = isVisible; break;
+      case "ContainerL": ((App)Application.Current).CntrL.Visibility = vis; AppSettings.Instance.CtrlL = isVisible; break;
+      default: break;
     }
-
-    internal  void TglContainerVis(string name, bool isVisible)
+  }
+  internal void TglContainerVis(string name)
+  {
+    switch (name)
     {
-      var vis = isVisible ? Visibility.Visible : Visibility.Collapsed;
-      switch (name)
-      {
-        case "ContainerA": ((App)Application.Current).CntrA.Visibility = vis; AppSettings.Instance.CtrlA = isVisible; break;
-        case "ContainerB": ((App)Application.Current).CntrB.Visibility = vis; AppSettings.Instance.CtrlB = isVisible; break;
-        case "ContainerC": ((App)Application.Current).CntrC.Visibility = vis; AppSettings.Instance.CtrlC = isVisible; break;
-        case "ContainerD": ((App)Application.Current).CntrD.Visibility = vis; AppSettings.Instance.CtrlD = isVisible; break;
-        case "ContainerE": ((App)Application.Current).CntrE.Visibility = vis; AppSettings.Instance.CtrlE = isVisible; break;
-        case "ContainerF": ((App)Application.Current).CntrF.Visibility = vis; AppSettings.Instance.CtrlF = isVisible; break;
-        case "ContainerG": ((App)Application.Current).CntrG.Visibility = vis; AppSettings.Instance.CtrlG = isVisible; break;
-        case "ContainerH": ((App)Application.Current).CntrH.Visibility = vis; AppSettings.Instance.CtrlH = isVisible; break;
-        case "ContainerI": ((App)Application.Current).CntrI.Visibility = vis; AppSettings.Instance.CtrlI = isVisible; break;
-        case "ContainerJ": ((App)Application.Current).CntrJ.Visibility = vis; AppSettings.Instance.CtrlJ = isVisible; break;
-        case "ContainerK": ((App)Application.Current).CntrK.Visibility = vis; AppSettings.Instance.CtrlK = isVisible; break;
-        case "ContainerL": ((App)Application.Current).CntrL.Visibility = vis; AppSettings.Instance.CtrlL = isVisible; break;
-        default: break;
-      }
-    }
-    internal  void TglContainerVis(string name)
-    {
-      switch (name)
-      {
-        case "ContainerA": AppSettings.Instance.CtrlA = !AppSettings.Instance.CtrlA; ((App)Application.Current).CntrA.Visibility = AppSettings.Instance.CtrlA ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerB": AppSettings.Instance.CtrlB = !AppSettings.Instance.CtrlB; ((App)Application.Current).CntrB.Visibility = AppSettings.Instance.CtrlB ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerC": AppSettings.Instance.CtrlC = !AppSettings.Instance.CtrlC; ((App)Application.Current).CntrC.Visibility = AppSettings.Instance.CtrlC ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerD": AppSettings.Instance.CtrlD = !AppSettings.Instance.CtrlD; ((App)Application.Current).CntrD.Visibility = AppSettings.Instance.CtrlD ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerE": AppSettings.Instance.CtrlE = !AppSettings.Instance.CtrlE; ((App)Application.Current).CntrE.Visibility = AppSettings.Instance.CtrlE ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerF": AppSettings.Instance.CtrlF = !AppSettings.Instance.CtrlF; ((App)Application.Current).CntrF.Visibility = AppSettings.Instance.CtrlF ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerG": AppSettings.Instance.CtrlG = !AppSettings.Instance.CtrlG; ((App)Application.Current).CntrG.Visibility = AppSettings.Instance.CtrlG ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerH": AppSettings.Instance.CtrlH = !AppSettings.Instance.CtrlH; ((App)Application.Current).CntrH.Visibility = AppSettings.Instance.CtrlH ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerI": AppSettings.Instance.CtrlI = !AppSettings.Instance.CtrlI; ((App)Application.Current).CntrI.Visibility = AppSettings.Instance.CtrlI ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerJ": AppSettings.Instance.CtrlJ = !AppSettings.Instance.CtrlJ; ((App)Application.Current).CntrJ.Visibility = AppSettings.Instance.CtrlJ ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerK": AppSettings.Instance.CtrlK = !AppSettings.Instance.CtrlK; ((App)Application.Current).CntrK.Visibility = AppSettings.Instance.CtrlK ? Visibility.Visible : Visibility.Collapsed; break;
-        case "ContainerL": AppSettings.Instance.CtrlL = !AppSettings.Instance.CtrlL; ((App)Application.Current).CntrL.Visibility = AppSettings.Instance.CtrlL ? Visibility.Visible : Visibility.Collapsed; break;
-        default: break;
-      }
+      case "ContainerA": AppSettings.Instance.CtrlA = !AppSettings.Instance.CtrlA; ((App)Application.Current).CntrA.Visibility = AppSettings.Instance.CtrlA ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerB": AppSettings.Instance.CtrlB = !AppSettings.Instance.CtrlB; ((App)Application.Current).CntrB.Visibility = AppSettings.Instance.CtrlB ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerC": AppSettings.Instance.CtrlC = !AppSettings.Instance.CtrlC; ((App)Application.Current).CntrC.Visibility = AppSettings.Instance.CtrlC ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerD": AppSettings.Instance.CtrlD = !AppSettings.Instance.CtrlD; ((App)Application.Current).CntrD.Visibility = AppSettings.Instance.CtrlD ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerE": AppSettings.Instance.CtrlE = !AppSettings.Instance.CtrlE; ((App)Application.Current).CntrE.Visibility = AppSettings.Instance.CtrlE ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerF": AppSettings.Instance.CtrlF = !AppSettings.Instance.CtrlF; ((App)Application.Current).CntrF.Visibility = AppSettings.Instance.CtrlF ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerG": AppSettings.Instance.CtrlG = !AppSettings.Instance.CtrlG; ((App)Application.Current).CntrG.Visibility = AppSettings.Instance.CtrlG ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerH": AppSettings.Instance.CtrlH = !AppSettings.Instance.CtrlH; ((App)Application.Current).CntrH.Visibility = AppSettings.Instance.CtrlH ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerI": AppSettings.Instance.CtrlI = !AppSettings.Instance.CtrlI; ((App)Application.Current).CntrI.Visibility = AppSettings.Instance.CtrlI ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerJ": AppSettings.Instance.CtrlJ = !AppSettings.Instance.CtrlJ; ((App)Application.Current).CntrJ.Visibility = AppSettings.Instance.CtrlJ ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerK": AppSettings.Instance.CtrlK = !AppSettings.Instance.CtrlK; ((App)Application.Current).CntrK.Visibility = AppSettings.Instance.CtrlK ? Visibility.Visible : Visibility.Collapsed; break;
+      case "ContainerL": AppSettings.Instance.CtrlL = !AppSettings.Instance.CtrlL; ((App)Application.Current).CntrL.Visibility = AppSettings.Instance.CtrlL ? Visibility.Visible : Visibility.Collapsed; break;
+      default: break;
     }
   }
 }

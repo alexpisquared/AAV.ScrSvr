@@ -53,7 +53,7 @@ public partial class ContainerH : TopmostUnCloseableWindow
           if (AppSettings.Instance.IsSayMinOn)
           {
             if (idle.Minutes % 5 == 0 && DateTime.Now.Minute % 10 == 0)
-              App.SayExe($"{idle.Minutes} as well as {DateTime.Now:H:mm}");
+              App.SayFree($"{idle.Minutes} as well as {DateTime.Now:H:mm}");
             else if (idle.Minutes % 5 == 0)
               await App.SpeakAsync($"{idle.Minutes}");
             else if (DateTime.Now.Minute % 10 == 0)

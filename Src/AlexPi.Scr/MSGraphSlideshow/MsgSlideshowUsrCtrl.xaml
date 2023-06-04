@@ -57,17 +57,20 @@
           <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>
           </StackPanel>
           -->
-        <ProgressBar x:Name="progressBar" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value="50"             BorderThickness="0" Height="10" Margin="00" Foreground="#606" Background="#1d0" />
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
 
-        <Viewbox   x:Name="VideoInterval" Width="1000" VerticalAlignment="Top" HorizontalAlignment="Center" Height="10" Margin="0 10" Stretch="Uniform">
-          <StackPanel  x:Name="rectTotal" Width="1000" Orientation="Horizontal" Height="30" >
-            <Rectangle x:Name="rectStart" Width="800" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
-            <Rectangle x:Name="rectMiddl" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="#f00" />
-            <Rectangle x:Name="rectRest1" Width="100" VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
-          </StackPanel>
-        </Viewbox>
+          <ProgressBar x:Name="progressBar"   Width="1000" Value="50"             BorderThickness="0" Height="10" Foreground="#606" Background="#1d0" />
+          <ProgressBar x:Name="VideoProgress" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="10" Foreground="#606" Background="#1d0" />
 
-        <ProgressBar x:Name="VideoProgress" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="4" Margin="0 13" Foreground="#606" Background="#1d0" />
+          <Viewbox   x:Name="VideoInterval"   Width="1000" Height="10" Stretch="Uniform">
+            <StackPanel  x:Name="rectTotal"   Width="1000" Orientation="Horizontal" Height="30" >
+              <Rectangle x:Name="rectStart"   Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+              <Rectangle x:Name="rectMiddl"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#f00" />
+              <Rectangle x:Name="rectRest1"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+            </StackPanel>
+          </Viewbox>
+
+        </StackPanel>
 
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
         <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />

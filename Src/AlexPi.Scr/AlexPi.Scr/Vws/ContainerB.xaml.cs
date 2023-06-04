@@ -63,7 +63,7 @@ public partial class ContainerB : TopmostUnCloseableWindow
 
       if (p > 75 && !_alreadyRunning)
       {
-        App.SpeakFaF($"Excessive CPU usage triggers task manager launch...");
+        App.SpeakFaF($"Excessive CPU usage triggers task manager launch...", ignoreBann: true);
         _alreadyRunning = true;
         try { _ = Process.Start(new ProcessStartInfo("TaskMgr.exe") { UseShellExecute = true }); } catch (Exception ex) { ex.Pop(); }
       }
