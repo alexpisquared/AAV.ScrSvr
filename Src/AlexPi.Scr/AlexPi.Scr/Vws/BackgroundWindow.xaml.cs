@@ -12,7 +12,7 @@ public partial class BackgroundWindow : UnCloseableWindow
   {
     Show();
 
-    Title = $" {trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}   XY: {trgScreen.Bounds.X,5} x {trgScreen.Bounds.Y,-5} \t {VersionHelper.CurVerStr("")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 .Left)}-{(double.IsNaN(window.Top) ? -1.0 .Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
+    Title = $"{trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}     {trgScreen.Bounds.Width,5}x{trgScreen.Bounds.Height,-5} @ {trgScreen.Bounds.X,5},{trgScreen.Bounds.Y,-5}     {VersionHelper.CurVerStr("")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 .Left)}-{(double.IsNaN(window.Top) ? -1.0 .Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
 
     if (showMaximized)
     {
@@ -22,11 +22,12 @@ public partial class BackgroundWindow : UnCloseableWindow
     }
     else
     {
+      var k = DevOps.IsDevMachineH ? 1 : .666666666;
       WindowState = WindowState.Normal;
       Topmost = false;
-      Width = trgScreen.Bounds.Width;
-      Left = trgScreen.Bounds.Left;
-      Top = trgScreen.Bounds.Top + 40; // task bar considerations.
+      Width = trgScreen.Bounds.Width * k;
+      Left = trgScreen.Bounds.Left * k;
+      Top = trgScreen.Bounds.Top * k + 40; // task bar considerations.
     }
   }
 
