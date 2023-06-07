@@ -1,8 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using System.Net.Http;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 16;
@@ -362,10 +358,55 @@ public partial class MsgSlideshowUsrCtrl
 
   public async Task<Stream> DownloadFile(string url)
   {
-    var httpClient = new HttpClient();
-    var graphRequest = new HttpRequestMessage(HttpMethod.Get, url);
+    var httpClient = new System.Net.Http.HttpClient();
+    var graphRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
     var response = await httpClient.SendAsync(graphRequest);
     var contentStream = await response.Content.ReadAsStreamAsync();
     return contentStream;
   }
 }
+/*
+ To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:
+
+using Microsoft.Graph;
+using System.Threading.Tasks;
+
+public async Task<string> GetDownloadUrl(string itemId)
+{
+    var graphClient = new GraphServiceClient(authProvider);
+
+    var driveItem = await graphClient.Drives["{drive-id}"].Items[itemId]
+        .Request()
+        .Select("id,@microsoft.graph.downloadUrl")
+        .GetAsync();
+
+    return driveItem.DownloadUrl;
+}
+Copy
+You can replace {drive-id} with the ID of the drive that contains the item you want to download. You can also replace itemId with the ID of the item you want to download.
+
+
+To specify the range of bytes you want to download, you can use the Range header in your HTTP request. Here’s an example of how to download a range of bytes from a file using the Microsoft Graph API:
+
+using Microsoft.Graph;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+public async Task DownloadFile(string url)
+{
+    var httpClient = new HttpClient();
+    var graphRequest = new HttpRequestMessage(HttpMethod.Get, url);
+    graphRequest.Headers.Range = new RangeHeaderValue(100, 200);
+    var response = await httpClient.SendAsync(graphRequest);
+    var contentStream = await response.Content.ReadAsStreamAsync();
+    // Do something with the stream.
+}
+Copy
+You can replace url with the download URL for the file you want to download. The RangeHeaderValue constructor takes two parameters: the start and end positions of the byte range you want to download.
+
+The Range header is defined in the HTTP/1.1 specification (RFC 2616) . The Range header is used to specify the range of bytes that the client wants to retrieve from the server. The server responds with a 206 Partial Content status code and sends the requested range of bytes in the response body.
+
+So, yes, using the Range header to specify the range of bytes you want to download complies with RFC 2616.
+
+
+ */
