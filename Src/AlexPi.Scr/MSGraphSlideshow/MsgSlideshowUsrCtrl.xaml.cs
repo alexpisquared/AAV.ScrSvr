@@ -1,4 +1,8 @@
-﻿namespace MSGraphSlideshow;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Http;
+
+namespace MSGraphSlideshow;
 public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 16;
@@ -100,6 +104,8 @@ public partial class MsgSlideshowUsrCtrl
         return;
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
+
+      //var aStream = await DownloadFile($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
 
       var taskStream = TaskDownloadStream(pathfile);
       try
@@ -320,7 +326,7 @@ public partial class MsgSlideshowUsrCtrl
   }
   static async Task<(long durationMs, bool isExact, string report)> TryGetBetterDuration(DriveItem driveItem, Media media)
   {
-    if(driveItem.Video.Duration > 0)
+    if (driveItem.Video.Duration > 0)
       return ((long)driveItem.Video.Duration, true, "drvItm");
 
     const int maxTries = 101;
@@ -352,5 +358,14 @@ public partial class MsgSlideshowUsrCtrl
 
     var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
     _ = items.ToList()[12].Folder;
+  }
+
+  public async Task<Stream> DownloadFile(string url)
+  {
+    var httpClient = new HttpClient();
+    var graphRequest = new HttpRequestMessage(HttpMethod.Get, url);
+    var response = await httpClient.SendAsync(graphRequest);
+    var contentStream = await response.Content.ReadAsStreamAsync();
+    return contentStream;
   }
 }
