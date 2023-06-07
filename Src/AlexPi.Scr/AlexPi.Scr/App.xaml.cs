@@ -1,5 +1,5 @@
 ﻿namespace AlexPi.Scr;
-public partial class App : System.Windows.Application
+public partial class App : Application
 {
   #region fields
   readonly GlobalEventHandler _globalEventHandler = new();
@@ -322,4 +322,3 @@ public partial class App : System.Windows.Application
 //Okay Alex all set I have submitted that for you! You should get a return label emailed to you within the next day or so.Alternatively even without the label you can simply pack your items in a box and bring it to a Canada Post location with the Return ID Number PR823007. Canada Post will provide you with a receipt and take care of things from there!
 //03:58 PMDorian
 //Sorry for the mixup Alex and Thanks for your patience while we got everything sorted I really appreciate it! Let me know if you had any other questions at all or anything else you wanted to look into today.
-
