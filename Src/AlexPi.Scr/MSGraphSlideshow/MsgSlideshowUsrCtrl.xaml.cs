@@ -37,11 +37,14 @@ public partial class MsgSlideshowUsrCtrl
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
   void OnMoveProgressBarTimerTick(object? s, EventArgs e)
   {
-    //try    {
+    //try
+    //{
     VideoProgress.Maximum = 1;
     VideoProgress.Value = VideoView1.MediaPlayer?.Position ?? 0;
-    //WriteLine($"  Psn:{VideoView1.MediaPlayer?.Position,6:N2}   timer");
-    //}    catch (Exception ex)    {      WriteLine(ex);    }
+
+    //  //WriteLine($"          Psn:{VideoView1.MediaPlayer?.Position,6:N2}   on timer tick");
+    //}
+    //catch (Exception ex) { WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR  {ex.Message}"); }
   }
   async void OnLoaded(object s, RoutedEventArgs e)
   {
@@ -178,7 +181,7 @@ public partial class MsgSlideshowUsrCtrl
     }
     finally
     {
-      WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-55}{driveItem?.Name,52}  {cancelReport}");
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-48}{driveItem?.Name,52}  {driveItem?.Id}  {cancelReport}");
       ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
 
       _currentShowTimeMS = _maxMs;
@@ -208,9 +211,9 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG
       ".3gp",
       ".dng",
-      //".jpg",
+      ".jpg",
       ".mov",
-      ".mp4",
+      //".mp4",
       ".mpg",
       ".mpo",
       ".MPO",
@@ -259,7 +262,7 @@ public partial class MsgSlideshowUsrCtrl
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
 
-    var report2 = $"{report}{durationMs * .001,4:N0}s-durn: seekTo";
+    var report2 = report;
     if (durationMs > _currentShowTimeMS)
     {
       var diffMs = durationMs - _currentShowTimeMS;
@@ -278,7 +281,7 @@ public partial class MsgSlideshowUsrCtrl
       //WriteLine($"      {percd100,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMs):mm\\:ss}         <== new setting to !!!!!!!");
       //WriteLine($"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
-      report2 += $"{seekToMs * .001,3:N0}s {(VideoView1.MediaPlayer.Position < percd100 ? ("FAILED " + Path.GetExtension(driveItem.Name).ToLower()) : "++")}";
+      report2 += $" seekTo{seekToMs * .001,3:N0}/{durationMs * .001,-3:N0}s-durn {(VideoView1.MediaPlayer.Position < percd100 ? "FAILS" : "+ + +")}";
 
       var k = 1000.0 / durationMs;
       rectStart.Width = seekToMs * k;
@@ -317,9 +320,14 @@ public partial class MsgSlideshowUsrCtrl
   }
   static async Task<(long durationMs, bool isExact, string report)> TryGetBetterDuration(DriveItem driveItem, Media media)
   {
+    if(driveItem.Video.Duration > 0)
+      return ((long)driveItem.Video.Duration, true, "drvItm");
+
     const int maxTries = 101;
     var i = 1; for (; i < maxTries && media.Duration <= 0; i++) await Task.Delay(10);
     var rv = i < maxTries ? ($"{i,2} try") : "estimd";
+
+    //Debug.WriteLine($" ------------- {driveItem.Video.Duration} == {media.Duration}");
 
     return media.Duration > 0
       ? (media.Duration, true, rv)
