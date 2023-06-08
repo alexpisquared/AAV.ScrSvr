@@ -6,8 +6,8 @@
     <Duration x:Key="inOuTime">0:0:06</Duration>
     <Duration x:Key="showTime">0:0:59</Duration>
 
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar" x:Key="_d1IntroOutro" />
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
+    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar1" x:Key="_d1IntroOutro" />
+    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
@@ -59,11 +59,10 @@
           -->
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
 
-          <ProgressBar x:Name="progressBar"   Width="1000" Value="50"             BorderThickness="0" Height="10" Foreground="#606" Background="#1d0" />
-          <ProgressBar x:Name="VideoProgress" Width="1000" Value=".5" Maximum="1" BorderThickness="0" Height="10" Foreground="#606" Background="#1d0" />
-
+          <ProgressBar x:Name="progressBar1"  Width="1000" Height="10" Value="50"             BorderThickness="0" Foreground="#606" Background="#1d0" />
+          <ProgressBar x:Name="ProgressBar2"  Width="1000" Height="10" Value=".5" Maximum="1" BorderThickness="0" Foreground="#606" Background="#1b0" />
           <Viewbox   x:Name="VideoInterval"   Width="1000" Height="10" Stretch="Uniform">
-            <StackPanel  x:Name="rectTotal"   Width="1000" Orientation="Horizontal" Height="30" >
+            <StackPanel  x:Name="rectTotal"   Width="1000" Height="10" Orientation="Horizontal" >
               <Rectangle x:Name="rectStart"   Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
               <Rectangle x:Name="rectMiddl"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#f00" />
               <Rectangle x:Name="rectRest1"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
@@ -81,7 +80,7 @@
         <Label x:Name="HistoryL" d:Content="26.0"               VerticalAlignment="Bottom" HorizontalAlignment="Left"   Margin="0  51" Foreground="#0f0" />
         <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"    VerticalAlignment="Bottom" HorizontalAlignment="Right"  Margin="0  51" Foreground="#0ff" FontSize="14" Width="180" />
 
-        <Anime:ArcPi x:Name="progressArc" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
+        <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
           <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn" />

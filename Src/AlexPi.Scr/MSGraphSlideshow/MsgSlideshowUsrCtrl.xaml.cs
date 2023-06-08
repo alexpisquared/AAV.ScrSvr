@@ -39,8 +39,8 @@ public partial class MsgSlideshowUsrCtrl
   {
     //try
     //{
-    VideoProgress.Maximum = 1;
-    VideoProgress.Value = VideoView1.MediaPlayer?.Position ?? 0;
+    ProgressBar2.Maximum = 1;
+    ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
 
     //  //WriteLine($"          Psn:{VideoView1.MediaPlayer?.Position,6:N2}   on timer tick");
     //}
@@ -101,9 +101,10 @@ public partial class MsgSlideshowUsrCtrl
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
-      //var aStream = await DownloadFile($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
 
-      var taskStream = TaskDownloadStream(pathfile);
+      var taskStream =
+         TaskDownloadStreamGraph(pathfile);
+      //TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       try
       {
         _cancellationTokenSource = new();
@@ -140,7 +141,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
+        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
@@ -152,7 +153,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Visible;        //VideoView1.Visibility =
+        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Visible;        //VideoView1.Visibility =
       }
       else if (driveItem.Photo is not null)
       {
@@ -160,7 +161,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = VideoProgress.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
+        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
         ImageView1.Visibility = Visibility.Visible;
       }
       else
@@ -189,11 +190,22 @@ public partial class MsgSlideshowUsrCtrl
       _currentShowTimeMS = _maxMs;
     }
   }
-  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStream(string file)
+  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     var start = Stopwatch.GetTimestamp();
     var stream = await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+    var dnldTm = Stopwatch.GetElapsedTime(start);
+
+    return (stream, dnldTm);
+  }
+  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamAPI(string url)
+  {
+    var start = Stopwatch.GetTimestamp();
+    var httpClient = new System.Net.Http.HttpClient();
+    var graphRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
+    var response = await httpClient.SendAsync(graphRequest);
+    var stream = await response.Content.ReadAsStreamAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     return (stream, dnldTm);
@@ -238,7 +250,7 @@ public partial class MsgSlideshowUsrCtrl
       var pathfile = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
-        && 2_000_000 < fileinfo.Length && fileinfo.Length < 90_000_000
+        && 20_000_000 < fileinfo.Length && fileinfo.Length < 80_000_000
 #endif
         )
         return pathfile;
@@ -270,9 +282,12 @@ public partial class MsgSlideshowUsrCtrl
       var diffMs = durationMs - _currentShowTimeMS;
       var seekToMs = _random.Next((int)diffMs);
       var percd100 = (double)seekToMs / durationMs;
-      VideoProgress.Value = percd100;
+      ProgressBar2.Value = percd100;
 
-      //await Task.Delay(2000);      System.Media.SystemSounds.Beep.Play();
+      await Task.Delay(333);
+#if DEBUG
+      System.Media.SystemSounds.Hand.Play();
+#endif
 
       VideoView1.MediaPlayer.SetPause(true);
       VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
@@ -283,7 +298,12 @@ public partial class MsgSlideshowUsrCtrl
       //WriteLine($"      {percd100,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMs):mm\\:ss}         <== new setting to !!!!!!!");
       //WriteLine($"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
-      report2 += $" seekTo{seekToMs * .001,3:N0}/{durationMs * .001,-3:N0}s-durn {(VideoView1.MediaPlayer.Position < percd100 ? "FAILS" : "+ + +")}";
+      report2 += $" seekTo{seekToMs * .001,3:N0}/{durationMs * .001,-3:N0}s-durn";
+#if DEBUG
+      await Task.Delay(500);
+      report2 += $" {(VideoView1.MediaPlayer.Position <= percd100 ? "FAILS" : "+ + +")}  d% {(VideoView1.MediaPlayer.Position-percd100)*100:N0}";
+      System.Media.SystemSounds.Hand.Play();
+#endif
 
       var k = 1000.0 / durationMs;
       rectStart.Width = seekToMs * k;
@@ -356,14 +376,6 @@ public partial class MsgSlideshowUsrCtrl
     _ = items.ToList()[12].Folder;
   }
 
-  public async Task<Stream> DownloadFile(string url)
-  {
-    var httpClient = new System.Net.Http.HttpClient();
-    var graphRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
-    var response = await httpClient.SendAsync(graphRequest);
-    var contentStream = await response.Content.ReadAsStreamAsync();
-    return contentStream;
-  }
 }
 /*
  To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:
@@ -392,7 +404,7 @@ using Microsoft.Graph;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public async Task DownloadFile(string url)
+public async Task TaskDownloadStreamAPI(string url)
 {
     var httpClient = new HttpClient();
     var graphRequest = new HttpRequestMessage(HttpMethod.Get, url);
