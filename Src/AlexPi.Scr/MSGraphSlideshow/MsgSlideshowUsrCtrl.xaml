@@ -1,7 +1,7 @@
 <UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
              xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-             d:DesignHeight="450" d:DesignWidth="1200" Background="Transparent" Loaded="OnLoaded">
+             d:DesignHeight="450" d:DesignWidth="1400" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
     <Duration x:Key="inOuTime">0:0:06</Duration>
     <Duration x:Key="showTime">0:0:59</Duration>
@@ -58,17 +58,15 @@
           </StackPanel>
           -->
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
-
-          <ProgressBar x:Name="progressBar1"  Width="1000" Height="10" Value="50"             BorderThickness="0" Foreground="#606" Background="#1d0" />
-          <ProgressBar x:Name="ProgressBar2"  Width="1000" Height="10" Value=".5" Maximum="1" BorderThickness="0" Foreground="#606" Background="#1b0" />
-          <Viewbox   x:Name="VideoInterval"   Width="1000" Height="10" Stretch="Uniform">
-            <StackPanel  x:Name="rectTotal"   Width="1000" Height="10" Orientation="Horizontal" >
+          <ProgressBar x:Name="progressBar1"  Width="1000" Height="10" Value="50"               Foreground="#404" Background="#1b0" BorderThickness="0" />
+          <ProgressBar x:Name="ProgressBar2"  Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" />
+          <Viewbox     x:Name="VideoInterval" Width="1000" Height="10" Stretch="Uniform">
+            <StackPanel  x:Name="rectTotal"   Width="1000" Height="10" Orientation="Horizontal" Background="#606" >
               <Rectangle x:Name="rectStart"   Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
-              <Rectangle x:Name="rectMiddl"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#f00" />
+              <Rectangle x:Name="rectMiddl"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#ccc" />
               <Rectangle x:Name="rectRest1"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
             </StackPanel>
           </Viewbox>
-
         </StackPanel>
 
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
