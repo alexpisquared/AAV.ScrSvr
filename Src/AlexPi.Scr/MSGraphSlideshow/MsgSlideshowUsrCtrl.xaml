@@ -59,7 +59,7 @@
           <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>
           </StackPanel>
           -->
-        <StackPanel      x:Name="VideoInterval"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-5">
+        <StackPanel      x:Name="VideoInterval"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-6">
           <!--<ProgressBar   x:Name="progressBar1"   Width="1000" Height="10" Value="50"               Foreground="#404" Background="#1b0" BorderThickness="0" />-->
           <ProgressBar   x:Name="ProgressBar2"   Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" Visibility="Collapsed" />
           <Viewbox       x:Name="VideoInterva_"  Width="1000" Height="10" Stretch="Uniform">
