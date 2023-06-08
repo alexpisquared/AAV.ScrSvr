@@ -6,14 +6,16 @@
     <Duration x:Key="inOuTime">0:0:06</Duration>
     <Duration x:Key="showTime">0:0:59</Duration>
 
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar1" x:Key="_d1IntroOutro" />
+    <!--<DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar1" x:Key="_d1IntroOutro" />-->
     <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
+    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1"   Storyboard.TargetName="mediaElmnt"  />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0"   Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:51" />
-      <StaticResource ResourceKey="_d1IntroOutro" />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaElmnt"  />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaElmnt"  BeginTime="0:0:51" />
+      <!--<StaticResource ResourceKey="_d1IntroOutro" />-->
       <StaticResource ResourceKey="_d2IntroOutro" />
+      <StaticResource ResourceKey="_d3IntroOutro" />
     </Storyboard>
   </UserControl.Resources>
   <Grid Name="mediaElmnt" Margin="8" >
@@ -57,14 +59,16 @@
           <Button Click="OnClose"   IsCancel="True"   >E_xit</Button>
           </StackPanel>
           -->
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
-          <ProgressBar x:Name="progressBar1"  Width="1000" Height="10" Value="50"               Foreground="#404" Background="#1b0" BorderThickness="0" />
-          <ProgressBar x:Name="ProgressBar2"  Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" />
-          <Viewbox     x:Name="VideoInterval" Width="1000" Height="10" Stretch="Uniform">
-            <StackPanel  x:Name="rectTotal"   Width="1000" Height="10" Orientation="Horizontal" Background="#606" >
-              <Rectangle x:Name="rectStart"   Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
-              <Rectangle x:Name="rectMiddl"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#ccc" />
-              <Rectangle x:Name="rectRest1"   Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+        <StackPanel      x:Name="VideoInterval"  VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-5">
+          <!--<ProgressBar   x:Name="progressBar1"   Width="1000" Height="10" Value="50"               Foreground="#404" Background="#1b0" BorderThickness="0" />-->
+          <ProgressBar   x:Name="ProgressBar2"   Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" Visibility="Collapsed" />
+          <Viewbox       x:Name="VideoInterva_"  Width="1000" Height="10" Stretch="Uniform">
+            <StackPanel    x:Name="rectTotal"    Width="1000" Height="10" Orientation="Horizontal" Background="#505" >
+              <Rectangle   x:Name="rectStart"    Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+              <!--
+              <Rectangle   x:Name="progressBar3" Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#ccc" />-->
+              <ProgressBar x:Name="progressBar3" Width="100"  Value="50"             Maximum="100" Foreground="#c0c" Background="#190" BorderThickness="0" />
+              <Rectangle   x:Name="rectRest1"    Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
             </StackPanel>
           </Viewbox>
         </StackPanel>

@@ -30,22 +30,13 @@ public partial class MsgSlideshowUsrCtrl
     //var showTime = (System.Windows.Duration)FindResource("showTime");
     var showTime = new System.Windows.Duration(TimeSpan.FromMilliseconds(ms));
 
-    ((Storyboard)FindResource("_sbIntroOutro")).Duration = showTime;
-    ((DoubleAnimation)FindResource("_d1IntroOutro")).Duration = showTime;
-    ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration = showTime;
+    ((Storyboard)FindResource("_sbIntroOutro")).Duration =
+    ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration =
+    ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration =
+    showTime;
   }
   public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
-  void OnMoveProgressBarTimerTick(object? s, EventArgs e)
-  {
-    //try
-    //{
-    ProgressBar2.Maximum = 1;
-    ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
-
-    //  //WriteLine($"          Psn:{VideoView1.MediaPlayer?.Position,6:N2}   on timer tick");
-    //}
-    //catch (Exception ex) { WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR  {ex.Message}"); }
-  }
+  void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
@@ -101,7 +92,6 @@ public partial class MsgSlideshowUsrCtrl
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
-
       var taskStream =
          TaskDownloadStreamGraph(pathfile);
       //TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
@@ -141,7 +131,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
+        VideoInterval.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
@@ -153,7 +143,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Visible;        //VideoView1.Visibility =
+        VideoInterval.Visibility = Visibility.Visible;        //VideoView1.Visibility =
       }
       else if (driveItem.Photo is not null)
       {
@@ -161,7 +151,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = ProgressBar2.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
+        VideoInterval.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
         ImageView1.Visibility = Visibility.Visible;
       }
       else
@@ -301,13 +291,13 @@ public partial class MsgSlideshowUsrCtrl
       report2 += $" seekTo{seekToMs * .001,3:N0}/{durationMs * .001,-3:N0}s-durn";
 #if DEBUG
       await Task.Delay(500);
-      report2 += $" {(VideoView1.MediaPlayer.Position <= percd100 ? "FAILS" : "+ + +")}  d% {(VideoView1.MediaPlayer.Position-percd100)*100:N0}";
+      report2 += $" {(VideoView1.MediaPlayer.Position <= percd100 ? "FAILS" : "+ + +")}  d% {(VideoView1.MediaPlayer.Position - percd100) * 100:N0}";
       System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;
       rectStart.Width = seekToMs * k;
-      rectMiddl.Width = _currentShowTimeMS * k;
+      progressBar3.Width = _currentShowTimeMS * k;
       rectRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
     }
     else if (durationMs > 0)
@@ -317,7 +307,7 @@ public partial class MsgSlideshowUsrCtrl
 
     if (durationMs <= _currentShowTimeMS)
     {
-      rectMiddl.Width = 0;
+      progressBar3.Width = 0;
     }
 
     return (durationMs, isExact, report2); // in ms
@@ -375,7 +365,6 @@ public partial class MsgSlideshowUsrCtrl
     var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
     _ = items.ToList()[12].Folder;
   }
-
 }
 /*
  To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:
