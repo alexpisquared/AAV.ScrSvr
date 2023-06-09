@@ -11,6 +11,8 @@ public class ConfigRandomizer
       .AddUserSecrets<ConfigRandomizer>()          // the last overwrites!!! <== <== <== <== <== <== <== 
       .Build();
 
+  public string GetValue(string name) => _config[name] ?? "";
+
   public string GetRandomFromUserSection(string section)
   {
     var sn = $"{section}_{Environment.UserName}";
@@ -23,6 +25,4 @@ public class ConfigRandomizer
 
     return sa[_random.Next(sa.Length)];
   }
-
-  public string GetValue(string sn) => _config[sn] ?? "";
 }

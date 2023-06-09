@@ -23,9 +23,9 @@ public partial class App : Application
   #endregion
   static App()
   {
-    var cfg = new ConfigRandomizer();
-    var key = cfg.GetValue("AppSecrets:MagicSpeech").Replace("ReplaceDeployReplace", string.Format("{0}{1}{0}79{1}8f86{1}3a6{1}f32d{0}", 4, 5)); // a silly primitive ... just for laughs.
-    _synth = new(key, true, voice: cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
+    _cfg = new ConfigRandomizer();
+    var key = _cfg.GetValue("AppSecrets:MagicSpeech").Replace("ReplaceDeployReplace", string.Format("{0}{1}{0}79{1}8f86{1}3a6{1}f32d{0}", 4, 5)); // a silly primitive ... just for laughs.
+    _synth = new(key, true, voice: _cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
   }
   protected override async void OnStartup(StartupEventArgs sea)
   {
@@ -52,7 +52,7 @@ public partial class App : Application
       base.OnStartup(sea);
 
       _ = AAV.Sys.Helpers.Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   {VersionHelper.CurVerStr("")}   args: {string.Join(", ", sea.Args)}.");
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   wai:{_cfg.GetValue("WhereAmI")}   {VersionHelper.CurVerStr("")}   args: {string.Join(", ", sea.Args)}.");
 
       //if (!ShutdownIfAlreadyRunning())        return;
 
@@ -227,7 +227,7 @@ public partial class App : Application
   public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann ));
   public static async Task SpeakAsync(string msg, string voice = "", bool ignoreBann = false)
   {
-    //WriteLine(msg);
+    //WriteLine($"\t\t\t{msg}");
 
     if (AppSettings.Instance.IsSpeechOn || ignoreBann)
       await _synth.SpeakAsync(msg, voice: voice);
@@ -240,19 +240,18 @@ public partial class App : Application
     lock (_thisLock)
     {
       if (_mustLogEORun == null)
-        WriteLine($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
+        Write(""); // WriteLine($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
       else if (_mustLogEORun == false)
-        WriteLine($" ... not logged <- flag is set to false .. means: already logged before. ▒▒");
+        Write(""); // WriteLine($" ... not logged <- flag is set to false .. means: already logged before. ▒▒");
       else
       {
         if (!DevOps.IsDbg)
         {
           _mustLogEORun = false;
-          EvLogHelper.LogScrSvrEnd(App.StartedAt.AddSeconds(-IdleTimeoutSec), msg);
-          SpeakFaF(msg);
+          EvLogHelper.LogScrSvrEnd(StartedAt.AddSeconds(-IdleTimeoutSec), msg);
         }
 
-        WriteLine($" ... logged SUCCESS ... for Release only, though!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
+        Write(""); // WriteLine($" ... logged SUCCESS ... for Release only, though!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
       }
     }
   }
@@ -308,7 +307,10 @@ public partial class App : Application
   Window? _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
   Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
   Window? _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-  Window? _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+  Window? _cntrL;
+  private static ConfigRandomizer _cfg;
+
+  public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
   public static bool CloseOnUnIdle { get; set; } = true;
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);

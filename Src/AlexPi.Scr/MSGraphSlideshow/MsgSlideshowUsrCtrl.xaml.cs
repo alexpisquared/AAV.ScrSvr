@@ -45,7 +45,7 @@ public partial class MsgSlideshowUsrCtrl
     if (!success)
     {
       ReportBC.Content = ($"{report}");
-      WriteLine($"ERROR: {report}");
+      WriteLine($"{report}");
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
@@ -125,13 +125,14 @@ public partial class MsgSlideshowUsrCtrl
       ReportBR.Content = $"{driveItem.Name}";
       ReportBL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
+      VideoInterval.Visibility = Visibility.Hidden;
+
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
         ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
         streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = Visibility.Hidden;        //VideoView1.Visibility =
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
@@ -143,7 +144,6 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-        VideoInterval.Visibility = Visibility.Visible;        //VideoView1.Visibility =
       }
       else if (driveItem.Photo is not null)
       {
@@ -151,7 +151,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = Visibility.Hidden;        //VideoView1.Visibility = 
+        VideoInterval.Visibility = Visibility.Hidden;         
         ImageView1.Visibility = Visibility.Visible;
       }
       else
@@ -296,9 +296,11 @@ public partial class MsgSlideshowUsrCtrl
 #endif
 
       var k = 1000.0 / durationMs;
-      rectStart.Width = seekToMs * k;
+      rectnglStart.Width = seekToMs * k;
       progressBar3.Width = _currentShowTimeMS * k;
-      rectRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
+      rectnglRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
+    
+      VideoInterval.Visibility = Visibility.Visible;        
     }
     else if (durationMs > 0)
       report2 += ($"  °  :it's <{_maxMs * .001,3:N0}s prd");

@@ -64,11 +64,11 @@
           <ProgressBar   x:Name="ProgressBar2"   Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" Visibility="Collapsed" />
           <Viewbox       x:Name="VideoInterva_"  Width="1000" Height="10" Stretch="Uniform">
             <StackPanel    x:Name="rectTotal"    Width="1000" Height="10" Orientation="Horizontal" Background="#505" >
-              <Rectangle   x:Name="rectStart"    Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+              <Rectangle   x:Name="rectnglStart"    Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
               <!--
               <Rectangle   x:Name="progressBar3" Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#ccc" />-->
               <ProgressBar x:Name="progressBar3" Width="100"  Value="50"             Maximum="100" Foreground="#c0c" Background="#190" BorderThickness="0" />
-              <Rectangle   x:Name="rectRest1"    Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
+              <Rectangle   x:Name="rectnglRest1"    Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
             </StackPanel>
           </Viewbox>
         </StackPanel>
