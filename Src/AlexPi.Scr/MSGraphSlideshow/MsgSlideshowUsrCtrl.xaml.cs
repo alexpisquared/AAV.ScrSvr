@@ -9,6 +9,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly LibVLC _libVLC;
   CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
+  AuthUsagePOC _AuthUsagePOC = new();
 #if DEBUG
   const int _maxMs = 9_000;
 #else
@@ -36,13 +37,19 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration =
     showTime;
   }
-  public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e";
+  //public string ClientId { get; set; } = "81b1c6c7-ea12-4466-841c-0c53b530330b"; // ZoeP_  // <== https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/RegisteredApps
+  //public string ClientId { get; set; } = "751b8b39-cde8-44e5-91e4-020f42e86e95"; // ZoePi  // Created by/fot the QuickStart WPF app   WORKS for the WPF app
+  //public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e"; // nadin 
+  public string ClientId { get; set; } = "6dc84e4e-68d0-4f11-ba48-7e468aecb270"; // jingm 
+  //public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e"; // alex_  // MsgSlideshowUsrCtrl
+  //public string ClientId { get; set; } = "195390b6-cc9c-4294-a219-369d9e4cb9fa"; // alexp  // AppRegPocFixTry
+
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
-    var (success, report, result) = await new AuthUsagePOC().LogInAsync(ClientId);
+    var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
     if (!success)
     {
       ReportBC.Content = ($"{report}");
@@ -63,7 +70,7 @@ public partial class MsgSlideshowUsrCtrl
     while (true)
     {
       if (chkIsOn.IsChecked == true)
-        await LoadWaitThenShowNext();
+        chkIsOn.IsChecked = await LoadWaitThenShowNext();
       else
         await Task.Delay(100);
     }
@@ -74,7 +81,7 @@ public partial class MsgSlideshowUsrCtrl
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
 
-  async Task LoadWaitThenShowNext()
+  async Task<bool> LoadWaitThenShowNext()
   {
     string mediaType = "----", streamReport = "-- ", cancelReport = "";
     var dnldTime = TimeSpan.Zero;
@@ -89,7 +96,7 @@ public partial class MsgSlideshowUsrCtrl
 
       driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(pathfile).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
-        return;
+        return true;
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
@@ -163,6 +170,18 @@ public partial class MsgSlideshowUsrCtrl
       }
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
+
+      return true;
+    }
+    catch (ServiceException ex)
+    {
+      ReportBC.FontSize = 60;
+      ReportBC.Content = $"{ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR out {ReportBC.Content} ");
+      System.Media.SystemSounds.Beep.Play();
+
+      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
+      return false;
     }
     catch (Exception ex)
     {
@@ -172,6 +191,7 @@ public partial class MsgSlideshowUsrCtrl
       System.Media.SystemSounds.Beep.Play();
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
+      return false;
     }
     finally
     {
@@ -375,6 +395,8 @@ public partial class MsgSlideshowUsrCtrl
     var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
     _ = items.ToList()[12].Folder;
   }
+
+  async void OnLOut(object sender, RoutedEventArgs e) => ReportBC.Content = await _AuthUsagePOC.SignOut();
 }
 /*
  To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:

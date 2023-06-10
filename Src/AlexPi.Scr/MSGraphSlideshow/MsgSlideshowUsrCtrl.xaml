@@ -91,6 +91,7 @@
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
           <Button      Content="_Prev" IsDefault="False" Click="OnPrev" />
           <Button      Content="_Next" IsDefault="True"  Click="OnNext" />
+          <Button      Content="_LogO" IsDefault="False" Click="OnLOut" />
         </StackPanel>
       </Grid>
     </vlc:VideoView>
