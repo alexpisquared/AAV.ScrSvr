@@ -52,7 +52,7 @@ public partial class App : Application
       base.OnStartup(sea);
 
       _ = AAV.Sys.Helpers.Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}   {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}   wai:{_cfg.GetValue("WhereAmI")}   {VersionHelper.CurVerStr("")}   args: {string.Join(", ", sea.Args)}.");
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}  wai:{_cfg.GetValue("WhereAmI")}  {VersionHelper.CurVerStr("")}  args:{string.Join(",", sea.Args)}.");
 
       //if (!ShutdownIfAlreadyRunning())        return;
 
@@ -123,7 +123,7 @@ public partial class App : Application
     await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000);
     await SpeakAsync($"Really?");
 
-    WriteLine($"  Launching another instance lest be closed by unidling.");
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  Launching another instance lest be closed by unidling.");
     var me = Process.GetCurrentProcess();
     _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", _unidle);
     Shutdown();
@@ -192,7 +192,7 @@ public partial class App : Application
 
     if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts)))
     {
-      WriteLine($"  Launching another instance lest be closed by unidling.");
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  Launching another instance lest be closed by unidling.");
       _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", "Un-idleable instance");
       Shutdown();
       return false;
@@ -223,8 +223,8 @@ public partial class App : Application
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
-  public static void SayFree(string msg) => SpeechSynth.SpeakFree(msg);
   public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann ));
+  public static void SpeakFree(string msg) => SpeechSynth.SpeakFree(msg);
   public static async Task SpeakAsync(string msg, string voice = "", bool ignoreBann = false)
   {
     //WriteLine($"\t\t\t{msg}");
@@ -235,14 +235,14 @@ public partial class App : Application
   public static int Ssto_GpSec => IdleTimeoutSec + GraceEvLogAndLockPeriodSec;
   public static void LogScrSvrUptimeOncePerSession(string msg)
   {
-    Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓  {msg,-80}");
+    // Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓  {msg,-60}");
 
     lock (_thisLock)
     {
       if (_mustLogEORun == null)
-        Write(""); // WriteLine($" ... not logged <- flag is not set .. must be too soon to log. ▒▒");
+        Write(""); // WriteLine($"not logged <- flag is not set .. must be too soon to log. ▒▒");
       else if (_mustLogEORun == false)
-        Write(""); // WriteLine($" ... not logged <- flag is set to false .. means: already logged before. ▒▒");
+        Write(""); // WriteLine($"not logged <- flag is set to false .. means: already logged before. ▒▒");
       else
       {
         if (!DevOps.IsDbg)
@@ -251,7 +251,8 @@ public partial class App : Application
           EvLogHelper.LogScrSvrEnd(StartedAt.AddSeconds(-IdleTimeoutSec), msg);
         }
 
-        Write(""); // WriteLine($" ... logged SUCCESS ... for Release only, though!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
+        Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  ▓▓ {msg,-60}");
+        WriteLine($"ev. log SUCCESS ... for Release only, though!!!  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓  ▓▓ ");
       }
     }
   }

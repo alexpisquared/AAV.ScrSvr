@@ -43,6 +43,14 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
     };
   }
 
+  protected async void onClose(object s, RoutedEventArgs e)
+  {
+    AppSettings.Instance.SaveIfDirty_TODO();
+    Close();
+    await new Bpr().AppFinishAsync();
+    Application.Current.Shutdown();
+  }
+
   void UnCloseableWindow_Unloaded(object s, RoutedEventArgs e) { }// => App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {GetType().Name}.UnCloseableWindow_Unloaded(). ");
   void UnCloseableWindow_Closed(object? s,  /**/  EventArgs e) /**/  => App.LogScrSvrUptimeOncePerSession($"ScrSvr - Dn - {GetType().Name}.UnCloseableWindow_Closed(). ");
 }

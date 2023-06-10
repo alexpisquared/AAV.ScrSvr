@@ -18,7 +18,7 @@ public partial class BackgroundWindow : UnCloseableWindow
     {
       WindowState = WindowState.Maximized;
       Topmost = true;
-      Background = Brushes.Black;
+      Background = Brushes.DarkOrange;
     }
     else
     {
@@ -32,4 +32,9 @@ public partial class BackgroundWindow : UnCloseableWindow
   }
 
   void onShow(object s, MouseEventArgs e) { try { ((Storyboard)FindResource("FadingOut")).Begin(); } catch (Exception ex) { tbk1.Text = ex.Message; } }
+
+  private void onClose(object sender, RoutedEventArgs e)
+  {
+
+  }
 }

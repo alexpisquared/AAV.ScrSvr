@@ -15,6 +15,7 @@ public partial class MsgSlideshowUsrCtrl
   const int _maxMs = 59_000;
 #endif
   int _currentShowTimeMS = 0;
+  private bool _alreadyPrintedHeader;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -106,7 +107,7 @@ public partial class MsgSlideshowUsrCtrl
       catch (Exception ex)
       {
         ReportBC.Content = $"{ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-        WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR inner   {ReportBC.Content}  ");
+        WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR inn {ReportBC.Content} ");
         System.Media.SystemSounds.Beep.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
@@ -151,7 +152,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
-        VideoInterval.Visibility = Visibility.Hidden;         
+        VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
       }
       else
@@ -167,14 +168,20 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
-      WriteLine($"{DateTime.Now:HH:mm:ss.f} ERROR outer   {ReportBC.Content}  ");
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR out {ReportBC.Content} ");
       System.Media.SystemSounds.Beep.Play();
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
     finally
     {
-      WriteLine($"{DateTime.Now:HH:mm:ss.f} dl{.000001 * driveItem?.Size,4:N0}mb/{dnldTime.TotalSeconds,3:N0}s{mediaType,8}  {streamReport,-48}{driveItem?.Name,52}  {driveItem?.Id}  {cancelReport}");
+      if (!_alreadyPrintedHeader)
+      {
+        _alreadyPrintedHeader = true;
+        WriteLine($"{DateTime.Now:HH:mm:ss.f} dl mb/sec  Media  len by to/drn s Posn%                                           driveItem.Name  driveItem.Id              cancelReport");
+      }
+
+      WriteLine($"{DateTime.Now:HH:mm:ss.f}{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,52}  {driveItem?.Id,-26}{cancelReport}");
       ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
 
       _currentShowTimeMS = _maxMs;
@@ -270,9 +277,9 @@ public partial class MsgSlideshowUsrCtrl
     if (durationMs > _currentShowTimeMS)
     {
       var diffMs = durationMs - _currentShowTimeMS;
-      var seekToMs = _random.Next((int)diffMs);
-      var percd100 = (double)seekToMs / durationMs;
-      ProgressBar2.Value = percd100;
+      var seekToMSec = _random.Next((int)diffMs);
+      var seekToPerc = (double)seekToMSec / durationMs;
+      ProgressBar2.Value = seekToPerc;
 
       await Task.Delay(333);
 #if DEBUG
@@ -280,32 +287,33 @@ public partial class MsgSlideshowUsrCtrl
 #endif
 
       VideoView1.MediaPlayer.SetPause(true);
-      VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMs));
+      VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));
       VideoView1.MediaPlayer.SetPause(false);
 
-      //while (VideoView1.MediaPlayer.Position < percd100)      {        VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMs));        await Task.Delay(10);        Write("!");      }
+      //while (VideoView1.MediaPlayer.Position < seekToPerc)      {        VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));        await Task.Delay(10);        Write("!");      }
 
-      //WriteLine($"      {percd100,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMs):mm\\:ss}         <== new setting to !!!!!!!");
+      //WriteLine($"      {seekToPerc,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMSec):mm\\:ss}         <== new setting to !!!!!!!");
       //WriteLine($"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
-      report2 += $" seekTo{seekToMs * .001,3:N0}/{durationMs * .001,-3:N0}s-durn";
-#if DEBUG
+      report2 += $"{seekToMSec * .001,3:N0}/{durationMs * .001,-3:N0}";
+
+#if DEBUG_SEEK
       await Task.Delay(500);
-      report2 += $" {(VideoView1.MediaPlayer.Position <= percd100 ? "FAILS" : "+ + +")}  d% {(VideoView1.MediaPlayer.Position - percd100) * 100:N0}";
+      report2 += $" {(VideoView1.MediaPlayer.Position <= seekToPerc ? "FAILS" : "+ + +")} dt:{(VideoView1.MediaPlayer.Position - seekToPerc) * 100,3:N1}%";
       System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;
-      rectnglStart.Width = seekToMs * k;
+      rectnglStart.Width = seekToMSec * k;
       progressBar3.Width = _currentShowTimeMS * k;
-      rectnglRest1.Width = (durationMs - seekToMs - _currentShowTimeMS) * k;
-    
-      VideoInterval.Visibility = Visibility.Visible;        
+      rectnglRest1.Width = (durationMs - seekToMSec - _currentShowTimeMS) * k;
+
+      VideoInterval.Visibility = Visibility.Visible;
     }
     else if (durationMs > 0)
-      report2 += ($"  °  :it's <{_maxMs * .001,3:N0}s prd");
+      report2 += $"  0/{durationMs * .001,-3:N0}";
     else
-      report2 += ($"  °  Prorate this ext! ▄▀▄▀");
+      report2 += $" ° :Prorate this ext! ▄▀▄▀";
 
     if (durationMs <= _currentShowTimeMS)
     {
