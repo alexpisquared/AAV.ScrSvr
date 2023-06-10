@@ -223,7 +223,7 @@ public partial class App : Application
     Environment.Exit(87);
     Environment.FailFast("Environment.FailFast");
   }
-  public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann ));
+  public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann));
   public static void SpeakFree(string msg) => SpeechSynth.SpeakFree(msg);
   public static async Task SpeakAsync(string msg, string voice = "", bool ignoreBann = false)
   {
@@ -243,11 +243,12 @@ public partial class App : Application
         Write(""); // WriteLine($"not logged <- flag is not set .. must be too soon to log. ▒▒");
       else if (_mustLogEORun == false)
         Write(""); // WriteLine($"not logged <- flag is set to false .. means: already logged before. ▒▒");
-      else
+      else // (_mustLogEORun == true)
       {
+        _mustLogEORun = false;
+
         if (!DevOps.IsDbg)
         {
-          _mustLogEORun = false;
           EvLogHelper.LogScrSvrEnd(StartedAt.AddSeconds(-IdleTimeoutSec), msg);
         }
 
