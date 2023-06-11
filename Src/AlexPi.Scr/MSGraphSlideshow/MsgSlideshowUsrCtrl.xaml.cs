@@ -37,13 +37,8 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration =
     showTime;
   }
-  //public string ClientId { get; set; } = "81b1c6c7-ea12-4466-841c-0c53b530330b"; // ZoeP_  // <== https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/RegisteredApps
-  //public string ClientId { get; set; } = "751b8b39-cde8-44e5-91e4-020f42e86e95"; // ZoePi  // Created by/fot the QuickStart WPF app   WORKS for the WPF app
-  //public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e"; // nadin 
-  public string ClientId { get; set; } = "6dc84e4e-68d0-4f11-ba48-7e468aecb270"; // jingm 
-  //public string ClientId { get; set; } = "9ba0619e-3091-40b5-99cb-c2aca4abd04e"; // alex_  // MsgSlideshowUsrCtrl
-  //public string ClientId { get; set; } = "195390b6-cc9c-4294-a219-369d9e4cb9fa"; // alexp  // AppRegPocFixTry
-
+  public string ClientId { get; set; } 
+  
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
