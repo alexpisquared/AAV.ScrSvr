@@ -4,6 +4,9 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
 {
   protected readonly GlobalEventHandler _GlobalEventHandler;
 
+  public IConfigurationRoot ConfigurationRoot { get; }
+  public IBpr Bpr { get; }
+
   public UnCloseableWindow(GlobalEventHandler globalEventHandler) : base()
   {
     IgnoreWindowPlacement = true;
@@ -41,6 +44,12 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
           default: await App.SpeakAsync($"{e.Key} not handled!", ignoreBann: true); return;
         }
     };
+  }
+
+  public UnCloseableWindow(ILogger logger, IConfigurationRoot configurationRoot, IBpr bpr) : base(logger)
+  {
+    ConfigurationRoot = configurationRoot;
+    Bpr = bpr;
   }
 
   protected async void onClose(object s, RoutedEventArgs e)

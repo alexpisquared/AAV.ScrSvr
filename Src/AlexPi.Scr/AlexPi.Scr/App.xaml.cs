@@ -21,11 +21,26 @@ public partial class App : Application
     GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #endif
   #endregion
+
+  readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
+  readonly IServiceProvider _serviceProvider;
+  string _audit = "audit is unassigned";
   static App()
   {
     _cfg = new ConfigRandomizer();
     var key = _cfg.GetValue("AppSecrets:MagicSpeech").Replace("ReplaceDeployReplace", string.Format("{0}{1}{0}79{1}8f86{1}3a6{1}f32d{0}", 4, 5)); // a silly primitive ... just for laughs.
     _synth = new(key, true, voice: _cfg.GetRandomFromUserSection("VoiceF"), pathToCache: @$"C:\Users\{Environment.UserName}\OneDrive\Public\AppData\SpeechSynthCache\");
+  }
+  public App()
+  {
+    IServiceCollection services = new ServiceCollection();
+
+    AppStartHelper.InitAppSvcs(services);
+
+    _ = services.AddSingleton<IAddChild, UnCloseableWindow>();
+    _ = services.AddSingleton<UnCloseableWindow>(s => new UnCloseableWindow(s.GetRequiredService<ILogger>(), s.GetRequiredService<IConfigurationRoot>(), s.GetRequiredService<IBpr>()));
+
+    _serviceProvider = services.BuildServiceProvider();
   }
   protected override async void OnStartup(StartupEventArgs sea)
   {
