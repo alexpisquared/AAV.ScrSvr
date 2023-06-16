@@ -83,6 +83,7 @@ public partial class App : Application
         default:
         case "na": CloseOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
         case "lo": WriteLine($"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
+        case _unidle:
         case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
         case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
         case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.

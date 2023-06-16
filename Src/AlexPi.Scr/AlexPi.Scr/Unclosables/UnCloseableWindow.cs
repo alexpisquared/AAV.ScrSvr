@@ -2,12 +2,12 @@
 
 public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <- black bacground bottommost window to save on heating.
 {
-  protected readonly GlobalEventHandler _GlobalEventHandler;
+  protected readonly GlobalEventHandler? _GlobalEventHandler;
 
   public IConfigurationRoot ConfigurationRoot { get; }
   public IBpr Bpr { get; }
 
-  public UnCloseableWindow(GlobalEventHandler globalEventHandler) : base()
+  public UnCloseableWindow(GlobalEventHandler? globalEventHandler) : base()
   {
     IgnoreWindowPlacement = true;
     var minMouseMovePoints = 99;
@@ -26,7 +26,7 @@ public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <-
       {
         //todo: is it redundant Application.Current.Shutdown(77);          Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.StartedAt):mm\\:ss\\.ff}   App.Shutdown(77) in PreviewKeyUp(). ");
       }
-      else
+      else if(_GlobalEventHandler is not null)
         switch (e.Key)
         {
           case Key.F1: _GlobalEventHandler.TglContainerVis("ContainerA"); break;
