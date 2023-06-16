@@ -1,4 +1,5 @@
-﻿namespace AlexPi.Scr;
+namespace AlexPi.Scr;
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class App : Application
 {
   #region fields
@@ -20,11 +21,10 @@ public partial class App : Application
 #else
     GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #endif
-  #endregion
-
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
   readonly IServiceProvider _serviceProvider;
   string _audit = "audit is unassigned";
+  #endregion
   static App()
   {
     _cfg = new ConfigRandomizer();
@@ -42,34 +42,18 @@ public partial class App : Application
 
     _serviceProvider = services.BuildServiceProvider();
   }
-  protected override async void OnStartup(StartupEventArgs sea)
+  protected override async void OnStartup(StartupEventArgs startupEventArgs)
   {
     try
     {
-      if (DevOps.IsDbg)
-      {
-        ////await ChimerAlt.FreqWalkUp();
-        ////Bpr.BeepBgn3();
-        ////await ChimerAlt.Wake(); // AAV.Sys.Helpers.Bpr.Wake();
-        ////await App.SpeakAsync($"123");
-        //await ChimerAlt.Chime(1);
-        //await ChimerAlt.Chime(3);
-        //Debugger.Break();
-        ////await ChimerAlt.FreqWalkUpDn(70, 40, 50, 1.07);
-        //await AlexPi.Scr.AltBpr.ChimerAlt.FreqWalk();
-        //for (var i = 3; i < 14; i++) { await AlexPi.Scr.AltBpr.ChimerAlt.Chime(i); }
-      }
-
       CurTraceLevel = //IsDbg ? 
         AppTraceLevel_inCode //: AppTraceLevel_Warnng
         ; // AppTraceLevel_Config; - App.config is not used in Net5.
 
-      base.OnStartup(sea);
+      base.OnStartup(startupEventArgs);
 
       _ = AAV.Sys.Helpers.Tracer.SetupTracingOptions("AlexPi.Scr", CurTraceLevel);
-      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}  wai:{_cfg.GetValue("WhereAmI")}  {VersionHelper.CurVerStr("")}  args:{string.Join(",", sea.Args)}.");
-
-      //if (!ShutdownIfAlreadyRunning())        return;
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  {Environment.MachineName}.{Environment.UserDomainName}\\{Environment.UserName}  wai:{_cfg.GetValue("WhereAmI")}  {VersionHelper.CurVerStr("")}  args:{string.Join(",", startupEventArgs.Args)}.");
 
       //Au2021: too choppy, unable to set intdividually for timeout indicator on slide how: Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 3 }); //tu: anim CPU usage GLOBAL reduction!!! (Aug2019: 10 was almost OK and <10% CPU. 60 is the deafult)
 
@@ -78,29 +62,24 @@ public partial class App : Application
 
       ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-      switch (sea.Args.FirstOrDefault()?.ToLower(CultureInfo.InvariantCulture).Trim()[..(sea.Args[0].Length < 2 ? 1 : 2)])
+      switch (startupEventArgs.Args.FirstOrDefault()?.ToLower(CultureInfo.InvariantCulture).Trim()[..(startupEventArgs.Args[0].Length < 2 ? 1 : 2)])
       {
         default:
-        case "na": CloseOnUnIdle = false; goto case "sb";      // ignore mouse & keys moves/presses - use like normal app.
-        case "lo": WriteLine($"  LogMore is ON.              "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = System.Diagnostics.TraceLevel.Verbose }; goto case "/s";
-        case _unidle:
-        case "sb": _showBackWindowMaximized = false; break;     // Run the Screen Saver - Sans Background windows.
-        case "/s": _showBackWindowMaximized = true; break;      // Run the Screen Saver.
-        case "/p": showMiniScrSvr(sea.Args[1]); return;         // <HWND> - Preview Screen Saver as child of window <HWND>.
-        case "/c": _ = new SettingsWindow().ShowDialog(); return;   // Show the Settings dialog box, modal to the foreground window.
+        case "na": CloseOnUnIdle = false; goto case "sb";             // ignore mouse & keys moves/presses - use like normal app.
+        case "un": // _unidle:                                        // mind   mouse & keys moves/presses - full scr saver mode, idle time counted.
+        case "sb": _showBackWindowMaximized = false; break;           // Run the Screen Saver - Sans Background windows.
+        case "/s": _showBackWindowMaximized = true; break;            // Run the Screen Saver.
+        case "/p": showMiniScrSvr(startupEventArgs.Args[1]); return;  // <HWND> - Preview Screen Saver as child of window <HWND>.
+        case "/c": _ = new SettingsWindow().ShowDialog(); return;     // Show the Settings dialog box, modal to the foreground window.
         case "up":
         case "-u":
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
+        case "lo": WriteLine($" LogMore is ON. "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = TraceLevel.Verbose }; goto case "/s";
       }
-
-      /// if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
-      /// if yes dismissed  - close app.
-      /// if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
-      /// 
-
-      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts)))
+     
+      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts))) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
         await Wait1minuteThenRelaunch();
-      else
+      else                                                             // if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
         _ = FullScrSvrModeWithEventLoggin(Environment.GetCommandLineArgs().Any(a => a.Contains(_unidle)));
     }
     catch (Exception ex) { _ = ex.Log(optl: "ASYNC void OnStartup()"); ex.Pop("ASYNC void OnStartup()"); }

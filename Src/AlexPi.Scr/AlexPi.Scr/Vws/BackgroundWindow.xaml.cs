@@ -12,7 +12,7 @@ public partial class BackgroundWindow : UnCloseableWindow
   {
     Show();
 
-    Title = $"{trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}     {trgScreen.Bounds.Width,5}x{trgScreen.Bounds.Height,-5} @ {trgScreen.Bounds.X,5},{trgScreen.Bounds.Y,-5}     {VersionHelper.CurVerStr("")}"; // always NaN / 0: ► Left-Top: {(double.IsNaN(window.Left) ? -1.0 .Left)}-{(double.IsNaN(window.Top) ? -1.0 .Top)}   Actual W x H: {window.ActualWidth}x{window.ActualHeight}" +
+    Title = $"{trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}     {trgScreen.Bounds.Width,5}x{trgScreen.Bounds.Height,-5} @ {trgScreen.Bounds.X,5},{trgScreen.Bounds.Y,-5}     {string.Join('·', Environment.GetCommandLineArgs())}     {VersionHelper.CurVerStr("")}";
 
     if (showMaximized)
     {
