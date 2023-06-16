@@ -37,8 +37,8 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration =
     showTime;
   }
-  public string ClientId { get; set; } 
-  
+  public string ClientId { get; set; }
+
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
@@ -391,7 +391,11 @@ public partial class MsgSlideshowUsrCtrl
     _ = items.ToList()[12].Folder;
   }
 
-  async void OnLOut(object sender, RoutedEventArgs e) => ReportBC.Content = await _AuthUsagePOC.SignOut();
+  async void OnSignOut(object sender, RoutedEventArgs e)
+  {
+    ReportBC.Content = await _AuthUsagePOC.SignOut(); // LogOut
+    System.Windows.Application.Current.Shutdown();
+  }
 }
 /*
  To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:
