@@ -38,6 +38,7 @@ public partial class MsgSlideshowUsrCtrl
     showTime;
   }
   public string ClientId { get; set; }
+  public string ClientNm { get; set; }
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -47,7 +48,7 @@ public partial class MsgSlideshowUsrCtrl
     var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
     if (!success)
     {
-      ReportBC.Content = ($"{report}");
+      ReportBC.Content = $"{ClientNm}:- {report}";
       WriteLine($"{report}");
     }
 
@@ -108,7 +109,7 @@ public partial class MsgSlideshowUsrCtrl
       catch (OperationCanceledException) { cancelReport = "<CTS.Cancel>"; }
       catch (Exception ex)
       {
-        ReportBC.Content = $"{ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+        ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
         WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR inn {ReportBC.Content} ");
         System.Media.SystemSounds.Beep.Play();
 
@@ -151,7 +152,7 @@ public partial class MsgSlideshowUsrCtrl
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
+        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
@@ -160,7 +161,7 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportBC.Content = $"{.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         WriteLine($"  {pathfile}  {ReportBC.Content}  ");
       }
 
@@ -171,7 +172,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (ServiceException ex)
     {
       ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
       WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR out {ReportBC.Content} ");
       System.Media.SystemSounds.Beep.Play();
 
@@ -181,7 +182,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (Exception ex)
     {
       ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
       WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR out {ReportBC.Content} ");
       System.Media.SystemSounds.Beep.Play();
 
