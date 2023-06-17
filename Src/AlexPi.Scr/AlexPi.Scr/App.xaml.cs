@@ -13,7 +13,7 @@ public partial class App : Application
   static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
   static bool? _mustLogEORun = null;
-  const string _unidle = "Un-idleable instance", _bts = "by Task Scheduler";
+  const string _unidle = "Un-idleable instance", _byTS = "by Task Scheduler";
   public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
@@ -65,7 +65,8 @@ public partial class App : Application
       switch (startupEventArgs.Args.FirstOrDefault()?.ToLower(CultureInfo.InvariantCulture).Trim()[..(startupEventArgs.Args[0].Length < 2 ? 1 : 2)])
       {
         default:
-        case "na": CloseOnUnIdle = false; goto case "sb";             // ignore mouse & keys moves/presses - use like normal app.
+        case "na": CloseOnUnIdle = false; SpeakFaF("Mouse moves ignored."); goto case "sb"; // ignore mouse & keys moves/presses - use like normal app.
+        case "by": // _byTS:                                          // mind   mouse & keys moves/presses - full scr saver mode, idle time counted.
         case "un": // _unidle:                                        // mind   mouse & keys moves/presses - full scr saver mode, idle time counted.
         case "sb": _showBackWindowMaximized = false; break;           // Run the Screen Saver - Sans Background windows.
         case "/s": _showBackWindowMaximized = true; break;            // Run the Screen Saver.
@@ -76,8 +77,8 @@ public partial class App : Application
         case "/u": ShutdownMode = ShutdownMode.OnLastWindowClose; new UpTimeReview2().Show(); return;
         case "lo": WriteLine($" LogMore is ON. "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = TraceLevel.Verbose }; goto case "/s";
       }
-     
-      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts))) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
+
+      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_byTS))) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
         await Wait1minuteThenRelaunch();
       else                                                             // if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
         _ = FullScrSvrModeWithEventLoggin(Environment.GetCommandLineArgs().Any(a => a.Contains(_unidle)));
@@ -185,7 +186,7 @@ public partial class App : Application
       return false;
     }
 
-    if (Environment.GetCommandLineArgs().Any(a => a.Contains(_bts)))
+    if (Environment.GetCommandLineArgs().Any(a => a.Contains(_byTS)))
     {
       WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  Launching another instance lest be closed by unidling.");
       _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", "Un-idleable instance");

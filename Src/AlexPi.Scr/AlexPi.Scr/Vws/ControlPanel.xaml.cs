@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls.Primitives;
-
-namespace AlexPi.Scr.Vws;
+﻿namespace AlexPi.Scr.Vws;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class ControlPanel : TopmostUnCloseableWindow
 {

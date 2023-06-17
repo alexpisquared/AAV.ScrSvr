@@ -1,4 +1,5 @@
 ﻿namespace AlexPi.Scr.Unclosables;
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public static class ExitStrategy
 {
   public static async Task<int> CloseIfBigMoveBoforeGracePeriod(int minMaouseMovePoints, Window wdw, string typeName)
@@ -33,7 +34,7 @@ public static class ExitStrategy
 
     switch (Environment.MachineName) // balck/white listing
     {
-      default:            /**/ WriteLine($"before App.Current.Shutdown(33)"); Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
+      default:            /**/ WriteLine($"before App.Current.Shutdown(33)"); window.Hide(); await App.SpeakAsync("Ouch!"); /*await Task.Delay(260);*/ Application.Current.Shutdown(33); return true;  // default: at home: no need to lock.
       case "CA03-APIGID": /**/ WriteLine($"Secure-most: BackDoor_Minuted()"); return await BackDoor_Minuted(key, window);     // black-listed: office - locking is required
     }
   }
