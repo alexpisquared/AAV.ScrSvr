@@ -1,29 +1,70 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Configuration;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace WpfApp1
 {
-  public partial class MainWindow : Window
+  public partial class MainWindow : Window, INotifyPropertyChanged
   {
     public MainWindow()
     {
       InitializeComponent();
-      // Load the saved locations of the usercontrols
-      yellowControl.SetValue(Canvas.LeftProperty, Properties.Settings.Default.YellowLeft);
-      yellowControl.SetValue(Canvas.TopProperty, Properties.Settings.Default.YellowTop);
-      blueControl.SetValue(Canvas.LeftProperty, Properties.Settings.Default.BlueLeft);
-      blueControl.SetValue(Canvas.TopProperty, Properties.Settings.Default.BlueTop);
+      DataContext = this;
+      // Load the saved locations from app settings
+      YellowX = Convert.ToDouble(ConfigurationManager.AppSettings["YellowX"]);
+      YellowY = Convert.ToDouble(ConfigurationManager.AppSettings["YellowY"]);
+      BlueX = Convert.ToDouble(ConfigurationManager.AppSettings["BlueX"]);
+      BlueY = Convert.ToDouble(ConfigurationManager.AppSettings["BlueY"]);
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    // Properties for binding the usercontrols' locations
+    private double _yellowX;
+    public double YellowX
     {
-      // Save the current locations of the usercontrols
-      Properties.Settings.Default.YellowLeft = (double)yellowControl.GetValue(Canvas.LeftProperty);
-      Properties.Settings.Default.YellowTop = (double)yellowControl.GetValue(Canvas.TopProperty);
-      Properties.Settings.Default.BlueLeft = (double)blueControl.GetValue(Canvas.LeftProperty);
-      Properties.Settings.Default.BlueTop = (double)blueControl.GetValue(Canvas.TopProperty);
-      Properties.Settings.Default.Save();
+      get { return _yellowX; }
+      set { _yellowX = value; OnPropertyChanged("YellowX"); }
+    }
+
+    private double _yellowY;
+    public double YellowY
+    {
+      get { return _yellowY; }
+      set { _yellowY = value; OnPropertyChanged("YellowY"); }
+    }
+
+    private double _blueX;
+    public double BlueX
+    {
+      get { return _blueX; }
+      set { _blueX = value; OnPropertyChanged("BlueX"); }
+    }
+
+    private double _blueY;
+    public double BlueY
+    {
+      get { return _blueY; }
+      set { _blueY = value; OnPropertyChanged("BlueY"); }
+    }
+
+    // Event handler for saving the locations to app settings on window closing
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+      Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+      config.AppSettings.Settings["YellowX"].Value = YellowX.ToString();
+      config.AppSettings.Settings["YellowY"].Value = YellowY.ToString();
+      config.AppSettings.Settings["BlueX"].Value = BlueX.ToString();
+      config.AppSettings.Settings["BlueY"].Value = BlueY.ToString();
+      config.Save(ConfigurationSaveMode.Modified);
+      ConfigurationManager.RefreshSection("appSettings");
+    }
+
+    // Implementation of INotifyPropertyChanged interface
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged(string name)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }
 }

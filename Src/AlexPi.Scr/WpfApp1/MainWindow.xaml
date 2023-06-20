@@ -8,9 +8,8 @@
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
   <Grid>
     <Canvas x:Name="canvas">
-      <local:MyUserControl x:Name="yellowControl" Background="Yellow" Width="100" Height="100" Canvas.Left="111"/>
-      <local:MyUserControl x:Name="blueControl" Background="Blue" Width="100" Height="100" Canvas.Top="111"/>
+      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX}" Canvas.Top="{Binding YellowY}"/>
+      <local:BlueControl x:Name="blueControl" Canvas.Left="{Binding BlueX}" Canvas.Top="{Binding BlueY}"/>
     </Canvas>
   </Grid>
-
 </Window>

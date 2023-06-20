@@ -26,48 +26,48 @@ namespace WpfApp1.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double YellowLeft {
+        public double YellowX {
             get {
-                return ((double)(this["YellowLeft"]));
+                return ((double)(this["YellowX"]));
             }
             set {
-                this["YellowLeft"] = value;
+                this["YellowX"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double YellowTop {
+        public double YellowY {
             get {
-                return ((double)(this["YellowTop"]));
+                return ((double)(this["YellowY"]));
             }
             set {
-                this["YellowTop"] = value;
+                this["YellowY"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double BlueLeft {
+        public double BlueX {
             get {
-                return ((double)(this["BlueLeft"]));
+                return ((double)(this["BlueX"]));
             }
             set {
-                this["BlueLeft"] = value;
+                this["BlueX"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double BlueTop {
+        public double BlueY {
             get {
-                return ((double)(this["BlueTop"]));
+                return ((double)(this["BlueY"]));
             }
             set {
-                this["BlueTop"] = value;
+                this["BlueY"] = value;
             }
         }
     }
