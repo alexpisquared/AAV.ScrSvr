@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
   <Grid>
     <Canvas x:Name="canvas">
-      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX}" Canvas.Top="{Binding YellowY}"/>
-      <local:BlueControl x:Name="blueControl" Canvas.Left="{Binding BlueX}" Canvas.Top="{Binding BlueY}"/>
+      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX}" Canvas.Top="{Binding YellowY}" />
+      <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX}"   Canvas.Top="{Binding BlueY}"   />
     </Canvas>
   </Grid>
 </Window>
