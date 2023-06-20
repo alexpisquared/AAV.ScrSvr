@@ -51,6 +51,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "..\..\..\Microsof
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSGraph", "MSGraph", "{9BBC9F60-06D1-4130-98FA-B0C9CE3F80E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BldRls|Any CPU = BldRls|Any CPU
@@ -442,6 +444,24 @@ Global
 		{D241FF21-BFA3-4F6E-A6FF-1B20C4304174}.Release|x64.Build.0 = Release|Any CPU
 		{D241FF21-BFA3-4F6E-A6FF-1B20C4304174}.Release|x86.ActiveCfg = Release|Any CPU
 		{D241FF21-BFA3-4F6E-A6FF-1B20C4304174}.Release|x86.Build.0 = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|Any CPU.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|x64.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|x64.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|x86.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.BldRls|x86.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|x64.Build.0 = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
