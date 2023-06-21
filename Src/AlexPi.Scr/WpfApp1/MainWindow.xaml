@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Background="#111">
+        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Background="#111"
+        WindowStyle="None">
   <Grid>
-    <Canvas x:Name="canvas">
-      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX, Mode=TwoWay}" Canvas.Top="{Binding YellowY, Mode=TwoWay}" />
-      <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX, Mode=TwoWay}"   Canvas.Top="{Binding BlueY, Mode=TwoWay}"   />
-    </Canvas>
-    <Button IsCancel="True" Click="OnClose" Width="1" />
+    <Viewbox Stretch="Fill" StretchDirection="Both" Margin="50">
+      <Canvas x:Name="canvas" Background="#300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="450" Width="800" >
+        <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX, Mode=TwoWay}" Canvas.Top="{Binding YellowY, Mode=TwoWay}" />
+        <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX, Mode=TwoWay}"   Canvas.Top="{Binding BlueY, Mode=TwoWay}"   />
+      </Canvas>
+    </Viewbox>
+    <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Foreground="#888" FontSize="26">
+      <MenuItem Header="  _Prim  " Click="OnPrimScreens" />
+      <MenuItem Header="  _Scnd  " Click="OnScndScreens" />
+      <MenuItem Header="  _Both  " Click="OnBothScreens" />
+    </Menu>
+    <Button IsCancel="True" Click="OnClose" Width="1"/>
   </Grid>
 </Window>

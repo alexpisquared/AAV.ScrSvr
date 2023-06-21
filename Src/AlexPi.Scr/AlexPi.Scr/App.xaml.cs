@@ -94,7 +94,7 @@ public partial class App : Application
       SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
     });
 
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
     if (AppSettings.Instance.IsSaySecOn)
     {
@@ -133,7 +133,7 @@ public partial class App : Application
     else
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens()) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
 
     new ControlPanel(_globalEventHandler).Show();
 
