@@ -10,8 +10,8 @@
   <Grid>
     <Viewbox Stretch="Fill" StretchDirection="Both" Margin="50">
       <Canvas x:Name="canvas" Background="#300" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="450" Width="800" >
-        <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX, Mode=TwoWay}" Canvas.Top="{Binding YellowY, Mode=TwoWay}" />
-        <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX, Mode=TwoWay}"   Canvas.Top="{Binding BlueY, Mode=TwoWay}"   />
+        <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX, Mode=TwoWay, FallbackValue=110}" Canvas.Top="{Binding YellowY, Mode=TwoWay}" />
+        <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX, Mode=TwoWay}"   Canvas.Top="{Binding BlueY, Mode=TwoWay, FallbackValue=110}"   />
       </Canvas>
     </Viewbox>
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Foreground="#888" FontSize="26">
