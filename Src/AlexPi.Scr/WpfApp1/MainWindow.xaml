@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Background="#111">
   <Grid>
     <Canvas x:Name="canvas">
-      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX}" Canvas.Top="{Binding YellowY}" />
-      <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX}"   Canvas.Top="{Binding BlueY}"   />
+      <local:YellowControl x:Name="yellowControl" Canvas.Left="{Binding YellowX, Mode=TwoWay}" Canvas.Top="{Binding YellowY, Mode=TwoWay}" />
+      <local:BlueControl   x:Name="blueControl"   Canvas.Left="{Binding BlueX, Mode=TwoWay}"   Canvas.Top="{Binding BlueY, Mode=TwoWay}"   />
     </Canvas>
+    <Button IsCancel="True" Click="OnClose" Width="1" />
   </Grid>
 </Window>

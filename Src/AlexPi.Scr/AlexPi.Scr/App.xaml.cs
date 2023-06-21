@@ -306,7 +306,7 @@ public partial class App : Application
   Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
   Window? _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
   Window? _cntrL;
-  private static ConfigRandomizer _cfg;
+  static ConfigRandomizer _cfg;
 
   public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
   public static bool CloseOnUnIdle { get; set; } = true;

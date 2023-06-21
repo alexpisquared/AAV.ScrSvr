@@ -70,5 +70,17 @@ namespace WpfApp1.Properties {
                 this["BlueY"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string VM {
+            get {
+                return ((string)(this["VM"]));
+            }
+            set {
+                this["VM"] = value;
+            }
+        }
     }
 }

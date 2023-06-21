@@ -17,7 +17,7 @@ public partial class MsgSlideshowUsrCtrl
   const int _maxMs = 59_000;
 #endif
   int _currentShowTimeMS = 0;
-  private bool _alreadyPrintedHeader;
+  bool _alreadyPrintedHeader;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -376,9 +376,9 @@ public partial class MsgSlideshowUsrCtrl
       };
   }
 
-#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable IDE0051 // Remove unused members
   async Task Testingggggggg(string thm, string file)
-#pragma warning restore IDE0051 // Remove unused private members
+#pragma warning restore IDE0051 // Remove unused members
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
