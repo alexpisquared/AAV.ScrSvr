@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+                    xmlns:vm="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
+                    xmlns:vv="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
+                    xmlns:view___________________________="clr-namespace:OleksaScrSvr.Views" >
+  <!--<DataTemplate DataType="{x:Type vm:AcntVM}">
+    <view___________________________:AcntView />
+  </DataTemplate>-->
+  <DataTemplate DataType="{x:Type vm:ZeroVM}">
+    <view___________________________:ZeroView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:LoginVM}">
+    <view___________________________:LoginView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:SrvrListingVM}">
+    <view___________________________:SrvrListingView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:DtBsListingVM}">
+    <view___________________________:DtBsListingView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:UserListingVM}">
+    <view___________________________:UserListingView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:AddUserVM}">
+    <view___________________________:AddUserView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:BmsPermMgrSymtrlVM}">
+    <view___________________________:BmsPermMgrSymtrlView />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:BmsPermMgrSymtr2VM}">
+    <view___________________________:BmsPermMgrSymtr2View />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vm:LayoutVM}">
+    <view___________________________:Layout />
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type vv:SqlNtvIpmPermMgrVM}">
+    <view___________________________:SqlNtvIpmPermMgrView/>
+  </DataTemplate>
+</ResourceDictionary>

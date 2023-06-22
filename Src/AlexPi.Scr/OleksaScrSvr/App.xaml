@@ -1,9 +1,16 @@
-﻿<Application x:Class="OleksaScrSvr.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:OleksaScrSvr"
-             StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
+﻿<Application x:Class="OleksaScrSvr.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:OleksaScrSvr">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+
+        <!--ap:Backup theme + designer's:
+        <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Lite.Gray.xaml"   /> -->
+        <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Google.xaml" />
+
+        <!--ap:Allows Style="{StaticResource WindowStyle_Aav0}"  (since it is on top of the visual tree over the Window) -->
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
+
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

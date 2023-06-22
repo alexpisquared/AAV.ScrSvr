@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "AlexPi.Scr.sln",
+    "projects": [
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\Ambience\\AmbienceLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\StandardContractsLib\\StandardContractsLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\StandardLib\\StandardLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\WinFormsControlLib\\WinFormsControlLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\WpfUserControlLib\\WpfUserControlLib.csproj",
+      "OleksaScrSvr.Contract\\OleksaScrSvr.Contract.csproj",
+      "OleksaScrSvr.VM\\OleksaScrSvr.VM.csproj",
+      "OleksaScrSvr.View\\OleksaScrSvr.View.csproj",
+      "OleksaScrSvr\\OleksaScrSvr.csproj"
+    ]
+  }
+}

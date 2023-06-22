@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="OleksaScrSvr.Views.SqlNativePermMgrView"     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib" 
+             xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
+             xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:SqlNativePermMgrVM}" 
+             d:DesignHeight="250"     d:DesignWidth="800"   Padding="8" Background="#100f" >
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
+        <!--
+        <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
+        -->
+
+      </ResourceDictionary.MergedDictionaries>
+
+      <Style TargetType="{x:Type TextBlock}"  BasedOn="{StaticResource TbkVCenteredInfoClr}" />
+
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="6*"/>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="6*"/>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="6*"/>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="1*"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="1*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <TextBlock Text="SQL Native" FontSize="20" Margin="19 0" Grid.ColumnSpan="6" />
+    <TextBlock Grid.Column="5" Text="{Binding CurentUser.FullName, StringFormat='{} User: {0}'}"  />
+    <!--<TextBlock Grid.Column="9" Text="{Binding AllowSave,        StringFormat='{}Db Wr: {0}'}"  />-->
+
+    <Label    Grid.Row="1" Grid.Column="1" Content="Ser_ver"   Target="{Binding ElementName=S}" />
+    <Label    Grid.Row="1" Grid.Column="3" Content="{Binding DbCountMsg, FallbackValue=_Database}" Target="{Binding ElementName=D}" />
+    <Label    Grid.Row="1" Grid.Column="5" Content="{Binding RoleCntMsg, FallbackValue=_Role}"     Target="{Binding ElementName=R}" />
+    <Label    Grid.Row="1" Grid.Column="7" Content="Limit to" />
+    <Label    Grid.Row="1" Grid.Column="9" Content="Advanced" />
+
+    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SrvrList}"  SelectedItem="{Binding SelectSrvr}" DisplayMemberPath="Name" SelectedValuePath="Name" x:Name="S" />
+    <ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding DtBsList}"  SelectedItem="{Binding SelectDtBs}" DisplayMemberPath="Name" SelectedValuePath="Name" x:Name="D" />
+    <ComboBox Grid.Row="2" Grid.Column="5" ItemsSource="{Binding RoleList}"  SelectedItem="{Binding SelectRole}" DisplayMemberPath="Name" SelectedValuePath="Name" x:Name="R" />
+    <CheckBox Grid.Row="2" Grid.Column="7" Content="SQL _Logins Only" IsChecked="{Binding SqlLoginOnly}" FontWeight="Medium" ToolTip="Hide users without SQL Logins" />
+    <CheckBox Grid.Row="2" Grid.Column="9" Content="SM S_ynchrony"   IsChecked="{Binding BmsSynchrony}" FontWeight="Medium" ToolTip="Auto-Synchronize to SM Role ecosysytem &#10;&#10;**Currently under construction**" 
+              IsEnabled="{Binding IsDevDbg}" />
+
+    <DataGrid Grid.Row="6" Grid.ColumnSpan="11" ItemsSource="{Binding ADUserCVS}"  CurrentItem="{Binding CurentUser,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" IsReadOnly="False" ColumnHeaderHeight="50" BorderThickness="0 1 0 0" BorderBrush="#8888">
+      <!--<DataGrid.InputBindings>
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding GoToDetailsCommand}" />
+      </DataGrid.InputBindings>-->
+      <DataGrid.Columns>
+        <DataGridTemplateColumn                                           Header=" Domain\\Username" Width="24*" >
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <stb:HighlightableTextBlock Text="{Binding DomainUsername}" SearchText="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SearchText}" HorizontalAlignment="Left"  Margin="0 0 8 0" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn                                           Header=" Full Name"        Width="20*">
+          <DataGridTemplateColumn.HeaderTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="4 0" HorizontalAlignment="Right">
+                <Label    Content="_Search " Margin="0 0 0 0" Target="{Binding ElementName=sch}"/>
+                <TextBox  Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SearchText, UpdateSourceTrigger=PropertyChanged}" Width="160" x:Name="sch" />
+              </StackPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.HeaderTemplate>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <stb:HighlightableTextBlock Text="{Binding FullName}" SearchText="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SearchText}" HorizontalAlignment="Left"  Margin="0 0 8 0" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn     Width="SizeToHeader">
+          <DataGridTemplateColumn.HeaderTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="21"/>
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Member of  " FontWeight="ExtraLight"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Display  "   FontWeight="ExtraLight" HorizontalAlignment="Right"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsMemberOf, FallbackValue='ImpAdmins'}" FontWeight="Bold" />
+                <CheckBox  Grid.Row="1" Grid.Column="1" Content="_Members Only" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.MemberFilter}" FontWeight="Bold" ToolTip="Show Members Only" />
+              </Grid>
+            </DataTemplate>
+          </DataGridTemplateColumn.HeaderTemplate>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="4 0" HorizontalAlignment="Center">
+                <CheckBox Content=" " ToolTip="Toggle Membership" 
+                          IsChecked="{Binding IsMemberOfGivenRole}" 
+                          Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SetMemberCommand}" 
+                          IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AllowSave}"
+                          CommandParameter="{Binding ElementName=cA, Path=IsChecked}" x:Name="cA" />
+              </StackPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <!-- //todo: imposibles non select row for the checkbox:
+        <DataGridCheckBoxColumn Binding="{Binding IsMemberOfGivenRole}">
+          <DataGridCheckBoxColumn.HeaderTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsMemberOf, FallbackValue='Header: Is Member of'}" />
+            </DataTemplate>
+          </DataGridCheckBoxColumn.HeaderTemplate>
+        </DataGridCheckBoxColumn>-->
+      </DataGrid.Columns>
+    </DataGrid>
+
+  </Grid>
+</UserControl> 
