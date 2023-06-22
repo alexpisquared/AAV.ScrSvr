@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Controls;
+﻿using System.Diagnostics;
 
 namespace WpfApp1;
 
@@ -9,9 +8,18 @@ public partial class MainWindow
   {
     InitializeComponent();
     DataContext = string.IsNullOrEmpty(Settings.Default.VM) ? new VM() : JsonSerializer.Deserialize<VM>(Settings.Default.VM);
-    canvas.Width = Width;
-    canvas.Height = Height;
+    canvas.Width = WinFormHelper.GetSumOfAllBounds.Width;
+    canvas.Height = WinFormHelper.GetSumOfAllBounds.Height;
+    Trace.WriteLine(Title = $"{Environment.MachineName}:   canvas.Width: {canvas.Width}, canvas.Height: {canvas.Height}");
   }
+
+  void OnDragMove(object sender, MouseButtonEventArgs e)
+  {
+    if (e.LeftButton != MouseButtonState.Pressed) return;
+    DragMove();
+    //handled = true;
+  }
+
   void Window_Closing(object sender, CancelEventArgs e)
   {
     Settings.Default.VM = JsonSerializer.Serialize(DataContext);
@@ -28,7 +36,7 @@ public partial class MainWindow
     window.WindowStartupLocation = WindowStartupLocation.Manual;
     window.Top = rectangle.Top;
     window.Left = rectangle.Left;
-    window.Width = canvas.Width = rectangle.Width;
-    window.Height = canvas.Height = rectangle.Height;
+    window.Width = rectangle.Width;
+    window.Height = rectangle.Height;
   }
 }

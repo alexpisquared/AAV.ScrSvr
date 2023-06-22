@@ -51,15 +51,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "..\..\..\Microsof
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSGraph", "MSGraph", "{9BBC9F60-06D1-4130-98FA-B0C9CE3F80E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScreenUnionPOC", "WpfApp1\ScreenUnionPOC.csproj", "{2A0E35D4-7685-4EE4-B088-73448C7D5F0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleksaScrSvr", "OleksaScrSvr\OleksaScrSvr.csproj", "{950A67DB-ED45-4440-9484-969686457CDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr", "OleksaScrSvr\OleksaScrSvr.csproj", "{950A67DB-ED45-4440-9484-969686457CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleksaScrSvr.View", "OleksaScrSvr.View\OleksaScrSvr.View.csproj", "{E711036F-C7E5-40FC-A7C3-8A9B1D9D3D79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr.View", "OleksaScrSvr.View\OleksaScrSvr.View.csproj", "{E711036F-C7E5-40FC-A7C3-8A9B1D9D3D79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleksaScrSvr.VM", "OleksaScrSvr.VM\OleksaScrSvr.VM.csproj", "{63619F05-8092-48E7-9D12-068372737438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr.VM", "OleksaScrSvr.VM\OleksaScrSvr.VM.csproj", "{63619F05-8092-48E7-9D12-068372737438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleksaScrSvr.Contract", "OleksaScrSvr.Contract\OleksaScrSvr.Contract.csproj", "{F4FD574E-648D-438A-818F-60012D26432B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr.Contract", "OleksaScrSvr.Contract\OleksaScrSvr.Contract.csproj", "{F4FD574E-648D-438A-818F-60012D26432B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

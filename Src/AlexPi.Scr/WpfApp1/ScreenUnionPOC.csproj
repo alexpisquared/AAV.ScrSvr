@@ -8,11 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="theme-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WinFormsControlLib\WinFormsControlLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="theme-icon.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@ public partial class YellowControl : UserControl
 
   // Variables for tracking mouse movement and dragging state
   bool isDragging;
-  Point clickPosition;
+    System.Windows.Point clickPosition;
 
   // Event handler for mouse left button down on the border
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
