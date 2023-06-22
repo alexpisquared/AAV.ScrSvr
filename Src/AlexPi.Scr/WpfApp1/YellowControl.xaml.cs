@@ -28,7 +28,7 @@ public partial class YellowControl : UserControl
 
       var canvas = ((System.Windows.FrameworkElement)((FrameworkElement)draggableControl.Parent).Parent).Parent as Canvas;
 
-      ArgumentNullException.ThrowIfNull("▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
+      ArgumentNullException.ThrowIfNull(canvas, "▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
 
       var canvasWidth = canvas.ActualWidth ;
       var canvasHeight = canvas.ActualHeight ;

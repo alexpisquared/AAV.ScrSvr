@@ -34,8 +34,8 @@ public partial class BlueControl : UserControl
     {
       var currentPosition = e.GetPosition(this.Parent as UIElement);
 
-      // Get the parent canvas and its size
-      var canvas = ((System.Windows.FrameworkElement)draggableControl.Parent).Parent as Canvas;
+      var canvas = ((FrameworkElement)draggableControl.Parent).Parent as Canvas;
+      ArgumentNullException.ThrowIfNull(canvas, "▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
       var canvasWidth = canvas.ActualWidth;
       var canvasHeight = canvas.ActualHeight;
 

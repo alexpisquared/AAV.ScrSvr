@@ -24,8 +24,9 @@ public partial class MainWindow
   void OnDragMove(object sender, MouseButtonEventArgs e)
   {
     if (e.LeftButton != MouseButtonState.Pressed) return;
+    
     DragMove();
-    //handled = true;
+    e.Handled = true;
   }
 
   void Window_Closing(object sender, CancelEventArgs e)
