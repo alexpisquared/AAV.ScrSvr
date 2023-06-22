@@ -1,4 +1,4 @@
-﻿namespace OleksaScrSvr.Contracts;
+﻿namespace OleksaScrSvr.Contract;
 
 public interface IBmsPermMgrSymtrlVMLtd
 {

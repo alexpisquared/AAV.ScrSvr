@@ -1,7 +1,4 @@
-﻿using OleksaScrSvr.API;
-using OleksaScrSvr.Contracts;
-
-namespace OleksaScrSvr;
+﻿namespace OleksaScrSvr;
 public static class AppStartHelper
 {
   public static void InitAppSvcs(IServiceCollection services)
@@ -12,7 +9,7 @@ public static class AppStartHelper
 
     _ = services.AddSingleton<IBpr, Bpr>(); // _ = VersionHelper.IsDbgAndRBD ? services.AddSingleton<IBpr, Bpr>() : services.AddSingleton<IBpr, BprSilentMock>();
 
-    _ = services.AddTransient(sp => new OleksaScrSvrModel());
+    _ = services.AddTransient(sp => new Contract.OleksaScrSvrModel());
 
 #if !Obsolete
     //_ = services.AddSingleton<IRoleEditorService, RoleEditorServiceNxt>();

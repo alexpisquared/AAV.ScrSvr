@@ -1,6 +1,4 @@
-﻿using OleksaScrSvr.VM.Stores;
-
-namespace OleksaScrSvr.VM.VMs;
+﻿namespace OleksaScrSvr.VM.VMs;
 
 public class AcntVM : BaseMinVM
 {

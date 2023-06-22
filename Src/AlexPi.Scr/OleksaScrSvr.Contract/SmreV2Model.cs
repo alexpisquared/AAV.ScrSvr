@@ -1,6 +1,4 @@
-using WpfUserControlLib.Extensions;
-
-namespace OleksaScrSvr.Contracts;
+namespace OleksaScrSvr.Contract;
 public class OleksaScrSvrModel : OleksaScrSvrModelBase
 {
   public OleksaScrSvrModel() { }

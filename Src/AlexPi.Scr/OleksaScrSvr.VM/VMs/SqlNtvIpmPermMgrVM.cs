@@ -5,7 +5,7 @@ public class SqlNtvIpmPermMgrVM : BaseDbVM
   readonly BmsPermissionsManager _bpm;
   readonly string _constr;
 
-  public SqlNtvIpmPermMgrVM(SqlPermissionsManager spm, BmsPermissionsManager bpm, ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, OleksaScrSvr.Contracts.OleksaScrSvrModel inv, IAddChild win, UserSettingsSPM usrStgns, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore) : base( lgr, cfg, bpr, sec, inv, win, allowSaveStore, IsBusyStore, usrStgns, 8110)
+  public SqlNtvIpmPermMgrVM(SqlPermissionsManager spm, BmsPermissionsManager bpm, ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, OleksaScrSvr.Contract.OleksaScrSvrModel inv, IAddChild win, UserSettingsSPM usrStgns, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore) : base( lgr, cfg, bpr, sec, inv, win, allowSaveStore, IsBusyStore, usrStgns, 8110)
   {
     _spm = spm;
     _bpm = bpm;

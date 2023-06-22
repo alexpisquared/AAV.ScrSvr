@@ -7,7 +7,7 @@ public partial class BaseDbVM : BaseMinVM
   protected readonly AllowSaveStore _allowSaveStore;
   protected readonly IsBusyStore _IsBusyStore;
 
-  public BaseDbVM(ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, OleksaScrSvr.Contracts.OleksaScrSvrModel inv, IAddChild win, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore, UserSettingsSPM usrStgns, int oid)
+  public BaseDbVM(ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, Contract.OleksaScrSvrModel inv, IAddChild win, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore, UserSettingsSPM usrStgns, int oid)
   {
     IsDevDbg = VersionHelper.IsDbg;
 
@@ -58,7 +58,7 @@ public partial class BaseDbVM : BaseMinVM
 
   public UserSettingsSPM UserSetgs { get; }
   public IConfigurationRoot Config { get; }
-  public OleksaScrSvr.Contracts.OleksaScrSvrModel SmreModel { get; protected set; }
+  public OleksaScrSvrModel SmreModel { get; protected set; }
   public ILogger Logger { get; }
   public IBpr Bpr { get; }
   public Window MainWin { get; }
@@ -77,7 +77,7 @@ public partial class BaseDbVM : BaseMinVM
 
     if (AllowSave)
     {
-      OleksaScrSvr.Contracts.OleksaScrSvrModelBase.Save(SmreModel);
+      OleksaScrSvrModelBase.Save(SmreModel);
 
       await Bpr.TickAsync();
     }

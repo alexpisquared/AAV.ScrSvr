@@ -6,3 +6,4 @@ global using StandardLib.Helpers;
 global using WpfUserControlLib.Extensions;
 global using System.Text.Json.Serialization;
 global using System.Runtime.Serialization;
+global using OleksaScrSvr.Contract;

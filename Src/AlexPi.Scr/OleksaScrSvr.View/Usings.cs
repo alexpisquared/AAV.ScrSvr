@@ -19,5 +19,5 @@ global using static System.Diagnostics.Trace;
 global using static System.Media.SystemSounds;
 global using WpfUserControlLib.Base;
 global using WpfUserControlLib.Extensions;
-global using OleksaScrSvr.Contracts;
+global using OleksaScrSvr.Contract;
 global using System.Collections.ObjectModel;

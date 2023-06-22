@@ -1,6 +1,4 @@
-﻿using OleksaScrSvr.Contracts;
-
-namespace OleksaScrSvr.API;
+﻿namespace OleksaScrSvr.API;
 
 public interface IRoleEditorService
 {

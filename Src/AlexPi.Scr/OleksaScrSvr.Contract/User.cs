@@ -1,6 +1,4 @@
-﻿namespace OleksaScrSvr.Contracts;
-
-[DataContract]
+﻿[DataContract]
 public class User
 {
   public User() { }
