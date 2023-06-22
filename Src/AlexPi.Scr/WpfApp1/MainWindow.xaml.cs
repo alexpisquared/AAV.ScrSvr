@@ -1,13 +1,21 @@
-﻿using System.Diagnostics;
-
-namespace WpfApp1;
+﻿namespace WpfApp1;
 
 public partial class MainWindow
 {
   public MainWindow()
   {
     InitializeComponent();
-    DataContext = string.IsNullOrEmpty(Settings.Default.VM) ? new VM() : JsonSerializer.Deserialize<VM>(Settings.Default.VM);
+
+    try
+    {
+      DataContext = string.IsNullOrEmpty(Settings.Default.VM) ? new VM() : JsonSerializer.Deserialize<VM>(Settings.Default.VM);
+      //DataContext = new VM();
+    }
+    catch (Exception ex)
+    {
+      Trace.WriteLine(Title = $"{ex.Message}:  {Settings.Default.VM}");
+      DataContext = new VM();
+    }
     canvas.Width = WinFormHelper.GetSumOfAllBounds.Width;
     canvas.Height = WinFormHelper.GetSumOfAllBounds.Height;
     Trace.WriteLine(Title = $"{Environment.MachineName}:   canvas.Width: {canvas.Width}, canvas.Height: {canvas.Height}");

@@ -4,40 +4,34 @@ public partial class YellowControl : UserControl
 {
   public YellowControl() => InitializeComponent();
 
-  // Variables for tracking mouse movement and dragging state
-  bool isDragging;
-    System.Windows.Point clickPosition;
+  bool isDragging, _isResizing;
+  System.Windows.Point _lastMousePosition, clickPosition;
 
-  // Event handler for mouse left button down on the border
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
     isDragging = true;
-    var draggableControl = sender as Border;
     clickPosition = e.GetPosition(this);
-    _ = (draggableControl?.CaptureMouse());
+    _ = ((sender as Border)?.CaptureMouse());
     Panel.SetZIndex(this, 111);
   }
-
-  // Event handler for mouse left button up on the border
   void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     isDragging = false;
-    var draggable = sender as Border;
-    draggable?.ReleaseMouseCapture();
+    (sender as Border)?.ReleaseMouseCapture();
     Panel.SetZIndex(this, 11);
   }
-
-  // Event handler for mouse move on the border
   void Border_MouseMove(object sender, MouseEventArgs e)
   {
     if (isDragging && sender is Border draggableControl)
     {
       var currentPosition = e.GetPosition(this.Parent as UIElement);
 
-      // Get the parent canvas and its size
-      var canvas = ((System.Windows.FrameworkElement)draggableControl.Parent).Parent as Canvas;
-      var canvasWidth = canvas.ActualWidth;
-      var canvasHeight = canvas.ActualHeight;
+      var canvas = ((System.Windows.FrameworkElement)((FrameworkElement)draggableControl.Parent).Parent).Parent as Canvas;
+
+      ArgumentNullException.ThrowIfNull("▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
+
+      var canvasWidth = canvas.ActualWidth ;
+      var canvasHeight = canvas.ActualHeight ;
 
       // Calculate the new position of the usercontrol
       var newX = currentPosition.X - clickPosition.X;
@@ -56,6 +50,33 @@ public partial class YellowControl : UserControl
       // Set the new position of the usercontrol
       this.SetValue(Canvas.LeftProperty, newX);
       this.SetValue(Canvas.TopProperty, newY);
+    }
+  }
+
+
+ 
+  private void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+  {
+    _isResizing = true;
+    _lastMousePosition = e.GetPosition(this);
+    Mouse.Capture((IInputElement)sender);
+  }
+
+  private void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+  {
+    _isResizing = false;
+    Mouse.Capture(null);
+  }
+
+  private void Rectng_MouseMove(object sender, MouseEventArgs e)
+  {
+    if (_isResizing)
+    {
+      var currentPosition = e.GetPosition(this);
+      var delta = currentPosition - _lastMousePosition;
+      Width += delta.X;
+      Height += delta.Y;
+      _lastMousePosition = currentPosition;
     }
   }
 }

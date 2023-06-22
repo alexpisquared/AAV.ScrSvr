@@ -10,3 +10,4 @@ global using WinFormsControlLib;
 global using System.Drawing;
 global using System.Windows.Controls;
 global using ScreenUnionPOC.Properties;
+global using System.Diagnostics;

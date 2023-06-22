@@ -1,5 +1,5 @@
 ﻿<Window x:Class="WpfApp1.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:WpfApp1" d:DataContext="{d:DesignInstance Type=local:VM}"
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing" Background="#111"
         WindowStyle="None" AllowsTransparency="True">
   <WindowChrome.WindowChrome>
@@ -7,11 +7,12 @@
   </WindowChrome.WindowChrome>
   <Grid>
     <Viewbox Stretch="Uniform">
-      <Canvas x:Name="canvas" Background="#3333" Height="450" Width="800" >
-        <local:YellowControl Canvas.Left="{Binding YellowX, Mode=TwoWay, FallbackValue=010}" Canvas.Top="{Binding YellowY, Mode=TwoWay, FallbackValue=010}" />
-        <local:YellowControl Canvas.Left="{Binding YellowX, Mode=TwoWay, FallbackValue=010}" Canvas.Top="{Binding YellowY, Mode=TwoWay, FallbackValue=210}" />
-        <local:BlueControl   Canvas.Left="{Binding BlueX,   Mode=TwoWay, FallbackValue=110}" Canvas.Top="{Binding BlueY,   Mode=TwoWay, FallbackValue=110}"   />
-        <local:BlueControl   Canvas.Left="{Binding BlueX,   Mode=TwoWay, FallbackValue=210}" Canvas.Top="{Binding BlueY,   Mode=TwoWay, FallbackValue=010}"   />
+      <Canvas x:Name="canvas" Background="#3333" Height="450" Width="800" Margin="16">
+        <local:YellowControl Canvas.Left="{Binding Layout1.Left, Mode=TwoWay, FallbackValue=010}" Canvas.Top="{Binding Layout1.Top, Mode=TwoWay, FallbackValue=010}" />
+        <local:YellowControl Canvas.Left="{Binding Layout2.Left, Mode=TwoWay, FallbackValue=010}" Canvas.Top="{Binding Layout2.Top, Mode=TwoWay, FallbackValue=210}" />
+        <local:BlueControl   Canvas.Left="{Binding Layout3.Left, Mode=TwoWay, FallbackValue=110}" Canvas.Top="{Binding Layout3.Top, Mode=TwoWay, FallbackValue=110}" />
+        <local:BlueControl   Canvas.Left="{Binding Layout4.Left, Mode=TwoWay, FallbackValue=210}" Canvas.Top="{Binding Layout4.Top, Mode=TwoWay, FallbackValue=010}" />
+        <local:BlueControl   Canvas.Left="{Binding Layout5.Left, Mode=TwoWay, FallbackValue=310}" Canvas.Top="{Binding Layout5.Top, Mode=TwoWay, FallbackValue=110}" />
       </Canvas>
     </Viewbox>
     <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#2222" Foreground="#888" FontSize="26" >

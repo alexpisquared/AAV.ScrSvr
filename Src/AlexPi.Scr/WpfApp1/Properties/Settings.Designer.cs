@@ -26,48 +26,48 @@ namespace ScreenUnionPOC.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double YellowX {
+        public double X1 {
             get {
-                return ((double)(this["YellowX"]));
+                return ((double)(this["X1"]));
             }
             set {
-                this["YellowX"] = value;
+                this["X1"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double YellowY {
+        public double Y1 {
             get {
-                return ((double)(this["YellowY"]));
+                return ((double)(this["Y1"]));
             }
             set {
-                this["YellowY"] = value;
+                this["Y1"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double BlueX {
+        public double X2 {
             get {
-                return ((double)(this["BlueX"]));
+                return ((double)(this["X2"]));
             }
             set {
-                this["BlueX"] = value;
+                this["X2"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double BlueY {
+        public double Y2 {
             get {
-                return ((double)(this["BlueY"]));
+                return ((double)(this["Y2"]));
             }
             set {
-                this["BlueY"] = value;
+                this["Y2"] = value;
             }
         }
         
