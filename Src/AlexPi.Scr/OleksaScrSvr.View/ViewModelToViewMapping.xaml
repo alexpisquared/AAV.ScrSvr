@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
                     xmlns:vm="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
                     xmlns:vv="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
-                    xmlns:view___________________________="clr-namespace:OleksaScrSvr.Views" >
+                    xmlns:view___________________________="clr-namespace:OleksaScrSvr.View" >
   <!--<DataTemplate DataType="{x:Type vm:AcntVM}">
     <view___________________________:AcntView />
   </DataTemplate>-->

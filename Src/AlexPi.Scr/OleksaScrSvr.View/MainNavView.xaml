@@ -22,7 +22,7 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
         -->
-        <ResourceDictionary Source="/OleksaScrSvr.Views;component/ViewModelToViewMapping.xaml" />
+        <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <sys:Double x:Key="blur">0</sys:Double>

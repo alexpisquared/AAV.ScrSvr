@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OleksaScrSvr.Views;
+namespace OleksaScrSvr.View;
 /// <summary>
 /// Interaction logic for ZeroView.xaml
 /// </summary>

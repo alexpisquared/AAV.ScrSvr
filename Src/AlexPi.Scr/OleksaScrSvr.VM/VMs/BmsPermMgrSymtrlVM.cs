@@ -1,5 +1,7 @@
-﻿namespace OleksaScrSvr.VM.VMs;
-public partial class BmsPermMgrSymtrlVM : BaseDbVM
+﻿using OleksaScrSvr.Contracts;
+
+namespace OleksaScrSvr.VM.VMs;
+public partial class BmsPermMgrSymtrlVM : BaseDbVM, IBmsPermMgrSymtrlVMLtd
 {
   const string _dev = "DEV", _pro = "PROD";
   
@@ -17,4 +19,7 @@ public partial class BmsPermMgrSymtrlVM : BaseDbVM
     finally { IsBusy = false; }
   }
 
+  public void ReloadRolesForSelectUser(User lastSelectUser) => throw new NotImplementedException();
+  public void ReloadUsersForSelectRole(Role lastSelectPerm) => throw new NotImplementedException();
+  public Task<bool> ToggleGrant(object grantCell, string lastSelectUserId, string lastSelectRoleId) => throw new NotImplementedException();
 }

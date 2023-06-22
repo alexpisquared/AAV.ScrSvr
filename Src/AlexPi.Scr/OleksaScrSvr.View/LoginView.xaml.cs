@@ -1,4 +1,4 @@
-﻿namespace OleksaScrSvr.Views
+﻿namespace OleksaScrSvr.View
 {
   /// <summary>
   /// Interaction logic for LoginView.xaml

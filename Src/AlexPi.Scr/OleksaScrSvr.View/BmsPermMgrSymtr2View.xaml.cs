@@ -1,4 +1,4 @@
-﻿namespace OleksaScrSvr.Views;
+﻿namespace OleksaScrSvr.View;
 public partial class BmsPermMgrSymtr2View : UserControl
 {
   public BmsPermMgrSymtr2View() => InitializeComponent();

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OleksaScrSvr.Views
+namespace OleksaScrSvr.View
 {
   /// <summary>
   /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
@@ -22,14 +22,14 @@ namespace OleksaScrSvr.Views
   /// Add this XmlNamespace attribute to the root element of the markup file where it is 
   /// to be used:
   ///
-  ///     xmlns:MyNamespace="clr-namespace:OleksaScrSvr.Views"
+  ///     xmlns:MyNamespace="clr-namespace:OleksaScrSvr.View"
   ///
   ///
   /// Step 1b) Using this custom control in a XAML file that exists in a different project.
   /// Add this XmlNamespace attribute to the root element of the markup file where it is 
   /// to be used:
   ///
-  ///     xmlns:MyNamespace="clr-namespace:OleksaScrSvr.Views;assembly=OleksaScrSvr.Views"
+  ///     xmlns:MyNamespace="clr-namespace:OleksaScrSvr.View;assembly=OleksaScrSvr.View"
   ///
   /// You will also need to add a project reference from the project where the XAML file lives
   /// to this project and Rebuild to avoid compilation errors:
