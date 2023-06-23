@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-
-namespace ScreenUnionPOC;
+﻿namespace ScreenUnionPOC;
 
 public partial class YellowControl : UserControl
 {
@@ -12,7 +9,7 @@ public partial class YellowControl : UserControl
 
   bool isDragging, _isResizing;
   System.Windows.Point _lastMousePosition, clickPosition;
-  string jsonFile = @$"\temp\__.jsonFile";
+  string jsonFile = @$"\temp\_Not_used_.jsonFile";
 
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
@@ -80,11 +77,11 @@ public partial class YellowControl : UserControl
     try
     {
       jsonFile = @$"\temp\_{Name}_.jsonFile";
-      var l = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile)));
+      var l = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile))) ?? new LayoutVM();
       Canvas.SetTop(this, l.Top);
       Canvas.SetLeft(this, l.Left);
-      Canvas.SetRight(this, l.Right);
-      Canvas.SetBottom(this, l.Bottom);
+      Width = l.Width;
+      Height = l.Height;
     }
     catch (Exception ex)
     {
@@ -106,8 +103,8 @@ public partial class YellowControl : UserControl
     {
       Top = Canvas.GetTop(this),
       Left = Canvas.GetLeft(this),
-      Right = Canvas.GetRight(this),
-      Bottom = Canvas.GetBottom(this)
+      Width = this.Width,    
+      Height = this.Height
     }));
   }
 
