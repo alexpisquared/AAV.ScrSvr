@@ -8,8 +8,8 @@
   <Grid>
     <Viewbox Stretch="Uniform">
       <Canvas x:Name="canvas" Background="#3333" Height="450" Width="800" Margin="16">
-        <local:YellowControl x:Name="Name1"/>
-        <local:YellowControl x:Name="Name2"/>
+        <local:UnitContainer x:Name="Name1"/>
+        <local:UnitContainer x:Name="Name2"/>
         <local:BlueControl   Canvas.Left="{Binding Layout3.Left, Mode=TwoWay, FallbackValue=110}" Canvas.Top="{Binding Layout3.Top, Mode=TwoWay, FallbackValue=110}" />
         <local:BlueControl   Canvas.Left="{Binding Layout4.Left, Mode=TwoWay, FallbackValue=210}" Canvas.Top="{Binding Layout4.Top, Mode=TwoWay, FallbackValue=010}" />
         <local:BlueControl   Canvas.Left="{Binding Layout5.Left, Mode=TwoWay, FallbackValue=310}" Canvas.Top="{Binding Layout5.Top, Mode=TwoWay, FallbackValue=210}" />

@@ -1,8 +1,8 @@
 ﻿namespace ScreenUnionPOC;
 
-public partial class YellowControl : UserControl
+public partial class UnitContainer : UserControl
 {
-  public YellowControl()
+  public UnitContainer()
   {
     InitializeComponent();
   }
