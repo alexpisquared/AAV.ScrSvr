@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WpfApp1.BlueControl"
+﻿<UserControl x:Class="ScreenUnionPOC.BlueControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfApp1"
+             xmlns:local="clr-namespace:ScreenUnionPOC"
              mc:Ignorable="d" Height="100" Width="100">
   <Border Background="#00f" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove"/>
 </UserControl>

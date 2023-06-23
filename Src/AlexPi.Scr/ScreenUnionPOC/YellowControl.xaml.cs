@@ -1,11 +1,19 @@
-﻿namespace WpfApp1;
+﻿using System.IO;
+using System.Threading.Tasks;
+
+namespace ScreenUnionPOC;
 
 public partial class YellowControl : UserControl
 {
-  public YellowControl() => InitializeComponent();
+  public YellowControl()
+  {
+    InitializeComponent();
+    jsonFile = @$"\temp\_{Name}_.jsonFile";
+  }
 
   bool isDragging, _isResizing;
   System.Windows.Point _lastMousePosition, clickPosition;
+  string jsonFile;
 
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
@@ -14,24 +22,25 @@ public partial class YellowControl : UserControl
     _ = ((sender as Border)?.CaptureMouse());
     Panel.SetZIndex(this, 111);
   }
-  void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+ async void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     isDragging = false;
     (sender as Border)?.ReleaseMouseCapture();
     Panel.SetZIndex(this, 11);
+    await Store();
   }
   void Border_MouseMove(object sender, MouseEventArgs e)
   {
     if (isDragging && sender is Border draggableControl)
     {
-      var currentPosition = e.GetPosition(this.Parent as UIElement);
+      var currentPosition = e.GetPosition(Parent as UIElement);
 
-      var canvas = ((System.Windows.FrameworkElement)((FrameworkElement)draggableControl.Parent).Parent).Parent as Canvas;
+      var canvas = ((FrameworkElement)((FrameworkElement)draggableControl.Parent).Parent).Parent as Canvas;
 
-      ArgumentNullException.ThrowIfNull(canvas, "▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
+      ArgumentNullException.ThrowIfNull(canvas, "▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ Canvas ▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
 
-      var canvasWidth = canvas.ActualWidth ;
-      var canvasHeight = canvas.ActualHeight ;
+      var canvasWidth = canvas.ActualWidth;
+      var canvasHeight = canvas.ActualHeight;
 
       // Calculate the new position of the usercontrol
       var newX = currentPosition.X - clickPosition.X;
@@ -40,35 +49,69 @@ public partial class YellowControl : UserControl
       // Check if the new position is within the canvas bounds
       if (newX < 0)
         newX = 0;
-      if (newX + this.ActualWidth > canvasWidth)
-        newX = canvasWidth - this.ActualWidth;
+      if (newX + ActualWidth > canvasWidth)
+        newX = canvasWidth - ActualWidth;
       if (newY < 0)
         newY = 0;
-      if (newY + this.ActualHeight > canvasHeight)
-        newY = canvasHeight - this.ActualHeight;
+      if (newY + ActualHeight > canvasHeight)
+        newY = canvasHeight - ActualHeight;
 
       // Set the new position of the usercontrol
-      this.SetValue(Canvas.LeftProperty, newX);
-      this.SetValue(Canvas.TopProperty, newY);
+      SetValue(Canvas.LeftProperty, newX);
+      SetValue(Canvas.TopProperty, newY);
     }
   }
 
 
- 
-  private void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+  void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
     _isResizing = true;
     _lastMousePosition = e.GetPosition(this);
-    Mouse.Capture((IInputElement)sender);
+    _ = Mouse.Capture((IInputElement)sender);
   }
 
-  private void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+  void OnSetPosition(object sender, RoutedEventArgs e)
+  {
+    Canvas.SetLeft(this, 444);
+    Canvas.SetTop(this, 222);
+  }
+
+  async void OnLoaded(object sender, RoutedEventArgs e)
+  {
+    try
+    {
+      var l = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile)));
+      Canvas.SetTop(this, l.Top);
+      Canvas.SetLeft(this, l.Left);
+      Canvas.SetRight(this, l.Right);
+      Canvas.SetBottom(this, l.Bottom);
+    }
+    catch (Exception ex)
+    {
+      Trace.WriteLine($"{ex.Message}:  {jsonFile}");
+      DataContext = new LayoutVM();
+    }
+  }
+
+  async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     _isResizing = false;
-    Mouse.Capture(null);
+    _ = Mouse.Capture(null);
+    await Store();
   }
 
-  private void Rectng_MouseMove(object sender, MouseEventArgs e)
+  async Task Store()
+  {
+    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM
+    {
+      Top = Canvas.GetTop(this),
+      Left = Canvas.GetLeft(this),
+      Right = Canvas.GetRight(this),
+      Bottom = Canvas.GetBottom(this)
+    }));
+  }
+
+  void Rectng_MouseMove(object sender, MouseEventArgs e)
   {
     if (_isResizing)
     {

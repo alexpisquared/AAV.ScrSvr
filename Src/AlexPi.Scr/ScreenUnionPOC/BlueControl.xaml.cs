@@ -1,4 +1,4 @@
-﻿namespace WpfApp1;
+﻿namespace ScreenUnionPOC;
 
 public partial class BlueControl : UserControl
 {
@@ -32,7 +32,7 @@ public partial class BlueControl : UserControl
   {
     if (isDragging && sender is Border draggableControl)
     {
-      var currentPosition = e.GetPosition(this.Parent as UIElement);
+      var currentPosition = e.GetPosition(Parent as UIElement);
 
       var canvas = ((FrameworkElement)draggableControl.Parent).Parent as Canvas;
       ArgumentNullException.ThrowIfNull(canvas, "▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄321▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
@@ -46,16 +46,16 @@ public partial class BlueControl : UserControl
       // Check if the new position is within the canvas bounds
       if (newX < 0)
         newX = 0;
-      if (newX + this.ActualWidth > canvasWidth)
-        newX = canvasWidth - this.ActualWidth;
+      if (newX + ActualWidth > canvasWidth)
+        newX = canvasWidth - ActualWidth;
       if (newY < 0)
         newY = 0;
-      if (newY + this.ActualHeight > canvasHeight)
-        newY = canvasHeight - this.ActualHeight;
+      if (newY + ActualHeight > canvasHeight)
+        newY = canvasHeight - ActualHeight;
 
       // Set the new position of the usercontrol
-      this.SetValue(Canvas.LeftProperty, newX);
-      this.SetValue(Canvas.TopProperty, newY);
+      SetValue(Canvas.LeftProperty, newX);
+      SetValue(Canvas.TopProperty, newY);
     }
   }
 }

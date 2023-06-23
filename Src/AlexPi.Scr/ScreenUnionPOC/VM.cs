@@ -1,4 +1,4 @@
-﻿namespace WpfApp1;
+﻿namespace ScreenUnionPOC;
 public partial class VM : ObservableValidator
 {
   [ObservableProperty] LayoutVM layout1 = new();

@@ -1,4 +1,4 @@
-﻿namespace WpfApp1;
+﻿namespace ScreenUnionPOC;
 
 public partial class MainWindow
 {
