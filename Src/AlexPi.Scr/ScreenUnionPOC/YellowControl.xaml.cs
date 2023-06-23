@@ -8,12 +8,11 @@ public partial class YellowControl : UserControl
   public YellowControl()
   {
     InitializeComponent();
-    jsonFile = @$"\temp\_{Name}_.jsonFile";
   }
 
   bool isDragging, _isResizing;
   System.Windows.Point _lastMousePosition, clickPosition;
-  string jsonFile;
+  string jsonFile = @$"\temp\__.jsonFile";
 
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
@@ -80,6 +79,7 @@ public partial class YellowControl : UserControl
   {
     try
     {
+      jsonFile = @$"\temp\_{Name}_.jsonFile";
       var l = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile)));
       Canvas.SetTop(this, l.Top);
       Canvas.SetLeft(this, l.Left);
