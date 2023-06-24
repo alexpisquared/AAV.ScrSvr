@@ -14,12 +14,11 @@ public partial class UnitContainer : UserControl
     {
       Top = Canvas.GetTop(this),
       Left = Canvas.GetLeft(this),
-      Width = this.Width,
-      Height = this.Height
+      Width = Width,
+      Height = Height
     }));
   }
-
-  async void OnLoaded(object sender, RoutedEventArgs e)
+  async Task Restore()
   {
     try
     {
@@ -36,6 +35,9 @@ public partial class UnitContainer : UserControl
       DataContext = new LayoutVM();
     }
   }
+
+  async void OnLoaded(object sender, RoutedEventArgs e)  {    await Restore();  }
+
 
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
@@ -90,6 +92,18 @@ public partial class UnitContainer : UserControl
     _lastMousePosition = e.GetPosition(this);
     _ = Mouse.Capture((IInputElement)sender);
   }
+
+ async void MenuItem_Checked(object sender, RoutedEventArgs e)
+  {
+    await Restore();
+  }
+
+  void MenuItem_Unchecked(object sender, RoutedEventArgs e)
+  {
+    Width = 210;
+    Height = 80;
+  }
+
   async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     _isResizing = false;
