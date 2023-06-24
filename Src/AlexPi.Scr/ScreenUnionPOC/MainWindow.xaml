@@ -21,6 +21,6 @@
       <MenuItem Header="  _Both  " Click="OnBothScreens" />
     </Menu>
       <Button IsCancel="True" Click="OnClose" Width="1" Height="1"/>
-    <Rectangle MouseRightButtonDown="OnDragMove" MouseLeftButtonDown="OnDragMove" VerticalAlignment="Top" HorizontalAlignment="Right" Width="33" Height="33" Fill="#3333" />
+    <Rectangle MouseRightButtonDown="OnDragMove" MouseLeftButtonDown="OnDragMove" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="33" Fill="#3333" />
   </Grid>
 </Window>

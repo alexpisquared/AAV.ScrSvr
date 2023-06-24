@@ -2,14 +2,40 @@
 
 public partial class UnitContainer : UserControl
 {
-  public UnitContainer()
-  {
-    InitializeComponent();
-  }
+  public UnitContainer() => InitializeComponent();
 
   bool isDragging, _isResizing;
-  System.Windows.Point _lastMousePosition, clickPosition;
   string jsonFile = @$"\temp\_Not_used_.jsonFile";
+  System.Windows.Point _lastMousePosition, clickPosition;
+
+  async Task Store()
+  {
+    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM
+    {
+      Top = Canvas.GetTop(this),
+      Left = Canvas.GetLeft(this),
+      Width = this.Width,
+      Height = this.Height
+    }));
+  }
+
+  async void OnLoaded(object sender, RoutedEventArgs e)
+  {
+    try
+    {
+      jsonFile = @$"\temp\_{Name}_.jsonFile";
+      var layout = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile))) ?? new LayoutVM();
+      Canvas.SetTop(this, layout.Top);
+      Canvas.SetLeft(this, layout.Left);
+      Width = layout.Width;
+      Height = layout.Height;
+    }
+    catch (Exception ex)
+    {
+      Trace.WriteLine($"{ex.Message}:  {jsonFile}");
+      DataContext = new LayoutVM();
+    }
+  }
 
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
@@ -18,7 +44,7 @@ public partial class UnitContainer : UserControl
     _ = ((sender as Border)?.CaptureMouse());
     Panel.SetZIndex(this, 111);
   }
- async void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+  async void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     isDragging = false;
     (sender as Border)?.ReleaseMouseCapture();
@@ -58,56 +84,18 @@ public partial class UnitContainer : UserControl
     }
   }
 
-
   void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
     _isResizing = true;
     _lastMousePosition = e.GetPosition(this);
     _ = Mouse.Capture((IInputElement)sender);
   }
-
-  void OnSetPosition(object sender, RoutedEventArgs e)
-  {
-    Canvas.SetLeft(this, 444);
-    Canvas.SetTop(this, 222);
-  }
-
-  async void OnLoaded(object sender, RoutedEventArgs e)
-  {
-    try
-    {
-      jsonFile = @$"\temp\_{Name}_.jsonFile";
-      var l = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>((await File.ReadAllTextAsync(jsonFile))) ?? new LayoutVM();
-      Canvas.SetTop(this, l.Top);
-      Canvas.SetLeft(this, l.Left);
-      Width = l.Width;
-      Height = l.Height;
-    }
-    catch (Exception ex)
-    {
-      Trace.WriteLine($"{ex.Message}:  {jsonFile}");
-      DataContext = new LayoutVM();
-    }
-  }
-
   async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     _isResizing = false;
     _ = Mouse.Capture(null);
     await Store();
   }
-
-  async Task Store()
-  {
-    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM
-    {
-      Top = Canvas.GetTop(this),
-      Left = Canvas.GetLeft(this),
-      Width = this.Width,    
-      Height = this.Height
-    }));
-  }
-
   void Rectng_MouseMove(object sender, MouseEventArgs e)
   {
     if (_isResizing)
