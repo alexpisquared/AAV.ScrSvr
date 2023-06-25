@@ -4,9 +4,27 @@ public partial class UnitContainer : UserControl
 {
   public UnitContainer() => InitializeComponent();
 
-  bool isDragging, _isResizing;
+  bool isDragging, _isResizing, _isLoaded;
   string jsonFile = @$"\temp\_Not_used_.jsonFile";
   System.Windows.Point _lastMousePosition, clickPosition;
+  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainer), new PropertyMetadata(true, propChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }
+  static async void propChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+  {
+    if (d is UnitContainer uc && e.NewValue is bool b)
+      if (b)
+      {
+        await uc.RestorePlacementFromFile();
+        uc.WindowState = true;
+        await uc.Store();
+      }
+      else
+      {
+        uc.WindowState = false;
+        await uc.Store();
+        uc.Width = 210;
+        uc.Height = 80;
+      }
+  }
 
   async Task Store()
   {
@@ -15,10 +33,11 @@ public partial class UnitContainer : UserControl
       Top = Canvas.GetTop(this),
       Left = Canvas.GetLeft(this),
       Width = Width,
-      Height = Height
+      Height = Height,
+      WindowState = WindowState
     }));
   }
-  async Task Restore()
+  async Task RestorePlacementFromFile()
   {
     try
     {
@@ -28,6 +47,8 @@ public partial class UnitContainer : UserControl
       Canvas.SetLeft(this, layout.Left);
       Width = layout.Width;
       Height = layout.Height;
+      if (!_isLoaded)
+        WindowState = layout.WindowState;
     }
     catch (Exception ex)
     {
@@ -36,9 +57,7 @@ public partial class UnitContainer : UserControl
     }
   }
 
-  async void OnLoaded(object sender, RoutedEventArgs e)  {    await Restore();  }
-
-
+  async void OnLoaded(object sender, RoutedEventArgs e) { await RestorePlacementFromFile(); _isLoaded = true; }
   void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
     isDragging = true;
@@ -85,25 +104,12 @@ public partial class UnitContainer : UserControl
       SetValue(Canvas.TopProperty, newY);
     }
   }
-
   void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
   {
     _isResizing = true;
     _lastMousePosition = e.GetPosition(this);
     _ = Mouse.Capture((IInputElement)sender);
   }
-
- async void MenuItem_Checked(object sender, RoutedEventArgs e)
-  {
-    await Restore();
-  }
-
-  void MenuItem_Unchecked(object sender, RoutedEventArgs e)
-  {
-    Width = 210;
-    Height = 80;
-  }
-
   async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
     _isResizing = false;
