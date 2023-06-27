@@ -78,9 +78,9 @@ public partial class App : Application
         case "lo": WriteLine($" LogMore is ON. "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = TraceLevel.Verbose }; goto case "/s";
       }
 
-      if (Environment.GetCommandLineArgs().Any(a => a.Contains(_byTS))) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
+      if (Environment.GetCommandLineArgs().Any(a => a == _byTS)) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
         await Wait1minuteThenRelaunch();
-      else                                                             // if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
+      else                                                       // if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
         _ = FullScrSvrModeWithEventLoggin(Environment.GetCommandLineArgs().Any(a => a.Contains(_unidle)));
     }
     catch (Exception ex) { _ = ex.Log(optl: "ASYNC void OnStartup()"); ex.Pop("ASYNC void OnStartup()"); }

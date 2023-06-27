@@ -32,7 +32,7 @@ public partial class BaseDbVM : BaseMinVM
   public override async Task<bool> InitAsync()
   {
     _inited = true;
-    Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_hashCode,-10}   br.hash:{SmreModel.GetType().GetHashCode(),-10}");
+    Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
     await Task.Yield();
     return true;
   }
@@ -48,7 +48,7 @@ public partial class BaseDbVM : BaseMinVM
     catch (Exception ex) { IsBusy = false; ex.Pop(Logger); return false; }
     finally
     {
-      Logger.LogInformation($"└── {GetType().Name} eo-wrap     _hash:{_hashCode,-10}   br.hash:{SmreModel.GetType().GetHashCode(),-10}  ");
+      Logger.LogInformation($"└── {GetType().Name} eo-wrap     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}  ");
     }
   }
   public virtual async Task RefreshReloadAsync([CallerMemberName] string? cmn = "") { WriteLine($"TrWL:> {cmn}->BaseDbVM.RefreshReloadAsync() "); await Task.Yield(); }
