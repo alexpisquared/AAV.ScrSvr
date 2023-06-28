@@ -5,7 +5,7 @@
     <Border    MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Background="#c60" />
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="80" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="Hand" Fill="#d70" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="52" Background="#a50" Foreground="#888">
-      <MenuItem Header="  _Posn  " IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Width="210" Height="80" />
+      <MenuItem Header="  _Is On  " IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Width="210" Height="80" />
     </Menu>
   </Grid>
 </UserControl>

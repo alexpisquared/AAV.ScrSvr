@@ -24,7 +24,7 @@ public partial class MainWindow
   void OnDragMove(object sender, MouseButtonEventArgs e)
   {
     if (e.LeftButton != MouseButtonState.Pressed) return;
-    
+
     DragMove();
     e.Handled = true;
   }
@@ -42,10 +42,11 @@ public partial class MainWindow
 
   void StretchToFill(Window window, Rectangle rectangle)
   {
-    window.WindowStartupLocation = WindowStartupLocation.Manual;
-    window.Top = rectangle.Top;
-    window.Left = rectangle.Left;
-    window.Width = rectangle.Width;
-    window.Height = rectangle.Height;
+    window.WindowState = WindowState.Normal;
+    var isWO = 1;
+    window.Top = rectangle.Top / isWO;
+    window.Left = rectangle.Left / isWO;
+    window.Width = rectangle.Width / isWO;
+    window.Height = rectangle.Height / isWO;
   }
 }

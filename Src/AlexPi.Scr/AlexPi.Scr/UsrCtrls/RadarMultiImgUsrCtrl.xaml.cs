@@ -1,4 +1,6 @@
-﻿#define VisEna//Visi // see verdict at the bottom.
+﻿#define VisEna//Visi  // Verdict:
+                      //  Opacity animation makes it harder to follow, surmaize the overal trend/direction, etc.
+                      //  But fading out of the last image before restarting the sequence adds a classy/calming feeling.
 namespace AlexPi.Scr.UsrCtrls;
 public partial class RadarMultiImgUsrCtrl
 {
@@ -50,16 +52,17 @@ public partial class RadarMultiImgUsrCtrl
     {
       //bFresh.IsEnabled = ctrlpnl.IsEnabled = false;
       lblTR.Text = "[Re-]Loading...";                //lblTR.BackgroundColor = Color.FromHex("#a00");
-      lblTL.Text = "\r\n";
+      lblTL.Text = "        min ago    mph \r\n";
       string url;
-      for (int imgIdx = 0, t10 = 0; imgIdx < _Images.Length && t10 < 18; t10 -= 10)
+      for (int imgIdx = 0, t10 = 0, dt = 6; imgIdx < _Images.Length && t10 > -66; t10 -= 10)
       {
-        var utx = AsLink.Standard.Helpers.EnvtCanRadarHelper.RoundBy10min(utcnow.AddMinutes(t10));
-        if (await AsLink.Standard.Helpers.EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx))
-         //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, true))
-         //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", false, IsDark, false))
-         //|| await EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx, IsRain == false ? "SNOW" : "RAIN", "WKR", true, IsDark, false))
-         )
+        var utx = AsLink.Standard.Helpers.EnvtCanRadarHelper.RoundBy10min(utcnow.AddMinutes(t10), dt);
+        var (success, report) = await AsLink.Standard.Helpers.EnvtCanRadarHelper.DoesImageExistRemotely(url = EnvCanRadarUrlHelper.GetRadarUrl(utx));
+        if (!success)
+        {
+          Debug.WriteLine($"■ {utx} -- {imgIdx,2}            {url} {report}");
+        }
+        else
         {
           var lcl = utx.ToLocalTime();
 
@@ -67,20 +70,19 @@ public partial class RadarMultiImgUsrCtrl
           _Images[imgIdx].Source = mi;
           var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(mi), lcl);
 
-          _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {mph} mph";
-          
-          lblTL.Text += $" {lcl,6:H:mm}   {(utcnow - lcl),6:mm} m ago   {mph,6} mph \r\n";
+          _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {mph,4:N1} mph";
 
-          Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {mph} mph  {url}");
+          lblTL.Text += $" {lcl,6:H:mm}   {(utcnow - lcl),6:mm} {mph,6} \r\n";
+
+          Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {mph,4:N1} mph  {url}");
           imgIdx++;
-        }
-        else
-        {
-          Debug.WriteLine($"■ {utx} -- {imgIdx,2}  {url}");
         }
       }
     }
-    catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); }
+    catch (Exception ex)
+    {
+      Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break();
+    }
     finally
     {
       //bFresh.IsEnabled = ctrlpnl.IsEnabled = true;
@@ -127,6 +129,3 @@ public partial class RadarMultiImgUsrCtrl
   public bool IsDark { get; set; } = false;
   public bool IsRain { get; set; } = true;
 }
-///Verdict:
-/// Opacity animation makes it harder to follow, surmaize the overal trend/direction, etc.
-/// But fading out of the last image before restarting the sequence adds a classy/calming feeling.
