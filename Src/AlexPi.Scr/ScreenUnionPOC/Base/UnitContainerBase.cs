@@ -43,8 +43,8 @@ public partial class UnitContainerBase : UserControl
       var layout = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>(await File.ReadAllTextAsync(jsonFile)) ?? new LayoutVM();
       Canvas.SetTop(this, layout.Top);
       Canvas.SetLeft(this, layout.Left);
-      Width = layout.Width;
-      Height = layout.Height;
+      Width = layout.Width < 1 ? 512 : layout.Width;
+      Height = layout.Height < 1 ? 256 : layout.Height;
       if (!_isLoaded)
         WindowState = layout.WindowState;
     }

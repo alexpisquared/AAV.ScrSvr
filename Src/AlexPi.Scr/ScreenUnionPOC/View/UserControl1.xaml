@@ -1,0 +1,10 @@
+﻿<lnk:UnitContainerBase xmlns:lnk="clr-namespace:ScreenUnionPOC.Base" x:Class="ScreenUnionPOC.View.UserControl1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
+                       x:Name="wnd" Width="256" Height="128" Loaded="OnLoaded">
+  <Grid>
+    <Border    MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Background="#044" />
+    <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="80" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="Hand" Fill="#d70" />
+    <Menu VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="52" Background="#a50" Foreground="#888">
+      <MenuItem Header="  _Is On  " IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Width="210" Height="80" />
+    </Menu>
+  </Grid>
+</lnk:UnitContainerBase>

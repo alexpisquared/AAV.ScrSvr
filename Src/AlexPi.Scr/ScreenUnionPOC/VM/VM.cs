@@ -1,5 +1,5 @@
 ﻿namespace ScreenUnionPOC;
-public partial class VM : ObservableValidator
+public partial class VM_ : ObservableValidator
 {
   [ObservableProperty] LayoutVM layout1 = new();
   [ObservableProperty] LayoutVM layout2 = new();

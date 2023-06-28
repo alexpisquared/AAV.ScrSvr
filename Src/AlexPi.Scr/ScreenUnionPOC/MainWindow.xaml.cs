@@ -8,13 +8,13 @@ public partial class MainWindow
 
     try
     {
-      DataContext = string.IsNullOrEmpty(Settings.Default.VM) ? new VM() : JsonSerializer.Deserialize<VM>(Settings.Default.VM);
+      //DataContext = string.IsNullOrEmpty(Settings.Default.VM) ? new VM() : JsonSerializer.Deserialize<VM>(Settings.Default.VM);
       //DataContext = new VM();
     }
     catch (Exception ex)
     {
       Trace.WriteLine(Title = $"{ex.Message}:  {Settings.Default.VM}");
-      DataContext = new VM();
+      //DataContext = new VM();
     }
     canvas.Width = WinFormHelper.GetSumOfAllBounds.Width;
     canvas.Height = WinFormHelper.GetSumOfAllBounds.Height;
