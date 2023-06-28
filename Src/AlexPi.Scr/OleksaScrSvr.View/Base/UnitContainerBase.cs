@@ -1,4 +1,4 @@
-﻿namespace ScreenUnionPOC.Base;
+﻿namespace OleksaScrSvr.View.Base;
 
 public partial class UnitContainerBase : UserControl
 {
@@ -26,7 +26,7 @@ public partial class UnitContainerBase : UserControl
   async Task Store()
   {
     var jsonFile = @$"\temp\_{Name}_.json";
-    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM
+    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM2
     {
       Top = Canvas.GetTop(this),
       Left = Canvas.GetLeft(this),
@@ -40,7 +40,7 @@ public partial class UnitContainerBase : UserControl
     try
     {
       var jsonFile = @$"\temp\_{Name}_.json";
-      var layout = !File.Exists(jsonFile) ? new LayoutVM() : JsonSerializer.Deserialize<LayoutVM>(await File.ReadAllTextAsync(jsonFile)) ?? new LayoutVM();
+      var layout = !File.Exists(jsonFile) ? new LayoutVM2() : JsonSerializer.Deserialize<LayoutVM2>(await File.ReadAllTextAsync(jsonFile)) ?? new LayoutVM2();
       Canvas.SetTop(this, layout.Top);
       Canvas.SetLeft(this, layout.Left);
       Width = layout.Width < 1 ? 512 : layout.Width;
@@ -50,8 +50,9 @@ public partial class UnitContainerBase : UserControl
     }
     catch (Exception ex)
     {
-      Trace.WriteLine($"{ex.Message}");
-      DataContext = new LayoutVM();
+      WriteLine($"{ex.Message}");
+      DataContext = new LayoutVM2();
+      if (Debugger.IsAttached) Debugger.Break();
     }
   }
 
@@ -65,10 +66,18 @@ public partial class UnitContainerBase : UserControl
   }
   public async void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
-    isDragging = false;
-    (sender as Border)?.ReleaseMouseCapture();
-    Panel.SetZIndex(this, 11);
-    await Store();
+    try
+    {
+      isDragging = false;
+      (sender as Border)?.ReleaseMouseCapture();
+      Panel.SetZIndex(this, 11);
+      await Store();
+    }
+    catch (Exception ex)
+    {
+      WriteLine($"{ex.Message}");
+      if (Debugger.IsAttached) Debugger.Break();
+    }
   }
   public void Border_MouseMove(object sender, MouseEventArgs e)
   {
@@ -110,9 +119,17 @@ public partial class UnitContainerBase : UserControl
   }
   public async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
   {
-    _isResizing = false;
-    _ = Mouse.Capture(null);
-    await Store();
+    try
+    {
+      _isResizing = false;
+      _ = Mouse.Capture(null);
+      await Store();
+    }
+    catch (Exception ex)
+    {
+      WriteLine($"{ex.Message}");
+      if (Debugger.IsAttached) Debugger.Break();
+    }
   }
   public void Rectng_MouseMove(object sender, MouseEventArgs e)
   {

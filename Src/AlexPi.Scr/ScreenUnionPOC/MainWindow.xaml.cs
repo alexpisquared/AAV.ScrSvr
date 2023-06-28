@@ -31,8 +31,8 @@ public partial class MainWindow
 
   void Window_Closing(object sender, CancelEventArgs e)
   {
-    Settings.Default.VM = JsonSerializer.Serialize(DataContext);
-    Settings.Default.Save();
+    //Settings.Default.VM = JsonSerializer.Serialize(DataContext);
+    //Settings.Default.Save();
   }
 
   void OnClose(object sender, RoutedEventArgs e) => Close();
