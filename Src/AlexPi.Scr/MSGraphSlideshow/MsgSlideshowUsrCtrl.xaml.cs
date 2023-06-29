@@ -128,7 +128,7 @@ public partial class MsgSlideshowUsrCtrl
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@++++++++@");
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... @@@@@@@@@@@@@@@@@++++++++@");
       //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
       VideoView1.MediaPlayer.Stop();
 

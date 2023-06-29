@@ -5,7 +5,7 @@
     <Border    MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Background="#044" />
 
     <!--<Viewbox Margin="111">      <TextBlock Text="Unit F1" Background="#666"/>    </Viewbox>-->
-    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ElementName=wnd, Path=ClientId}"/>
+    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Margin="80" />
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="80" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="Hand" Fill="#d70" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="52" Background="#a50" Foreground="#888">
