@@ -16,4 +16,10 @@
     <ProjectReference Include="..\OleksaScrSvr.VM\OleksaScrSvr.VM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.OleksaScrSvr.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

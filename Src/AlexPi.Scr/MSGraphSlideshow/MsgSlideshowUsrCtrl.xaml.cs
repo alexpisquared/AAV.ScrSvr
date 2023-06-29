@@ -21,11 +21,23 @@ public partial class MsgSlideshowUsrCtrl
 
   public MsgSlideshowUsrCtrl()
   {
-    InitializeComponent();
-    _libVLC = new LibVLC(enableDebugLogs: true);
-    VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
-    VideoView1.MediaPlayer.EndReached += OnEndReached;
-    _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
+    try
+    {
+      InitializeComponent();
+      _libVLC = new LibVLC(enableDebugLogs: true);
+      VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
+      VideoView1.MediaPlayer.EndReached += OnEndReached;
+      _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
+    }
+    catch (Exception ex)
+    {
+      ReportBC.FontSize = 60;
+      ReportBC.Content = $"{ex.Message}";
+      WriteLine($"{DateTime.Now:HH:mm:ss.f} ERR {ReportBC.Content} ");
+      System.Media.SystemSounds.Beep.Play();
+
+      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
+    }
   }
 
   void SetAnimeDurationInMS(long ms)
@@ -34,7 +46,7 @@ public partial class MsgSlideshowUsrCtrl
 
     ((Storyboard)FindResource("_sbIntroOutro")).Duration =
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration =
-    ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration =    showTime;
+    ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
   }
   public string ClientId { get; set; }
   public string ClientNm { get; set; }
