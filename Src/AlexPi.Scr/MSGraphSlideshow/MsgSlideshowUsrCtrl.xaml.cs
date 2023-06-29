@@ -48,7 +48,7 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration =
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
   }
-  public string ClientId { get; set; }
+  public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get { return (string)GetValue(ClientIdProperty); } set { SetValue(ClientIdProperty, value); } } // public string ClientId { get; set; }
   public string ClientNm { get; set; }
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;

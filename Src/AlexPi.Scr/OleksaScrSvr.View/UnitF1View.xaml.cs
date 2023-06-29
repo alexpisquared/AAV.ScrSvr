@@ -7,6 +7,5 @@ public partial class UnitF1View
     InitializeComponent();
     MsgSlideshowUsrCtrl1.ClientId = ClientId; // new WpfUserControlLib.Helpers.ConfigRandomizer().GetRandomFromUserSection("ClientId");
   }
-
-  public string? ClientId { get; set; }
+  public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(UnitF1View)); public string ClientId { get { return (string)GetValue(ClientIdProperty); } set { SetValue(ClientIdProperty, value); } }
 }

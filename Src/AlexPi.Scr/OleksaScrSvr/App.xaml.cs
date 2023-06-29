@@ -33,6 +33,8 @@ public partial class App : System.Windows.Application
 
     //if (Debugger.IsAttached) while (true) { await AppStartHelper.Testc(); Debugger.Break(); }
 
+    SafeAudit();
+
     _serviceProvider.GetRequiredService<INavSvc>().Navigate();
 
     MainWindow = _serviceProvider.GetRequiredService<MainNavView>();
@@ -79,33 +81,11 @@ public partial class App : System.Windows.Application
     try
     {
       var cfg = _serviceProvider.GetRequiredService<IConfigurationRoot>();
-      if (string.IsNullOrEmpty(cfg[CfgName.SqlVerIpm]))
-      {
-        TryFixingCfgAndRestart($"Unable to continue\n\ncfg[DeplConstIpm.SqlVerIpm] is null!!!    '{cfg[CfgName.SqlVerIpm]}' ");
-        return;
-      }
-
-      _audit = VersionHelper.DevDbgAudit(cfg, "[no sql needee]");
+      _audit = VersionHelper.DevDbgAudit(cfg, $"ClientId_{Environment.UserName}:{cfg[$"ClientId_{Environment.UserName}"]}");
     }
     catch (Exception ex)
     {
       _serviceProvider.GetRequiredService<ILogger>().LogError(ex, _audit);
-      TryFixingCfgAndRestart($"▓▓  ▓▓  ▓▓  Restarting due to the exception in SafeAudit:  {ex.Message}  ▓▓  ▓▓  ▓▓  ");
     }
-  }
-  void TryFixingCfgAndRestart(string reason)
-  {
-    if (MessageBox.Show($"{reason}\n\nTry to fix config ecosystem?", "App Config Problem", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-    {
-      _ = ConfigHelper.AutoInitConfigHardcoded();
-      _serviceProvider.GetRequiredService<ILogger>().LogWarning(reason);
-      _ = Process.Start(new ProcessStartInfo(Assembly.GetEntryAssembly()?.Location.Replace(".dll", ".exe") ?? "Notepad.exe"));
-    }
-
-    _ = Current.Dispatcher.InvokeAsync(async () => //nogo: Task.Run(async () =>
-    {
-      await Task.Delay(2600);
-      Current.Shutdown();
-    });
   }
 }

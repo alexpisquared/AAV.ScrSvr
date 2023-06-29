@@ -21,5 +21,6 @@ public partial class BmsPermMgrSymtrlVM : BaseDbVM, IBmsPermMgrSymtrlVMLtd
   public void ReloadRolesForSelectUser(User lastSelectUser) => throw new NotImplementedException();
   public void ReloadUsersForSelectRole(Role lastSelectPerm) => throw new NotImplementedException();
   public Task<bool> ToggleGrant(object grantCell, string lastSelectUserId, string lastSelectRoleId) => throw new NotImplementedException();
-  public string ClientId { get; set; }
+
+  [ObservableProperty] string clientId;
 }
