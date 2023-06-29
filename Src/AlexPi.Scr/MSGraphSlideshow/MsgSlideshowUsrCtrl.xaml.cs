@@ -54,6 +54,8 @@ public partial class MsgSlideshowUsrCtrl
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
+    if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode for the consumers is a quiet one.
+
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
     var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);

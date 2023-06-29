@@ -49,7 +49,11 @@
     <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="26" Foreground="#a00" />
     <Viewbox Stretch="Uniform" Margin="32">
       <Canvas x:Name="canvas" Background="#3333" Height="205" Width="400">
-        <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
+        <!--<local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
+        <local:UnitF2View x:Name="UnitF2_A" />
+        -->
+        <local:UnitF3View x:Name="UnitF3_A" />
+        <Rectangle Fill="Red" Width="222" Height="111" Margin="111" />
       </Canvas>
     </Viewbox>
 
