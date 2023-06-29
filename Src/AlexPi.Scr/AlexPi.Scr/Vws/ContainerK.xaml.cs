@@ -1,5 +1,6 @@
 ﻿namespace AlexPi.Scr.Vws;
 
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class ContainerK : TopmostUnCloseableWindow
 {
   public ContainerK(GlobalEventHandler globalEventHandler) : base(globalEventHandler)
@@ -7,8 +8,7 @@ public partial class ContainerK : TopmostUnCloseableWindow
     try
     {
       InitializeComponent();
-      var sj = new ConfigRandomizer();
-      MsgSlideshowUsrCtrl1.ClientId = sj.GetRandomFromUserSection("ClientId");
+      MsgSlideshowUsrCtrl1.ClientId = new ConfigRandomizer().GetRandomFromUserSection("ClientId");
     }
     catch (Exception ex) { ex.Pop(); }
   }
