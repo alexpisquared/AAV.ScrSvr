@@ -10,8 +10,6 @@ public partial class UnitF1View
 
   new void OnLoaded(object sender, RoutedEventArgs e)
   {
-    MsgSlideshowUsrCtrl1.ClientId = ClientId; // new WpfUserControlLib.Helpers.ConfigRandomizer().GetRandomFromUserSection("ClientId");
-
     base.OnLoaded(sender, e);
 
     MsgSlideshowUsrCtrl1.ClientId = ClientId; // new WpfUserControlLib.Helpers.ConfigRandomizer().GetRandomFromUserSection("ClientId");
