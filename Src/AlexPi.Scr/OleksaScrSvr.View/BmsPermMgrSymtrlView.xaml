@@ -4,7 +4,7 @@
              xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib" 
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" xmlns:local="clr-namespace:OleksaScrSvr.View" x:Class="OleksaScrSvr.View.BmsPermMgrSymtrlView" x:Name="wnd" mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type={x:Type vms:BmsPermMgrSymtrlVM}}" 
-             d:DesignHeight="200" d:DesignWidth="600" Padding="0" d:Background="#333">
+             d:DesignHeight="2200" d:DesignWidth="300" Padding="20" d:Background="#300">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -36,7 +36,7 @@
 
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid x:Name="ZommablePanel" Tag="//tu: Grid with round corners!!! =&gt; must be a Style.">
+  <Grid x:Name="ZommablePanel" Tag="//tu: Grid with round corners!!! =&gt; must be a Style." >
     <Grid.Resources>
       <Style TargetType="{x:Type Border}">
         <Setter Property="CornerRadius"     Value="4"/>
@@ -48,7 +48,7 @@
 
     <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="26" Foreground="#a00" />
     <Viewbox Stretch="Uniform" Margin="32">
-      <Canvas x:Name="canvas" Background="#3333" Height="205" Width="400">
+      <Canvas x:Name="canvas" Background="#f00" Height="205" Width="400">
         <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
         <local:UnitF2View x:Name="UnitF2_A" />
         <local:UnitF3View x:Name="UnitF3_A" />

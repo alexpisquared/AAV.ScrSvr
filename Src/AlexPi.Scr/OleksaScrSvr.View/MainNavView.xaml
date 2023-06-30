@@ -60,7 +60,7 @@
   <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#666">
     <Grid Margin="-6">
 
-      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#10f0" ToolTip="The only movable surface" Margin="16" Cursor="Hand" />
+      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#10f0" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
 
       <Grid x:Name="ZommablePanel" >
         <Grid.Resources>
