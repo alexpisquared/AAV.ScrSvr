@@ -23,11 +23,11 @@
   <DataTemplate DataType="{x:Type vm:AddUserVM}">
     <view___________________________:AddUserView />
   </DataTemplate>
-  <DataTemplate DataType="{x:Type vm:BmsPermMgrSymtrlVM}">
-    <view___________________________:BmsPermMgrSymtrlView />
+  <DataTemplate DataType="{x:Type vm:Page01MultiUnitVM}">
+    <view___________________________:Page01MultiUnitView />
   </DataTemplate>
-  <DataTemplate DataType="{x:Type vm:BmsPermMgrSymtr2VM}">
-    <view___________________________:BmsPermMgrSymtr2View />
+  <DataTemplate DataType="{x:Type vm:Page02SlideshowVM}">
+    <view___________________________:Page02SlideshowView />
   </DataTemplate>
   <DataTemplate DataType="{x:Type vm:LayoutVM}">
     <view___________________________:Layout />

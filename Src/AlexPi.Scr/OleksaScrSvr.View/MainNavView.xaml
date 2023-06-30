@@ -60,7 +60,7 @@
   <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#666">
     <Grid Margin="-6">
 
-      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#10f0" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
+      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#80f0" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
 
       <Grid x:Name="ZommablePanel" >
         <Grid.Resources>
@@ -74,38 +74,14 @@
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
 
-        <!--<mdl:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">
-          <ContentControl Content="{Binding CurrentModalVM}" />
-        </mdl:Modal>-->
+        <!--<mdl:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">          <ContentControl Content="{Binding CurrentModalVM}" />        </mdl:Modal>-->
 
-        <ContentControl   Content="{Binding CurrentVM}" />
+        <ContentControl   Content="{Binding CurrentVM}" Margin="32"/>
 
         <!-- For later, when Gravity becomes old:
         <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />
         -->
         <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
-
-        <StackPanel Orientation="Horizontal" Margin="8 34" VerticalAlignment="Top" HorizontalAlignment="Right">
-          <Button Content="{Binding AppVerNumber}" Command="{Binding UpgradeSelfCmd}" d:Content="123" BorderThickness="0" Background="Transparent" FontSize="16" VerticalAlignment="Bottom" Padding="4 0 4 1" Margin="2 -4"
-                  ToolTip="{Binding AppVerToolTip}" 
-               Foreground="{Binding IsObsolete, Converter={cnv:UniConverter BrushTrue=OrangeRed, BrushFalse=Green}, FallbackValue=#07e}" />
-          <!--Style="{StaticResource AnimColorButtonStyle}" Height="26"-->
-
-          <!--<TextBlock x:Name="tbkVer" Text="V 0.3.26.12 ########" FontSize="12"  
-                   Foreground="{Binding IsObsolete, Converter={cnv:UniConverter BrushTrue=OrangeRed, BrushFalse=Green}, FallbackValue=#8888}" 
-                      ToolTip="{Binding IsObsolete, Converter={cnv:UniConverter TextTrue='New version of the app is available &#10;          with important bugs fixed.  &#10;Feel free to update at your earliest convenience.', TextFalse='This is the latest version of the app.'}, FallbackValue='Still checking for version...'}" />
-          <Button Content=" Update " Command="{Binding UpgradeSelfCmd}" Visibility="{Binding IsObsolete, Converter={cnv:UniConverter}, FallbackValue=Collapsed}" Foreground="#a00" BorderBrush="#a00" d:Visibility="Visible" 
-                Margin="8 -4" Width="80" Height="26" Style="{StaticResource IsObsoleteBurronStyle}" RenderTransformOrigin="1.0,0.0" 
-                ToolTip="{Binding AppVerToolTip}" >
-            <Button.RenderTransform>
-              <TransformGroup>
-                <ScaleTransform ScaleX="{Binding UpgradeUrgency}" ScaleY="{Binding UpgradeUrgency}"/>
-                <RotateTransform Angle="{Binding UpgradeUrgency}" />
-                <SkewTransform  AngleX="8" />
-              </TransformGroup>
-            </Button.RenderTransform>
-          </Button>-->
-        </StackPanel>
       </Grid>
 
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >

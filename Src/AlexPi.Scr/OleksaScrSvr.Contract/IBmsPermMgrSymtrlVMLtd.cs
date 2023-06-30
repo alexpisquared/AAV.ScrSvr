@@ -1,6 +1,6 @@
 ﻿namespace OleksaScrSvr.Contract;
 
-public interface IBmsPermMgrSymtrlVMLtd
+public interface IPage01MultiUnitVMLtd
 {
   void ReloadUsersForSelectRole(Role lastSelectPerm);
   void ReloadRolesForSelectUser(User lastSelectUser);

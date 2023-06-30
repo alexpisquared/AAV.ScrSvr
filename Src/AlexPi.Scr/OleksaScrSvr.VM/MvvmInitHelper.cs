@@ -18,15 +18,15 @@ public static class MvvmInitHelper
     else
     {
       _ = 
-        //DevOps.IsDbg        ? services.AddSingleton<INavSvc, BmsPermMgrSymtr2NavSvc>()        : 
-        services.AddSingleton<INavSvc, BmsPermMgrSymtrlNavSvc>();
+        //DevOps.IsDbg        ? services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()        : 
+        services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>();
     }
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
 
     _ = services.AddSingleton<ClickOnceUpdaterNavSvc>();
-    _ = services.AddSingleton<BmsPermMgrSymtrlNavSvc>();
-    _ = services.AddSingleton<BmsPermMgrSymtr2NavSvc>();
+    _ = services.AddSingleton<Page01MultiUnitNavSvc>();
+    _ = services.AddSingleton<Page02SlideshowNavSvc>();
     _ = services.AddSingleton<SqlNtvIpmPermMgrNavSvc>();
     _ = services.AddSingleton<AcntNavSvc>();
     _ = services.AddSingleton<ZeroNavSvc>();
@@ -51,8 +51,8 @@ public static class MvvmInitHelper
     _ = services.AddSingleton(s => new Func<AddDtBsVM>(() => s.GetRequiredService<AddDtBsVM>()!));
     _ = services.AddSingleton(s => new Func<AddUserVM>(() => s.GetRequiredService<AddUserVM>()!));
     _ = services.AddSingleton(s => new Func<ClickOnceUpdaterVM>(() => s.GetRequiredService<ClickOnceUpdaterVM>()!));
-    _ = services.AddSingleton(s => new Func<BmsPermMgrSymtrlVM>(() => s.GetRequiredService<BmsPermMgrSymtrlVM>()!));
-    _ = services.AddSingleton(s => new Func<BmsPermMgrSymtr2VM>(() => s.GetRequiredService<BmsPermMgrSymtr2VM>()!));
+    _ = services.AddSingleton(s => new Func<Page01MultiUnitVM>(() => s.GetRequiredService<Page01MultiUnitVM>()!));
+    _ = services.AddSingleton(s => new Func<Page02SlideshowVM>(() => s.GetRequiredService<Page02SlideshowVM>()!));
     _ = services.AddSingleton(s => new Func<SqlNtvIpmPermMgrVM>(() => s.GetRequiredService<SqlNtvIpmPermMgrVM>()!));
 
     _ = services.AddTransient<NavBarVM>();
@@ -68,8 +68,8 @@ public static class MvvmInitHelper
     _ = services.AddTransient<AddUserVM>();
     _ = services.AddTransient<ClickOnceUpdaterVM>();
     _ = services.AddTransient<SqlNtvIpmPermMgrVM>();
-    _ = services.AddTransient<BmsPermMgrSymtrlVM>();
-    _ = services.AddTransient<BmsPermMgrSymtr2VM>();
+    _ = services.AddTransient<Page01MultiUnitVM>();
+    _ = services.AddTransient<Page02SlideshowVM>();
 
     _ = services.AddTransient<ISecForcer, /*SecurityEnforcement.Mok.*/SecForcer>(); // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     _ = services.AddTransient<SqlPermissionsManager>();

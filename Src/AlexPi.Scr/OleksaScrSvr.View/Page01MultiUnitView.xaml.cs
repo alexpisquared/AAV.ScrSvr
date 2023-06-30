@@ -1,7 +1,7 @@
 ﻿namespace OleksaScrSvr.View;
-public partial class BmsPermMgrSymtrlView : UserControl
+public partial class Page01MultiUnitView : UserControl
 {
-  public BmsPermMgrSymtrlView()
+  public Page01MultiUnitView()
   {
     InitializeComponent();
 

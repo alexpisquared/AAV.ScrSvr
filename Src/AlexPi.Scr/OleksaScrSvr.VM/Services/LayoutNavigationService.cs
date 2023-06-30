@@ -25,8 +25,8 @@ public class LayoutNavSvc<TVM> : INavSvc where TVM : BaseMinVM
   }
 }
 
-public class BmsPermMgrSymtrlNavSvc : LayoutNavSvc<BmsPermMgrSymtrlVM> { public BmsPermMgrSymtrlNavSvc(NavigationStore ns, Func<BmsPermMgrSymtrlVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
-public class BmsPermMgrSymtr2NavSvc : LayoutNavSvc<BmsPermMgrSymtr2VM> { public BmsPermMgrSymtr2NavSvc(NavigationStore ns, Func<BmsPermMgrSymtr2VM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
+public class Page01MultiUnitNavSvc : LayoutNavSvc<Page01MultiUnitVM> { public Page01MultiUnitNavSvc(NavigationStore ns, Func<Page01MultiUnitVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
+public class Page02SlideshowNavSvc : LayoutNavSvc<Page02SlideshowVM> { public Page02SlideshowNavSvc(NavigationStore ns, Func<Page02SlideshowVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class SqlNtvIpmPermMgrNavSvc : LayoutNavSvc<SqlNtvIpmPermMgrVM> { public SqlNtvIpmPermMgrNavSvc(NavigationStore ns, Func<SqlNtvIpmPermMgrVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class ClickOnceUpdaterNavSvc : LayoutNavSvc<ClickOnceUpdaterVM> { public ClickOnceUpdaterNavSvc(NavigationStore ns, Func<ClickOnceUpdaterVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 
@@ -35,5 +35,5 @@ public class ZeroNavSvc : LayoutNavSvc<ZeroVM> { public ZeroNavSvc(NavigationSto
 public class SrvrListingNavSvc : LayoutNavSvc<SrvrListingVM> { public SrvrListingNavSvc(NavigationStore ns, Func<SrvrListingVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class DtBsListingNavSvc : LayoutNavSvc<DtBsListingVM> { public DtBsListingNavSvc(NavigationStore ns, Func<DtBsListingVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class UserListingNavSvc : LayoutNavSvc<UserListingVM> { public UserListingNavSvc(NavigationStore ns, Func<UserListingVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
-public class BpmsNavSvc : LayoutNavSvc<BmsPermMgrSymtrlVM> { public BpmsNavSvc(NavigationStore ns, Func<BmsPermMgrSymtrlVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
-public class BpmsNa2Svc : LayoutNavSvc<BmsPermMgrSymtr2VM> { public BpmsNa2Svc(NavigationStore ns, Func<BmsPermMgrSymtr2VM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
+public class BpmsNavSvc : LayoutNavSvc<Page01MultiUnitVM> { public BpmsNavSvc(NavigationStore ns, Func<Page01MultiUnitVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
+public class BpmsNa2Svc : LayoutNavSvc<Page02SlideshowVM> { public BpmsNa2Svc(NavigationStore ns, Func<Page02SlideshowVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }

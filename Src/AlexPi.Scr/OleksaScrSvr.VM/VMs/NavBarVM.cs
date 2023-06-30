@@ -8,7 +8,7 @@ public class NavBarVM : BaseMinVM
   readonly DtBsStore _dtbsStore;
   readonly AllowSaveStore _allowSaveStore;
 
-  public NavBarVM(AcntStore acntStore, ZeroStore zeroStore, SrvrStore srvrStore, DtBsStore dtbsStore, AllowSaveStore allowSaveStore, AcntNavSvc acntNavSvc, ZeroNavSvc zeroNavSvc, LoginPopupMdlNavSvc loginNavSvc, LoginCloseMdlNavSvs closeNavSvc, BmsPermMgrSymtrlNavSvc bmsSqlSymtrNavSvc, BmsPermMgrSymtr2NavSvc bmsSqlSymt2NavSvc, SrvrListingNavSvc srvrListingNavSvc, DtBsListingNavSvc dtbsListingNavSvc, UserListingNavSvc usLsNavSvc, SqlNtvIpmPermMgrNavSvc userPermissionerNavSvc, UserSettingsSPM usrStgns)
+  public NavBarVM(AcntStore acntStore, ZeroStore zeroStore, SrvrStore srvrStore, DtBsStore dtbsStore, AllowSaveStore allowSaveStore, AcntNavSvc acntNavSvc, ZeroNavSvc zeroNavSvc, LoginPopupMdlNavSvc loginNavSvc, LoginCloseMdlNavSvs closeNavSvc, Page01MultiUnitNavSvc Page01MultiUnitNavSvc, Page02SlideshowNavSvc Page02SlideshowNavSvc, SrvrListingNavSvc srvrListingNavSvc, DtBsListingNavSvc dtbsListingNavSvc, UserListingNavSvc usLsNavSvc, SqlNtvIpmPermMgrNavSvc userPermissionerNavSvc, UserSettingsSPM usrStgns)
   {
     _r = Consts.SqlServerList.First();
     _b = "BR";
@@ -23,8 +23,8 @@ public class NavBarVM : BaseMinVM
     NavigateZeroCommand = new NavigateCommand(zeroNavSvc);
     NavigateLoginCommand = new NavigateCommand(loginNavSvc);
     NavigateCloseCommand = new NavigateCommand(closeNavSvc);
-    NavigateBmsSqlSymtrCommand = new NavigateCommand(bmsSqlSymtrNavSvc);
-    NavigateBmsSqlSymt2Command = new NavigateCommand(bmsSqlSymt2NavSvc);
+    NavigatePage01MultiUnitCommand = new NavigateCommand(Page01MultiUnitNavSvc);
+    NavigatePage02SlideshowCommand = new NavigateCommand(Page02SlideshowNavSvc);
     NavigateSrvrListingCommand = new NavigateCommand(srvrListingNavSvc);
     NavigateDtBsListingCommand = new NavigateCommand(dtbsListingNavSvc);
     NavigateUserListingCommand = new NavigateCommand(usLsNavSvc);
@@ -67,8 +67,8 @@ public class NavBarVM : BaseMinVM
   public ICommand NavigateZeroCommand { get; }
   public ICommand NavigateLoginCommand { get; }
   public ICommand NavigateCloseCommand { get; }
-  public ICommand NavigateBmsSqlSymtrCommand { get; }
-  public ICommand NavigateBmsSqlSymt2Command { get; }
+  public ICommand NavigatePage01MultiUnitCommand { get; }
+  public ICommand NavigatePage02SlideshowCommand { get; }
   public ICommand NavigateSrvrListingCommand { get; }
   public ICommand NavigateDtBsListingCommand { get; }
   public ICommand? NavigateRoleListingCommand { get; }
