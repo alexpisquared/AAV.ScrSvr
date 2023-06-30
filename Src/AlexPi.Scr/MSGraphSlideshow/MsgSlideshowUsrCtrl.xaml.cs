@@ -410,6 +410,12 @@ public partial class MsgSlideshowUsrCtrl
     ReportBC.Content = await _AuthUsagePOC.SignOut(); // LogOut
     System.Windows.Application.Current.Shutdown();
   }
+
+  void OnSizeChanged(object sender, SizeChangedEventArgs e)
+  {
+    GridVideoControls.Width = e.NewSize.Width;
+    GridVideoControls.Height = e.NewSize.Height;
+  }
 }
 /*
  To retrieve the download URL for a file, you can make a request that includes the @microsoft.graph.downloadUrl property. Here’s an example of how to retrieve the download URL for a file using the Microsoft Graph API:
