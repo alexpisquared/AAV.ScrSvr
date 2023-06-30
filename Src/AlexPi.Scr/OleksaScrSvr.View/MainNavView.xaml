@@ -7,7 +7,7 @@
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
                 Title="Role Managers" MinWidth="600" MinHeight="260" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded">
   <WindowChrome.WindowChrome>
-    <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="16" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
     <ResourceDictionary>
@@ -59,6 +59,9 @@
   </lnk:WindowBase.InputBindings>
   <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#666">
     <Grid Margin="-6">
+
+      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#10f0" ToolTip="The only movable surface" Margin="16" Cursor="Hand" />
+
       <Grid x:Name="ZommablePanel" >
         <Grid.Resources>
           <Style TargetType="{x:Type Border}">
@@ -79,8 +82,8 @@
 
         <!-- For later, when Gravity becomes old:
         <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />
-        --> 
-        <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />        
+        -->
+        <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
 
         <StackPanel Orientation="Horizontal" Margin="8 34" VerticalAlignment="Top" HorizontalAlignment="Right">
           <Button Content="{Binding AppVerNumber}" Command="{Binding UpgradeSelfCmd}" d:Content="123" BorderThickness="0" Background="Transparent" FontSize="16" VerticalAlignment="Bottom" Padding="4 0 4 1" Margin="2 -4"
@@ -116,10 +119,10 @@
             <!--
             <xui:ThemeSelectorUsrCtrl  x:Name="themeSelector3" Header="_Dark Mode" FontFml="Arial" FontSze="16"/>
             -->
-            <MenuItem   Header="_Audio Feedback" IsCheckable="True" IsChecked="{Binding IsAudible}" ToolTip="Audible feedback on app's activity."  />
-            <MenuItem   Header="_Video Feedback" IsCheckable="True" IsChecked="{Binding IsAnimeOn}" ToolTip="Animated feedback on app's activity." />
+            <MenuItem Header="_Audio Feedback" IsCheckable="True" IsChecked="{Binding IsAudible}" ToolTip="Audible feedback on app's activity."  />
+            <MenuItem Header="_Video Feedback" IsCheckable="True" IsChecked="{Binding IsAnimeOn}" ToolTip="Animated feedback on app's activity." />
           </MenuItem>
-            <MenuItem   Header="Get _Busy"       IsCheckable="True" IsChecked="{Binding IsBusy}"    ToolTip="DevDbg" />
+          <MenuItem   Header="Get _Busy"       IsCheckable="True" IsChecked="{Binding IsBusy}"    ToolTip="DevDbg" />
         </Menu>
 
         <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=wnd, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />

@@ -15,6 +15,8 @@ public partial class MainNavView : WindowBase
     themeSelector1.ThemeApplier = ApplyTheme; //dnf theming 1/2
     Topmost = Debugger.IsAttached;
 
+    DragMovable = false;
+
     btnExit.IsCancel = VersionHelper.IsDbg;
   }
 
@@ -48,4 +50,12 @@ public partial class MainNavView : WindowBase
   void OnUnchecked(object s, RoutedEventArgs e) => ((CheckBox)s).IsChecked = true;
   private void OnWindowMinimize(object sender, RoutedEventArgs e)  { WindowState = WindowState.Minimized; }
   private void OnExit(object sender, RoutedEventArgs e)  {    Close();  }
+
+  private void OnDragMove(object sender, MouseButtonEventArgs e)
+  {
+    if (e.LeftButton != MouseButtonState.Pressed) return;
+
+    DragMove();
+    e.Handled = true;
+  }
 }
