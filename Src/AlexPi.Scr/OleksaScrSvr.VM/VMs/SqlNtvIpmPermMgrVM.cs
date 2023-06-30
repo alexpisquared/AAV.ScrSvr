@@ -27,7 +27,7 @@ public class SqlNtvIpmPermMgrVM : BaseDbVM
       Report = $"{VersionHelper.TimeAgo(sw.Elapsed, small: true)}";
       Logger.LogInformation($"│ {nameof(SqlNtvIpmPermMgrVM)}.{nameof(InitAsync)}(): {Report.Replace("\n", " ")} \t {new string('■', (int)sw.Elapsed.TotalSeconds)} ");
     }
-    catch (Exception ex) { IsBusy = false; ex.Pop(Logger); }
+    catch (Exception ex) { IsBusy = false; ex.Pop(Logger); await Task.Yield(); }
     finally { IsBusy = _loading = false; _inited = true; Bpr.Tick(); }
   }
   public override async Task RefreshReloadAsync([CallerMemberName] string? cmn = "")

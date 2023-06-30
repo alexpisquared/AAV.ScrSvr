@@ -413,8 +413,9 @@ public partial class MsgSlideshowUsrCtrl
 
   void OnSizeChanged(object sender, SizeChangedEventArgs e)
   {
-    GridVideoControls.Width = e.NewSize.Width;
-    GridVideoControls.Height = e.NewSize.Height;
+    //not sure why, but this must be done in code behind and this: <Grid ... VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">
+    GridVideoControls.Width = e.NewSize.Width / 2;
+    GridVideoControls.Height = e.NewSize.Height / 2;
   }
 }
 /*

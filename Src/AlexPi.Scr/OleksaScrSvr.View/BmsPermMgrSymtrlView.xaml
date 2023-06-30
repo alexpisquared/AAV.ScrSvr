@@ -1,12 +1,11 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" x:Class="OleksaScrSvr.View.BmsPermMgrSymtrlView" x:Name="wnd" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib" 
              xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib" 
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
-             xmlns:local="clr-namespace:OleksaScrSvr.View" 
-             x:Class="OleksaScrSvr.View.BmsPermMgrSymtrlView" x:Name="wnd" mc:Ignorable="d" 
+             xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:BmsPermMgrSymtrlVM}}" 
-             d:DesignHeight="2200" d:DesignWidth="300" Padding="20" d:Background="#300">
+             d:DesignHeight="2200" d:DesignWidth="300" Padding="20" d:Background="#222">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -50,7 +49,7 @@
 
     <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="26" Foreground="#a00" />
     <Viewbox Stretch="Uniform" Margin="32">
-      <Canvas x:Name="canvas" Background="#4f00" Height="205" Width="400">
+      <Canvas x:Name="canvas" Background="#111" Height="205" Width="400">
         <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
         <local:UnitF2View x:Name="UnitF2_A" />
         <local:UnitF3View x:Name="UnitF3_A" />
