@@ -3,7 +3,8 @@
              xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib" 
              xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib" 
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:Page02SlideshowVM}" 
-             d:DesignHeight="200" d:DesignWidth="600" Padding="0" Loaded="OnLoaded" Background="#555">
+             d:DesignHeight="200" d:DesignWidth="600" Padding="0" Loaded="OnLoaded" Background="#555"
+             MouseLeftButtonDown="OnDragMove" Cursor="Hand" ToolTip="The only draggable surface" >
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>

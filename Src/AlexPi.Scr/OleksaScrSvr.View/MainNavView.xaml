@@ -60,7 +60,7 @@
   <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#666">
     <Grid Margin="-6">
 
-      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#80f0" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
+      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#222" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
 
       <Grid x:Name="ZommablePanel" >
         <Grid.Resources>
@@ -76,7 +76,7 @@
 
         <!--<mdl:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">          <ContentControl Content="{Binding CurrentModalVM}" />        </mdl:Modal>-->
 
-        <ContentControl   Content="{Binding CurrentVM}" Margin="32"/>
+        <ContentControl   Content="{Binding CurrentVM}" Margin="16"/>
 
         <!-- For later, when Gravity becomes old:
         <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />

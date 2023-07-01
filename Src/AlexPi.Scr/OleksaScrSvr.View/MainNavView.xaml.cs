@@ -48,10 +48,10 @@ public partial class MainNavView : WindowBase
 
   void OnGoToLink(object s, RoutedEventArgs e) => _ = Process.Start("Explorer.exe", ((MenuItem)s)?.Tag?.ToString() ?? "C:\\");
   void OnUnchecked(object s, RoutedEventArgs e) => ((CheckBox)s).IsChecked = true;
-  private void OnWindowMinimize(object sender, RoutedEventArgs e)  { WindowState = WindowState.Minimized; }
-  private void OnExit(object sender, RoutedEventArgs e)  {    Close();  }
+  void OnWindowMinimize(object sender, RoutedEventArgs e)  { WindowState = WindowState.Minimized; }
+  void OnExit(object sender, RoutedEventArgs e)  {    Close();  }
 
-  private void OnDragMove(object sender, MouseButtonEventArgs e)
+  void OnDragMove(object sender, MouseButtonEventArgs e)
   {
     if (e.LeftButton != MouseButtonState.Pressed) return;
 
