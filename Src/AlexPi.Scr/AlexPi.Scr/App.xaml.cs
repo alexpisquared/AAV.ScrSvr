@@ -69,7 +69,7 @@ public partial class App : Application
         case "by": // _byTS:                                          // mind   mouse & keys moves/presses - full scr saver mode, idle time counted.
         case "un": // _unidle:                                        // mind   mouse & keys moves/presses - full scr saver mode, idle time counted.
         case "sb": _showBackWindowMaximized = false; break;           // Run the Screen Saver - Sans Background windows.
-        case "/s": _showBackWindowMaximized = true; break;            // Run the Screen Saver.
+        case "/s": _showBackWindowMaximized = false; break;           // No need in the native screen saver mode: nothing to cover, as it is the only window. Jul2023.
         case "/p": showMiniScrSvr(startupEventArgs.Args[1]); return;  // <HWND> - Preview Screen Saver as child of window <HWND>.
         case "/c": _ = new SettingsWindow().ShowDialog(); return;     // Show the Settings dialog box, modal to the foreground window.
         case "up":

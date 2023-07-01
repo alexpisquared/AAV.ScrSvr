@@ -7,7 +7,7 @@ public partial class MsgSlideshowUsrCtrl
   Storyboard? _sbIntroOutro;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
-  readonly LibVLC _libVLC;
+  readonly LibVLC? _libVLC;
   CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   AuthUsagePOC _AuthUsagePOC = new();
@@ -49,7 +49,8 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get { return (string)GetValue(ClientIdProperty); } set { SetValue(ClientIdProperty, value); } } // public string ClientId { get; set; }
-  public string ClientNm { get; set; }
+  public string? ClientNm { get; set; }
+  public bool ScaleToHalf { get; set; } = true;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -413,9 +414,15 @@ public partial class MsgSlideshowUsrCtrl
 
   void OnSizeChanged(object sender, SizeChangedEventArgs e)
   {
-    //not sure why, but this must be done in code behind and this: <Grid ... VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">
+    if (!ScaleToHalf) return; 
+    
+    // this is a hack to make the video controls fit the video ONLY when used by OleksaScrSvr.
+    // not sure why, but this must be done in code behind and this: <Grid ... VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">    
     GridVideoControls.Width = e.NewSize.Width / 2;
     GridVideoControls.Height = e.NewSize.Height / 2;
+    GridVideoControls.VerticalAlignment = VerticalAlignment.Top;
+    GridVideoControls.HorizontalAlignment = HorizontalAlignment.Left;
+    GridVideoControls.Margin = new Thickness(16); // 16 is just about right for the OleksaScrSvr case.
   }
 }
 /*

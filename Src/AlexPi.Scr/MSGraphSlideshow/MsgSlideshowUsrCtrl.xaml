@@ -19,7 +19,7 @@
   <Grid Name="mediaGridPanel" Margin="8" >
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
-      <Grid x:Name="GridVideoControls" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">
+      <Grid x:Name="GridVideoControls" >
         <Grid.Resources>
           <!--NOTE: for some reason this does not work for when inside the <UserControl.Resources> ==>  moved to here inside the VideoView-->
           <Style TargetType="TextBlock">
@@ -74,18 +74,25 @@
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
         <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />
         <Label x:Name="ReportBC"   Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f40"/>
-        <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Left"   />
-        <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
-        <Label x:Name="History_"   Content="mb:"                VerticalAlignment="Bottom" HorizontalAlignment="Left"   Margin="0 102" Foreground="#ac0" />
-        <Label x:Name="HistoryL" d:Content="26.0"               VerticalAlignment="Bottom" HorizontalAlignment="Left"   Margin="0  51" Foreground="#0f0" />
-        <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"    VerticalAlignment="Bottom" HorizontalAlignment="Right"  Margin="0  51" Foreground="#0ff" FontSize="14" Width="180" />
+
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+          <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"      HorizontalAlignment="Right" Foreground="#0ff" FontSize="14" Width="180" />
+          <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s"   HorizontalAlignment="Right"/>
+        </StackPanel>
 
         <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
+
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+          <Label x:Name="History_"   Content="mb:"                Foreground="#ac0" />
+          <Label x:Name="HistoryL" d:Content="26.0"               Foreground="#0f0" />
+          <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" />
+        </StackPanel>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
           <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn" />
           <CheckBox    Content="_Mute"  IsChecked="False" Click="OnMute" />
         </StackPanel>
+
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
           <Button      Content="_Prev" IsDefault="False" Click="OnPrev" />
           <Button      Content="_Next" IsDefault="True"  Click="OnNext" />

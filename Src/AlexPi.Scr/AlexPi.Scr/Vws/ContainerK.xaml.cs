@@ -9,6 +9,7 @@ public partial class ContainerK : TopmostUnCloseableWindow
     {
       InitializeComponent();
       MsgSlideshowUsrCtrl1.ClientId = new ConfigRandomizer().GetRandomFromUserSection("ClientId");
+      MsgSlideshowUsrCtrl1.ScaleToHalf = false;
     }
     catch (Exception ex) { ex.Pop(); }
   }
