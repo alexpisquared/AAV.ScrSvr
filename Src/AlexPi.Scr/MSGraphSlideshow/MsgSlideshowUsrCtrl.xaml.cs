@@ -1,10 +1,13 @@
-﻿namespace MSGraphSlideshow;
+﻿using StandardContractsLib;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 16;
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   ILogger? _logger;
+  IBpr? _bpr;
   Storyboard? _sbIntroOutro;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
@@ -61,6 +64,7 @@ public partial class MsgSlideshowUsrCtrl
 
     dynamic vm = DataContext;
     _logger = vm.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+    _bpr = vm.Bpr;
 
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
@@ -138,7 +142,8 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.Stop();
 
 #if DEBUG
-      System.Media.SystemSounds.Hand.Play();
+      //System.Media.SystemSounds.Hand.Play();
+      await _bpr?.YesAsync();
 #endif
 
       HistoryR.Content += $"{ReportBR.Content}\n";
@@ -315,7 +320,8 @@ public partial class MsgSlideshowUsrCtrl
 
       await Task.Delay(333);
 #if DEBUG
-      System.Media.SystemSounds.Hand.Play();
+      //System.Media.SystemSounds.Hand.Play();
+      _bpr?.Yes();
 #endif
 
       VideoView1.MediaPlayer.SetPause(true);
