@@ -13,7 +13,7 @@ public partial class App : Application
   static readonly SpeechSynth _synth;
   static readonly object _thisLock = new();
   static bool? _mustLogEORun = null;
-  const string _unidle = "Un-idleable instance", _byTS = "by Task Scheduler";
+  const string _unidle = "Un-idleable instance", _byTS = "by Task Scheduler", _TkSr = "TaskScheduler";
   public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
@@ -78,7 +78,7 @@ public partial class App : Application
         case "lo": WriteLine($" LogMore is ON. "); CurTraceLevel = new TraceSwitch("VerboseTrace", "This is the VERBOSE trace for all messages") { Level = TraceLevel.Verbose }; goto case "/s";
       }
 
-      if (Environment.GetCommandLineArgs().Any(a => a == _byTS)) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
+      if (Environment.GetCommandLineArgs().Any(a => a == _byTS || a == _TkSr)) // if by scheduler   - wait for 1 minute to allow user to dismiss by mouse or keyboard.
         await Wait1minuteThenRelaunch();
       else                                                       // if not dismissed  - relaunch as Screen Saver in un-unidle-able mode by args "ScreenSaver"
         _ = FullScrSvrModeWithEventLoggin(Environment.GetCommandLineArgs().Any(a => a.Contains(_unidle)));

@@ -77,7 +77,7 @@
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
           <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"      HorizontalAlignment="Right" Foreground="#0ff" FontSize="14" Width="180" />
-          <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s"   HorizontalAlignment="Right"/>
+          <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s"   HorizontalAlignment="Right" />
         </StackPanel>
 
         <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />

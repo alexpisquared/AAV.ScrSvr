@@ -1,4 +1,5 @@
 ﻿using StandardContractsLib;
+using WpfUserControlLib.Extensions;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -38,8 +39,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ex.Message}";
-      _logger?.Log(LogLevel.Trace, $"ERR {ReportBC.Content} ");
-      System.Media.SystemSounds.Beep.Play();
+      ex.Pop(_logger, $"ERR {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
@@ -131,7 +131,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
         _logger?.Log(LogLevel.Trace, $"ERR inn {ReportBC.Content} ");
-        System.Media.SystemSounds.Beep.Play();
+        _bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
@@ -142,11 +142,10 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.Stop();
 
 #if DEBUG
-      //System.Media.SystemSounds.Hand.Play();
-      await _bpr?.YesAsync();
+      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
-      HistoryR.Content += $"{ReportBR.Content}\n";
+      HistoryR.Content += $"\n{ReportBR.Content}";
       ReportBR.Content = $"{driveItem.Name}";
       ReportBL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
@@ -194,8 +193,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
-      _logger?.Log(LogLevel.Trace, $"ERR out {ReportBC.Content} ");
-      System.Media.SystemSounds.Beep.Play();
+      ex.Pop(_logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
@@ -204,8 +202,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
-      _logger?.Log(LogLevel.Trace, $"ERR out {ReportBC.Content} ");
-      System.Media.SystemSounds.Beep.Play();
+      ex.Pop(_logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
@@ -320,8 +317,7 @@ public partial class MsgSlideshowUsrCtrl
 
       await Task.Delay(333);
 #if DEBUG
-      //System.Media.SystemSounds.Hand.Play();
-      _bpr?.Yes();
+      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       VideoView1.MediaPlayer.SetPause(true);
@@ -338,7 +334,7 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG_SEEK
       await Task.Delay(500);
       report2 += $" {(VideoView1.MediaPlayer.Position <= seekToPerc ? "FAILS" : "+ + +")} dt:{(VideoView1.MediaPlayer.Position - seekToPerc) * 100,3:N1}%";
-      System.Media.SystemSounds.Hand.Play();
+      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;
