@@ -16,10 +16,10 @@
       <StaticResource ResourceKey="_d3IntroOutro" />
     </Storyboard>
   </UserControl.Resources>
-  <Grid Name="mediaGridPanel" Margin="8" >
+  <Grid       Name="mediaGridPanel"    Margin="8" >
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
-      <Grid x:Name="GridVideoControls" >
+      <Grid x:Name="GridVideoControls" Margin="6">
         <Grid.Resources>
           <!--NOTE: for some reason this does not work for when inside the <UserControl.Resources> ==>  moved to here inside the VideoView-->
           <Style TargetType="TextBlock">

@@ -50,7 +50,7 @@ public partial class MsgSlideshowUsrCtrl
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get { return (string)GetValue(ClientIdProperty); } set { SetValue(ClientIdProperty, value); } } // public string ClientId { get; set; }
   public string? ClientNm { get; set; }
-  public bool ScaleToHalf { get; set; } = true;
+  public bool ScaleToHalf { get; set; } 
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
