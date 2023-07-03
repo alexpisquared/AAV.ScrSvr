@@ -15,7 +15,7 @@ public partial class MainVM : BaseMinVM
     Bpr = bpr;
     UsrStgns = usrStgns;
     _mainWin = (Window)wnd;
-        
+
     _navigationStore.CurrentVMChanged += OnCurrentVMChanged;
     _modalNavgnStore.CurrentVMChanged += OnCurrentModalVMChanged;
     _IsBusyStore.IsBusyChanged += OnIsBusy_Store_Changed;
@@ -39,8 +39,15 @@ public partial class MainVM : BaseMinVM
     Bpr.AppStart();
     await Task.Delay(100);
 
-    var rv =  await base.InitAsync();
-    try { await KeepCheckingForUpdatesAndNeverReturn(); } catch (Exception ex) { ex.Pop(Logger); }
+    var rv = await base.InitAsync();
+
+    if (NavigatePage02SlideshowCommand.CanExecute(null))
+    {
+      NavigatePage02SlideshowCommand.Execute(null);
+    }
+
+    if (DateTime.Now == DateTime.Today)
+      try { await KeepCheckingForUpdatesAndNeverReturn(); } catch (Exception ex) { ex.Pop(Logger); }
 
     return rv;
   }
@@ -49,7 +56,7 @@ public partial class MainVM : BaseMinVM
     _navigationStore.CurrentVMChanged -= OnCurrentVMChanged;
     _modalNavgnStore.CurrentVMChanged -= OnCurrentModalVMChanged;
     _IsBusyStore.IsBusyChanged -= OnIsBusyChanged;
-    
+
     return base.TryWrapAsync();
   }
 
@@ -78,7 +85,7 @@ public partial class MainVM : BaseMinVM
 
       (IsObsolete, var setupExeTime) = VersionHelper.CheckForNewVersion(DeploymntSrcExe);
       Logger.Log(IsObsolete ? LogLevel.Warning : LogLevel.Information, $"│   Version check this/depl {VersionHelper.TimedVer:MMdd·HHmm}{(IsObsolete ? "!=" : "==")}{setupExeTime:MMdd·HHmm}   {(IsObsolete ? "Obsolete    ▀▄▀▄▀▄▀▄▀▄▀▄▀" : "The latest  ─╬─  ─╬─  ─╬─")}   .n:{(logNetVer ? VersionHelper.DotNetCoreVersionCmd() : "[skipped]")}   ");
-            
+
       UpgradeUrgency = .6 + Math.Abs((VersionHelper.TimedVer - setupExeTime).TotalDays);
       AppVerToolTip = IsObsolete ? $" New version is available:   0.{setupExeTime:M.d.HHmm} \n\t         from  {setupExeTime:yyyy-MM-dd HH:mm}.\n Click to update. " : $" This is the latest version  {VersionHelper.CurVerStrYYMMDD} \n\t               from  {VersionHelper.TimedVer:yyyy-MM-dd HH:mm}. ";
     }
@@ -94,10 +101,10 @@ public partial class MainVM : BaseMinVM
   public bool IsOpen => _modalNavgnStore.IsOpen;
 
   [ObservableProperty] double upgradeUrgency = 1;         // in days
-  [ObservableProperty] string appVerNumber = "0.0";       
-  [ObservableProperty] object appVerToolTip = "Old";      
-  [ObservableProperty] string busyMessage = "Loading..."; 
-  [ObservableProperty] bool isDevDbg;                     
+  [ObservableProperty] string appVerNumber = "0.0";
+  [ObservableProperty] object appVerToolTip = "Old";
+  [ObservableProperty] string busyMessage = "Loading...";
+  [ObservableProperty] bool isDevDbg;
   [ObservableProperty] bool isObsolete;
   [ObservableProperty] bool isBusy; partial void OnIsBusyChanged(bool value) => _IsBusyStore.ChangIsBusy(value);
   bool _au; public bool IsAudible
@@ -124,7 +131,7 @@ public partial class MainVM : BaseMinVM
   }
 
   void OnCurrentVMChanged() => OnPropertyChanged(nameof(CurrentVM));
-  void OnCurrentModalVMChanged()  {    OnPropertyChanged(nameof(CurrentModalVM));    OnPropertyChanged(nameof(IsOpen));  }
+  void OnCurrentModalVMChanged() { OnPropertyChanged(nameof(CurrentModalVM)); OnPropertyChanged(nameof(IsOpen)); }
   void OnIsBusy_Store_Changed(bool val) => IsBusy = val;
 
   IRelayCommand? _up; public IRelayCommand UpgradeSelfCmd => _up ??= new AsyncRelayCommand(PerformUpgradeSelf); async Task PerformUpgradeSelf()

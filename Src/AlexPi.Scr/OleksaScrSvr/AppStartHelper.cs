@@ -10,11 +10,5 @@ public static class AppStartHelper
     _ = services.AddSingleton<IBpr, Bpr>(); // _ = VersionHelper.IsDbgAndRBD ? services.AddSingleton<IBpr, Bpr>() : services.AddSingleton<IBpr, BprSilentMock>();
 
     _ = services.AddTransient(sp => new Contract.OleksaScrSvrModel());
-
-#if !Obsolete
-    //_ = services.AddSingleton<IRoleEditorService, RoleEditorServiceNxt>();
-#else
-    _ = services.AddSingleton<IRoleEditorService, RoleEditorServiceCLI>();
-#endif
   }
 }

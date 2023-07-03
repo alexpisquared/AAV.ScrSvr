@@ -31,10 +31,11 @@ public class UserSettingsSPM : StandardLib.Base.UserSettingsStore
   void SaveIf() { if (_loaded) { LastSave = DateTimeOffset.Now; Save(this); } }
 
   string _s = ".\\sqlexpress";  /**/ public string PrefSrvrName { get => _s; set { if (_s != value) { _s = value; SaveIf(); } } }
-  string _d = "Inventory";   /**/ public string PrefDtBsName { get => _d; set { if (_d != value) { _d = value; SaveIf(); } } }
-  string _r = "IpmUserRole"; /**/ public string PrefDtBsRole { get => _r; set { if (_r != value) { _r = value; SaveIf(); } } }
-  bool _o;                   /**/ public bool AllowSave { get => _o; set { if (_o != value) { _o = value; SaveIf(); } } }
-  int _a = -2;               /**/ public int PrefAplctnId { get => _a; set { if (_a != value) { _a = value; SaveIf(); } } }
-  bool _u;                   /**/ public bool IsAudible { get => _u; set { if (_u != value) { _u = value; SaveIf(); } } }
-  bool _n;                   /**/ public bool IsAnimeOn { get => _n; set { if (_n != value) { _n = value; SaveIf(); } } }
+  string _d = "Inventory";      /**/ public string PrefDtBsName { get => _d; set { if (_d != value) { _d = value; SaveIf(); } } }
+  string _r = "IpmUserRole";    /**/ public string PrefDtBsRole { get => _r; set { if (_r != value) { _r = value; SaveIf(); } } }
+  bool _o;                      /**/ public bool AllowSave { get => _o; set { if (_o != value) { _o = value; SaveIf(); } } }
+  int _a = -2;                  /**/ public int PrefAplctnId { get => _a; set { if (_a != value) { _a = value; SaveIf(); } } }
+  bool _u;                      /**/ public bool IsAudible { get => _u; set { if (_u != value) { _u = value; SaveIf(); } } }
+  bool _n;                      /**/ public bool IsAnimeOn { get => _n; set { if (_n != value) { _n = value; SaveIf(); } } }
+  string _p = "IpmUserRole";    /**/ public string StartPage { get => _p; set { if (_p != value) { _p = value; SaveIf(); } } }
 }

@@ -1,7 +1,4 @@
-﻿using StandardContractsLib;
-using WpfUserControlLib.Extensions;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -15,7 +12,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly LibVLC? _libVLC;
   CancellationTokenSource? _cancellationTokenSource;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  AuthUsagePOC _AuthUsagePOC = new();
+  readonly AuthUsagePOC _AuthUsagePOC = new();
 #if DEBUG
   const int _maxMs = 15_000;
 #else
@@ -39,7 +36,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ex.Message}";
-      ex.Pop(_logger, $"ERR {ReportBC.Content} ");
+      //not good here: ex.Pop(_logger, $"ERR {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
@@ -53,7 +50,7 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration =
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
   }
-  public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get { return (string)GetValue(ClientIdProperty); } set { SetValue(ClientIdProperty, value); } } // public string ClientId { get; set; }
+  public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
 
@@ -62,9 +59,31 @@ public partial class MsgSlideshowUsrCtrl
   {
     if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode
 
-    dynamic vm = DataContext;
-    _logger = vm.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-    _bpr = vm.Bpr;
+      try
+      {
+      if (DataContext is not null) // for MVVM-based clients (OleksaScrSvr)
+      {
+        dynamic vm = DataContext;
+        _logger = vm.Logger;
+        if (_logger is null)
+          _logger = SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+
+        _bpr = vm.Bpr;
+      }
+      else // for non-MVVM-based clients (AlexPi.Scr)
+      {
+        _logger = SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+        //_bpr = new Bpr(_logger);
+      }
+      }
+      catch (Exception ex)
+      {
+        ReportBC.FontSize = 60;
+        ReportBC.Content = $"{ex.Message}";
+        ex.Pop(_logger, $"ERR {ReportBC.Content} ");
+
+        if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
+      }
 
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
@@ -84,13 +103,14 @@ public partial class MsgSlideshowUsrCtrl
       await Task.CompletedTask;
     }));
 
-    while (true)
-    {
-      if (chkIsOn.IsChecked == true)
-        chkIsOn.IsChecked = await LoadWaitThenShowNext();
-      else
-        await Task.Delay(100);
-    }
+    if (VideoView1.MediaPlayer is not null)
+      while (true)
+      {
+        if (chkIsOn.IsChecked == true)
+          chkIsOn.IsChecked = await LoadWaitThenShowNext();
+        else
+          await Task.Delay(100);
+      }
   }
   void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((System.Windows.Controls.CheckBox)s).IsChecked ?? false; }
   void OnPrev(object s, RoutedEventArgs e) { }
@@ -160,6 +180,7 @@ public partial class MsgSlideshowUsrCtrl
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
+        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime:yyyy-MM-dd}";
       }
       else if (driveItem.Video is not null)
       {
@@ -168,21 +189,24 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
+        ReportTL.Content = $"{driveItem?.FileSystemInfo.CreatedDateTime:yyyy-MM-dd}";
       }
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄";
+        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         _logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
+        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime:yyyy-MM-dd}";
       }
       else
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         _logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
+        ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       }
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
@@ -216,7 +240,6 @@ public partial class MsgSlideshowUsrCtrl
       }
 
       _logger?.Log(LogLevel.Trace, $"{DateTime.Now:HH:mm:ss.f}{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,52}  {driveItem?.Id,-26}{cancelReport}");
-      ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
 
       _currentShowTimeMS = _maxMs;
     }
@@ -254,16 +277,16 @@ public partial class MsgSlideshowUsrCtrl
       ".ini",
       ".log",
 #if DEBUG
-      //".3gp",
-      //".dng",
-      //".jpg",
-      ".mov",
-      ".mp4",
-      ".mpg",
-      ".mpo",
-      ".MPO",
-      ".m2ts",
-      ".mts",
+      ".3gp",
+      ".dng",
+      ".jpg",
+      //".mov",
+      //".mp4",
+      //".mpg",
+      //".mpo",
+      //".MPO",
+      //".m2ts",
+      //".mts",
       //".png",
       ".wmv",
 #endif
@@ -395,9 +418,7 @@ public partial class MsgSlideshowUsrCtrl
       };
   }
 
-#pragma warning disable IDE0051 // Remove unused members
   async Task Testingggggggg(string thm, string file)
-#pragma warning restore IDE0051 // Remove unused members
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
