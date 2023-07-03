@@ -21,13 +21,13 @@ public partial class BackgroundWindow : UnCloseableWindow
     {
       WindowState = WindowState.Maximized;
       Topmost = true;
-      Background = Brushes.DarkOrange;
     }
     else
     {
       WindowState = WindowState.Normal;
       Topmost = false;
       Width = trgScreen.Bounds.Width * k;
+      Height = 333;
     }
   }
 
