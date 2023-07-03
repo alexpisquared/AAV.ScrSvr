@@ -41,11 +41,6 @@ public partial class MainVM : BaseMinVM
 
     var rv = await base.InitAsync();
 
-    if (NavigatePage02SlideshowCommand.CanExecute(null))
-    {
-      NavigatePage02SlideshowCommand.Execute(null);
-    }
-
     if (DateTime.Now == DateTime.Today)
       try { await KeepCheckingForUpdatesAndNeverReturn(); } catch (Exception ex) { ex.Pop(Logger); }
 

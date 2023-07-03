@@ -1,11 +1,11 @@
 ﻿namespace OleksaScrSvr.VM.VMs;
-public class SqlNtvIpmPermMgrVM : BaseDbVM
+public class Page03RazerScSvVM : BaseDbVM
 {
   readonly SqlPermissionsManager _spm;
   readonly BmsPermissionsManager _bpm;
   readonly string _constr;
 
-  public SqlNtvIpmPermMgrVM(SqlPermissionsManager spm, BmsPermissionsManager bpm, ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, OleksaScrSvr.Contract.OleksaScrSvrModel inv, IAddChild win, UserSettingsSPM usrStgns, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore) : base( lgr, cfg, bpr, sec, inv, win, allowSaveStore, IsBusyStore, usrStgns, 8110)
+  public Page03RazerScSvVM(SqlPermissionsManager spm, BmsPermissionsManager bpm, ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, OleksaScrSvr.Contract.OleksaScrSvrModel inv, IAddChild win, UserSettingsSPM usrStgns, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore) : base( lgr, cfg, bpr, sec, inv, win, allowSaveStore, IsBusyStore, usrStgns, 8110)
   {
     _spm = spm;
     _bpm = bpm;
@@ -25,14 +25,14 @@ public class SqlNtvIpmPermMgrVM : BaseDbVM
       FilterLogn = true;
 
       Report = $"{VersionHelper.TimeAgo(sw.Elapsed, small: true)}";
-      Logger.LogInformation($"│ {nameof(SqlNtvIpmPermMgrVM)}.{nameof(InitAsync)}(): {Report.Replace("\n", " ")} \t {new string('■', (int)sw.Elapsed.TotalSeconds)} ");
+      Logger.LogInformation($"│ {nameof(Page03RazerScSvVM)}.{nameof(InitAsync)}(): {Report.Replace("\n", " ")} \t {new string('■', (int)sw.Elapsed.TotalSeconds)} ");
     }
     catch (Exception ex) { IsBusy = false; ex.Pop(Logger); await Task.Yield(); }
     finally { IsBusy = _loading = false; _inited = true; Bpr.Tick(); }
   }
   public override async Task RefreshReloadAsync([CallerMemberName] string? cmn = "")
   {
-    WriteLine($"TrWL:> ###### Caller> {cmn}->SqlNtvIpmPermMgrVM.RefreshReloadAsync() ");
+    WriteLine($"TrWL:> ###### Caller> {cmn}->Page03RazerScSvVM.RefreshReloadAsync() ");
     await InitAsyncLocal(); // refresh on YOI change.
     await base.RefreshReloadAsync();
   }

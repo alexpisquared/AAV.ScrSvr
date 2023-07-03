@@ -8,7 +8,19 @@ public class NavBarVM : BaseMinVM
   readonly DtBsStore _dtbsStore;
   readonly AllowSaveStore _allowSaveStore;
 
-  public NavBarVM(AcntStore acntStore, ZeroStore zeroStore, SrvrStore srvrStore, DtBsStore dtbsStore, AllowSaveStore allowSaveStore, AcntNavSvc acntNavSvc, ZeroNavSvc zeroNavSvc, LoginPopupMdlNavSvc loginNavSvc, LoginCloseMdlNavSvs closeNavSvc, Page01MultiUnitNavSvc Page01MultiUnitNavSvc, Page02SlideshowNavSvc Page02SlideshowNavSvc, SrvrListingNavSvc srvrListingNavSvc, DtBsListingNavSvc dtbsListingNavSvc, UserListingNavSvc usLsNavSvc, SqlNtvIpmPermMgrNavSvc userPermissionerNavSvc, UserSettingsSPM usrStgns)
+  public NavBarVM(AcntStore acntStore, ZeroStore zeroStore, SrvrStore srvrStore, DtBsStore dtbsStore, AllowSaveStore allowSaveStore, 
+    AcntNavSvc acntNavSvc, 
+    ZeroNavSvc zeroNavSvc, 
+    LoginPopupMdlNavSvc loginNavSvc, 
+    LoginCloseMdlNavSvs closeNavSvc, 
+    Page01MultiUnitNavSvc Page01MultiUnitNavSvc, 
+    Page02SlideshowNavSvc Page02SlideshowNavSvc,
+    Page03RazerScSvNavSvc Page03RazerScSvNavSvc, 
+    SrvrListingNavSvc srvrListingNavSvc, 
+    DtBsListingNavSvc dtbsListingNavSvc, 
+    UserListingNavSvc usLsNavSvc, 
+    Page03RazerScSvNavSvc userPermissionerNavSvc, 
+    UserSettingsSPM usrStgns)
   {
     _r = Consts.SqlServerList.First();
     _b = "BR";
@@ -25,6 +37,7 @@ public class NavBarVM : BaseMinVM
     NavigateCloseCommand = new NavigateCommand(closeNavSvc);
     NavigatePage01MultiUnitCommand = new NavigateCommand(Page01MultiUnitNavSvc);
     NavigatePage02SlideshowCommand = new NavigateCommand(Page02SlideshowNavSvc);
+    NavigatePage03RazerScSvCommand = new NavigateCommand(Page03RazerScSvNavSvc);
     NavigateSrvrListingCommand = new NavigateCommand(srvrListingNavSvc);
     NavigateDtBsListingCommand = new NavigateCommand(dtbsListingNavSvc);
     NavigateUserListingCommand = new NavigateCommand(usLsNavSvc);
@@ -48,6 +61,16 @@ public class NavBarVM : BaseMinVM
       UsrStgns.PrefSrvrName is not null && !UsrStgns.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UsrStgns.AllowSave);
   }
 
+  override public async Task<bool> InitAsync()
+  {
+    if (NavigatePage03RazerScSvCommand.CanExecute(null))
+    {
+      NavigatePage03RazerScSvCommand.Execute(null);
+    }
+
+    return await base.InitAsync();
+  }
+
   void _allowSaveStore_AllowSaveChanged(bool val) { AllowSave = val; ; }
   void OnCurrentAcntChanged() => OnPropertyChanged(nameof(IsLoggedIn));
   void OnCurrentZeroChanged() => OnPropertyChanged(nameof(IsLoggedIn));
@@ -69,6 +92,7 @@ public class NavBarVM : BaseMinVM
   public ICommand NavigateCloseCommand { get; }
   public ICommand NavigatePage01MultiUnitCommand { get; }
   public ICommand NavigatePage02SlideshowCommand { get; }
+  public ICommand NavigatePage03RazerScSvCommand { get; }
   public ICommand NavigateSrvrListingCommand { get; }
   public ICommand NavigateDtBsListingCommand { get; }
   public ICommand? NavigateRoleListingCommand { get; }

@@ -17,9 +17,9 @@ public partial class App : Application
   public static readonly DateTime StartedAt = DateTime.Now;
   public const int
 #if DEBUG
-    GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 500, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
+    GraceEvLogAndLockPeriodSec = 16, _ScrSvrShowDelayMs = 1_000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #else
-    GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
+    GraceEvLogAndLockPeriodSec = 60, _ScrSvrShowDelayMs = 10_000, IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
 #endif
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
   readonly IServiceProvider _serviceProvider;
@@ -87,42 +87,18 @@ public partial class App : Application
   }
   async Task Wait1minuteThenRelaunch()
   {
-    _ = Task.Run(async () =>
-    {
-      var sj = new ConfigRandomizer();
-      await SpeakAsync($"Hey, {sj.GetRandomFromUserSection("FirstName")}!");
-      SpeakFaF($"{sj.GetRandomFromUserSection("Greetings")} ");
-    });
+    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) 
+      new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
-
-    if (AppSettings.Instance.IsSaySecOn)
-    {
-      if (DevOps.IsDbg)
-      {
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 5) * 1000)).ContinueWith(_ => SpeakAsync($"5"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 4) * 1000)).ContinueWith(_ => SpeakAsync($"4"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 3) * 1000)).ContinueWith(_ => SpeakAsync($"3"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 2) * 1000)).ContinueWith(_ => SpeakAsync($"2"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 1) * 1000)).ContinueWith(_ => SpeakAsync($"1"));
-      }
-      else
-      {
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 50) * 1000)).ContinueWith(_ => SpeakAsync($"50"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 40) * 1000)).ContinueWith(_ => SpeakAsync($"40"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 30) * 1000)).ContinueWith(_ => SpeakAsync($"30"));
-        _ = Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - 20) * 1000)).ContinueWith(_ => SpeakAsync($"20"));
-        //puzzle: runs 50 sec delay for all and read all at that moment: for (var i = 50; i > 0; i -= 5)        Task.Run(async () => await Task.Delay((GraceEvLogAndLockPeriodSec - i) * 1000)).ContinueWith(_ => SpeakAsync($"{i}+{i}=x"));
-      }
-    }
+    SpeakFaF($"Hey, {_cfg.GetRandomFromUserSection("FirstName")}! {_cfg.GetRandomFromUserSection("Greetings")} ");
 
     await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000);
     await SpeakAsync($"Really?");
-
+    
+    await Task.Delay(10_000);
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  Launching another instance lest be closed by unidling.");
-    var me = Process.GetCurrentProcess();
-    _ = Process.Start(me.MainModule?.FileName ?? "Notepad.exe", _unidle);
     Shutdown();
+    _ = Process.Start(Process.GetCurrentProcess().MainModule?.FileName ?? "Notepad.exe", _unidle);
   }
   async Task FullScrSvrModeWithEventLoggin(bool skipLogging)
   {

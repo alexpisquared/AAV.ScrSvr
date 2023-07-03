@@ -27,7 +27,7 @@ public class LayoutNavSvc<TVM> : INavSvc where TVM : BaseMinVM
 
 public class Page01MultiUnitNavSvc : LayoutNavSvc<Page01MultiUnitVM> { public Page01MultiUnitNavSvc(NavigationStore ns, Func<Page01MultiUnitVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class Page02SlideshowNavSvc : LayoutNavSvc<Page02SlideshowVM> { public Page02SlideshowNavSvc(NavigationStore ns, Func<Page02SlideshowVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
-public class SqlNtvIpmPermMgrNavSvc : LayoutNavSvc<SqlNtvIpmPermMgrVM> { public SqlNtvIpmPermMgrNavSvc(NavigationStore ns, Func<SqlNtvIpmPermMgrVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
+public class Page03RazerScSvNavSvc : LayoutNavSvc<Page03RazerScSvVM> { public Page03RazerScSvNavSvc(NavigationStore ns, Func<Page03RazerScSvVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 public class ClickOnceUpdaterNavSvc : LayoutNavSvc<ClickOnceUpdaterVM> { public ClickOnceUpdaterNavSvc(NavigationStore ns, Func<ClickOnceUpdaterVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }
 
 public class AcntNavSvc : LayoutNavSvc<AcntVM> { public AcntNavSvc(NavigationStore ns, Func<AcntVM> vm, Func<NavBarVM> nb) : base(ns, vm, nb) { } }

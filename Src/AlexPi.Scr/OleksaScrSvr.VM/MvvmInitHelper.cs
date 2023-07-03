@@ -28,7 +28,7 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<ClickOnceUpdaterNavSvc>();
     _ = services.AddSingleton<Page01MultiUnitNavSvc>();
     _ = services.AddSingleton<Page02SlideshowNavSvc>();
-    _ = services.AddSingleton<SqlNtvIpmPermMgrNavSvc>();
+    _ = services.AddSingleton<Page03RazerScSvNavSvc>();
     _ = services.AddSingleton<AcntNavSvc>();
     _ = services.AddSingleton<ZeroNavSvc>();
     _ = services.AddSingleton<UserListingNavSvc>();
@@ -54,7 +54,7 @@ public static class MvvmInitHelper
     _ = services.AddSingleton(s => new Func<ClickOnceUpdaterVM>(() => s.GetRequiredService<ClickOnceUpdaterVM>()!));
     _ = services.AddSingleton(s => new Func<Page01MultiUnitVM>(() => s.GetRequiredService<Page01MultiUnitVM>()!));
     _ = services.AddSingleton(s => new Func<Page02SlideshowVM>(() => s.GetRequiredService<Page02SlideshowVM>()!));
-    _ = services.AddSingleton(s => new Func<SqlNtvIpmPermMgrVM>(() => s.GetRequiredService<SqlNtvIpmPermMgrVM>()!));
+    _ = services.AddSingleton(s => new Func<Page03RazerScSvVM>(() => s.GetRequiredService<Page03RazerScSvVM>()!));
 
     _ = services.AddTransient<NavBarVM>();
     _ = services.AddSingleton<MainVM>();
@@ -68,7 +68,7 @@ public static class MvvmInitHelper
     _ = services.AddTransient<AddDtBsVM>();
     _ = services.AddTransient<AddUserVM>();
     _ = services.AddTransient<ClickOnceUpdaterVM>();
-    _ = services.AddTransient<SqlNtvIpmPermMgrVM>();
+    _ = services.AddTransient<Page03RazerScSvVM>();
     _ = services.AddTransient<Page01MultiUnitVM>();
     _ = services.AddTransient<Page02SlideshowVM>();
 

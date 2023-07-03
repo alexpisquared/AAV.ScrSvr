@@ -8,6 +8,8 @@ public class LayoutVM : BaseMinVM
     ContentVM = contentVM;
   }
 
+  public override Task<bool> InitAsync() => base.InitAsync();
+
   public NavBarVM NavBarVM { get; }
   public BaseMinVM ContentVM { get; }
 

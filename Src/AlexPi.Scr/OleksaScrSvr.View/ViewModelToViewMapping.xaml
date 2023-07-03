@@ -32,7 +32,7 @@
   <DataTemplate DataType="{x:Type vm:LayoutVM}">
     <view___________________________:Layout />
   </DataTemplate>
-  <DataTemplate DataType="{x:Type vv:SqlNtvIpmPermMgrVM}">
-    <view___________________________:SqlNtvIpmPermMgrView/>
+  <DataTemplate DataType="{x:Type vv:Page03RazerScSvVM}">
+    <view___________________________:Page03RazerScSvView/>
   </DataTemplate>
 </ResourceDictionary>

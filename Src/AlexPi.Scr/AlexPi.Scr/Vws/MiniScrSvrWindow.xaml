@@ -1,8 +1,8 @@
-﻿<Window x:Class="AlexPi.Scr.MiniScrSvrWindow" x:Name="ww"
+﻿<Window x:Class="AlexPi.Scr.Vws.MiniScrSvrWindow" x:Name="ww"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:UsrCtrls="clr-namespace:AlexPi.Scr.UsrCtrls" 
-        Title="MiniScrSvrWindow" 
+        Title="Mini Scr Svr Window" 
         MinHeight="130" MinWidth="152"
         MaxHeight="260" MaxWidth="304"
         >
