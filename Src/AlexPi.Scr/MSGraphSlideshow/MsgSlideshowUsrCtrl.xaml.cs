@@ -53,37 +53,13 @@ public partial class MsgSlideshowUsrCtrl
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
+  public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
   {
     if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode
-
-      try
-      {
-      if (DataContext is not null) // for MVVM-based clients (OleksaScrSvr)
-      {
-        dynamic vm = DataContext;
-        _logger = vm.Logger;
-        if (_logger is null)
-          _logger = SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-
-        _bpr = vm.Bpr;
-      }
-      else // for non-MVVM-based clients (AlexPi.Scr)
-      {
-        _logger = SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-        //_bpr = new Bpr(_logger);
-      }
-      }
-      catch (Exception ex)
-      {
-        ReportBC.FontSize = 60;
-        ReportBC.Content = $"{ex.Message}";
-        ex.Pop(_logger, $"ERR {ReportBC.Content} ");
-
-        if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
-      }
 
     _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
@@ -91,7 +67,7 @@ public partial class MsgSlideshowUsrCtrl
     if (!success)
     {
       ReportBC.Content = $"{ClientNm}:- {report}";
-      _logger?.Log(LogLevel.Trace, $"{report}");
+      Logger?.Log(LogLevel.Trace, $"{report}");
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
@@ -150,8 +126,8 @@ public partial class MsgSlideshowUsrCtrl
       catch (Exception ex)
       {
         ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-        _logger?.Log(LogLevel.Trace, $"ERR inn {ReportBC.Content} ");
-        _bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
+        Logger?.Log(LogLevel.Trace, $"ERR inn {ReportBC.Content} ");
+        Bpr.Error(); // System.Media.SystemSounds.Hand.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
@@ -162,7 +138,7 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.Stop();
 
 #if DEBUG
-      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       HistoryR.Content += $"\n{ReportBR.Content}";
@@ -195,7 +171,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        _logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -205,7 +181,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        _logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
         ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       }
 
@@ -217,7 +193,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
-      ex.Pop(_logger, $"ERR out {ReportBC.Content} ");
+      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
@@ -226,7 +202,7 @@ public partial class MsgSlideshowUsrCtrl
     {
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
-      ex.Pop(_logger, $"ERR out {ReportBC.Content} ");
+      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
@@ -236,10 +212,10 @@ public partial class MsgSlideshowUsrCtrl
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
-        _logger?.Log(LogLevel.Trace, $"dl mb/sec  Media  len by to/drn s Posn%                                           driveItem.Name  driveItem.Id              cancelReport");
+        Logger?.Log(LogLevel.Trace, $"dl mb/sec  Media  len by to/drn s Posn%                                           driveItem.Name  driveItem.Id              cancelReport");
       }
 
-      _logger?.Log(LogLevel.Trace, $"{DateTime.Now:HH:mm:ss.f}{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,52}  {driveItem?.Id,-26}{cancelReport}");
+      Logger?.Log(LogLevel.Trace, $"{DateTime.Now:HH:mm:ss.f}{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,52}  {driveItem?.Id,-26}{cancelReport}");
 
       _currentShowTimeMS = _maxMs;
     }
@@ -340,7 +316,7 @@ public partial class MsgSlideshowUsrCtrl
 
       await Task.Delay(333);
 #if DEBUG
-      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       VideoView1.MediaPlayer.SetPause(true);
@@ -357,7 +333,7 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG_SEEK
       await Task.Delay(500);
       report2 += $" {(VideoView1.MediaPlayer.Position <= seekToPerc ? "FAILS" : "+ + +")} dt:{(VideoView1.MediaPlayer.Position - seekToPerc) * 100,3:N1}%";
-      _bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;
