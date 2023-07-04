@@ -61,7 +61,7 @@ public class NavBarVM : BaseMinVM
       UsrStgns.PrefSrvrName is not null && !UsrStgns.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UsrStgns.AllowSave);
   }
 
-  override public async Task<bool> InitAsync()
+  override public async Task<bool> InitAsync() //todo: 12345
   {
     if (NavigatePage03RazerScSvCommand.CanExecute(null))
     {

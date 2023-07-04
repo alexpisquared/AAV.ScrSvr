@@ -13,15 +13,10 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<AllowSaveStore>();
     _ = services.AddSingleton<IsBusyStore>();
 
-    if (!VersionHelper.IsDbg && Environment.GetCommandLineArgs().Length > 4)
-      _ = services.AddSingleton<INavSvc, ClickOnceUpdaterNavSvc>(); //tu: Start Page Startup Page controller.
+    if (!DevOps.IsDevMachineH) //tu: Start Page Startup Page controller.
+      _ = services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>();
     else
-    {
-      _ = 
-        //DevOps.IsDbg        ? services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()        : 
-        //services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>();
-        services.AddSingleton<INavSvc, Page02SlideshowNavSvc>();
-    }
+      _ = services.AddSingleton<INavSvc, Page02SlideshowNavSvc>();
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
 

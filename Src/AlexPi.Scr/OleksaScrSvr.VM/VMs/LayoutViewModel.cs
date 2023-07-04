@@ -8,7 +8,7 @@ public class LayoutVM : BaseMinVM
     ContentVM = contentVM;
   }
 
-  public override Task<bool> InitAsync() => base.InitAsync();
+  public override Task<bool> InitAsync() => base.InitAsync(); //todo: 12345
 
   public NavBarVM NavBarVM { get; }
   public BaseMinVM ContentVM { get; }

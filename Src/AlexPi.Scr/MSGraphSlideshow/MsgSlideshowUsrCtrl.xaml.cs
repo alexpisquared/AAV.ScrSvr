@@ -186,7 +186,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"Video";
         var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
-        ReportTR.Content = $"{(isExact ? '=' : '~')}{durationInMs * .001:N0} s";
+        ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
         ReportTL.Content = $"{driveItem?.FileSystemInfo.CreatedDateTime:yyyy-MM-dd}";
