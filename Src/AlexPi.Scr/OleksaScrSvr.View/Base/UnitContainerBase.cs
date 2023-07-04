@@ -23,6 +23,8 @@ public partial class UnitContainerBase : UserControl
       }
   }
 
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
+
   async Task Store()
   {
     var jsonFile = @$"\temp\_{Name}_.json";
@@ -50,9 +52,8 @@ public partial class UnitContainerBase : UserControl
     }
     catch (Exception ex)
     {
-      WriteLine($"{ex.Message}");
+      ex.Pop(Logger);
       DataContext = new LayoutVM2();
-      if (Debugger.IsAttached) Debugger.Break();
     }
   }
 
@@ -73,11 +74,7 @@ public partial class UnitContainerBase : UserControl
       Panel.SetZIndex(this, 11);
       await Store();
     }
-    catch (Exception ex)
-    {
-      WriteLine($"{ex.Message}");
-      if (Debugger.IsAttached) Debugger.Break();
-    }
+    catch (Exception ex) { ex.Pop(Logger); }
   }
   public void Border_MouseMove(object sender, MouseEventArgs e)
   {
@@ -125,11 +122,7 @@ public partial class UnitContainerBase : UserControl
       _ = Mouse.Capture(null);
       await Store();
     }
-    catch (Exception ex)
-    {
-      WriteLine($"{ex.Message}");
-      if (Debugger.IsAttached) Debugger.Break();
-    }
+    catch (Exception ex) { ex.Pop(Logger); }
   }
   public void Rectng_MouseMove(object sender, MouseEventArgs e)
   {

@@ -4,8 +4,8 @@ public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 16;
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
-  ILogger? _logger;
-  IBpr? _bpr;
+
+
   Storyboard? _sbIntroOutro;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
@@ -53,8 +53,8 @@ public partial class MsgSlideshowUsrCtrl
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
-  public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+  IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -67,7 +67,7 @@ public partial class MsgSlideshowUsrCtrl
     if (!success)
     {
       ReportBC.Content = $"{ClientNm}:- {report}";
-      Logger?.Log(LogLevel.Trace, $"{report}");
+      Logger.Log(LogLevel.Trace, $"{report}");
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
@@ -126,8 +126,8 @@ public partial class MsgSlideshowUsrCtrl
       catch (Exception ex)
       {
         ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-        Logger?.Log(LogLevel.Trace, $"ERR inn {ReportBC.Content} ");
-        Bpr.Error(); // System.Media.SystemSounds.Hand.Play();
+        Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");
+        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
 
         if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
       }
