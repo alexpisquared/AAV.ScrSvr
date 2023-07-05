@@ -1,4 +1,6 @@
-﻿namespace OleksaScrSvr;
+﻿using OleksaScrSvr.View;
+
+namespace OleksaScrSvr;
 public static class AppStartHelper
 {
   public static void InitAppSvcs(IServiceCollection services)
