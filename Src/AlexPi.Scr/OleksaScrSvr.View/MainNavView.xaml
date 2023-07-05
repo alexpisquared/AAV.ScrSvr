@@ -77,16 +77,11 @@
         <ContentControl   Content="{Binding CurrentVM}" Margin="16"/>
 
         <!-- For later, when Gravity becomes old:
-        <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />
-        -->
+        <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />        -->
         <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
       </Grid>
 
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >
-        <Button   Margin="5 0" Content="_Flush"    Height="26" Click="OnFlush"    Visibility="Collapsed" />
-        <Button   Margin="5 0" Content="_Save"     Height="26" Click="OnSave"     Visibility="Collapsed" />
-        <Button	  Margin="5 0" Content="Se_ttings" Height="26" Click="OnSettings" Visibility="Collapsed" ToolTip="Adjust application settings" VerticalAlignment="Stretch" />
-
         <Menu ToolTip="Settings and such..." Margin="10 0" FontSize="18">
           <MenuItem Header=" ° ° ° " Padding="16 6 16 0" >
             <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />
@@ -104,7 +99,6 @@
 
         <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=wnd, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />
 
-        <Button	Margin="2" Content="_æ" FontFamily="Webdings"    FontSize="18" Height="26" Padding="0 -1" Width="26" Foreground="#F00" BorderThickness="0" ToolTip="Toggle Audio"      Click="OnAudio"           Visibility="Collapsed"/>
         <Button	Margin="2" Content="_-"                          FontSize="26" Height="26" Padding="2 -0" Width="26" Foreground="#111" BorderThickness="0" ToolTip="Minimize Window"   Click="OnWindowMinimize"                                    Background="Transparent"  />
         <Button	Margin="2" Content="_£" FontFamily="Wingdings 2" FontSize="16" Height="26" Padding="0 -1" Width="26" Foreground="#111" BorderThickness="0" ToolTip="Maximize Window"   Click="OnWindowMaximize" x:Name="wm"                        Background="Transparent"  />
         <Button	Margin="2" Content="_+" FontFamily="Wingdings 2" FontSize="16" Height="26" Padding="0 -1" Width="26" Foreground="#111" BorderThickness="0" ToolTip="Restore Window"    Click="OnWindowRestoree" x:Name="wr" Visibility="Collapsed" Background="Transparent"  />
