@@ -5,7 +5,7 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="Role Managers" MinWidth="600" MinHeight="260" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded">
+                Title="Role Managers" MinWidth="600" MinHeight="260" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="16" />
   </WindowChrome.WindowChrome>
@@ -60,8 +60,6 @@
   <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#666">
     <Grid Margin="-6">
 
-      <Rectangle MouseLeftButtonDown="OnDragMove" Fill="#222" ToolTip="The only draggable surface" Margin="16" Cursor="Hand" />
-
       <Grid x:Name="ZommablePanel" >
         <Grid.Resources>
           <Style TargetType="{x:Type Border}">
@@ -99,6 +97,9 @@
             <MenuItem Header="_Video Feedback" IsCheckable="True" IsChecked="{Binding IsAnimeOn}" ToolTip="Animated feedback on app's activity." />
           </MenuItem>
           <MenuItem   Header="Get _Busy"       IsCheckable="True" IsChecked="{Binding IsBusy}"    ToolTip="DevDbg" />
+          <MenuItem   Header="  _Prim  " Click="OnPrimScreens" />
+          <MenuItem   Header="  _Scnd  " Click="OnScndScreens" />
+          <MenuItem   Header="  _Both  " Click="OnBothScreens" />
         </Menu>
 
         <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=wnd, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />

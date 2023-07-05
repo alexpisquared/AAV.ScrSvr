@@ -37,8 +37,7 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.FontSize = 60;
       ReportBC.Content = $"{ex.Message}";
       //not good here: ex.Pop(_logger, $"ERR {ReportBC.Content} ");
-
-      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
+      //if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
   }
 

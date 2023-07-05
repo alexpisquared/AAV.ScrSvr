@@ -1,4 +1,6 @@
-﻿namespace OleksaScrSvr;
+﻿using WinFormsControlLib;
+
+namespace OleksaScrSvr;
 
 public partial class MainNavView : WindowBase
 {
@@ -57,5 +59,19 @@ public partial class MainNavView : WindowBase
 
     DragMove();
     e.Handled = true;
+  }
+
+  void OnPrimScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.PrimaryScreen.Bounds);
+  void OnScndScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.SecondaryScreen.Bounds);
+  void OnBothScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.GetSumOfAllBounds);
+
+  void StretchToFill(Window window, Rectangle rectangle)
+  {
+    window.WindowState = WindowState.Normal;
+    var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;
+    window.Top = rectangle.Top * k;
+    window.Left = rectangle.Left * k;
+    window.Width = rectangle.Width * k;
+    window.Height = rectangle.Height * k;
   }
 }

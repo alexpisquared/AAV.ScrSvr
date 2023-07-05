@@ -13,10 +13,12 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<AllowSaveStore>();
     _ = services.AddSingleton<IsBusyStore>();
 
-    if (!DevOps.IsDevMachineH) //tu: Start Page Startup Page controller.
-      _ = services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>();
-    else
+    if (DevOps.IsDevMachineH) //tu: Start Page Startup Page controller.
       _ = services.AddSingleton<INavSvc, Page02SlideshowNavSvc>();
+    else  if (DevOps.IsDevMachineO) 
+      _ = services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>();
+    else
+      _ = services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>();
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
 

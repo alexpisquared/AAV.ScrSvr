@@ -43,10 +43,10 @@ public partial class MainWindow
   void StretchToFill(Window window, Rectangle rectangle)
   {
     window.WindowState = WindowState.Normal;
-    var isWO = 1;
-    window.Top = rectangle.Top / isWO;
-    window.Left = rectangle.Left / isWO;
-    window.Width = rectangle.Width / isWO;
-    window.Height = rectangle.Height / isWO;
+    var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;
+    window.Top = rectangle.Top * k;
+    window.Left = rectangle.Left * k;
+    window.Width = rectangle.Width * k;
+    window.Height = rectangle.Height * k;
   }
 }
