@@ -30,13 +30,13 @@ public partial class MainNavView : WindowBase
   void OnScndScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.SecondaryScreen.Bounds);
   void OnBothScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.GetSumOfAllBounds);
 
-  static void StretchToFill(Window window, Rectangle rectangle)
+  static void StretchToFill(Window window, Rectangle rectangle, int margin = 16)
   {
     window.WindowState = WindowState.Normal;
     var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;
-    window.Top = rectangle.Top * k;
-    window.Left = rectangle.Left * k;
-    window.Width = rectangle.Width * k;
-    window.Height = rectangle.Height * k;
+    window.Top = rectangle.Top * k - margin;
+    window.Left = rectangle.Left * k - margin;
+    window.Width = rectangle.Width * k + margin * 2;
+    window.Height = rectangle.Height * k + margin * 2;
   }
 }

@@ -58,7 +58,7 @@
         <Ellipse Width="40"  Height="40"  StrokeThickness="2" Stroke="#ff0" />
       </Grid>
 
-      <TextBlock x:Name="lblTL"  VerticalAlignment="Top"     HorizontalAlignment="Left"    Foreground="#ff0" d:Text="*** some text ***" FontSize="52" Margin="0 0" Background="3000"/>
+      <TextBlock x:Name="lblTL"  VerticalAlignment="Top"     HorizontalAlignment="Left"    Foreground="#ff0" d:Text="*** some text ***" FontSize="52" Margin="0 0" Background="#3000"/>
       <TextBlock x:Name="lblDbg" VerticalAlignment="Top"     HorizontalAlignment="Center"  Foreground="#888" d:Text="*** some text ***" />
       <TextBlock x:Name="lblTR"  VerticalAlignment="Top"     HorizontalAlignment="Right"   Foreground="#888" d:Text="*** some text ***" />
       <TextBlock x:Name="lblBL"  VerticalAlignment="Bottom"  HorizontalAlignment="Left"    Foreground="#888" d:Text="*** some text ***" />
