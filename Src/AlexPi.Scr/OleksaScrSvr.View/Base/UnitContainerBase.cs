@@ -57,28 +57,28 @@ public partial class UnitContainerBase : UserControl
     }
   }
 
-  public async void OnLoaded(object sender, RoutedEventArgs e) { await RestorePlacementFromFile(); _isLoaded = true; }
-  public void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+  public async void OnLoaded(object s, RoutedEventArgs e) { await RestorePlacementFromFile(); _isLoaded = true; }
+  public void Border_MouseLeftButtonDown(object s, MouseButtonEventArgs e)
   {
     isDragging = true;
     clickPosition = e.GetPosition(this);
-    _ = ((sender as Border)?.CaptureMouse());
+    _ = ((s as Border)?.CaptureMouse());
     Panel.SetZIndex(this, 111);
   }
-  public async void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+  public async void Border_MouseLeftButtonUp(object s, MouseButtonEventArgs e)
   {
     try
     {
       isDragging = false;
-      (sender as Border)?.ReleaseMouseCapture();
+      (s as Border)?.ReleaseMouseCapture();
       Panel.SetZIndex(this, 11);
       await Store();
     }
     catch (Exception ex) { ex.Pop(Logger); }
   }
-  public void Border_MouseMove(object sender, MouseEventArgs e)
+  public void Border_MouseMove(object s, MouseEventArgs e)
   {
-    if (isDragging && sender is Border draggableControl)
+    if (isDragging && s is Border draggableControl)
     {
       var currentPosition = e.GetPosition(Parent as UIElement);
 
@@ -108,13 +108,13 @@ public partial class UnitContainerBase : UserControl
       SetValue(Canvas.TopProperty, newY);
     }
   }
-  public void Rectng_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+  public void Rectng_MouseLeftButtonDown(object s, MouseButtonEventArgs e)
   {
     _isResizing = true;
     _lastMousePosition = e.GetPosition(this);
-    _ = Mouse.Capture((IInputElement)sender);
+    _ = Mouse.Capture((IInputElement)s);
   }
-  public async void Rectng_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+  public async void Rectng_MouseLeftButtonUp(object s, MouseButtonEventArgs e)
   {
     try
     {
@@ -124,7 +124,7 @@ public partial class UnitContainerBase : UserControl
     }
     catch (Exception ex) { ex.Pop(Logger); }
   }
-  public void Rectng_MouseMove(object sender, MouseEventArgs e)
+  public void Rectng_MouseMove(object s, MouseEventArgs e)
   {
     if (_isResizing)
     {

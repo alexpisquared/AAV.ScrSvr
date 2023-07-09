@@ -6,7 +6,7 @@ public partial class NavigationBar : UserControl
 {
   public NavigationBar() => InitializeComponent();
 
-  void OnDragMove(object sender, MouseButtonEventArgs e)
+  void OnDragMove(object s, MouseButtonEventArgs e)
   {
     if (e.LeftButton != MouseButtonState.Pressed) return;
 
