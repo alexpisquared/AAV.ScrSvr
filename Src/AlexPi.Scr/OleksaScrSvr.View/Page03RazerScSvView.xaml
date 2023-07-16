@@ -123,20 +123,16 @@
   <Grid >
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="0" />
-      <RowDefinition Height="0" />
-      <RowDefinition Height="0" />
       <RowDefinition Height="1*" />
-      <RowDefinition Height="Auto" MaxHeight="80" />
-      <RowDefinition Height="5" />
     </Grid.RowDefinitions>
 
-    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Height="44">
-      <TextBlock Text="WHAT IS THIS PAGE FOR ... AGAIN" FontSize="20" Margin="19 0"/>
-      <!--<TextBlock Text="{Binding AllowSave, StringFormat='{}Db Wr: {0}'}"  />-->
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Height="44" Margin="8">
+      <TextBlock Text="WHAT IS THIS PAGE FOR ... AGAIN                    Search [example]" FontSize="20" />
+      <TextBox x:Name="tbxUsrSearch" Width="166" />
+      <TextBlock Text="{Binding AllowSave, StringFormat='{}                  Db RW: {0}', FallbackValue='                  Db RW: True'}" FontStyle="Italic" />
     </StackPanel>
 
-    <TextBlock Grid.Column="3" Text="{Binding Report}" FontSize="11" Foreground="{StaticResource MainForegroundBrush}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" d:Text="Hello. Is everything OK?" Visibility="{Binding Report, Converter={cnv:ReportToVisibilityConverter InvertValue=False}}" />
+    <TextBlock Text="{Binding Report}" FontSize="11" Foreground="{StaticResource MainForegroundBrush}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" d:Text="Hello. Is everything OK?" Visibility="{Binding Report, Converter={cnv:ReportToVisibilityConverter InvertValue=False}}" />
 
   </Grid>
 </UserControl>

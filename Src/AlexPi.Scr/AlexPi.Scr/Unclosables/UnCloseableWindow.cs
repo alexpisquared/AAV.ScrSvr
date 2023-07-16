@@ -1,4 +1,5 @@
 ﻿namespace AlexPi.Scr.Unclosables;
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 
 public partial class UnCloseableWindow : WpfUserControlLib.Base.WindowBase // <- black bacground bottommost window to save on heating.
 {
