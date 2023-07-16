@@ -1,6 +1,4 @@
-﻿using WpfUserControlLib.Extensions;
-
-namespace OleksaScrSvr.View;
+﻿namespace OleksaScrSvr.View;
 
 public partial class NavigationBar : UserControl
 {

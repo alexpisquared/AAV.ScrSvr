@@ -5,7 +5,7 @@
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
              xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:Page01MultiUnitVM}}" 
-             d:DesignHeight="2200" d:DesignWidth="300" d:Background="#222">
+             d:DesignHeight="200" d:DesignWidth="3300" d:Background="#222">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -46,6 +46,8 @@
         <Setter Property="Opacity"          Value=".9002" />
       </Style>
     </Grid.Resources>
+
+    <Rectangle Fill="Transparent" MouseLeftButtonDown="OnDragMove" Cursor="Hand" Tag="Works here. Does not at the UserControl level (interferes with the canvas' units)."/>
 
     <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="26" Foreground="#a00" />
     <Viewbox Stretch="Uniform">

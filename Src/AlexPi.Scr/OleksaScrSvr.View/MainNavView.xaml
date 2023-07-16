@@ -7,7 +7,7 @@
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
                 Title="Role Managers" MinWidth="600" MinHeight="260" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111">
   <WindowChrome.WindowChrome>
-    <WindowChrome CaptionHeight="0" ResizeBorderThickness="16" />
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="26 8 26 26" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
     <ResourceDictionary>
@@ -74,7 +74,7 @@
 
         <!--<mdl:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">          <ContentControl Content="{Binding CurrentModalVM}" />        </mdl:Modal>-->
 
-        <ContentControl   Content="{Binding CurrentVM}" Margin="16"/>
+        <ContentControl Content="{Binding CurrentVM}" />
 
         <!-- For later, when Gravity becomes old:
         <anm:ArrivaLogoDropPanel   Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" />        -->
@@ -83,18 +83,16 @@
 
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >
         <Menu ToolTip="Settings and such..." Margin="10 0" FontSize="18">
-          <MenuItem Header=" ° ° ° " Padding="16 6 16 0" >
-            <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />
-            <!--
-            <xui:ThemeSelectorUsrCtrl  x:Name="themeSelector3" Header="_Dark Mode" FontFml="Arial" FontSze="16"/>
-            -->
-            <MenuItem Header="_Audio Feedback" IsCheckable="True" IsChecked="{Binding IsAudible}" ToolTip="Audible feedback on app's activity."  />
-            <MenuItem Header="_Video Feedback" IsCheckable="True" IsChecked="{Binding IsAnimeOn}" ToolTip="Animated feedback on app's activity." />
-          </MenuItem>
-          <MenuItem   Header="Get _Busy"       IsCheckable="True" IsChecked="{Binding IsBusy}"    ToolTip="DevDbg" />
           <MenuItem   Header="  _Prim  " Click="OnPrimScreens" />
           <MenuItem   Header="  _Scnd  " Click="OnScndScreens" />
           <MenuItem   Header="  _Both  " Click="OnBothScreens" />
+          <MenuItem   Header="Get Bus_y"       IsCheckable="True" IsChecked="{Binding IsBusy}" ToolTip="DevDbg" />
+          <MenuItem Header=" ° ° ° " Padding="16 6 16 0" Foreground="{StaticResource LablForegroundBrush}">
+            <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />
+            <!--:ThemeSelectorUsrCtrl  x:Name="themeSelector3" Header="_Dark Mode" FontFml="Arial" FontSze="16"/> -->
+            <MenuItem Header="_Audio Feedback" IsCheckable="True" IsChecked="{Binding IsAudible}" ToolTip="Audible feedback on app's activity."  />
+            <MenuItem Header="_Video Feedback" IsCheckable="True" IsChecked="{Binding IsAnimeOn}" ToolTip="Animated feedback on app's activity." />
+          </MenuItem>
         </Menu>
 
         <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=wnd, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />

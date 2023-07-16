@@ -5,6 +5,7 @@
   <Grid>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" Background="#000" BorderBrush="#222" BorderThickness="16" />
 
+    <TextBlock Text="Slideshow is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#ff0" />
     <!--
     <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Padding="16" Visibility="Collapsed" />    
                                           Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"            />         -->

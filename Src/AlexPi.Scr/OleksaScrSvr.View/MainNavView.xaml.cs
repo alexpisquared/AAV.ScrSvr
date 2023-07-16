@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace OleksaScrSvr;
+﻿namespace OleksaScrSvr;
 
 public partial class MainNavView : WindowBase
 {
@@ -27,7 +25,7 @@ public partial class MainNavView : WindowBase
     themeSelector1.SetCurThemeToMenu(Thm); //dnf theming 2/2//_logger.LogInformation($"mVl{(DateTime.Now - _mvwStarted).TotalSeconds,4:N1}s  {VersionHelper.DevDbgAudit(_config)}");
 
     if (!VersionHelper.IsDbg)
-      StretchToFill(this, WinFormHelper.PrimaryScreen.Bounds); // good for Yoga, Nuc, Razer.
+      StretchToFill(this, WinFormHelper.GetSumOfAllBounds); 
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }
@@ -39,7 +37,7 @@ public partial class MainNavView : WindowBase
   void OnScndScreens(object s, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.SecondaryScreen.Bounds);
   void OnBothScreens(object s, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.GetSumOfAllBounds);
 
-  static void StretchToFill(Window window, Rectangle rectangle, int margin = 16)
+  static void StretchToFill(Window window, Rectangle rectangle, int margin = 2)
   {
     window.WindowState = WindowState.Normal;
     var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;

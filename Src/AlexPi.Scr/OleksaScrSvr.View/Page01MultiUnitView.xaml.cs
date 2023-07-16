@@ -24,4 +24,13 @@ public partial class Page01MultiUnitView : UserControl
       WriteLine(tbkTitle.Text = $"{ex.Message}");
     }
   }
+
+  private void OnDragMove(object sender, MouseButtonEventArgs e)
+  {
+    if (e.LeftButton != MouseButtonState.Pressed) return;
+
+    this.FindParentWindow().DragMove();
+
+    e.Handled = true;
+  }
 }

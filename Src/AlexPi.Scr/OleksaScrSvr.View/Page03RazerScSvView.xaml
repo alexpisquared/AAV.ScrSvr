@@ -2,7 +2,8 @@
              xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib" 
              xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib" 
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:Page03RazerScSvVM}"
-             d:DesignHeight="160" d:DesignWidth="1200" Padding="8" Background="#10f0" >
+             MouseLeftButtonDown="OnDragMove" Cursor="Hand" 
+             d:DesignHeight="160" d:DesignWidth="1200" Padding="0" Background="#10f0" >
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -119,7 +120,7 @@
 
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid Margin="5 0" >
+  <Grid >
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="0" />
@@ -131,82 +132,11 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Height="44">
-      <TextBlock Text="IPM-Specific                 " FontSize="20" Margin="19 0"/>
-      <Label  Content="_Search " Target="{Binding ElementName=tbxUsrSearch}" Margin="36 0 0 0" />
-      <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" x:Name="tbxUsrSearch" Width="160" />
-      <TextBlock FontSize="14" Text="{Binding ElementName=dgUsers, Path=Items.Count, FallbackValue='33 matches'}" Margin="8 0 0 0" />
-      <TextBlock FontSize="14" Text="matches          Selected:" />
-      <TextBlock FontSize="14" Text="{Binding SelectUsr.FullName}" FontWeight="Medium" MinWidth="140" Margin="8 0 26 0" />
-      <CheckBox Content="S_M Integration" IsChecked="{Binding BmsIntegration}" IsThreeState="False" Width="114"/>
+      <TextBlock Text="WHAT IS THIS PAGE FOR ... AGAIN" FontSize="20" Margin="19 0"/>
       <!--<TextBlock Text="{Binding AllowSave, StringFormat='{}Db Wr: {0}'}"  />-->
     </StackPanel>
 
-    <TextBlock Grid.Column="3" Text="{Binding Report}" FontSize="11" Foreground="{StaticResource MainForegroundBrush}" HorizontalAlignment="Right" VerticalAlignment="Top" d:Text="Hello. Is everything OK?" Margin="0" Visibility="{Binding Report, Converter={cnv:ReportToVisibilityConverter InvertValue=False}}" />
+    <TextBlock Grid.Column="3" Text="{Binding Report}" FontSize="11" Foreground="{StaticResource MainForegroundBrush}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" d:Text="Hello. Is everything OK?" Visibility="{Binding Report, Converter={cnv:ReportToVisibilityConverter InvertValue=False}}" />
 
-    <DataGrid ItemsSource="{Binding ADUserCVS}" CurrentItem="{Binding SelectUsr,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Margin="8 0 8 8" BorderThickness="0 1 0 0" BorderBrush="#8888" IsReadOnly="False" x:Name="dgUsers" >
-      <!--<DataGrid.RowStyle>
-        <Style TargetType="DataGridRow">
-          <Setter Property="DetailsVisibility" Value="Collapsed"/>
-          <Style.Triggers>
-            <DataTrigger Binding="{Binding TopDbRole}" Value="IpmUserRole">
-              <Setter Property="Background" Value="{StaticResource BgWork}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding TopDbRole}" Value="IpmUserRoleRO">
-              <Setter Property="Background" Value="#4770"/>
-            </DataTrigger>
-          </Style.Triggers>
-        </Style>
-      </DataGrid.RowStyle>-->
-      <DataGrid.Columns>
-        <DataGridTextColumn CellStyle="{StaticResource AccessColorDataGridCellStyle}" />
-        <DataGridTextColumn         Binding="{Binding DomainUsername}"    Header=" Domain\\Username"        Width="240" />
-        <DataGridTemplateColumn                                           Header=" Full Name"               Width="200" >
-          <DataGridTemplateColumn.CellTemplate>
-            <DataTemplate>
-              <stb:HighlightableTextBlock Text="{Binding FullName}" SearchText="{Binding Text, ElementName=tbxUsrSearch}" ToolTip="{Binding Notes}" />
-            </DataTemplate>
-          </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-        <DataGridTemplateColumn                                           >
-          <DataGridTemplateColumn.HeaderTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal" Margin="4 0" HorizontalAlignment="Right">
-                <CheckBox Content="_Admins " IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.FilterAdmn}" ToolTip="Include Administrators"       Background="{StaticResource FgAdmn}" />
-                <CheckBox Content="_Workers" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.FilterWork}" ToolTip="Include Regular Worker/Users" Background="{StaticResource FgWork}" />
-                <CheckBox Content="_Readers" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.FilterRead}" ToolTip="Include Read-Only Users"      Background="{StaticResource FgRead}" />
-                <CheckBox Content="_Logins " IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.FilterLogn}" ToolTip="Include SQL Login + DB Users" Background="{StaticResource FgLogn}" />
-              </StackPanel>
-            </DataTemplate>
-          </DataGridTemplateColumn.HeaderTemplate>
-          <DataGridTemplateColumn.CellTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal" Margin="4 0" HorizontalAlignment="Right">
-                <CheckBox Content="Admin" IsChecked="{Binding A}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SetToAdmnCommand}" CommandParameter="{Binding ElementName=cA, Path=IsChecked}" x:Name="cA" Foreground="{StaticResource FgAdmn}" ToolTip="Administrator"  IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AllowSave}" Visibility="{Binding ElementName=cL, Path=IsChecked, Converter={cnv:UniConverter}}" />
-                <CheckBox Content="Work " IsChecked="{Binding W}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SetToUserCommand}" CommandParameter="{Binding ElementName=cW, Path=IsChecked}" x:Name="cW" Foreground="{StaticResource FgWork}" ToolTip="Regular User"   IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AllowSave}" Visibility="{Binding ElementName=cL, Path=IsChecked, Converter={cnv:UniConverter}}" />
-                <CheckBox Content="Read " IsChecked="{Binding R}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SetToReadCommand}" CommandParameter="{Binding ElementName=cR, Path=IsChecked}" x:Name="cR" Foreground="{StaticResource FgRead}" ToolTip="Read-Only User" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AllowSave}" Visibility="{Binding ElementName=cL, Path=IsChecked, Converter={cnv:UniConverter}}" />
-                <CheckBox Content="Login" IsChecked="{Binding L}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.SetToNoneCommand}" CommandParameter="{Binding ElementName=cL, Path=IsChecked}" x:Name="cL" Foreground="{StaticResource FgLogn}" ToolTip="SQL Login+User" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AllowSave}" />
-              </StackPanel>
-            </DataTemplate>
-          </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-        <DataGridTextColumn         Binding="{Binding Notes}"             Header=" Notes "                  Width="*" />
-        <DataGridTextColumn CellStyle="{StaticResource AccessColorDataGridCellStyle}" />
-        <!--
-        <DataGridCheckBoxColumn Header="A" Binding="{Binding A}" />
-        <DataGridCheckBoxColumn Header="W" Binding="{Binding W}" />
-        <DataGridCheckBoxColumn Header="R" Binding="{Binding R}" />
-        <DataGridCheckBoxColumn Header="L" Binding="{Binding L}" />
-        <DataGridTextColumn         Binding="{Binding UserPrincipalName}" Header=" Principal Name"          Width="220" />
-        <DataGridTextColumn         Binding="{Binding Permisssions}"      Header=" Permisssions " CellStyle="{StaticResource AccessColorDataGridCellStyle}" />
-        <DataGridTextColumn         Binding="{Binding TopDbRole}"         Header=" DB Role "      CellStyle="{StaticResource AccessColorDataGridCellStyle}" Width="160" />
-        <DataGridTemplateColumn                                           Header=" Access Level " >
-          <DataGridTemplateColumn.CellTemplate>
-            <DataTemplate>
-              <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.AccessLevels}" DisplayMemberPath="DisplayName" SelectedValuePath="DbRoleName" SelectedValue="{Binding TopDbRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="136" BorderThickness="0" />
-            </DataTemplate>
-          </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>-->
-      </DataGrid.Columns>
-    </DataGrid>
   </Grid>
 </UserControl>
