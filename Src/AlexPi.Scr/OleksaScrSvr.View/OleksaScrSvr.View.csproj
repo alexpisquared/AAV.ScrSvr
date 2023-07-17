@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Assets\CheckYesNo.ico" />
+    <None Remove="Xamarin.Simulator.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\CheckYesNo.ico" />
+    <Resource Include="Xamarin.Simulator.ico" />
   </ItemGroup>
 
 </Project>

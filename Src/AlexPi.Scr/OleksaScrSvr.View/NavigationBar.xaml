@@ -28,7 +28,7 @@
       <ColumnDefinition Width="1*" />
     </Grid.ColumnDefinitions>
 
-    <Image Source="/OleksaScrSvr.View;component/Assets/CheckYesNo.ico" HorizontalAlignment="Left" Margin="6" />
+    <Image Source="/OleksaScrSvr.View;component/Xamarin.Simulator.ico" HorizontalAlignment="Left" Margin="6" />
 
     <Menu      Grid.Column="1" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding IsDevDbg, Converter={cnv:UniConverter}}" >
       <MenuItem Header="_1"   Command="{Binding NavigatePage01MultiUnitCommand}" ToolTip="Multi-unit" />      <MenuItem Header="_2"   Command="{Binding NavigatePage02SlideshowCommand}" ToolTip="Single-slideshow" />
