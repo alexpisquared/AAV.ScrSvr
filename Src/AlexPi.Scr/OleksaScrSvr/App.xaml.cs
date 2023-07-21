@@ -2,7 +2,7 @@
 using OleksaScrSvr.VM.VMs;
 
 namespace OleksaScrSvr;
-public partial class App : System.Windows.Application
+public partial class App // : System.Windows.Application
 {
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
   readonly IServiceProvider _serviceProvider;
