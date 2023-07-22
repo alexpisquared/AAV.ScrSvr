@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Xamarin.Simulator.ico</ApplicationIcon>
+    <UserSecretsId>91362db3-c52a-4a82-a01c-ccf5f35cc9da</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

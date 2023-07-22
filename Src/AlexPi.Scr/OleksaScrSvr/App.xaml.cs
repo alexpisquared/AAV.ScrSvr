@@ -4,9 +4,10 @@ using OleksaScrSvr.VM.VMs;
 namespace OleksaScrSvr;
 public partial class App // : System.Windows.Application
 {
+  string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
   readonly IServiceProvider _serviceProvider;
-  string _audit = "audit is unassigned";
+  public IServiceProvider ServiceProvider => _serviceProvider;
 
   public App()
   {
