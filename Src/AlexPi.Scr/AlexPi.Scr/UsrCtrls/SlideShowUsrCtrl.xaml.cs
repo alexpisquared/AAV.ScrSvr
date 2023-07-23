@@ -17,8 +17,8 @@ public partial class SlideShowUsrCtrl
 #endif
   readonly Random _rand = new(DateTime.Now.Second);
   Storyboard _sbIntroOutro;
-  SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  string _curHistFile;
+  readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
+  readonly string _curHistFile;
   bool _isPlaying = true;
   int _back = 0, _randIdx;
   public int HistSlct { get; set; }
@@ -213,6 +213,9 @@ public partial class SlideShowUsrCtrl
     Debug.WriteLine($"---");
     try
     {
+
+      WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss} xx {file}");
+
       mediaElmnt.Source = new Uri(file);
       //mediaElmnt.Play(); Debug.WriteLine($"--- Play()");
       mediaElmnt.Pause(); Debug.WriteLine($"--- Pause()");
@@ -239,12 +242,11 @@ public partial class SlideShowUsrCtrl
         if (mediaElmnt.NaturalDuration.HasTimeSpan == false)
           fallbackDuration = (long)mediaElmnt.NaturalDuration.TimeSpan.TotalMilliseconds;
         else
-          switch (Path.GetExtension(file).ToLower())
+          fallbackDuration = Path.GetExtension(file).ToLower() switch
           {
-            case ".mts": fallbackDuration = (new FileInfo(file).Length) / (20298 * 1024 / 13000); break; // 20298 * 1024 bytes ~~ 13000 ms
-            default: fallbackDuration = 0; break;
-          }
-
+            ".mts" => (new FileInfo(file).Length) / (20298 * 1024 / 13000),
+            _ => 0,
+          };
         Debug.WriteLine($"--- {tbbl.Text}");
 
         if (false) { tbbl.Text += $" {mediaElmnt.NaturalDuration.TimeSpan:m\\:ss}"; showtimeTs += (mediaElmnt.NaturalDuration.HasTimeSpan ? mediaElmnt.NaturalDuration.TimeSpan : showtimeTs); }
@@ -326,7 +328,7 @@ public partial class SlideShowUsrCtrl
   }
   async void btnPlay_Click(object s, RoutedEventArgs e) => await runMainLoop();
 
-  async void lbxHist_SelectionChanged(object s, SelectionChangedEventArgs e)
+  void lbxHist_SelectionChanged(object s, SelectionChangedEventArgs e)
   {
     if (e.AddedItems.Count < 1)
     {
@@ -344,20 +346,18 @@ public partial class SlideShowUsrCtrl
   async void btnEdit_Click(object s, RoutedEventArgs e) { ctrlPanel.IsEnabled = false; /*deleteUsrCtrl1.ShowEditorPanel(_allFiles, _randIdx); */await Task.Yield(); }
   async void btnDele_Click(object s, RoutedEventArgs e) { if (!EvLogHelper.IsVIP) return; ctrlPanel.IsEnabled = false; /*_ = new DeleteMePopup(_allFiles[_randIdx]).ShowDialog(); */await continueWithTheShow("onDele", -123, false); }
 
-
-
-  IEnumerable<string> GetAllFiles(string path, string searchPattern) => System.IO.Directory.EnumerateFiles(path, searchPattern).Union(
-        System.IO.Directory.EnumerateDirectories(path).SelectMany(d =>
-        {
-          try
-          {
-            return GetAllFiles(d, searchPattern);
-          }
-          catch (UnauthorizedAccessException)
-          {
-            return Enumerable.Empty<string>();
-          }
-        }));
+  //IEnumerable<string> GetAllFiles__(string path, string searchPattern) => System.IO.Directory.EnumerateFiles(path, searchPattern).Union(
+  //      System.IO.Directory.EnumerateDirectories(path).SelectMany(d =>
+  //      {
+  //        try
+  //        {
+  //          return GetAllFiles__(d, searchPattern);
+  //        }
+  //        catch (UnauthorizedAccessException)
+  //        {
+  //          return Enumerable.Empty<string>();
+  //        }
+  //      }));
 
   void on_MediaOpened(object s, /**/     RoutedEventArgs e) => Debug.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss}> Media Loaded : {e}");
   void on_MediaEnded(object s,  /**/     RoutedEventArgs e) => Debug.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss}> Media Ended  : {e}");

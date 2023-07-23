@@ -52,7 +52,7 @@ public partial class MsgSlideshowUsrCtrl
   public bool ScaleToHalf { get; set; }
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr;
-  private string _pathfile;
+  string _pathfile;
 
   public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
@@ -101,7 +101,7 @@ public partial class MsgSlideshowUsrCtrl
 
     _pathfile = GetRandomSizeProportinalMediaFile();
 
-    Logger.Log(LogLevel.Information, $"{_pathfile}");
+    Logger.Log(LogLevel.Warning, $"xx {_pathfile}");
 
     try
     {
