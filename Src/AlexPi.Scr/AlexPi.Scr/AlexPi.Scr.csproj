@@ -54,7 +54,7 @@
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WinFormsControlLib\WinFormsControlLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj" />
-    <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeather2022.csproj" />
+    <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeather2022\OpenWeaSvc.csproj" />
     <ProjectReference Include="..\..\..\..\Radar\Src\PixelMeasure\PixelMeasure.csproj" />
     <ProjectReference Include="..\MailInfoWpfUsrCtrlLib\MailInfoWpfUsrCtrlLib.csproj" />
     <ProjectReference Include="..\MSGraphSlideshow\MSGraphSlideshow.csproj" />

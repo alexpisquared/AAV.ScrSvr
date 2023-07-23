@@ -89,14 +89,15 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
-          <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn" />
+          <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn"  />
           <CheckBox    Content="_Mute"  IsChecked="False" Click="OnMute" />
         </StackPanel>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
           <Button      Content="_Prev" IsDefault="False" Click="OnPrev" />
           <Button      Content="_Next" IsDefault="True"  Click="OnNext" />
-          <Button      Content="_LogO" IsDefault="False" Click="OnSignOut" />
+          <Button      Content="_LogO" IsDefault="False" Click="OnSignOut" Foreground="#a00"/>
+          <Button      Content="_Delt" IsDefault="False" Click="OnDelete"  Foreground="#a00"/>
         </StackPanel>
       </Grid>
     </vlc:VideoView>

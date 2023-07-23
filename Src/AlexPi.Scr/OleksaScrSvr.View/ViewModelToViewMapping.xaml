@@ -5,9 +5,9 @@
                     xmlns:local0="clr-namespace:OpenWeaWpfApp;assembly=OpenWeaWpfApp" 
                     xmlns:local1="clr-namespace:OpenWeaWpfApp.Views;assembly=OpenWeaWpfApp"
                     >
-  <DataTemplate DataType="{x:Type local0:PlotViewModel}">
+  <!--<DataTemplate DataType="{x:Type local0:PlotViewModel}">
     <local1:MainPlotViewUsrCtrl/>
-  </DataTemplate>
+  </DataTemplate>-->
   <DataTemplate DataType="{x:Type vm:ZeroVM}">
     <view___________________________:ZeroView />
   </DataTemplate>

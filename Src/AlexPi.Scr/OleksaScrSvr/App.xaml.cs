@@ -6,8 +6,7 @@ public partial class App // : System.Windows.Application
 {
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
-  readonly IServiceProvider _serviceProvider;
-  public IServiceProvider ServiceProvider => _serviceProvider;
+  readonly IServiceProvider _serviceProvider;  public IServiceProvider ServiceProvider => _serviceProvider;
 
   public App()
   {

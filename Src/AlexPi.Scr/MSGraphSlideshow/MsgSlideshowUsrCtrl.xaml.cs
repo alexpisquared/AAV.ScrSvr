@@ -4,8 +4,6 @@ public partial class MsgSlideshowUsrCtrl
 {
   const int _volumePerc = 16;
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
-
-
   Storyboard? _sbIntroOutro;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
@@ -53,7 +51,10 @@ public partial class MsgSlideshowUsrCtrl
   public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  IBpr? _bpr;
+  private string _pathfile;
+
+  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -98,22 +99,23 @@ public partial class MsgSlideshowUsrCtrl
     var dnldTime = TimeSpan.Zero;
     var driveItem = (DriveItem?)default;
 
-    var pathfile = GetRandomMediaFile();
+    _pathfile = GetRandomSizeProportinalMediaFile();
+
+    Logger.Log(LogLevel.Information, $"{_pathfile}");
 
     try
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
-      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(pathfile).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(_pathfile).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
-      var taskStream =
-         TaskDownloadStreamGraph(pathfile);
-      //TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+      var taskStream = TaskDownloadStreamGraph(_pathfile); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+
       try
       {
         _cancellationTokenSource = new();
@@ -137,7 +139,7 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.Stop();
 
 #if DEBUG
-      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       HistoryR.Content += $"\n{ReportBR.Content}";
@@ -170,7 +172,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Trace, $"  {_pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -180,7 +182,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $"  {pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Trace, $"  {_pathfile}  {ReportBC.Content}  ");
         ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
       }
 
@@ -191,7 +193,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (ServiceException ex)
     {
       ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
@@ -200,7 +202,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (Exception ex)
     {
       ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? pathfile}";
+      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
@@ -239,7 +241,7 @@ public partial class MsgSlideshowUsrCtrl
 
     return (stream, dnldTm);
   }
-  string GetRandomMediaFile()
+  string GetRandomSizeProportinalMediaFile()
   {
     var _blackList = new string[] {
       ".aae",
@@ -315,7 +317,7 @@ public partial class MsgSlideshowUsrCtrl
 
       await Task.Delay(333);
 #if DEBUG
-      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       VideoView1.MediaPlayer.SetPause(true);
@@ -332,7 +334,7 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG_SEEK
       await Task.Delay(500);
       report2 += $" {(VideoView1.MediaPlayer.Position <= seekToPerc ? "FAILS" : "+ + +")} dt:{(VideoView1.MediaPlayer.Position - seekToPerc) * 100,3:N1}%";
-      Bpr.Yes(); // System.Media.SystemSounds.Hand.Play();
+      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;
@@ -423,6 +425,15 @@ public partial class MsgSlideshowUsrCtrl
     GridVideoControls.VerticalAlignment = VerticalAlignment.Top;
     GridVideoControls.HorizontalAlignment = HorizontalAlignment.Left;
     GridVideoControls.Margin = new Thickness(16); // 16 is just about right for the OleksaScrSvr case.
+  }
+
+  void OnDelete(object sender, RoutedEventArgs e) => "Explorer"
+
+  static void OpenOrNavigate(string? _pathfile, bool isOpen)
+  {
+    _ = _pathfile is not null && File.Exists(_pathfile)
+    ? Process.Start("Explorer.exe", isOpen ? _pathfile : $"/select, \"{_pathfile}\"")
+    : MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
   }
 }
 /*
