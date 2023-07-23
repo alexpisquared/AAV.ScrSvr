@@ -427,13 +427,12 @@ public partial class MsgSlideshowUsrCtrl
     GridVideoControls.Margin = new Thickness(16); // 16 is just about right for the OleksaScrSvr case.
   }
 
-  void OnDelete(object sender, RoutedEventArgs e) => "Explorer"
-
-  static void OpenOrNavigate(string? _pathfile, bool isOpen)
+  void OnDelete(object sender, RoutedEventArgs e)
   {
-    _ = _pathfile is not null && File.Exists(_pathfile)
-    ? Process.Start("Explorer.exe", isOpen ? _pathfile : $"/select, \"{_pathfile}\"")
-    : MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
+    if (_pathfile is not null && System.IO.File.Exists(_pathfile))
+      _ = System.Diagnostics.Process.Start("Explorer.exe", $"/select, \"{_pathfile}\"");
+    else
+      _ = MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
   }
 }
 /*
