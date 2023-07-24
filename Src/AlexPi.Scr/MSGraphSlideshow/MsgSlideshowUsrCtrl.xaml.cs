@@ -101,8 +101,6 @@ public partial class MsgSlideshowUsrCtrl
 
     _pathfile = GetRandomSizeProportinalMediaFile();
 
-    Logger.Log(LogLevel.Warning, $"xx {_pathfile}");
-
     try
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
@@ -148,6 +146,15 @@ public partial class MsgSlideshowUsrCtrl
 
       VideoInterval.Visibility = Visibility.Hidden;
 
+      var t = EarliestDate(
+        driveItem?.Photo?.TakenDateTime,
+        driveItem?.CreatedDateTime,
+        driveItem?.LastModifiedDateTime,
+        driveItem?.FileSystemInfo?.CreatedDateTime,
+        driveItem?.FileSystemInfo?.LastModifiedDateTime);
+      
+      ReportTL.Content = $"{t:yyyy-MM-dd}";
+
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
@@ -157,7 +164,7 @@ public partial class MsgSlideshowUsrCtrl
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
-        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime:yyyy-MM-dd}";
+        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime ?? driveItem?.CreatedDateTime:yyyy-MM-dd}";
       }
       else if (driveItem.Video is not null)
       {
@@ -166,8 +173,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-        ReportTL.Content = $"{driveItem?.FileSystemInfo.CreatedDateTime:yyyy-MM-dd}";
-      }
+              }
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
@@ -176,15 +182,17 @@ public partial class MsgSlideshowUsrCtrl
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
-        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime:yyyy-MM-dd}";
+        ReportTL.Content = $"{t:yyyy-MM-dd}";
       }
       else
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Trace, $"  {_pathfile}  {ReportBC.Content}  ");
-        ReportTL.Content = $"{driveItem?.CreatedDateTime:yyyy-MM-dd}";
+        ReportTL.Content = $"{t:yyyy-MM-dd}";
       }
+
+      Logger?.Log(LogLevel.Warning, $"xx  {t:y-MM-dd}  {_pathfile} "); 
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
 
@@ -221,6 +229,13 @@ public partial class MsgSlideshowUsrCtrl
       _currentShowTimeMS = _maxMs;
     }
   }
+
+  DateTimeOffset EarliestDate(DateTimeOffset? takenDateTime, DateTimeOffset? createdDateTime1, DateTimeOffset? lastModifiedDateTime1, DateTimeOffset? createdDateTime2, DateTimeOffset? lastModifiedDateTime2)
+  {
+    Debug.WriteLine($"*/> taken {takenDateTime}, created {createdDateTime1}, lastModified {lastModifiedDateTime1}, file sys: created {createdDateTime2}, lastModified {lastModifiedDateTime2}");
+    return new[] { takenDateTime, createdDateTime1, lastModifiedDateTime1, createdDateTime2, lastModifiedDateTime2, DateTimeOffset.Now }.Where(d => d.HasValue).Min(d => d.Value);
+  }
+
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
