@@ -68,7 +68,9 @@ public partial class RadarMultiImgUsrCtrl
 
           var mi = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
           _Images[imgIdx].Source = mi;
-          var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(mi), lcl);
+          
+          //var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(mi), lcl);
+          var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(await PixelMeasure.PicMea.GetBitmapImageFromUrl(url)), lcl);
 
           _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {mph,4:N1} mph";
 

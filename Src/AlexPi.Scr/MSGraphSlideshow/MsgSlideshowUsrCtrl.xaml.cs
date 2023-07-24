@@ -1,4 +1,6 @@
-﻿namespace MSGraphSlideshow;
+﻿using System.Linq;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -113,6 +115,7 @@ public partial class MsgSlideshowUsrCtrl
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
       var taskStream = TaskDownloadStreamGraph(_pathfile); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+      ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
 
       try
       {
@@ -152,7 +155,7 @@ public partial class MsgSlideshowUsrCtrl
         driveItem?.LastModifiedDateTime,
         driveItem?.FileSystemInfo?.CreatedDateTime,
         driveItem?.FileSystemInfo?.LastModifiedDateTime);
-      
+
       ReportTL.Content = $"{t:yyyy-MM-dd}";
 
       if (driveItem.Image is not null)
@@ -173,7 +176,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001:N0} s";
         streamReport = report;
         ImageView1.Visibility = Visibility.Hidden;
-              }
+      }
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
@@ -192,7 +195,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTL.Content = $"{t:yyyy-MM-dd}";
       }
 
-      Logger?.Log(LogLevel.Warning, $"xx  {t:y-MM-dd}  {_pathfile} "); 
+      Logger?.Log(LogLevel.Warning, $"xx  {t:y-MM-dd}  {_pathfile} ");
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
 
@@ -232,8 +235,9 @@ public partial class MsgSlideshowUsrCtrl
 
   DateTimeOffset EarliestDate(DateTimeOffset? takenDateTime, DateTimeOffset? createdDateTime1, DateTimeOffset? lastModifiedDateTime1, DateTimeOffset? createdDateTime2, DateTimeOffset? lastModifiedDateTime2)
   {
-    Debug.WriteLine($"*/> taken {takenDateTime}, created {createdDateTime1}, lastModified {lastModifiedDateTime1}, file sys: created {createdDateTime2}, lastModified {lastModifiedDateTime2}");
-    return new[] { takenDateTime, createdDateTime1, lastModifiedDateTime1, createdDateTime2, lastModifiedDateTime2, DateTimeOffset.Now }.Where(d => d.HasValue).Min(d => d.Value);
+    var rb = new[] { takenDateTime, createdDateTime1, lastModifiedDateTime1, createdDateTime2, lastModifiedDateTime2, DateTimeOffset.Now }.Where(d => d.HasValue && d > new DateTimeOffset(new DateTime(1970, 01, 01))).Min(d => d.Value);
+    Debug.WriteLine($"*/>  taken {takenDateTime,8:y-MM-dd}   created {createdDateTime1:y-MM-dd}   lastModified {lastModifiedDateTime1:y-MM-dd}   file sys: created {createdDateTime2:y-MM-dd}   lastModified {lastModifiedDateTime2:y-MM-dd}  =>  {rb:y-MM-dd HH:mm}");
+    return rb;
   }
 
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
