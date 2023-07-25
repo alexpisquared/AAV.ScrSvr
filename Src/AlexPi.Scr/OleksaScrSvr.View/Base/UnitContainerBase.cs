@@ -126,13 +126,18 @@ public partial class UnitContainerBase : UserControl
   }
   public void Rectng_MouseMove(object s, MouseEventArgs e)
   {
-    if (_isResizing)
-    {
-      var currentPosition = e.GetPosition(this);
-      var delta = currentPosition - _lastMousePosition;
+    if (!_isResizing)
+      return;
+
+    var currentPosition = e.GetPosition(this);
+    var delta = currentPosition - _lastMousePosition;
+
+    if (Width + delta.X > 0)
       Width += delta.X;
+
+    if (Height + delta.Y > 0)
       Height += delta.Y;
-      _lastMousePosition = currentPosition;
-    }
+
+    _lastMousePosition = currentPosition;
   }
 }

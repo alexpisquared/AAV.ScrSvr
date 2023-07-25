@@ -9,15 +9,16 @@ public partial class Page01MultiUnitView : UserControl
     {
       if (Debugger.IsAttached || DevOps.IsDbg)
       {
-        canvas.Width = WinFormsControlLib.WinFormHelper.PrimaryScreen.Bounds.Width;
-        canvas.Height = WinFormsControlLib.WinFormHelper.PrimaryScreen.Bounds.Height;
+        canvas.Width = WinFormHelper.PrimaryScreen.Bounds.Width;
+        canvas.Height = WinFormHelper.PrimaryScreen.Bounds.Height;
+        WriteLine(tbkTitle.Text = $" PrimaryScreen:       canvas {canvas.Width} * {canvas.Height}");
       }
       else
       {
-        canvas.Width = WinFormsControlLib.WinFormHelper.GetSumOfAllBounds.Width;
-        canvas.Height = WinFormsControlLib.WinFormHelper.GetSumOfAllBounds.Height;
+        canvas.Width = WinFormHelper.GetSumOfAllBounds.Width;
+        canvas.Height = WinFormHelper.GetSumOfAllBounds.Height;
+        WriteLine(tbkTitle.Text = $" GetSumOfAllBounds:   canvas {canvas.Width} * {canvas.Height}");
       }
-      WriteLine(tbkTitle.Text = $"{Environment.MachineName}:   canvas.Width: {canvas.Width}, canvas.Height: {canvas.Height}");
     }
     catch (Exception ex)
     {

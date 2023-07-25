@@ -5,7 +5,7 @@
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
              xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:Page01MultiUnitVM}}" 
-             d:DesignHeight="200" d:DesignWidth="3300" d:Background="#222">
+             d:DesignHeight="200" d:DesignWidth="3300" d:Background="#124">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -37,25 +37,20 @@
 
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid x:Name="ZommablePanel" Tag="//tu: Grid with round corners!!! =&gt; must be a Style." >
-    <Grid.Resources>
-      <Style TargetType="{x:Type Border}">
-        <Setter Property="CornerRadius"     Value="4"/>
-        <Setter Property="Padding"          Value="5"/>
-        <Setter Property="Background"       Value="{StaticResource BackBackgroundBrush}" />
-        <Setter Property="Opacity"          Value=".9002" />
-      </Style>
-    </Grid.Resources>
+  <Grid x:Name="ZommablePanel">
 
     <Rectangle Fill="Transparent" MouseLeftButtonDown="OnDragMove" Cursor="Hand" Tag="Works here. Does not at the UserControl level (interferes with the canvas' units)."/>
 
-    <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="26" Foreground="#a00" />
+    <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26" Foreground="#aaa" />
     <Viewbox Stretch="Uniform">
-      <Canvas x:Name="canvas" Background="#111" Height="205" Width="400">
-        <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
-        <local:UnitF2View x:Name="UnitF2_A" />
-        <local:UnitF3View x:Name="UnitF3_A" />
-      </Canvas>
+      <Grid>
+        <Canvas x:Name="canvas" Background="#3000" Height="205" Width="400">
+          <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
+          <local:UnitF2View x:Name="UnitF2_A" />
+          <local:UnitF3View x:Name="UnitF3_A" />
+        </Canvas>
+        <Ellipse Stroke="#888" HorizontalAlignment="Center" VerticalAlignment="Center" Height="205" Width="205" StrokeThickness="1" />
+      </Grid>
     </Viewbox>
 
   </Grid>

@@ -43,3 +43,4 @@ global using WpfUserControlLib.Helpers;
 global using XSD.CLS;
 //obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
 global using static System.Diagnostics.Trace;
+global using PixelMeasure;

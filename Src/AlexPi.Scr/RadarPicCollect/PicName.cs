@@ -2,7 +2,7 @@
 
 public class PicDetail
 {
-  double _measure = -99;
+  double _measure = -99; // cm/hr/km^2
 
   public PicDetail(System.Drawing.Bitmap pic1, DateTime localTime1, string stationName, System.Drawing.Point picOffset, string cacheName)
   {
@@ -18,9 +18,5 @@ public class PicDetail
   public string StationName { get; set; }
   public System.Drawing.Point PicOffset { get; set; }
   public string CacheName { get; set; }
-  public double Measure
-  {
-    get => _measure == -99 && Bitmap != null ? _measure = PicMea.CalcMphInTheArea(Bitmap, ImageTime) : _measure;
-    set => _measure = value;
-  }
+  public double Measure => _measure == -99 && Bitmap != null ? _measure = PicMea.CalcMphInTheArea(Bitmap, ImageTime) : _measure;  
 }

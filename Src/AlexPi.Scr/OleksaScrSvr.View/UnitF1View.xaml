@@ -3,16 +3,16 @@
                        xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib" 
                        d:DesignHeight="850" d:DesignWidth="1800" x:Name="wnd" Loaded="OnLoaded">
   <Grid>
-    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" Background="#000" BorderBrush="#222" BorderThickness="16" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" Background="#000" BorderBrush="#222" CornerRadius="0 10 0 10" />
 
-    <TextBlock Text="Slideshow is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#ff0" />
     <!--
     <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Padding="16" Visibility="Collapsed" />    
                                           Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"            />         -->
+    <TextBlock Text="Slideshow is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#ff0" />
 
-    <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="80" Height="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="#730" />
-    <Menu VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="52" Background="#730" Foreground="#888">
-      <MenuItem Header="  _Is On  " IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Width="210" Height="80" x:Name="MenuIsOn" />
+    <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="#730" />
+    <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Background="#730" Foreground="#888">
+      <MenuItem Header="_X 1" IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Height="32" x:Name="MenuIsOn" />
     </Menu>
   </Grid>
 </lnk:UnitContainerBase>

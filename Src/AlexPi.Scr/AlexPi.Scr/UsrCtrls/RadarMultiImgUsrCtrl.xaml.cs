@@ -1,7 +1,8 @@
 ﻿#define VisEna//Visi  // Verdict:
-                      //  Opacity animation makes it harder to follow, surmaize the overal trend/direction, etc.
-                      //  But fading out of the last image before restarting the sequence adds a classy/calming feeling.
+//  Opacity animation makes it harder to follow, surmaize the overal trend/direction, etc.
+//  But fading out of the last image before restarting the sequence adds a classy/calming feeling.
 namespace AlexPi.Scr.UsrCtrls;
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class RadarMultiImgUsrCtrl
 {
   readonly Image[] _Images = new Image[_ImgCount];
@@ -65,12 +66,12 @@ public partial class RadarMultiImgUsrCtrl
         else
         {
           var lcl = utx.ToLocalTime();
+          var mph = await PicMea.CalcMphInTheAreaAsync(url);
 
           var mi = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
           _Images[imgIdx].Source = mi;
           
           //var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(mi), lcl);
-          var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(await PixelMeasure.PicMea.GetBitmapImageFromUrl(url)), lcl);
 
           _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {mph,4:N1} mph";
 

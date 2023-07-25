@@ -5,9 +5,9 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="Role Managers" MinWidth="600" MinHeight="260" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111">
+                Title="Role Managers" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111">
   <WindowChrome.WindowChrome>
-    <WindowChrome CaptionHeight="0" ResizeBorderThickness="26 8 26 26" />
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" />
   </WindowChrome.WindowChrome>
   <lnk:WindowBase.Resources>
     <ResourceDictionary>
@@ -82,11 +82,11 @@
       </Grid>
 
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >
-        <Menu ToolTip="Settings and such..." Margin="10 0" FontSize="18">
-          <MenuItem   Header="  _Prim  " Click="OnPrimScreens" />
-          <MenuItem   Header="  _Scnd  " Click="OnScndScreens" />
-          <MenuItem   Header="  _Both  " Click="OnBothScreens" />
-          <MenuItem   Header="Get Bus_y"       IsCheckable="True" IsChecked="{Binding IsBusy}" ToolTip="DevDbg" />
+        <Menu ToolTip="Settings and such..." Margin="10 0" >
+          <MenuItem   Header=" _Prim " Click="OnPrimScreens" />
+          <MenuItem   Header=" _Scnd " Click="OnScndScreens" />
+          <MenuItem   Header=" _Both " Click="OnBothScreens" />
+          <MenuItem   Header="Is Busy" IsCheckable="True" IsChecked="{Binding IsBusy}" ToolTip="DevDbg" />
           <MenuItem Header=" ° ° ° " Padding="16 6 16 0" Foreground="{StaticResource LablForegroundBrush}">
             <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />
             <!--:ThemeSelectorUsrCtrl  x:Name="themeSelector3" Header="_Dark Mode" FontFml="Arial" FontSze="16"/> -->
