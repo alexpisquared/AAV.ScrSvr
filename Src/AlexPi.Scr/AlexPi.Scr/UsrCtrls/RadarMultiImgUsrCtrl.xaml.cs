@@ -53,7 +53,7 @@ public partial class RadarMultiImgUsrCtrl
     {
       //bFresh.IsEnabled = ctrlpnl.IsEnabled = false;
       lblTR.Text = "[Re-]Loading...";                //lblTR.BackgroundColor = Color.FromHex("#a00");
-      lblTL.Text = "        min ago    mph \r\n";
+      lblTL.Text = "            mph \r\n";
       string url;
       for (int imgIdx = 0, t10 = 0, dt = 6; imgIdx < _Images.Length && t10 > -66; t10 -= 10)
       {
@@ -70,12 +70,12 @@ public partial class RadarMultiImgUsrCtrl
 
           var mi = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute));
           _Images[imgIdx].Source = mi;
-          
+
           //var mph = PixelMeasure.PicMea.CalcMphInTheArea(PixelMeasure.PicMea.BitmapImage2Bitmap(mi), lcl);
 
           _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {mph,4:N1} mph";
 
-          lblTL.Text += $" {lcl,6:H:mm}   {(utcnow - lcl),6:mm} {mph,6} \r\n";
+          lblTL.Text += $" {lcl,5:H:mm}  {mph,5:N1} {new string('·', (int)(3.3 * mph))} \r\n";
 
           Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {mph,4:N1} mph  {url}");
           imgIdx++;
