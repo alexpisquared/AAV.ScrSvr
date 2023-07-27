@@ -5,7 +5,7 @@
   <Grid>
     <Border    MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" Background="#044" CornerRadius="0 10 0 10" />
 
-      <Views:MainPlotViewUsrCtrl Margin="8"/>
+    <Views:MainPlotViewUsrCtrl Margin="8"/>
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="#d70" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Background="#a50" Foreground="#888">

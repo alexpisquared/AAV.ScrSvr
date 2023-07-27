@@ -90,7 +90,8 @@ public partial class App : Application
     foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) 
       new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
-    SpeakFaF($"Hey, {_cfg.GetRandomFromUserSection("FirstName")}! {_cfg.GetRandomFromUserSection("Greetings")} ");
+    await SpeakAsync($"Hey, {_cfg.GetRandomFromUserSection("FirstName")}!"); //tu: better cache usage: no combinatorial permutation!
+    SpeakFaF($"{_cfg.GetRandomFromUserSection("Greetings")}");               //tu: better cache usage: no combinatorial permutation!
 
     await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000);
     await SpeakAsync($"Really?");
