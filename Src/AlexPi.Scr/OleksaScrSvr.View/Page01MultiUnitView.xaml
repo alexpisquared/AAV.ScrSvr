@@ -45,11 +45,14 @@
     <Viewbox Stretch="Uniform">
       <Grid>
         <Canvas x:Name="canvas" Background="#3000" Height="205" Width="400">
-          <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}"/>
+          <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}" />
           <local:UnitF2View x:Name="UnitF2_A" />
           <local:UnitF3View x:Name="UnitF3_A" />
+          <local:UnitF4View x:Name="UnitF4_A" />
+          <local:UnitF5View x:Name="UnitF5_A" />
         </Canvas>
-        <Ellipse Stroke="#888" HorizontalAlignment="Center" VerticalAlignment="Center" Height="205" Width="205" StrokeThickness="1" />
+        <Ellipse Height="205" Width="205" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#888" />
+        <Ellipse Height="605" Width="001" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#888" />
       </Grid>
     </Viewbox>
 

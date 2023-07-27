@@ -5,7 +5,7 @@ public static class AppStartHelper
   {
     _ = services.AddSingleton<IConfigurationRoot>(new ConfigRandomizer("appsettings.OleksaScrSvr.json").Config);
 
-    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.InitLoggerFactory(@$"{(DevOps.IsDevMachine ? @"C:\temp" : @"\\oak\cm\felixdev\apps\data\Oleksa\Tooling\OleksaScrSvr\bin")}\Logs\{Assembly.GetExecutingAssembly().GetName().Name}.{Environment.UserName[..3]}..log", "-Info +Verb +Infi").CreateLogger<MainNavView>());
+    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.InitLoggerFactory(@$"{Path.Combine(OneDrive.Root, @"Public")}\Logs\{Assembly.GetExecutingAssembly().GetName().Name}.{Environment.MachineName[..3]}.{Environment.UserName[..3]}..log", "-Info +Verb +Infi").CreateLogger<MainNavView>());
 
     _ = services.AddSingleton<IBpr, Bpr>(); // _ = VersionHelper.IsDbgAndRBD ? services.AddSingleton<IBpr, Bpr>() : services.AddSingleton<IBpr, BprSilentMock>();
 

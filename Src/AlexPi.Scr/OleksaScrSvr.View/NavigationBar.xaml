@@ -30,10 +30,10 @@
 
     <Image Source="/OleksaScrSvr.View;component/Xamarin.Simulator.ico" HorizontalAlignment="Left" Margin="3 1" />
 
-    <Menu      Grid.Column="1" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding IsDevDbg, Converter={cnv:UniConverter}}" >
+    <Menu      Grid.Column="1" VerticalAlignment="Center" Background="Transparent" >
       <MenuItem Header="_1"   Command="{Binding NavigatePage01MultiUnitCommand}" ToolTip="Multi-unit" />      <MenuItem Header="_2"   Command="{Binding NavigatePage02SlideshowCommand}" ToolTip="Single-slideshow" />
       <MenuItem Header="_3"   Command="{Binding NavigatePage03RazerScSvCommand}" ToolTip="New unknown" />
-      <MenuItem Header="_ ° ° °"        Padding="16 8 16 0" Visibility="{Binding IsDevDbg, Converter={cnv:UniConverter}}" >
+      <MenuItem Header="_Dbg" Padding="16 8 16 0" Visibility="{Binding IsDevDbg, Converter={cnv:UniConverter}}" >
         <MenuItem Header=" _IPM "       Command="{Binding NavigateUserPermissionerCommand}" ToolTip="Sp IPM SQL DB Role Editor" />
         <MenuItem Header=" _Lists "     >
           <MenuItem Header="S_ervers"   Command="{Binding NavigateSrvrListingCommand}"   />          <MenuItem Header="Data_bases" Command="{Binding NavigateDtBsListingCommand}"   />          <MenuItem Header="Ro_les"     Command="{Binding NavigateRoleListingCommand}"   />          <MenuItem Header="_Users"     Command="{Binding NavigateUserListingCommand}"   />        </MenuItem>

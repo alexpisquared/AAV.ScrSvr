@@ -7,7 +7,7 @@ public partial class Page01MultiUnitView : UserControl
 
     try
     {
-      if (Debugger.IsAttached || DevOps.IsDbg)
+      if ((Debugger.IsAttached || DevOps.IsDbg))
       {
         canvas.Width = WinFormHelper.PrimaryScreen.Bounds.Width;
         canvas.Height = WinFormHelper.PrimaryScreen.Bounds.Height;

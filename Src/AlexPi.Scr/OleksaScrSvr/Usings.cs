@@ -14,3 +14,4 @@ global using StandardContractsLib;
 global using StandardLib.Helpers;
 global using WpfUserControlLib.Helpers;
 global using static System.Diagnostics.Trace;
+global using System.IO;
