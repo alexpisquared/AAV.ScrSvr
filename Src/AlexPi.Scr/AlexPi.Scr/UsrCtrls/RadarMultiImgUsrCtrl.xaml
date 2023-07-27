@@ -40,7 +40,7 @@
     <Grid x:Name="MainCanvas" Height="960" Width="1160" >
 
       <Image Source="https://weather.gc.ca/data/satellite/goes_ecan_1070_100.jpg" />
-      
+
       <Grid x:Name="imgPanel" />
 
       <Grid Width="160" Height="160" Margin="390 429 0 0" VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -49,7 +49,18 @@
         <Ellipse Width="40"  Height="40"  StrokeThickness="2" Stroke="#ff0" />
       </Grid>
 
-      <TextBlock x:Name="lblTL"  VerticalAlignment="Top"     HorizontalAlignment="Left"    Foreground="#ff0" d:Text="*** some text ***" FontSize="26" Margin="0 20" Background="#3000"/>
+      <TextBlock x:Name="lblTL" VerticalAlignment="Top" HorizontalAlignment="Left" d:Text="*** some text ***" FontSize="26" Margin="0 50" Foreground="#ff0" Background="#4000">          
+        <UIElement.RenderTransform>
+              <TransformGroup>
+                  <ScaleTransform/>
+                  <SkewTransform/>
+                  <RotateTransform Angle="-90" 
+                                   CenterX="90" 
+                                   CenterY="90"/>
+                  <TranslateTransform/>
+              </TransformGroup>
+          </UIElement.RenderTransform>
+      </TextBlock>
       <TextBlock x:Name="lblDbg" VerticalAlignment="Top"     HorizontalAlignment="Center"  Foreground="#888" d:Text="*** some text ***" />
       <TextBlock x:Name="lblTR"  VerticalAlignment="Top"     HorizontalAlignment="Right"   Foreground="#888" d:Text="*** some text ***" />
       <TextBlock x:Name="lblBL"  VerticalAlignment="Bottom"  HorizontalAlignment="Left"    Foreground="#888" d:Text="*** some text ***" />

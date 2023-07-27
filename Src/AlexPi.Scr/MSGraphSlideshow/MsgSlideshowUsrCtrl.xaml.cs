@@ -100,6 +100,7 @@ public partial class MsgSlideshowUsrCtrl
     string mediaType = "----", streamReport = "-- ", cancelReport = "";
     var dnldTime = TimeSpan.Zero;
     var driveItem = (DriveItem?)default;
+    DateTimeOffset? takenDateTime = null;
 
     _pathfile = GetRandomSizeProportinalMediaFile();
 
@@ -149,20 +150,20 @@ public partial class MsgSlideshowUsrCtrl
 
       VideoInterval.Visibility = Visibility.Hidden;
 
-      var t = EarliestDate(
+      takenDateTime = EarliestDate(
         driveItem?.Photo?.TakenDateTime,
         driveItem?.CreatedDateTime,
         driveItem?.LastModifiedDateTime,
         driveItem?.FileSystemInfo?.CreatedDateTime,
         driveItem?.FileSystemInfo?.LastModifiedDateTime);
 
-      ReportTL.Content = $"{t:yyyy-MM-dd}";
+      ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
 
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
         ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
-        streamReport = $"{driveItem.Image.Width,29:N0}·{driveItem.Image.Height,-8:N0}";
+        streamReport    = $"{driveItem.Image.Width,29:N0} x {driveItem.Image.Height,-8:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
@@ -181,21 +182,21 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $"  {_pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Trace, $" !? {_pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
-        ReportTL.Content = $"{t:yyyy-MM-dd}";
+        ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
       else
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $"  {_pathfile}  {ReportBC.Content}  ");
-        ReportTL.Content = $"{t:yyyy-MM-dd}";
+        Logger?.Log(LogLevel.Trace, $" !? {_pathfile}  {ReportBC.Content}  ");
+        ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
 
-      Logger?.Log(LogLevel.Warning, $"xx  {t:y-MM-dd}  {_pathfile} ");
+      //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:y-MM-dd}  {_pathfile} ");
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
 
@@ -224,10 +225,10 @@ public partial class MsgSlideshowUsrCtrl
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
-        Logger?.Log(LogLevel.Trace, $"dl mb/sec  Media  len by to/drn s Posn%                                           driveItem.Name  driveItem.Id              cancelReport");
+        Logger?.Log(LogLevel.Trace, " dl mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
       }
 
-      Logger?.Log(LogLevel.Trace, $"{DateTime.Now:HH:mm:ss.f}{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,52}  {driveItem?.Id,-26}{cancelReport}");
+      Logger?.Log(LogLevel.Trace, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:y-MM-dd}  {cancelReport}");
 
       _currentShowTimeMS = _maxMs;
     }

@@ -53,7 +53,6 @@ public partial class RadarMultiImgUsrCtrl
     {
       //bFresh.IsEnabled = ctrlpnl.IsEnabled = false;
       lblTR.Text = "[Re-]Loading...";                //lblTR.BackgroundColor = Color.FromHex("#a00");
-      lblTL.Text = "           cm/h \r\n";
       string url;
       for (int imgIdx = 0, t10 = 0, dt = 6; imgIdx < _Images.Length && t10 > -66; t10 -= 10)
       {
@@ -75,12 +74,13 @@ public partial class RadarMultiImgUsrCtrl
 
           _Images[imgIdx].ToolTip = _Images[imgIdx].Tag = $"{lcl:H:mm} - {cmh,4:N1} cmh";
 
-          lblTL.Text += $" {lcl,5:H:mm}  {cmh,5:N1} {new string('·', (int)(3.3 * cmh))} \r\n";
+          lblTL.Text = $" {lcl,5:H:mm}  {cmh,5:N1} {new string(' ', (int)(3.3 * cmh))}■ \r\n" + lblTL.Text;
 
           Debug.WriteLine($"■ {utx} ++ {imgIdx,2}  {cmh,4:N1} cmh  {url}");
           imgIdx++;
         }
       }
+      lblTL.Text = "              cm/h \r\n" + lblTL.Text;
     }
     catch (Exception ex)
     {
