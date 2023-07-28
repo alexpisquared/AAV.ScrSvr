@@ -1,12 +1,10 @@
-﻿using OleksaScrSvr.Services;
-using OleksaScrSvr.VM.VMs;
-
-namespace OleksaScrSvr;
+﻿namespace OleksaScrSvr;
 public partial class App // : System.Windows.Application
 {
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
-  readonly IServiceProvider _serviceProvider;  public IServiceProvider ServiceProvider => _serviceProvider;
+
+  public IServiceProvider ServiceProvider { get; }
 
   public App()
   {
@@ -19,14 +17,14 @@ public partial class App // : System.Windows.Application
     _ = services.AddSingleton<IAddChild, MainNavView>();
     _ = services.AddSingleton<MainNavView>(s => new MainNavView(s.GetRequiredService<ILogger>(), s.GetRequiredService<IConfigurationRoot>(), s.GetRequiredService<IBpr>()) { DataContext = s.GetRequiredService<MainVM>() });
 
-    _serviceProvider = services.BuildServiceProvider();
+    ServiceProvider = services.BuildServiceProvider();
 
     ShutdownMode = ShutdownMode.OnMainWindowClose;
   }
 
   protected override async void OnStartup(StartupEventArgs e)
   {
-    UnhandledExceptionHndlr.Logger = _serviceProvider.GetRequiredService<ILogger>();
+    UnhandledExceptionHndlr.Logger = ServiceProvider.GetRequiredService<ILogger>();
     Current.DispatcherUnhandledException += UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox ?? new TextBox()).SelectAll(); }));
     ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15000));
@@ -35,34 +33,74 @@ public partial class App // : System.Windows.Application
 
     SafeAudit();
 
-    _serviceProvider.GetRequiredService<INavSvc>().Navigate();
+    ServiceProvider.GetRequiredService<INavSvc>().Navigate();
 
-    MainWindow = _serviceProvider.GetRequiredService<MainNavView>();
+    MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
     MainWindow.Show();
 
     SafeAudit();
 
     base.OnStartup(e);
 
-    _serviceProvider.GetRequiredService<ILogger>().LogInformation($"StU{(DateTime.Now - _appStarted).TotalSeconds,4:N1}s  {_audit}");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"StU{(DateTime.Now - _appStarted).TotalSeconds,4:N1}s  {_audit}");
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
+
+    _ = await TimedSleepAndExit();
   }
   protected override async void OnExit(ExitEventArgs e)
   {
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
 
-    if (DateTime.Now == DateTime.Today) LogAllLevels(_serviceProvider.GetRequiredService<ILogger>());
+    if (DateTime.Now == DateTime.Today) LogAllLevels(ServiceProvider.GetRequiredService<ILogger>());
 
-    _serviceProvider.GetRequiredService<ILogger>().LogInformation($"└──{(DateTimeOffset.Now - _appStarted).TotalHours,4:N1}h  {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"└──{(DateTimeOffset.Now - _appStarted).TotalHours,4:N1}h  {_audit} \n██");
 
-    await _serviceProvider.GetRequiredService<IBpr>().ClickAsync();
-    await _serviceProvider.GetRequiredService<IBpr>().AppFinishAsync();
+    await ServiceProvider.GetRequiredService<IBpr>().ClickAsync();
+    await ServiceProvider.GetRequiredService<IBpr>().AppFinishAsync();
     await Task.Delay(1500);
 
     base.OnExit(e);
+  }
+
+  async Task<bool> TimedSleepAndExit(bool AutoSleep = true, int Min2Sleep = 6/*16+4=20*/)
+  {
+    const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
+    var speechSynth = ServiceProvider.GetRequiredService<SpeechSynth>();
+    var logger = ServiceProvider.GetRequiredService<ILogger>();
+
+    try
+    {
+
+      if (!AutoSleep)
+      {
+        await speechSynth.SpeakAsync("Armed! Sleepless mode.");
+        return false;
+      }
+
+      if (DevOps.IsDbg)
+        speechSynth.SpeakFAF($"Armed!");
+
+      await Task.Delay(TimeSpan.FromMinutes(Min2Sleep));                                                /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
+      await speechSynth.SpeakAsync($"Hey! Turning off ...in a minute.");                                /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec / 60) + Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
+      await Task.Delay(TimeSpan.FromMinutes(1.15));                                                     /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
+      await speechSynth.SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");  /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
+      await Task.Delay(TimeSpan.FromMinutes(0.50));                                                     /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/7  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.\n");
+
+      _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  MustExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
+      Process.GetCurrentProcess().Kill();
+
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  MustExit() 3/3 => never got here! ────────────────────────────");
+      Environment.Exit(87);
+      Environment.FailFast("Environment.FailFast");
+    }
+    catch (Exception ex) { logger.LogError(ex, _audit); }
+
+    return true;
   }
 
   void LogAllLevels(ILogger lgr)
@@ -80,12 +118,11 @@ public partial class App // : System.Windows.Application
   {
     try
     {
-      var cfg = _serviceProvider.GetRequiredService<IConfigurationRoot>();
+      var cfg = ServiceProvider.GetRequiredService<IConfigurationRoot>();
       _audit = VersionHelper.DevDbgAudit(cfg, $"ClientId_{Environment.UserName}:{cfg[$"ClientId_{Environment.UserName}"]}");
     }
-    catch (Exception ex)
-    {
-      _serviceProvider.GetRequiredService<ILogger>().LogError(ex, _audit);
-    }
+    catch (Exception ex) { ServiceProvider.GetRequiredService<ILogger>().LogError(ex, _audit); }
   }
+
+  [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
 }

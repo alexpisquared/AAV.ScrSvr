@@ -10,13 +10,13 @@
     <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
 
     <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGridPanel"  />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGridPanel"  BeginTime="0:0:50" />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
+      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
       <StaticResource ResourceKey="_d2IntroOutro" />
       <StaticResource ResourceKey="_d3IntroOutro" />
     </Storyboard>
   </UserControl.Resources>
-  <Grid       Name="mediaGridPanel"    Margin="8" >
+  <Grid            x:Name="mediaGrid1" Margin="0" >
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
       <Grid x:Name="GridVideoControls" Margin="6">

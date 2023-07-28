@@ -87,7 +87,7 @@ public partial class App : Application
   }
   async Task Wait1minuteThenRelaunch()
   {
-    foreach (var screen in WinFormsControlLib.ScreenHelper.GetAllScreens) 
+    foreach (var screen in WinFormsControlLib.ScreenHelper.GetAllScreens)
       new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
     await SpeakAsync($"Hey, {_cfg.GetRandomFromUserSection("FirstName")}!"); //tu: better cache usage: no combinatorial permutation!
@@ -95,7 +95,7 @@ public partial class App : Application
 
     await Task.Delay((GraceEvLogAndLockPeriodSec - 10) * 1000);
     await SpeakAsync($"Really?");
-    
+
     await Task.Delay(10_000);
     WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  Launching another instance lest be closed by unidling.");
     Shutdown();
@@ -183,19 +183,6 @@ public partial class App : Application
     await Task.Delay(512); // :Speak underestimates the time needed to speak the text.
   }
   //protected override void OnDeactivated(EventArgs e) { /* do not LogScrSvrUptimeOncePerSession() <- */ WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff} ▄▀▄▄▀▀▄▀App.OnDeactivated()  "); base.OnDeactivated(e); }
-  void MustExit()
-  {
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - MustExit() \");");
-
-    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - MustExit() ");
-
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
-    Process.GetCurrentProcess().Kill();
-
-    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 3/3 => never got here! ────────────────────────────");
-    Environment.Exit(87);
-    Environment.FailFast("Environment.FailFast");
-  }
   public static void SpeakFaF(string msg, string voice = "", bool ignoreBann = false) => Task.Run(async () => await SpeakAsync(msg, voice: voice, ignoreBann));
   public static void SpeakFree(string msg) => SpeechSynth.SpeakFree(msg);
   public static async Task SpeakAsync(string msg, string voice = "", bool ignoreBann = false)
@@ -270,22 +257,35 @@ public partial class App : Application
     _ = SetSuspendState(hiberate: isDeepHyberSleep, forceCritical: false, disableWakeEvent: false);
     MustExit();
   }
+  void MustExit()
+  {
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 1/3 => before  LogScrSvrUptimeOncePerSession(\"ScrSvr - Dn - MustExit() \");");
+
+    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - MustExit() ");
+
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
+    Process.GetCurrentProcess().Kill();
+
+    WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{DateTime.Now - StartedAt:mm\\:ss\\.ff}  MustExit() 3/3 => never got here! ────────────────────────────");
+    Environment.Exit(87);
+    Environment.FailFast("Environment.FailFast");
+  }
+
   #region Ctrls
   Window? _cntrA; public Window CntrA => _cntrA ??= new ContainerA(_globalEventHandler);
   Window? _cntrB; public Window CntrB => _cntrB ??= new ContainerB(_globalEventHandler);
   Window? _cntrC; public Window CntrC => _cntrC ??= new ContainerC(_globalEventHandler);
   Window? _cntrD; public Window CntrD => _cntrD ??= new ContainerD(_globalEventHandler);
-  Window? _cntrE; public Window CntrE => _cntrE ??= new ContainerE(_globalEventHandler);
+  Window? _cntrE; public Window CntrE => _cntrE ??= new ContainerE(_globalEventHandler); //  5
   Window? _cntrF; public Window CntrF => _cntrF ??= new ContainerF(_globalEventHandler);
   Window? _cntrG; public Window CntrG => _cntrG ??= new ContainerG(_globalEventHandler);
   Window? _cntrH; public Window CntrH => _cntrH ??= new ContainerH(_globalEventHandler);
   Window? _cntrI; public Window CntrI => _cntrI ??= new ContainerI(_globalEventHandler);
-  Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler);
+  Window? _cntrJ; public Window CntrJ => _cntrJ ??= new ContainerJ(_globalEventHandler); // 10
   Window? _cntrK; public Window CntrK => _cntrK ??= new ContainerK(_globalEventHandler);
-  Window? _cntrL;
-  static ConfigRandomizer _cfg;
+  Window? _cntrL; public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler); // 12
 
-  public Window CntrL => _cntrL ??= new ContainerL(_globalEventHandler);
+  static ConfigRandomizer _cfg;
   public static bool CloseOnUnIdle { get; set; } = true;
   [Flags] enum WindowStyle { CLIPCHILDREN = 33554432, VISIBLE = 268435456, CHILD = 1073741824 }
   [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)] static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);

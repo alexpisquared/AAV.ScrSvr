@@ -163,8 +163,7 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Image is not null)
       {
         mediaType = $"img";
-        ReportTR.Content = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
-        streamReport    = $"{driveItem.Image.Width,29:N0} x {driveItem.Image.Height,-8:N0}";
+        ReportTR.Content = streamReport = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
