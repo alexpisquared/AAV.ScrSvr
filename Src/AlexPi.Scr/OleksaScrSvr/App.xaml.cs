@@ -83,18 +83,18 @@ public partial class App // : System.Windows.Application
       if (DevOps.IsDbg)
         speechSynth.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(Min2Sleep));                                                /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/7  after  await Task.Delay({TimeSpan.FromMinutes(Min2Sleep + .25)}min);.\n"); //await ChimerAlt.WakeAudio(); // wake up monitor's audio.
-      await speechSynth.SpeakAsync($"Hey! Turning off ...in a minute.");                                /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/7  after  await SpeakAsync($'Hey! {(IdleTimeoutSec / 60) + Min2Sleep} minutes has passed. Sending computer to sleep ...in a minute.');.\n");
-      await Task.Delay(TimeSpan.FromMinutes(1.15));                                                     /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/7  after  await Task.Delay(TimeSpan.FromMinutes(1.15));.\n");
-      await speechSynth.SpeakAsync($"{Environment.UserName}! Not sure if 30 seconds will be enough.");  /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/7  after  await SpeakAsync($'...Not sure if 30 seconds will be enough\n"); ;
-      await Task.Delay(TimeSpan.FromMinutes(0.50));                                                     /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/7  after  await Task.Delay(TimeSpan.FromMinutes(1.2));.\n");
+      await Task.Delay(TimeSpan.FromMinutes(Min2Sleep));         /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/5  after  await Task.Delay({TimeSpan.FromMinutes(Min2Sleep)}).");
+      await speechSynth.SpeakAsync($"Turning off in a minute."); /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/5  ");
+      await Task.Delay(TimeSpan.FromMinutes(1.15));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/5  ");
+      await speechSynth.SpeakAsync($"Final 30 seconds.");        /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/5  ");
+      await Task.Delay(TimeSpan.FromMinutes(0.50));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/5  ");
 
       _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
 
-      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  MustExit() 2/3 => before  Process.GetCurrentProcess().Kill(); ");
-      Process.GetCurrentProcess().Kill();
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Close(); \n██"); Process.GetCurrentProcess().Close();
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Kill();  \n██"); Process.GetCurrentProcess().Kill();
 
-      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  MustExit() 3/3 => never got here! ────────────────────────────");
+      // never gets here: 
       Environment.Exit(87);
       Environment.FailFast("Environment.FailFast");
     }
