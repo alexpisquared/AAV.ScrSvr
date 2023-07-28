@@ -73,7 +73,7 @@
 
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
         <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />
-        <Label x:Name="ReportBC"   Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f40"/>
+        <Label x:Name="ReportBC"   Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f60" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
           <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"      HorizontalAlignment="Right" Foreground="#0ff" FontSize="14" Width="180" />

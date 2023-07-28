@@ -25,7 +25,7 @@ public partial class MainNavView : WindowBase
     themeSelector1.SetCurThemeToMenu(Thm); //dnf theming 2/2//_logger.LogInformation($"mVl{(DateTime.Now - _mvwStarted).TotalSeconds,4:N1}s  {VersionHelper.DevDbgAudit(_config)}");
 
     if (!VersionHelper.IsDbg)
-      StretchToFill(this, WinFormHelper.GetSumOfAllBounds); 
+      StretchToFill(this, ScreenHelper.GetSumOfAllBounds); 
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }
@@ -33,9 +33,9 @@ public partial class MainNavView : WindowBase
   void OnWindowMinimize(object s, RoutedEventArgs e) => WindowState = WindowState.Minimized;
   void OnExit(object s, RoutedEventArgs e) => Close();
 
-  void OnPrimScreens(object s, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.PrimaryScreen.Bounds);
-  void OnScndScreens(object s, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.SecondaryScreen.Bounds);
-  void OnBothScreens(object s, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.GetSumOfAllBounds);
+  void OnPrimScreens(object s, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.PrimaryScreen.Bounds);
+  void OnScndScreens(object s, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.SecondaryScreen.Bounds);
+  void OnBothScreens(object s, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.GetSumOfAllBounds);
 
   static void StretchToFill(Window window, Rectangle rectangle, int margin = 2)
   {

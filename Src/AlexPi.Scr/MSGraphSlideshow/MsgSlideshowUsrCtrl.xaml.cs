@@ -35,7 +35,8 @@ public partial class MsgSlideshowUsrCtrl
     catch (Exception ex)
     {
       ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ex.Message}";
+      ReportBC.Content = $"■ {ex.Message}";
+      Logger.Log(LogLevel.Error, ex.Message);
       //not good here: ex.Pop(_logger, $"ERR {ReportBC.Content} ");
       //if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
@@ -69,7 +70,7 @@ public partial class MsgSlideshowUsrCtrl
     if (!success)
     {
       ReportBC.Content = $"{ClientNm}:- {report}";
-      Logger.Log(LogLevel.Trace, $"{report}");
+      Logger.Log(LogLevel.Trace, $"° {report}");
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");

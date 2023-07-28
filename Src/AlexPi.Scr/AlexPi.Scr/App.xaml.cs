@@ -87,7 +87,7 @@ public partial class App : Application
   }
   async Task Wait1minuteThenRelaunch()
   {
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) 
+    foreach (var screen in WinFormsControlLib.ScreenHelper.GetAllScreens) 
       new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, showMaximized: true);
 
     await SpeakAsync($"Hey, {_cfg.GetRandomFromUserSection("FirstName")}!"); //tu: better cache usage: no combinatorial permutation!
@@ -110,7 +110,7 @@ public partial class App : Application
     else
       EvLogHelper.LogScrSvrBgn(App.Ssto_GpSec);
 
-    foreach (var screen in WinFormsControlLib.WinFormHelper.GetAllScreens) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
+    foreach (var screen in WinFormsControlLib.ScreenHelper.GetAllScreens) new BackgroundWindow(_globalEventHandler).ShowOnTargetScreen(screen, _showBackWindowMaximized);
 
     new ControlPanel(_globalEventHandler).Show();
 
