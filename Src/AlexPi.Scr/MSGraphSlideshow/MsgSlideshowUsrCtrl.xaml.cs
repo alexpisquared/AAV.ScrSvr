@@ -196,7 +196,7 @@ public partial class MsgSlideshowUsrCtrl
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
 
-      //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:y-MM-dd}  {_pathfile} ");
+      //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:yy-MM-dd}  {_pathfile} ");
 
       ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
 
@@ -228,7 +228,7 @@ public partial class MsgSlideshowUsrCtrl
         Logger?.Log(LogLevel.Trace, " dl mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
       }
 
-      Logger?.Log(LogLevel.Trace, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:y-MM-dd}  {cancelReport}");
+      Logger?.Log(LogLevel.Trace, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport}");
 
       _currentShowTimeMS = _maxMs;
     }
@@ -237,7 +237,7 @@ public partial class MsgSlideshowUsrCtrl
   DateTimeOffset EarliestDate(DateTimeOffset? takenDateTime, DateTimeOffset? createdDateTime1, DateTimeOffset? lastModifiedDateTime1, DateTimeOffset? createdDateTime2, DateTimeOffset? lastModifiedDateTime2)
   {
     var rb = new[] { takenDateTime, createdDateTime1, lastModifiedDateTime1, createdDateTime2, lastModifiedDateTime2, DateTimeOffset.Now }.Where(d => d.HasValue && d > new DateTimeOffset(new DateTime(1970, 01, 01))).Min(d => d.Value);
-    Debug.WriteLine($"*/>  taken {takenDateTime,8:y-MM-dd}   created {createdDateTime1:y-MM-dd}   lastModified {lastModifiedDateTime1:y-MM-dd}   file sys: created {createdDateTime2:y-MM-dd}   lastModified {lastModifiedDateTime2:y-MM-dd}  =>  {rb:y-MM-dd HH:mm}");
+    Debug.WriteLine($"*/>  taken {takenDateTime,8:yy-MM-dd}   created {createdDateTime1:yy-MM-dd}   lastModified {lastModifiedDateTime1:yy-MM-dd}   file sys: created {createdDateTime2:yy-MM-dd}   lastModified {lastModifiedDateTime2:yy-MM-dd}  =>  {rb:yy-MM-dd HH:mm}");
     return rb;
   }
 

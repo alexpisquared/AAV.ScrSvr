@@ -19,7 +19,7 @@ public static class MvvmInitHelper
       : Environment.MachineName switch
       {
         "YOGA1" or "NUC2" => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(),
-        "RAZER1"     /**/ => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(),
+        "RAZER1"     /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(),
         "ASUS2"      /**/ => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(),
         _            /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(),
       };

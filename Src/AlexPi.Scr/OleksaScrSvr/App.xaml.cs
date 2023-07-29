@@ -67,7 +67,6 @@ public partial class App // : System.Windows.Application
 
   async Task<bool> TimedSleepAndExit(bool AutoSleep = true, int Min2Sleep = 6/*16+4=20*/)
   {
-    const int IdleTimeoutSec = 240; // this is by default for/before idle timeout kicks in.  
     var speechSynth = ServiceProvider.GetRequiredService<SpeechSynth>();
     var logger = ServiceProvider.GetRequiredService<ILogger>();
 
@@ -89,10 +88,10 @@ public partial class App // : System.Windows.Application
       await speechSynth.SpeakAsync($"Final 30 seconds.");        /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/5  ");
       await Task.Delay(TimeSpan.FromMinutes(0.50));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/5  ");
 
-      _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
 
-      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Close(); \n██"); Process.GetCurrentProcess().Close();
-      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Kill();  \n██"); Process.GetCurrentProcess().Kill();
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Close(); \n█···"); Process.GetCurrentProcess().Close();
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  SetSuspendState(hibernate: false..); \n██··"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Kill();  \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
       Environment.Exit(87);
