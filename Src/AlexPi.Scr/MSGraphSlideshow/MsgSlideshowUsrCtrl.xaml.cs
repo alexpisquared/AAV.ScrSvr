@@ -70,7 +70,7 @@ public partial class MsgSlideshowUsrCtrl
     if (!success)
     {
       ReportBC.Content = $"{ClientNm}:- {report}";
-      Logger.Log(LogLevel.Trace, $"° {report}");
+      Logger.Log(LogLevel.Information, $"° {report}");
     }
 
     ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
@@ -182,7 +182,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $" !? {_pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -192,7 +192,7 @@ public partial class MsgSlideshowUsrCtrl
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Trace, $" !? {_pathfile}  {ReportBC.Content}  ");
+        Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
 
@@ -225,10 +225,10 @@ public partial class MsgSlideshowUsrCtrl
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
-        Logger?.Log(LogLevel.Trace, " dl mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
+        Logger?.Log(LogLevel.Information, " dl mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
       }
 
-      Logger?.Log(LogLevel.Trace, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport}");
+      Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport}");
 
       _currentShowTimeMS = _maxMs;
     }

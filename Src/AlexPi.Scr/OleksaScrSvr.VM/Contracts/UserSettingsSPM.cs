@@ -10,7 +10,7 @@ public class UserSettingsSPM : StandardLib.Base.UserSettingsStore
   {
     _logger = lgr;
 
-    _logger.LogInformation("    UserSettingsSPM.Ctor(): Supplied by the DI => Loading here now...");
+    _logger.Log(LogLevel.Trace, "    UserSettingsSPM.Ctor(): Supplied by the DI => Loading here now...");
 
     if (_loaded) return;
 

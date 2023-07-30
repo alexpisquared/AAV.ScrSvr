@@ -82,11 +82,11 @@ public partial class App // : System.Windows.Application
       if (DevOps.IsDbg)
         speechSynth.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(Min2Sleep));         /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/5  after  await Task.Delay({TimeSpan.FromMinutes(Min2Sleep)}).");
-      await speechSynth.SpeakAsync($"Turning off in a minute."); /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/5  ");
-      await Task.Delay(TimeSpan.FromMinutes(1.15));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/5  ");
-      await speechSynth.SpeakAsync($"Final 30 seconds.");        /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/5  ");
-      await Task.Delay(TimeSpan.FromMinutes(0.50));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/5  ");
+      await Task.Delay(TimeSpan.FromMinutes(Min2Sleep));         /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/5  ██  after  await Task.Delay({TimeSpan.FromMinutes(Min2Sleep)}).");
+      await speechSynth.SpeakAsync($"Turning off in a minute."); /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/5  ██  ");
+      await Task.Delay(TimeSpan.FromMinutes(1.15));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/5  ██  ");
+      await speechSynth.SpeakAsync($"Final 30 seconds.");        /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/5  ██  ");
+      await Task.Delay(TimeSpan.FromMinutes(0.50));              /**/ logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/5  ██  ");
 
 
       logger.Log(LogLevel.Trace, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Close(); \n█···"); Process.GetCurrentProcess().Close();
