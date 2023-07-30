@@ -19,7 +19,7 @@
   <Grid            x:Name="mediaGrid1" Margin="0" >
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
-      <Grid x:Name="GridVideoControls" Margin="6">
+      <Grid x:Name="GridVideoControls" Margin="0">
         <Grid.Resources>
           <!--NOTE: for some reason this does not work for when inside the <UserControl.Resources> ==>  moved to here inside the VideoView-->
           <Style TargetType="TextBlock">
@@ -61,7 +61,7 @@
           <!--<ProgressBar   x:Name="progressBar1"   Width="1000" Height="10" Value="50"               Foreground="#404" Background="#1b0" BorderThickness="0" />-->
           <ProgressBar   x:Name="ProgressBar2"   Width="1000" Height="10" Value=".5" Maximum="1"   Foreground="#505" Background="#1a0" BorderThickness="0" Visibility="Collapsed" />
           <Viewbox       x:Name="VideoInterva_"  Width="1000" Height="10" Stretch="Uniform">
-            <StackPanel    x:Name="rectTotal"    Width="1000" Height="10" Orientation="Horizontal" Background="#505" >
+            <StackPanel    x:Name="rectTotal"    Width="1000" Height="10" Orientation="Horizontal" Background="#5f5" >
               <Rectangle   x:Name="rectnglStart"    Width="800"  VerticalAlignment="Stretch" Stretch="Fill" Fill="Transparent" />
               <!--
               <Rectangle   x:Name="progressBar3" Width="100"  VerticalAlignment="Stretch" Stretch="Fill" Fill="#ccc" />-->
@@ -71,16 +71,16 @@
           </Viewbox>
         </StackPanel>
 
+        <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8" Color="#606" Bckgr="#1d0" />
+        <Label x:Name="ReportTR" d:Content="231s"                          VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="3 25"  />
+
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
-        <Label x:Name="ReportTR" d:Content="~123 s"             VerticalAlignment="Top"    HorizontalAlignment="Right"  />
         <Label x:Name="ReportBC"   Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f60" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
           <Label x:Name="HistoryR" d:Content="26.jpg&#10;abcd"      HorizontalAlignment="Right" Foreground="#0ff" FontSize="14" Width="180" />
           <Label x:Name="ReportBR" d:Content="Abc efg 12323 mb/s"   HorizontalAlignment="Right" />
         </StackPanel>
-
-        <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="8 60" Color="#606" Bckgr="#1d0" />
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" >
           <Label x:Name="History_"   Content="mb:"                Foreground="#ac0" />
