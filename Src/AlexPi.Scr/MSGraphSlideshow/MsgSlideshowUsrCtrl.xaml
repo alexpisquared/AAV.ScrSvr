@@ -71,8 +71,9 @@
           </Viewbox>
         </StackPanel>
 
+        <Ellipse                           Width="80" Height="80"            VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8"  Fill="#3000" />
         <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8" Color="#606" Bckgr="#1d0" />
-        <Label x:Name="ReportTR" d:Content="231s"                          VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="3 25"  />
+        <Label x:Name="ReportTR" d:Content="231s"                            VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="3 25" Background="Transparent"  />
 
         <Label x:Name="ReportTL" d:Content="Abc efg 12323 mb/s" VerticalAlignment="Top"    HorizontalAlignment="Left"   />
         <Label x:Name="ReportBC"   Content="Abc efg 12323 mb/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#f60" />
