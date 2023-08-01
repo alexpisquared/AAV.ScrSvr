@@ -49,7 +49,7 @@ public partial class App // : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"└──{(DateTimeOffset.Now - _appStarted).TotalHours,4:N1}h  {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══ {(DateTimeOffset.Now - _appStarted).TotalHours,4:N1}h  {_audit} \n██");
 
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
