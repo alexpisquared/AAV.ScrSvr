@@ -11,6 +11,9 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
 
       </ResourceDictionary.MergedDictionaries>
+    
+      <Duration x:Key="ExecutionDuration">0:0:59</Duration>
+    
     </ResourceDictionary>
   </Application.Resources>
 </Application>

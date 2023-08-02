@@ -27,7 +27,7 @@ public partial class MainNavView : WindowBase
     if (!VersionHelper.IsDbg)
       StretchToFill(this, ScreenHelper.GetSumOfAllBounds);
 
-    Topmost = true;
+    //Topmost = true;
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }

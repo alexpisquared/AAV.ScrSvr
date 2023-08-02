@@ -93,7 +93,7 @@ public partial class UnitContainerBase : UserControl
       var newX = currentPosition.X - clickPosition.X;
       var newY = currentPosition.Y - clickPosition.Y;
 
-      // Check if the new position is within the canvas bounds
+      // Check if the new position is within the Canvas1 bounds
       if (newX < 0)
         newX = 0;
       if (newX + ActualWidth > canvasWidth)

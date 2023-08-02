@@ -22,8 +22,8 @@
 
     <TextBlock Text="UnitF5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#c08" />
 
-    <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="#d70" />
-    <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Background="#a50" Foreground="#888">
+    <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
+    <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
       <MenuItem Header="_R 5" IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Height="32" />
     </Menu>
   </Grid>

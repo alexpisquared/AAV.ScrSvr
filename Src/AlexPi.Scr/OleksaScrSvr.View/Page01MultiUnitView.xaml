@@ -5,7 +5,7 @@
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
              xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:Page01MultiUnitVM}}" 
-             d:DesignHeight="200" d:DesignWidth="3300" d:Background="#124">
+             d:DesignHeight="500" d:DesignWidth="1300" Background="#100">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -41,20 +41,23 @@
 
     <Rectangle Fill="Transparent" MouseLeftButtonDown="OnDragMove" Cursor="Hand" Tag="Works here. Does not at the UserControl level (interferes with the canvas' units)."/>
 
-    <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26" Foreground="#aaa" />
+    <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26" Foreground="#606" Margin="0 0 0 36"/>
     <Viewbox Stretch="Uniform">
       <Grid>
-        <Canvas x:Name="canvas" Background="#3000" Height="205" Width="400">
-          <local:UnitF1View x:Name="UnitF1_A" ClientId="{Binding ClientId}" />
-          <local:UnitF2View x:Name="UnitF2_A" />
-          <local:UnitF3View x:Name="UnitF3_A" />
-          <local:UnitF4View x:Name="UnitF4_A" />
-          <local:UnitF5View x:Name="UnitF5_A" />
+        <Canvas x:Name="Canvas1" Background="#3000" Height="205" Width="400">
+          <local:UnitF1View x:Name="UnitF1" ClientId="{Binding ClientId}" />
+          <local:UnitF2View x:Name="UnitF2" />
+          <local:UnitF3View x:Name="UnitF3" />
+          <local:UnitF4View x:Name="UnitF4" />
+          <local:UnitF5View x:Name="UnitF5" />
         </Canvas>
-        <Ellipse Height="205" Width="205" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#888" />
-        <Ellipse Height="605" Width="001" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#888" />
+        <Ellipse Height="205" Width="205" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
+        <Ellipse Height="888" Width="001" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
+        <Ellipse Height="001" Width="888" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
       </Grid>
     </Viewbox>
+
+    <Button Content="#" Click="OnResetPlacement" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8 26" />
 
   </Grid>
 </UserControl>

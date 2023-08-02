@@ -1,4 +1,7 @@
-﻿namespace OleksaScrSvr.View;
+﻿using System.Linq;
+using OleksaScrSvr.View.Base;
+
+namespace OleksaScrSvr.View;
 public partial class Page01MultiUnitView : UserControl
 {
   public Page01MultiUnitView()
@@ -9,29 +12,39 @@ public partial class Page01MultiUnitView : UserControl
     {
       if ((Debugger.IsAttached || DevOps.IsDbg))
       {
-        canvas.Width = ScreenHelper.PrimaryScreen.Bounds.Width;
-        canvas.Height = ScreenHelper.PrimaryScreen.Bounds.Height;
-        WriteLine(tbkTitle.Text = $" PrimaryScreen:       canvas {canvas.Width} * {canvas.Height}");
+        Canvas1.Width = ScreenHelper.PrimaryScreen.Bounds.Width;
+        Canvas1.Height = ScreenHelper.PrimaryScreen.Bounds.Height;
+        WriteLine(tbkTitle.Text = $"Dbg mode: using PrimaryScreen with canvas {Canvas1.Width}x{Canvas1.Height}");
       }
       else
       {
-        canvas.Width = ScreenHelper.GetSumOfAllBounds.Width;
-        canvas.Height = ScreenHelper.GetSumOfAllBounds.Height;
-        WriteLine(tbkTitle.Text = $" GetSumOfAllBounds:   canvas {canvas.Width} * {canvas.Height}");
+        Canvas1.Width = ScreenHelper.GetSumOfAllBounds.Width;
+        Canvas1.Height = ScreenHelper.GetSumOfAllBounds.Height;
+        WriteLine(tbkTitle.Text = $"Rls mode: using GetSumOfAllBounds with canvas {Canvas1.Width}x{Canvas1.Height}");
       }
     }
-    catch (Exception ex)
-    {
-      WriteLine(tbkTitle.Text = $"{ex.Message}");
-    }
+    catch (Exception ex) { WriteLine(tbkTitle.Text = $"{ex.Message}"); }
   }
 
-  private void OnDragMove(object sender, MouseButtonEventArgs e)
+  void OnDragMove(object sender, MouseButtonEventArgs e)
   {
     if (e.LeftButton != MouseButtonState.Pressed) return;
 
     this.FindParentWindow().DragMove();
 
     e.Handled = true;
+  }
+
+  void OnResetPlacement(object sender, RoutedEventArgs e)
+  {
+    int i = 0, width = 360, height = 160;
+    foreach (var unitF in Canvas1.Children.OfType<UnitContainerBase>())
+    {
+      Canvas.SetTop(unitF, height * i + 100);
+      Canvas.SetLeft(unitF, width * i + 000);
+      Canvas.SetRight(unitF, width * i + width - 10);
+      Canvas.SetBottom(unitF, height * i + 860);
+      i++;
+    }
   }
 }
