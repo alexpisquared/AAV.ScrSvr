@@ -78,15 +78,13 @@ public partial class App : System.Windows.Application
 
       speech.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep));    /**/ logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  1/5  ██  after  await Task.Delay({TimeSpan.FromMinutes(min2sleep)}).");
-      await speech.SpeakAsync($"Turning off in a minute."); /**/ logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  2/5  ██  ");
-      await Task.Delay(TimeSpan.FromMinutes(1.15));         /**/ logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  3/5  ██  ");
-      await speech.SpeakAsync($"Final 30 seconds.");        /**/ logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  4/5  ██  ");
-      await Task.Delay(TimeSpan.FromMinutes(0.50));         /**/ logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  5/5  ██  ");
+      await Task.Delay(TimeSpan.FromMinutes(min2sleep));    /**/      await speech.SpeakAsync($"Turning off in a minute."); 
+      await Task.Delay(TimeSpan.FromMinutes(1.15));         /**/      await speech.SpeakAsync($"Final 30 seconds.");        
+      await Task.Delay(TimeSpan.FromMinutes(0.50));         /**/      await speech.SpeakAsync($"Sorry...");
 
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Close(); \n█···"); Process.GetCurrentProcess().Close();
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  SetSuspendState(hibernate: false..); \n██··"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.ff}  Process.GetCurrentProcess().Kill();  \n███·"); Process.GetCurrentProcess().Kill();
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n█···"); Process.GetCurrentProcess().Close();
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n██··"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
       Environment.Exit(87);
