@@ -41,7 +41,7 @@ public partial class App : System.Windows.Application
 
     base.OnStartup(e);
 
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"StU{(DateTime.Now - _appStarted).TotalSeconds,4:N1}s  {_audit}");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"StU{(DateTime.Now - _appStarted).TotalSeconds,5:N1}s  {_audit}");
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
@@ -49,7 +49,7 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══ {(DateTimeOffset.Now - _appStarted).TotalHours,4:N1}h  {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{(DateTimeOffset.Now - _appStarted).TotalHours,5:N1}h  {_audit} \n██");
 
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();

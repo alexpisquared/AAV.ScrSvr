@@ -26,13 +26,13 @@ public partial class BaseDbVM : BaseMinVM
     AllowSave = IsDevDbg && _secForcer.CanEdit && (
       UserSetgs.PrefSrvrName is not null && !UserSetgs.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UserSetgs.AllowSave);
 
-    Logger.LogInformation($"┌── {GetType().Name} eo-ctor      PageRank:{oid}");
+    Logger.LogInformation($"┌── {GetType().Name} eo-ctor      PageRank:{oid}    _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
   }
 
   public override async Task<bool> InitAsync()
   {
     _inited = true;
-    Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
+    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
     await Task.Yield();
     return true;
   }

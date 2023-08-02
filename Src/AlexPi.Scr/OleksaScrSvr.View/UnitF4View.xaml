@@ -2,7 +2,7 @@
 xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib"
 xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
 xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
-d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoaded">
+d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
   <lnk:UnitContainerBase.Resources>
   <ResourceDictionary>
     <ResourceDictionary.MergedDictionaries>
@@ -30,7 +30,7 @@ d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoaded">
   </EventTrigger>
   </lnk:UnitContainerBase.Triggers>
   <Grid>
-    <Border Background="{StaticResource FlagUkraineBackground}" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="0 10 0 10" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground}" BorderBrush="#00a" />
     <TextBlock Text="Unit is On"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="52" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" Foreground="#060" />
     <TextBlock Text="Unit is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"  Foreground="#800" />
 

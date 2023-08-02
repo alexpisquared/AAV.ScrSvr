@@ -57,7 +57,8 @@ public partial class UnitContainerBase : UserControl
     }
   }
 
-  public async void OnLoaded(object s, RoutedEventArgs e) { await RestorePlacementFromFile(); _isLoaded = true; }
+  public async void OnLoadedBase(object s, RoutedEventArgs e) { await OnLoadedAsync(); }
+  protected async Task OnLoadedAsync() { await RestorePlacementFromFile(); _isLoaded = true; }
   public void Border_MouseLeftButtonDown(object s, MouseButtonEventArgs e)
   {
     isDragging = true;

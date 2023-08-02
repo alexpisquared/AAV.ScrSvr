@@ -1,39 +1,42 @@
 ﻿<lnk:UnitContainerBase xmlns:lnk="clr-namespace:OleksaScrSvr.View.Base" x:Class="OleksaScrSvr.View.UnitF3View" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
-xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib"
-xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
-xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
-d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoaded">
+                       xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib"
+                       xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
+                       xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
+                       d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoaded">
   <lnk:UnitContainerBase.Resources>
     <ResourceDictionary>
-    <ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
-      <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
-      <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
-      <!--
-<ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
-<ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
-<ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
-<ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
--->
-    </ResourceDictionary.MergedDictionaries>
-    <Storyboard x:Key="FadingOut">
-      <DoubleAnimation Duration="{StaticResource ExecutionDuration}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
-    </Storyboard>
-  </ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
+        <!--
+      <ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
+      <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
+      <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
+      <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />      -->
+      </ResourceDictionary.MergedDictionaries>
+
+      <Duration x:Key="ExecutionDuration2">0:0:10</Duration>
+      <DoubleAnimation x:Key="ExecutionDurationDA" x:Name="ExecutionDurationDA" Duration="{StaticResource ExecutionDuration2}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
+      <Storyboard x:Key="ExecutionDurationSB" >
+        <StaticResource ResourceKey="ExecutionDurationDA" />
+      </Storyboard>
+      
+    </ResourceDictionary>
   </lnk:UnitContainerBase.Resources>
-  <lnk:UnitContainerBase.Triggers>
-  <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-    <BeginStoryboard Storyboard="{StaticResource FadingOut}" />
-  </EventTrigger>
-  </lnk:UnitContainerBase.Triggers>
+  <!--<lnk:UnitContainerBase.Triggers>
+    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+      <BeginStoryboard Storyboard="{StaticResource ExecutionDurationSB}" />
+    </EventTrigger>
+  </lnk:UnitContainerBase.Triggers>-->
   <Grid>
-    <Border Background="#044" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="0 10 0 10" />
-    <TextBlock Text="Unit is On"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="52" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" Foreground="#060" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
     <TextBlock Text="Unit is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"  Foreground="#800" />
 
-    <Viewbox>
+    <Viewbox Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" >
       <Grid>
         <Anime:ArcPi Radiu="16" Width="32" Height="32" x:Name="progressArc1" Margin="8" Angle="33" Color="#c08" Bckgr="#18f" />
+        <TextBlock d:Text="8:88" FontSize="10" x:Name="ProgressTime" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#18f" />
       </Grid>
     </Viewbox>
 

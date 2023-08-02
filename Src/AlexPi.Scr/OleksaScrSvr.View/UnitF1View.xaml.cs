@@ -7,7 +7,7 @@ public partial class UnitF1View
 
   new void OnLoaded(object s, RoutedEventArgs e)
   {
-    base.OnLoaded(s, e);
+    base.OnLoadedBase(s, e);
 
     //MsgSlideshowUsrCtrl1.ClientId = ClientId; // new WpfUserControlLib.Helpers.ConfigRandomizer().GetRandomFromUserSection("ClientId");
     //MsgSlideshowUsrCtrl1.ScaleToHalf = true;
