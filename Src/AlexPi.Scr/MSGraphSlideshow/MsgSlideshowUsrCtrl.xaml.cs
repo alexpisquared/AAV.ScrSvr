@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -168,7 +166,7 @@ public partial class MsgSlideshowUsrCtrl
         ImageView1.Visibility = Visibility.Visible;
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
-        ReportTL.Content = $"{driveItem?.Photo.TakenDateTime ?? driveItem?.CreatedDateTime:yyyy-MM-dd}";
+        ReportTL.Content = $"{driveItem?.Photo?.TakenDateTime ?? driveItem?.CreatedDateTime:yyyy-MM-dd}";
       }
       else if (driveItem.Video is not null)
       {
@@ -181,7 +179,7 @@ public partial class MsgSlideshowUsrCtrl
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo.CameraMake} x {driveItem.Photo.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
@@ -198,7 +196,7 @@ public partial class MsgSlideshowUsrCtrl
 
       //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:yy-MM-dd}  {_pathfile} ");
 
-      ReportBC.FontSize = 4 + ReportBC.FontSize / 2;
+      ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
       return true;
     }
@@ -401,7 +399,7 @@ public partial class MsgSlideshowUsrCtrl
 
     const int maxTries = 101;
     var i = 1; for (; i < maxTries && media.Duration <= 0; i++) await Task.Delay(10);
-    var rv = i < maxTries ? ($"{i,2} try") : "estimd";
+    var rv = i < maxTries ? $"{i,2} try" : "estimd";
 
     //Debug._logger?.Log(LogLevel.Trace, $" ------------- {driveItem.Video.Duration} == {media.Duration}");
 
@@ -419,7 +417,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient.Me.Photo.Content.Request().GetAsync())).bitmapImage;
+    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient.Me.Photo?.Content.Request().GetAsync())).bitmapImage;
     _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();

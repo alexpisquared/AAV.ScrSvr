@@ -24,10 +24,11 @@ public partial class MainNavView : WindowBase
   {
     themeSelector1.SetCurThemeToMenu(Thm); //dnf theming 2/2//_logger.LogInformation($"mVl{(DateTime.Now - _mvwStarted).TotalSeconds,4:N1}s  {VersionHelper.DevDbgAudit(_config)}");
 
-    if (!VersionHelper.IsDbg)
+    if (!DevOps.IsDbg)
+    {
       StretchToFill(this, ScreenHelper.GetSumOfAllBounds);
-
-    //Topmost = true;
+      Topmost = true;
+    }
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }

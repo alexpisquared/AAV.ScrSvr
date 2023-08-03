@@ -57,7 +57,7 @@
       </Grid>
     </Viewbox>
 
-    <Button Content="#" Click="OnResetPlacement" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8 26" />
+    <Button Content="_#" Click="OnResetPlacement" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8 52" />
 
   </Grid>
 </UserControl>

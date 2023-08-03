@@ -4,23 +4,25 @@ public partial class UnitContainerBase : UserControl
 {
   bool isDragging, _isResizing, _isLoaded;
   System.Windows.Point _lastMousePosition, clickPosition;
-  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, propChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }
-  static async void propChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, OnPropertyChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }
+  static async void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
   {
     if (d is UnitContainerBase uc && e.NewValue is bool b)
+    {
+      uc.WindowState = b;
+
       if (b)
       {
         await uc.RestorePlacementFromFile();
-        uc.WindowState = true;
         await uc.Store();
       }
       else
       {
-        uc.WindowState = false;
         await uc.Store();
         uc.Width = 210;
         uc.Height = 80;
       }
+    }
   }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
@@ -41,7 +43,7 @@ public partial class UnitContainerBase : UserControl
   {
     try
     {
-      var jsonFile = @$"\temp\_{Name}_.json";
+      var jsonFile = @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
       var layout = !File.Exists(jsonFile) ? new LayoutVM2() : JsonSerializer.Deserialize<LayoutVM2>(await File.ReadAllTextAsync(jsonFile)) ?? new LayoutVM2();
       Canvas.SetTop(this, layout.Top);
       Canvas.SetLeft(this, layout.Left);
@@ -57,7 +59,7 @@ public partial class UnitContainerBase : UserControl
     }
   }
 
-  public async void OnLoadedBase(object s, RoutedEventArgs e) { await OnLoadedAsync(); }
+  public async void OnLoadedBase(object s, RoutedEventArgs e) => await OnLoadedAsync();
   protected async Task OnLoadedAsync() { await RestorePlacementFromFile(); _isLoaded = true; }
   public void Border_MouseLeftButtonDown(object s, MouseButtonEventArgs e)
   {

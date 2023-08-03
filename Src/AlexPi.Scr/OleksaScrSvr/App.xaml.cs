@@ -36,8 +36,7 @@ public partial class App : System.Windows.Application
     MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
     MainWindow.Show();
 
-    var cfg = ServiceProvider.GetRequiredService<IConfigurationRoot>();
-    _audit = VersionHelper.DevDbgAudit(cfg, $"ClientId_{Environment.UserName}:{cfg[$"ClientId_{Environment.UserName}"]}");
+    _audit = VersionHelper.DevDbgAudit(ServiceProvider.GetRequiredService<IConfigurationRoot>(), "°");
 
     base.OnStartup(e);
 
@@ -49,7 +48,7 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{(DateTimeOffset.Now - _appStarted).TotalHours,5:N1}h  {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{(DateTimeOffset.Now - _appStarted).TotalMinutes,5:N1}m  {_audit} \n██");
 
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
@@ -82,8 +81,8 @@ public partial class App : System.Windows.Application
       await Task.Delay(TimeSpan.FromMinutes(1.15));         /**/      await speech.SpeakAsync($"Final 30 seconds.");        
       await Task.Delay(TimeSpan.FromMinutes(0.50));         /**/      await speech.SpeakAsync($"Sorry...");
 
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n█···"); Process.GetCurrentProcess().Close();
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n██··"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n██··"); Process.GetCurrentProcess().Close();
       logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
@@ -99,8 +98,8 @@ public partial class App : System.Windows.Application
     Environment.MachineName == "RAZER1" ? 26 :
     Environment.MachineName == "ASUS2" ? 36 :
     Environment.MachineName == "YOGA1" ? 46 :
-    Environment.MachineName == "NUC2" ? 16 :
-    1111;
+    Environment.MachineName == "NUC2" ? 9 : //todo: something closes the app exactly on 10 min mark?!?!?!?!
+    8;
 
   void LogAllLevels(ILogger lgr)
   {
