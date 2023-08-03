@@ -1,7 +1,13 @@
 ﻿<UserControl x:Class="OleksaScrSvr.View.Page02SlideshowView" x:Name="wnd" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:Page02SlideshowVM}" 
+             xmlns:Special="clr-namespace:OleksaScrSvr.View.Special" 
              xmlns:MSGraphSlideshow="clr-namespace:MSGraphSlideshow;assembly=MSGraphSlideshow" 
-             d:DesignHeight="600" d:DesignWidth="1600" Padding="0" Background="#555"
-             MouseLeftButtonDown="OnDragMove" Cursor="Hand" ToolTip="The only draggable surface" >
-  <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" />
+             MouseLeftButtonDown="OnDragMove" Cursor="Hand" ToolTip="The only draggable surface" 
+             d:DesignHeight="600" d:DesignWidth="1600" Padding="0" Background="#555">
+  <Grid>
+    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" />
+    <Viewbox Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 120">
+      <Special:TimeTillClose/>
+    </Viewbox>
+  </Grid>
 </UserControl>

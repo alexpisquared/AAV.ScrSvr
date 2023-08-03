@@ -8,6 +8,9 @@
     <ApplicationIcon>Xamarin.Simulator.ico</ApplicationIcon>
     <UserSecretsId>91362db3-c52a-4a82-a01c-ccf5f35cc9da</UserSecretsId>
     <Platforms>AnyCPU;x64</Platforms>
+    <!-- //tu: Auto Build Version: add '<GenerateAssemblyInfo>false</GenerateAssemblyInfo><Deterministic>false</Deterministic>' to CsProj ... plus this line to AsseblyInfo.cs:  [assembly: AssemblyVersion("0.0.*")]  -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>

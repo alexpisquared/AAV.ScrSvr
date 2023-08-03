@@ -4,8 +4,7 @@ public partial class UnitContainerBase : UserControl
 {
   bool isDragging, _isResizing, _isLoaded;
   System.Windows.Point _lastMousePosition, clickPosition;
-  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, OnPropertyChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }
-  static async void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, OnPropertyChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }  static async void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
   {
     if (d is UnitContainerBase uc && e.NewValue is bool b)
     {
@@ -26,11 +25,11 @@ public partial class UnitContainerBase : UserControl
   }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
+  string JsonFile => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
 
   async Task Store()
   {
-    var jsonFile = @$"\temp\_{Name}_.json";
-    await File.WriteAllTextAsync(jsonFile, JsonSerializer.Serialize(new LayoutVM2
+    await File.WriteAllTextAsync(JsonFile, JsonSerializer.Serialize(new LayoutVM2
     {
       Top = Canvas.GetTop(this),
       Left = Canvas.GetLeft(this),
@@ -43,8 +42,7 @@ public partial class UnitContainerBase : UserControl
   {
     try
     {
-      var jsonFile = @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
-      var layout = !File.Exists(jsonFile) ? new LayoutVM2() : JsonSerializer.Deserialize<LayoutVM2>(await File.ReadAllTextAsync(jsonFile)) ?? new LayoutVM2();
+      var layout = !File.Exists(JsonFile) ? new LayoutVM2() : JsonSerializer.Deserialize<LayoutVM2>(await File.ReadAllTextAsync(JsonFile)) ?? new LayoutVM2();
       Canvas.SetTop(this, layout.Top);
       Canvas.SetLeft(this, layout.Left);
       Width = layout.Width < 1 ? 512 : layout.Width;
