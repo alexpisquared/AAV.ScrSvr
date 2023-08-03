@@ -6,7 +6,7 @@
              d:DesignHeight="600" d:DesignWidth="1600" Padding="0" Background="#555">
   <Grid>
     <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" />
-    <Viewbox Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 120">
+    <Viewbox Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 180">
       <Special:TimeTillClose/>
     </Viewbox>
   </Grid>

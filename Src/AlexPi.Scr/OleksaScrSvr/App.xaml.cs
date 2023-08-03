@@ -77,9 +77,9 @@ public partial class App : System.Windows.Application
 
       speech.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep));    /**/      await speech.SpeakAsync($"Turning off in a minute."); 
-      await Task.Delay(TimeSpan.FromMinutes(1.15));         /**/      await speech.SpeakAsync($"Final 30 seconds.");        
-      await Task.Delay(TimeSpan.FromMinutes(0.50));         /**/      await speech.SpeakAsync($"Sorry...");
+      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/   speech.SpeakFAF($"Turning off in a minute."); 
+      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/   speech.SpeakFAF($"Final 30 seconds.");        
+      await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/   speech.SpeakFAF($"Sorry...");
 
       logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
       logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n██··"); Process.GetCurrentProcess().Close();
@@ -98,7 +98,7 @@ public partial class App : System.Windows.Application
     Environment.MachineName == "RAZER1" ? 26 :
     Environment.MachineName == "ASUS2" ? 36 :
     Environment.MachineName == "YOGA1" ? 46 :
-    Environment.MachineName == "NUC2" ? 9 : //todo: something closes the app exactly on 10 min mark?!?!?!?!
+    Environment.MachineName == "NUC2" ? 8 : //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5
     8;
 
   void LogAllLevels(ILogger lgr)
