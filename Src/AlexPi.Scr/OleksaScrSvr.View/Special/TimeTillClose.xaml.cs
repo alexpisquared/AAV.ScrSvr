@@ -36,7 +36,7 @@ public partial class TimeTillClose : UserControl
     ProgressTimB.Text = $"{(_tsExecutionDuration - (now - _idleStart)).Add(TimeSpan.FromMinutes(4)):h\\:mm}";
     progressArc2.Angle = (now - _idleStart).Seconds * 100 / 60;
 
-    MinuteHand.Angle = (now.Minute + now.Second / 60.0) * 60;
+    MinuteHand.Angle = (now.Minute + now.Second / 60.0) * 6;
     HourHand.Angle = (now.Hour * 360 + MinuteHand.Angle) / 12; // ProgressTimB.Text = $"{now.Second} => {MinuteHand.Angle:N0}";
   }
 }

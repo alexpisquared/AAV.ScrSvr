@@ -1,4 +1,5 @@
 ﻿namespace OleksaScrSvr;
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class App : System.Windows.Application
 {
   string _audit = "audit is unassigned";
@@ -40,7 +41,7 @@ public partial class App : System.Windows.Application
 
     base.OnStartup(e);
 
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"StU{(DateTime.Now - _appStarted).TotalSeconds,5:N1}s  {_audit}");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"|══{TimeSoFar} {_audit}");
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
@@ -48,7 +49,7 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{(DateTimeOffset.Now - _appStarted).TotalMinutes,5:N1}m  {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} {_audit} \n██");
 
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
@@ -77,13 +78,13 @@ public partial class App : System.Windows.Application
 
       speech.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/   speech.SpeakFAF($"Turning off in a minute."); 
-      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/   speech.SpeakFAF($"Final 30 seconds.");        
+      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/   speech.SpeakFAF($"Turning off in a minute.");
+      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/   speech.SpeakFAF($"Final 30 seconds.");
       await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/   speech.SpeakFAF($"Sorry...");
 
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n██·· That is it. Does ╘══OnExit fire?"); Process.GetCurrentProcess().Close();
-      //logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close(); ... That is it. Does ╘══OnExit fire? \n██··"); Process.GetCurrentProcess().Close();
+      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
       //Environment.Exit(87);
@@ -94,6 +95,7 @@ public partial class App : System.Windows.Application
     return true;
   }
 
+  string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),-7}";
   int MinToSleep =>
     Environment.MachineName == "RAZER1" ? 26 :
     Environment.MachineName == "ASUS2" ? 36 :
