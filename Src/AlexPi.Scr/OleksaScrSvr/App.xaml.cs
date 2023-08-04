@@ -82,12 +82,12 @@ public partial class App : System.Windows.Application
       await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/   speech.SpeakFAF($"Sorry...");
 
       logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n██·· That is it."); Process.GetCurrentProcess().Close();
+      logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Close(); ... \n██·· That is it. Does ╘══OnExit fire?"); Process.GetCurrentProcess().Close();
       //logger.Log(LogLevel.Information, $"+{DateTime.Now - _appStarted:mm\\:ss\\.fff}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
-      Environment.Exit(87);
-      Environment.FailFast("Environment.FailFast");
+      //Environment.Exit(87);
+      //Environment.FailFast("Environment.FailFast");
     }
     catch (Exception ex) { logger.LogError(ex, _audit); }
 
@@ -98,8 +98,7 @@ public partial class App : System.Windows.Application
     Environment.MachineName == "RAZER1" ? 26 :
     Environment.MachineName == "ASUS2" ? 36 :
     Environment.MachineName == "YOGA1" ? 46 :
-    Environment.MachineName == "NUC2" ? 8 : //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5
-    8;
+    8; //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5
 
   void LogAllLevels(ILogger lgr)
   {

@@ -31,8 +31,12 @@ public partial class TimeTillClose : UserControl
 
   void OnTimer()
   {
-    ProgressTime.Text = $"{DateTime.Now - _idleStart:h\\:mm}:  ";
-    ProgressTimB.Text = $"{_tsExecutionDuration - (DateTime.Now - _idleStart):h\\:mm}";
-    progressArc2.Angle = (DateTime.Now - _idleStart).Seconds * 100 / 60;
+    var now = DateTime.Now;
+    ProgressTime.Text = $"{now - _idleStart:h\\:mm}:  ";
+    ProgressTimB.Text = $"{(_tsExecutionDuration - (now - _idleStart)).Add(TimeSpan.FromMinutes(4)):h\\:mm}";
+    progressArc2.Angle = (now - _idleStart).Seconds * 100 / 60;
+
+    MinuteHand.Angle = (now.Minute + now.Second / 60.0) * 60;
+    HourHand.Angle = (now.Hour * 360 + MinuteHand.Angle) / 12; // ProgressTimB.Text = $"{now.Second} => {MinuteHand.Angle:N0}";
   }
 }
