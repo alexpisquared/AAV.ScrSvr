@@ -41,11 +41,11 @@ public partial class App : System.Windows.Application
 
     base.OnStartup(e);
 
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"|══{TimeSoFar} {_audit}");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} {_audit}");
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
-    _ = await TimedSleepAndExit(true, MinToSleep);
+    _ = await TimedSleepAndExit(MinToSleep);
   }
   protected override async void OnExit(ExitEventArgs e)
   {
@@ -61,7 +61,7 @@ public partial class App : System.Windows.Application
     base.OnExit(e);
   }
 
-  async Task<bool> TimedSleepAndExit(bool autoSleep, int min2sleep)
+  async Task<bool> TimedSleepAndExit(int min2sleep)
   {
     var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
     var logger = ServiceProvider.GetRequiredService<ILogger>();
@@ -70,17 +70,18 @@ public partial class App : System.Windows.Application
 
     try
     {
-      if (!autoSleep)
+      //if (!autoSleep) { await speech.SpeakAsync("Armed! Sleepless mode."); return false; }
+
+      if (DevOps.IsDbg == false)
       {
-        await speech.SpeakAsync("Armed! Sleepless mode.");
-        return false;
+        await Task.Delay(TimeSpan.FromMinutes(1.00)); // grace period
+        AsLink.EvLogHelper.LogScrSvrBgn(300);         // 300 sec of idle has passed
+        speech.SpeakFAF($"Armed!");
       }
 
-      speech.SpeakFAF($"Armed!");
-
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/  speech.SpeakFAF($"Turning off in a minute.");
-      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/  speech.SpeakFAF($"Final 30 seconds.");
-      await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/  speech.SpeakFAF($"Sorry...");
+      await Task.Delay(TimeSpan.FromMinutes(min2sleep - 1));  /**/  speech.SpeakFAF($"Turning off in a minute.");
+      await Task.Delay(TimeSpan.FromMinutes(1.00));           /**/  speech.SpeakFAF($"Final 30 seconds.");
+      await Task.Delay(TimeSpan.FromMinutes(0.50));           /**/  speech.SpeakFAF($"Sorry...");
 
       logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..);   rarely goes beyond this on NUC2  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
       logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close();   Last line. Does OnExit fire?     \n██··"); Process.GetCurrentProcess().Close();

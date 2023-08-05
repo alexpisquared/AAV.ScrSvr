@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EvLogHelperBase.cs" Link="AsLink\EvLogHelperBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Xamarin.Simulator.ico" />
   </ItemGroup>
 

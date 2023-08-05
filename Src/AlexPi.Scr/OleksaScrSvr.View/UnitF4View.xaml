@@ -2,7 +2,7 @@
 xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib"
 xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
 xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
-d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
+d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase" Opacity="0.05">
   <lnk:UnitContainerBase.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -16,46 +16,19 @@ d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
       <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />     -->
       </ResourceDictionary.MergedDictionaries>
       <Duration x:Key="showTime">0:0:59</Duration>
+      <DoubleAnimation x:Key="_d2IntroOutr4" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="10" />
       <DoubleAnimation x:Key="_d2IntroOutro" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
       <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd" />
 
-      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" RepeatBehavior="10x" AutoReverse="False">
-        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
-        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
-        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1" />
-        <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-
-        <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1" />
-        
-        <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0" />
-        <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="1" />
-        <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0" />
-        <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1" />
-        <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0" />
-        
-        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1" >
-            <EasingDoubleKeyFrame.EasingFunction>
-            <QuadraticEase/>
-          </EasingDoubleKeyFrame.EasingFunction>
-        </EasingDoubleKeyFrame>
-        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
-        <EasingDoubleKeyFrame KeyTime="0:0:4" Value="1">
-          <EasingDoubleKeyFrame.EasingFunction>
-            <QuadraticEase/>
-          </EasingDoubleKeyFrame.EasingFunction>
-        </EasingDoubleKeyFrame>
-        <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
-        <EasingDoubleKeyFrame KeyTime="0:0:6" Value="1">
-          <EasingDoubleKeyFrame.EasingFunction>
-            <QuadraticEase/>
-          </EasingDoubleKeyFrame.EasingFunction>
-        </EasingDoubleKeyFrame>
-        <EasingDoubleKeyFrame KeyTime="0:0:7" Value="0"/>
+      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" RepeatBehavior="1000x" AutoReverse="False">
+        <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0.0" />
+        <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1.0" EasingFunction="{StaticResource bi1}" />
+        <EasingDoubleKeyFrame KeyTime="0:0:3.0" Value=".05" />
+        <EasingDoubleKeyFrame KeyTime="0:01:05" Value=".05" />
       </DoubleAnimationUsingKeyFrames>
 
-      <Storyboard x:Key="FadingOut">
-        <StaticResource ResourceKey="_d2IntroOutro" />
+      <Storyboard x:Key="FadingOut" Duration="0:01:05">
+        <StaticResource ResourceKey="_d2IntroOutr4" />
         <StaticResource ResourceKey="_d2IntroOutr3" />
       </Storyboard>
 
