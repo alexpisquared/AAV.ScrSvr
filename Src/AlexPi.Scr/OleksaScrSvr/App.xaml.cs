@@ -78,13 +78,13 @@ public partial class App : System.Windows.Application
 
       speech.SpeakFAF($"Armed!");
 
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/   speech.SpeakFAF($"Turning off in a minute.");
-      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/   speech.SpeakFAF($"Final 30 seconds.");
-      await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/   speech.SpeakFAF($"Sorry...");
+      await Task.Delay(TimeSpan.FromMinutes(min2sleep));  /**/  speech.SpeakFAF($"Turning off in a minute.");
+      await Task.Delay(TimeSpan.FromMinutes(1.00));       /**/  speech.SpeakFAF($"Final 30 seconds.");
+      await Task.Delay(TimeSpan.FromMinutes(0.50));       /**/  speech.SpeakFAF($"Sorry...");
 
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..); ... \n█···"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close(); ... That is it. Does ╘══OnExit fire? \n██··"); Process.GetCurrentProcess().Close();
-      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Kill();  ... \n███·"); Process.GetCurrentProcess().Kill();
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..);   rarely goes beyond this on NUC2  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close();   Last line. Does OnExit fire?     \n██··"); Process.GetCurrentProcess().Close();
+      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
       //Environment.Exit(87);
@@ -95,9 +95,9 @@ public partial class App : System.Windows.Application
     return true;
   }
 
-  string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),-7}";
+  string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
   int MinToSleep =>
-    Environment.MachineName == "RAZER1" ? 26 :
+    Environment.MachineName == "RAZER1" ? 56 : // 1hr for: PerfectMind registration, etc.
     Environment.MachineName == "ASUS2" ? 36 :
     Environment.MachineName == "YOGA1" ? 46 :
     8; //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5

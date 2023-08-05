@@ -4,30 +4,67 @@ xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
 xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
 d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
   <lnk:UnitContainerBase.Resources>
-  <ResourceDictionary>
-    <ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
-      <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
-      <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
-      <!--
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
+        <!--
       <ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
       <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
       <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
       <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />     -->
-    </ResourceDictionary.MergedDictionaries>
-    <Duration x:Key="showTime">0:0:59</Duration>
-    <DoubleAnimation x:Key="_d2IntroOutro" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
-    <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd" />
-    <Storyboard x:Key="FadingOut">
-      <StaticResource ResourceKey="_d2IntroOutro" />
-      <StaticResource ResourceKey="_d2IntroOutr2" />
-    </Storyboard>
-  </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+      <Duration x:Key="showTime">0:0:59</Duration>
+      <DoubleAnimation x:Key="_d2IntroOutro" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
+      <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd" />
+
+      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" RepeatBehavior="10x" AutoReverse="False">
+        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1" />
+        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1" />
+        <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+
+        <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1" />
+        
+        <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0" />
+        <EasingDoubleKeyFrame KeyTime="0:0:1.0" Value="1" />
+        <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0" />
+        <EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1" />
+        <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0" />
+        
+        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1" >
+            <EasingDoubleKeyFrame.EasingFunction>
+            <QuadraticEase/>
+          </EasingDoubleKeyFrame.EasingFunction>
+        </EasingDoubleKeyFrame>
+        <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+        <EasingDoubleKeyFrame KeyTime="0:0:4" Value="1">
+          <EasingDoubleKeyFrame.EasingFunction>
+            <QuadraticEase/>
+          </EasingDoubleKeyFrame.EasingFunction>
+        </EasingDoubleKeyFrame>
+        <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+        <EasingDoubleKeyFrame KeyTime="0:0:6" Value="1">
+          <EasingDoubleKeyFrame.EasingFunction>
+            <QuadraticEase/>
+          </EasingDoubleKeyFrame.EasingFunction>
+        </EasingDoubleKeyFrame>
+        <EasingDoubleKeyFrame KeyTime="0:0:7" Value="0"/>
+      </DoubleAnimationUsingKeyFrames>
+
+      <Storyboard x:Key="FadingOut">
+        <StaticResource ResourceKey="_d2IntroOutro" />
+        <StaticResource ResourceKey="_d2IntroOutr3" />
+      </Storyboard>
+
+    </ResourceDictionary>
   </lnk:UnitContainerBase.Resources>
   <lnk:UnitContainerBase.Triggers>
-  <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-    <BeginStoryboard Storyboard="{StaticResource FadingOut}" />
-  </EventTrigger>
+    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+      <BeginStoryboard Storyboard="{StaticResource FadingOut}" />
+    </EventTrigger>
   </lnk:UnitContainerBase.Triggers>
   <Grid>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground}" BorderBrush="#00a" />
