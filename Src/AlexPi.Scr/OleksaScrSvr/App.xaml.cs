@@ -2,6 +2,7 @@
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class App : System.Windows.Application
 {
+  bool _mustLogEORun;
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
 
@@ -51,6 +52,8 @@ public partial class App : System.Windows.Application
   {
     ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} {_audit} \n██");
 
+    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
+
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
 
@@ -75,6 +78,7 @@ public partial class App : System.Windows.Application
       if (DevOps.IsDbg == false)
       {
         await Task.Delay(TimeSpan.FromMinutes(1.00)); // grace period
+        _mustLogEORun = true;
         AsLink.EvLogHelper.LogScrSvrBgn(300);         // 300 sec of idle has passed
         speech.SpeakFAF($"Armed!");
       }
@@ -82,6 +86,8 @@ public partial class App : System.Windows.Application
       await Task.Delay(TimeSpan.FromMinutes(min2sleep - 1));  /**/  speech.SpeakFAF($"Turning off in a minute.");
       await Task.Delay(TimeSpan.FromMinutes(1.00));           /**/  speech.SpeakFAF($"Final 30 seconds.");
       await Task.Delay(TimeSpan.FromMinutes(0.50));           /**/  speech.SpeakFAF($"Sorry...");
+
+      LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
       logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..);   rarely goes beyond this on NUC2  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
       logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close();   Last line. Does OnExit fire?     \n██··"); Process.GetCurrentProcess().Close();
@@ -96,6 +102,18 @@ public partial class App : System.Windows.Application
     return true;
   }
 
+  void LogScrSvrUptimeOncePerSession(string msg)
+  {
+    if (_mustLogEORun)
+    {
+      _mustLogEORun = false;
+
+      if (DevOps.IsDbg == false)
+      {
+        AsLink.EvLogHelper.LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
+      }
+    }
+  }
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
   int MinToSleep =>
     Environment.MachineName == "RAZER1" ? 56 : // 1hr for: PerfectMind registration, etc.
