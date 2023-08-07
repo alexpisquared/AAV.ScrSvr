@@ -124,7 +124,7 @@ public partial class MsgSlideshowUsrCtrl
         await Task.WhenAll(taskStream, taskDelay);
         dnldTime = taskStream.Result.dnldTime;
       }
-      catch (OperationCanceledException) { cancelReport = "<CTS.Cancel>"; }
+      catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
       catch (Exception ex)
       {
         ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
@@ -223,7 +223,7 @@ public partial class MsgSlideshowUsrCtrl
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
-        Logger?.Log(LogLevel.Information, " dl mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
+        Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport  ");
       }
 
       Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport}");
@@ -347,7 +347,7 @@ public partial class MsgSlideshowUsrCtrl
       //_logger?.Log(LogLevel.Trace, $"      {seekToPerc,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMSec):mm\\:ss}         <== new setting to !!!!!!!");
       //_logger?.Log(LogLevel.Trace, $"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
-      report2 += $"{seekToMSec * .001,3:N0}/{durationMs * .001,-3:N0}";
+      report2 += $"{(int)(seekToMSec * .001),3}/{(int)(durationMs * .001),-3}";
 
 #if DEBUG_SEEK
       await Task.Delay(500);

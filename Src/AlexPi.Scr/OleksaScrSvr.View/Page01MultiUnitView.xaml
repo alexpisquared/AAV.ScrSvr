@@ -5,7 +5,7 @@
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
              xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:Page01MultiUnitVM}}" 
-             d:DesignHeight="500" d:DesignWidth="1300" Background="#080000">
+             d:DesignHeight="1080" d:DesignWidth="1920" Background="#080000">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>

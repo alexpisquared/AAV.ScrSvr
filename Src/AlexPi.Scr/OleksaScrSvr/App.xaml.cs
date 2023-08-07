@@ -50,7 +50,7 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} {_audit} \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit \n██");
 
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
 
@@ -75,23 +75,26 @@ public partial class App : System.Windows.Application
     {
       //if (!autoSleep) { await speech.SpeakAsync("Armed! Sleepless mode."); return false; }
 
+      await Task.Delay(TimeSpan.FromSeconds(48)); // grace period 1
+      speech.SpeakFAF($"Really?");
+      await Task.Delay(TimeSpan.FromSeconds(12)); // grace period 2
+
       if (DevOps.IsDbg == false)
       {
-        await Task.Delay(TimeSpan.FromMinutes(1.00)); // grace period
         _mustLogEORun = true;
         AsLink.EvLogHelper.LogScrSvrBgn(300);         // 300 sec of idle has passed
         speech.SpeakFAF($"Armed!");
       }
 
       await Task.Delay(TimeSpan.FromMinutes(min2sleep - 1));  /**/  speech.SpeakFAF($"Turning off in a minute.");
-      await Task.Delay(TimeSpan.FromMinutes(1.00));           /**/  speech.SpeakFAF($"Final 30 seconds.");
       await Task.Delay(TimeSpan.FromMinutes(0.50));           /**/  speech.SpeakFAF($"Sorry...");
 
       LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(hibernate: false..);   rarely goes beyond this on NUC2  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Close();   Last line. Does OnExit fire?     \n██··"); Process.GetCurrentProcess().Close();
-      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process.GetCurrentProcess().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+      var sleepStart = DateTimeOffset.Now;
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState();   rarely goes beyond this on NUC2  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Close();   !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();
+      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
 
       // never gets here: 
       //Environment.Exit(87);
