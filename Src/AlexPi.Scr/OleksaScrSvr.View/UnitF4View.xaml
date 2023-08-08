@@ -2,7 +2,7 @@
                        xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib"
                        xmlns:stb="clr-namespace:WpfUserControlLib.Helpers;assembly=WpfUserControlLib"
                        xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
-                       d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase" Opacity=".038812">
+                       d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
   <lnk:UnitContainerBase.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -17,14 +17,14 @@
       </ResourceDictionary.MergedDictionaries>
       <Duration x:Key="showTime">0:0:59</Duration>
       <DoubleAnimation x:Key="_d2IntroOutro" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
-      <DoubleAnimation x:Key="_d2IntroOutr4" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="01" RepeatBehavior="Forever" />
-      <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd" />
+      <DoubleAnimation x:Key="_d2IntroOutr4" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="10" RepeatBehavior="Forever" />
+      <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd2" />
 
-      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd" RepeatBehavior="Forever" AutoReverse="False">
-        <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value=".038812" />
+      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd2" RepeatBehavior="Forever" AutoReverse="False">
+        <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value=".000000" />
         <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1.0" EasingFunction="{StaticResource bi1}" />
-        <EasingDoubleKeyFrame KeyTime="0:0:3.0" Value=".038812" />
-        <EasingDoubleKeyFrame KeyTime="0:01:05" Value=".038812" />
+        <EasingDoubleKeyFrame KeyTime="0:0:3.0" Value=".000000" />
+        <EasingDoubleKeyFrame KeyTime="0:01:05" Value=".000000" />
       </DoubleAnimationUsingKeyFrames>
 
       <Storyboard x:Key="PeriodicFlash">
@@ -40,11 +40,11 @@
     </EventTrigger>
   </lnk:UnitContainerBase.Triggers>
   <Grid>
-    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground}" BorderBrush="#00a" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground}" BorderBrush="#00a" x:Name="wnd2" Opacity=".000000"/>
     <TextBlock Text="Unit is On"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="52" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" Foreground="#060" />
     <TextBlock Text="Unit is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"  Foreground="#800" />
 
-    <Viewbox Height="100" HorizontalAlignment="Left" >
+    <Viewbox Height="1000" HorizontalAlignment="Left" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" >
       <Grid>
         <Anime:ArcPi Radiu="16" Width="32" Height="32" x:Name="progressArc1" HorizontalAlignment="Left" Margin="10" Angle="33" Bckgr="#000" Color="#fff" />
         <TextBlock   Margin="52 0 52 6" FontSize="26" Text="{Binding Path=Title}" x:Name="tbk1" VerticalAlignment="Center" Foreground="#c08" />
