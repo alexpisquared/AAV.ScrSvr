@@ -16,6 +16,7 @@ public partial class MainNavView : WindowBase
     Topmost = Debugger.IsAttached;
 
     DragMovable = false;
+    IgnoreEscape = false;
 
     btnExit.IsCancel = VersionHelper.IsDbg;
   }

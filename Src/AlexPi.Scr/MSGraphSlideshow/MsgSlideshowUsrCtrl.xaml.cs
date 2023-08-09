@@ -29,6 +29,8 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
       VideoView1.MediaPlayer.EndReached += OnEndReached;
       _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
+
+      ReportBC.Content = VersionHelper.CurVerStrYYMMDD;
     }
     catch (Exception ex)
     {
@@ -62,32 +64,40 @@ public partial class MsgSlideshowUsrCtrl
   {
     if (DesignerProperties.GetIsInDesignMode(this)) return; //tu: design mode
 
-    _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
-
-    var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
-    if (!success)
+    try
     {
-      ReportBC.Content = $"{ClientNm}:- {report}";
-      Logger.Log(LogLevel.Information, $"° {report}");
-    }
+      _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
-    ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
-    ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
+      var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
+      if (!success)
+      {
+        ReportBC.Content = $"{ClientNm}:- {report}";
+        Logger.Log(LogLevel.Information, $"° {report}");
+      }
 
-    _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
-    {
-      requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
-      await Task.CompletedTask;
-    }));
+      ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
+      ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
 
-    if (VideoView1.MediaPlayer is not null)
-      while (true)
+      _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
+      {
+        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
+        await Task.CompletedTask;
+      }));
+
+      while (VideoView1.MediaPlayer is not null) // forever
       {
         if (chkIsOn.IsChecked == true)
           chkIsOn.IsChecked = await LoadWaitThenShowNext();
         else
           await Task.Delay(100);
       }
+    }
+    catch (Exception ex)
+    {
+      ReportBC.FontSize = 60;
+      ReportBC.Content = $"■ {ex.Message}";
+      ex.Pop(Logger, $"ERR {ReportBC.Content} ");
+    }
   }
   void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((System.Windows.Controls.CheckBox)s).IsChecked ?? false; }
   void OnPrev(object s, RoutedEventArgs e) { }
