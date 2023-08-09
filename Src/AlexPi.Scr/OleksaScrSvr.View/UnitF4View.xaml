@@ -16,20 +16,22 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />     -->
       </ResourceDictionary.MergedDictionaries>
       <Duration x:Key="showTime">0:0:59</Duration>
-      <DoubleAnimation x:Key="_d2IntroOutro" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="30" RepeatBehavior="1x" />
-      <DoubleAnimation x:Key="_d2IntroOutr4" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" Timeline.DesiredFrameRate="10" RepeatBehavior="Forever" />
-      <DoubleAnimation x:Key="_d2IntroOutr2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd2" />
+      <DoubleAnimation x:Key="da0" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="1x" />
+      <DoubleAnimation x:Key="daW" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="Forever" />
+      <DoubleAnimation x:Key="da2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd2" />
 
-      <DoubleAnimationUsingKeyFrames x:Key="_d2IntroOutr3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd2" RepeatBehavior="Forever" AutoReverse="False">
-        <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value=".000000" />
-        <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1.0" EasingFunction="{StaticResource bi1}" />
-        <EasingDoubleKeyFrame KeyTime="0:0:3.0" Value=".000000" />
-        <EasingDoubleKeyFrame KeyTime="0:01:05" Value=".000000" />
+      <DoubleAnimationUsingKeyFrames x:Key="daF" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd2" RepeatBehavior="Forever" AutoReverse="False">
+        <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value=".000000" />
+        <EasingDoubleKeyFrame   KeyTime="0:0:0.6" Value="1.0" EasingFunction="{StaticResource bi1}" />
+        <LinearDoubleKeyFrame   KeyTime="0:0:3.0" Value=".000000" />
+        <DiscreteDoubleKeyFrame KeyTime="0:01:05" Value=".000000" />
       </DoubleAnimationUsingKeyFrames>
 
-      <Storyboard x:Key="PeriodicFlash">
-        <StaticResource ResourceKey="_d2IntroOutr4" />
-        <StaticResource ResourceKey="_d2IntroOutr3" />
+      <Storyboard x:Key="PeriodicFlash" Timeline.DesiredFrameRate="1" >
+        <StaticResource ResourceKey="daW" />
+      </Storyboard>
+      <Storyboard x:Key="PeriodicFlas2">
+        <StaticResource ResourceKey="daF" />
       </Storyboard>
 
     </ResourceDictionary>
@@ -37,6 +39,7 @@
   <lnk:UnitContainerBase.Triggers>
     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
       <BeginStoryboard Storyboard="{StaticResource PeriodicFlash}" />
+      <BeginStoryboard Storyboard="{StaticResource PeriodicFlas2}" />
     </EventTrigger>
   </lnk:UnitContainerBase.Triggers>
   <Grid>

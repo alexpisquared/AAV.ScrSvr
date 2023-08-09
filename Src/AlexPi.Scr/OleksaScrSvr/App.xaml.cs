@@ -119,6 +119,7 @@ public partial class App : System.Windows.Application
   }
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
   int MinToSleep =>
+    Environment.MachineName == "BEELINK1" ? 18 : // let's see if 10 min limit kicks in here
     Environment.MachineName == "RAZER1" ? 56 : // 1hr for: PerfectMind registration, etc.
     Environment.MachineName == "ASUS2" ? 36 :
     Environment.MachineName == "YOGA1" ? 46 :
