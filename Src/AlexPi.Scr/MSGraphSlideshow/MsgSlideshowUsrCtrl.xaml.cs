@@ -30,7 +30,8 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.EndReached += OnEndReached;
       _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
 
-      ReportBC.Content = VersionHelper.CurVerStrYYMMDD;
+      ReportBC.FontSize = 48; 
+      ReportBC.Content = VersionHelper.CurVerStr("MM.dd-HH:mm");
     }
     catch (Exception ex)
     {
@@ -68,7 +69,9 @@ public partial class MsgSlideshowUsrCtrl
     {
       _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
+      this.FindParentWindow().WindowState = WindowState.Minimized;
       var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
+      this.FindParentWindow().WindowState = WindowState.Normal;
       if (!success)
       {
         ReportBC.Content = $"{ClientNm}:- {report}";
@@ -97,6 +100,10 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.FontSize = 60;
       ReportBC.Content = $"■ {ex.Message}";
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
+    }
+    finally
+    {
+      this.FindParentWindow().WindowState = WindowState.Normal;
     }
   }
   void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((System.Windows.Controls.CheckBox)s).IsChecked ?? false; }

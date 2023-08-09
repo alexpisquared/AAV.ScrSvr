@@ -13,7 +13,7 @@ public partial class MainNavView : WindowBase
 
     Bpr = bpr;
     themeSelector1.ThemeApplier = ApplyTheme; //dnf theming 1/2
-    Topmost = Debugger.IsAttached;
+    //Topmost = Debugger.IsAttached;
 
     DragMovable = false;
     IgnoreEscape = false;
@@ -28,7 +28,7 @@ public partial class MainNavView : WindowBase
     if (!DevOps.IsDbg)
     {
       StretchToFill(this, ScreenHelper.GetSumOfAllBounds);
-      Topmost = true;
+      Topmost = Environment.CommandLine.Contains("Topmost");
     }
   }
 
