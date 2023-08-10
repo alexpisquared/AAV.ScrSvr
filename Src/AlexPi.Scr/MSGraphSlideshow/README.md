@@ -65,3 +65,7 @@ QuickStart from portal:
 	1. adjusts the configuration
 	2. inserts the current ClientID into the code
 
+#   :A copy fron OneNote
+
+
+Try if this simple code works as a standalone Console App for me, then Zoe:  https://learn.microsoft.com/EN-us/azure/active-directory/develop/msal-net-acquire-token-silently
