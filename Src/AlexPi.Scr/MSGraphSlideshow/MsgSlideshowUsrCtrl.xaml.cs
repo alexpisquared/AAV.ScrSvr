@@ -5,12 +5,12 @@ public partial class MsgSlideshowUsrCtrl
   const int _volumePerc = 16;
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
-  readonly Random _random = new(Guid.NewGuid().GetHashCode());
   GraphServiceClient? _graphServiceClient;
-  readonly LibVLC? _libVLC;
   CancellationTokenSource? _cancellationTokenSource;
+  readonly Random _random = new(Guid.NewGuid().GetHashCode());
+  readonly LibVLC? _libVLC;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  readonly AuthUsagePOC _AuthUsagePOC = new();
+  readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
   const int _maxMs = 15_000;
 #else
@@ -18,6 +18,7 @@ public partial class MsgSlideshowUsrCtrl
 #endif
   int _currentShowTimeMS = 0;
   bool _alreadyPrintedHeader;
+  string? _pathfile;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -55,10 +56,7 @@ public partial class MsgSlideshowUsrCtrl
   public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  IBpr? _bpr;
-  string _pathfile;
-
-  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  IBpr? _bpr;  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -70,7 +68,7 @@ public partial class MsgSlideshowUsrCtrl
       _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
 
       this.FindParentWindow().WindowState = WindowState.Minimized;
-      var (success, report, result) = await _AuthUsagePOC.LogInAsync(ClientId);
+      var (success, report, result) = await _authUsagePOC.LogInAsync(ClientId);
       this.FindParentWindow().WindowState = WindowState.Normal;
       if (!success)
       {
@@ -445,7 +443,7 @@ public partial class MsgSlideshowUsrCtrl
 
   async void OnSignOut(object sender, RoutedEventArgs e)
   {
-    ReportBC.Content = await _AuthUsagePOC.SignOut(); // LogOut
+    ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
     System.Windows.Application.Current.Shutdown();
   }
 
