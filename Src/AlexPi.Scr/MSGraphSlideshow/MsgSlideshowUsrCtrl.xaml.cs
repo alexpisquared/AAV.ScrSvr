@@ -2,7 +2,7 @@
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
-  const int _volumePerc = 16;
+  const int _volumePerc = 5;
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
   GraphServiceClient? _graphServiceClient;
@@ -108,6 +108,30 @@ public partial class MsgSlideshowUsrCtrl
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
+  async void OnSignOut(object s, RoutedEventArgs e)
+  {
+    ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
+    System.Windows.Application.Current.Shutdown();
+  }
+  void OnSizeChanged(object s, SizeChangedEventArgs e)
+  {
+    if (!ScaleToHalf) return;
+
+    // this is a hack to make the video controls fit the video ONLY when used by OleksaScrSvr.
+    // not sure why, but this must be done in code behind and this: <Grid ... VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">    
+    GridVideoControls.Width = e.NewSize.Width / 2;
+    GridVideoControls.Height = e.NewSize.Height / 2;
+    GridVideoControls.VerticalAlignment = VerticalAlignment.Top;
+    GridVideoControls.HorizontalAlignment = HorizontalAlignment.Left;
+    GridVideoControls.Margin = new Thickness(16); // 16 is just about right for the OleksaScrSvr case.
+  }
+  void OnDelete(object s, RoutedEventArgs e)
+  {
+    if (_pathfile is not null && System.IO.File.Exists(_pathfile))
+      _ = System.Diagnostics.Process.Start("Explorer.exe", $"/select, \"{_pathfile}\"");
+    else
+      _ = MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
+  }
 
   async Task<bool> LoadWaitThenShowNext()
   {
@@ -188,7 +212,7 @@ public partial class MsgSlideshowUsrCtrl
         mediaType = $"Video";
         var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
         ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001,-3:N0}s";
-        streamReport = report;
+        streamReport = $"{report}  Vol:{VideoView1.MediaPlayer.Volume}%";
         ImageView1.Visibility = Visibility.Hidden;
       }
       else if (driveItem.Photo is not null)
@@ -398,7 +422,7 @@ public partial class MsgSlideshowUsrCtrl
     _ = memoryStream.Seek(0, SeekOrigin.Begin); //tu: JPG images fix!!!
     stream.Close();
 
-    var bmp = new System.Windows.Media.Imaging.BitmapImage();
+    var bmp = new BitmapImage();
     bmp.BeginInit();
     bmp.StreamSource = memoryStream;
     bmp.EndInit();
@@ -439,33 +463,6 @@ public partial class MsgSlideshowUsrCtrl
 
     var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
     _ = items.ToList()[12].Folder;
-  }
-
-  async void OnSignOut(object sender, RoutedEventArgs e)
-  {
-    ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
-    System.Windows.Application.Current.Shutdown();
-  }
-
-  void OnSizeChanged(object sender, SizeChangedEventArgs e)
-  {
-    if (!ScaleToHalf) return;
-
-    // this is a hack to make the video controls fit the video ONLY when used by OleksaScrSvr.
-    // not sure why, but this must be done in code behind and this: <Grid ... VerticalAlignment="Top" HorizontalAlignment="Left" Margin="16" Tag="16 is just about right">    
-    GridVideoControls.Width = e.NewSize.Width / 2;
-    GridVideoControls.Height = e.NewSize.Height / 2;
-    GridVideoControls.VerticalAlignment = VerticalAlignment.Top;
-    GridVideoControls.HorizontalAlignment = HorizontalAlignment.Left;
-    GridVideoControls.Margin = new Thickness(16); // 16 is just about right for the OleksaScrSvr case.
-  }
-
-  void OnDelete(object sender, RoutedEventArgs e)
-  {
-    if (_pathfile is not null && System.IO.File.Exists(_pathfile))
-      _ = System.Diagnostics.Process.Start("Explorer.exe", $"/select, \"{_pathfile}\"");
-    else
-      _ = MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
   }
 }
 /*
