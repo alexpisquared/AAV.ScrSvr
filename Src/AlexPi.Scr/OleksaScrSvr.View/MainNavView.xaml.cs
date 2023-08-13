@@ -27,7 +27,7 @@ public partial class MainNavView : WindowBase
 
     if (!DevOps.IsDbg)
     {
-      StretchToFill(this, Environment.MachineName == "BEELINK1" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
+      StretchToFill(this, Environment.MachineName == "ASUS2" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
       Topmost = Environment.CommandLine.Contains("Topmost");
     }
   }

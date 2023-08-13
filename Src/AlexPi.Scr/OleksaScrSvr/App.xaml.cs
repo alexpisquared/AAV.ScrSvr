@@ -121,7 +121,7 @@ public partial class App : System.Windows.Application
   int MinToSleep =>
     Environment.MachineName == "BEELINK1" ? 18 : // let's see if 10 min limit kicks in here
     Environment.MachineName == "RAZER1" ? 56 : // 1hr for: PerfectMind registration, etc.
-    Environment.MachineName == "ASUS2" ? 36 :
+    Environment.MachineName == "ASUS2" ? 16 :
     Environment.MachineName == "YOGA1" ? 46 :
     8; //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5
 
