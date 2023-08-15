@@ -12,7 +12,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 15_000;
+  const int _maxMs = 06_000;
 #else
   const int _maxMs = 59_000;
 #endif
@@ -87,7 +87,8 @@ public partial class MsgSlideshowUsrCtrl
       while (VideoView1.MediaPlayer is not null) // forever
       {
         if (chkIsOn.IsChecked == true)
-          chkIsOn.IsChecked = await LoadWaitThenShowNext();
+          //chkIsOn.IsChecked = 
+          _ = await LoadWaitThenShowNext();
         else
           await Task.Delay(100);
       }
@@ -166,10 +167,8 @@ public partial class MsgSlideshowUsrCtrl
       catch (Exception ex)
       {
         ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-        Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");
-        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
 
-        if (Debugger.IsAttached) Debugger.Break();        //else        //  await Task.Delay(15_000);
+        ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 

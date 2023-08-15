@@ -12,14 +12,14 @@
       </ResourceDictionary.MergedDictionaries>
       <Duration x:Key="showTime">0:0:59</Duration>
       <DoubleAnimation x:Key="da0" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="1x" />
-      <DoubleAnimation x:Key="daW" Duration="0:01:05"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="Forever" />
+      <DoubleAnimation x:Key="daW" Duration="0:01:00"                   Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="Forever" />
       <DoubleAnimation x:Key="da2" Duration="{StaticResource showTime}" Storyboard.TargetProperty="Opacity" From="1" To=".01" Storyboard.TargetName="wnd2" />
 
       <DoubleAnimationUsingKeyFrames x:Key="daF" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="wnd2" RepeatBehavior="Forever" AutoReverse="False">
         <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value=".000000" />
         <EasingDoubleKeyFrame   KeyTime="0:0:0.6" Value="1.0" EasingFunction="{StaticResource bi1}" />
         <LinearDoubleKeyFrame   KeyTime="0:0:3.0" Value=".000000" />
-        <DiscreteDoubleKeyFrame KeyTime="0:01:05" Value=".000000" />
+        <DiscreteDoubleKeyFrame KeyTime="0:01:00" Value=".000000" />
       </DoubleAnimationUsingKeyFrames>
 
       <Storyboard x:Key="PeriodicFlash" Timeline.DesiredFrameRate="1" >

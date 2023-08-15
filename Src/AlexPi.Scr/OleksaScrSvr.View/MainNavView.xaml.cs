@@ -25,11 +25,11 @@ public partial class MainNavView : WindowBase
   {
     themeSelector1.SetCurThemeToMenu(Thm); //dnf theming 2/2//_logger.LogInformation($"mVl{(DateTime.Now - _mvwStarted).TotalSeconds,4:N1}s  {VersionHelper.DevDbgAudit(_config)}");
 
-    if (!DevOps.IsDbg)
-    {
-      StretchToFill(this, Environment.MachineName == "ASUS2" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
-      Topmost = Environment.CommandLine.Contains("Topmost");
-    }
+    if (DevOps.IsDbg)
+      return;
+
+    StretchToFill(this, Environment.MachineName == "ASUS2" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
+    Topmost = Environment.CommandLine.Contains("Topmost");
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }
