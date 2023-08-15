@@ -31,16 +31,15 @@ public partial class MsgSlideshowUsrCtrl
       VideoView1.MediaPlayer.EndReached += OnEndReached;
       _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
 
-      ReportBC.FontSize = 48; 
+      ReportBC.FontSize = 48;
       ReportBC.Content = VersionHelper.CurVerStr("MM.dd-HH:mm");
     }
     catch (Exception ex)
     {
-      ReportBC.FontSize = 60;
+      ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
       Logger.Log(LogLevel.Error, ex.Message);
       //not good here: ex.Pop(_logger, $"ERR {ReportBC.Content} ");
-      //if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
     }
   }
 
@@ -53,10 +52,10 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
-  public string? ClientNm { get; set; }
   public bool ScaleToHalf { get; set; }
+  //public string? ClientNm { get; set; }
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  IBpr? _bpr;  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -72,7 +71,7 @@ public partial class MsgSlideshowUsrCtrl
       this.FindParentWindow().WindowState = WindowState.Normal;
       if (!success)
       {
-        ReportBC.Content = $"{ClientNm}:- {report}";
+        ReportBC.Content = $"{_pathfile}:- {report}";
         Logger.Log(LogLevel.Information, $"° {report}");
       }
 
@@ -95,7 +94,7 @@ public partial class MsgSlideshowUsrCtrl
     }
     catch (Exception ex)
     {
-      ReportBC.FontSize = 60;
+      ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
     }
@@ -166,7 +165,7 @@ public partial class MsgSlideshowUsrCtrl
       catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
       catch (Exception ex)
       {
-        ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+        ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
         Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");
         Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
 
@@ -218,7 +217,7 @@ public partial class MsgSlideshowUsrCtrl
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{_pathfile}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
@@ -228,7 +227,7 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportBC.Content = $"{ClientNm}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{_pathfile}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
@@ -241,20 +240,18 @@ public partial class MsgSlideshowUsrCtrl
     }
     catch (ServiceException ex)
     {
-      ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
+      ReportBC.FontSize = 16;
+      ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
-      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
     }
     catch (Exception ex)
     {
-      ReportBC.FontSize = 60;
-      ReportBC.Content = $"{ClientNm}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
+      ReportBC.FontSize = 16;
+      ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
-      if (Debugger.IsAttached) Debugger.Break();      //else      await Task.Delay(15_000);
       return false;
     }
     finally
@@ -335,7 +332,20 @@ public partial class MsgSlideshowUsrCtrl
     for (var i = 0; i < _sizeWeightedRandomPicker.Count; i++)
     {
       var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
+#if DEBUG
+      var pathfile = //"Pictures/id.png";                     
+        new string[] {
+          @"Pictures\2016-09\WP_20160907_19_43_10_Pro.mp4",
+          @"Pictures\2016-09\wp_ss_20160901_0005.png",
+          @"Pictures\2016-09\wp_ss_20160901_0006.png",
+          @"Pictures\2016-09\wp_ss_20160913_0001.png",
+          @"Pictures\2016-09\wp_ss_20160913_0002.png",
+          @"Pictures\2016-09\wp_ss_20160913_0003.png",
+          @"Pictures\2016-09\wp_ss_20160913_0004.png",
+          @"Pictures\2016-09\wp_ss_20160915_0001.png" }[i % 8];
+#else
       var pathfile = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+#endif
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
         && 2_000_000 < fileinfo.Length && fileinfo.Length < 6_000_000
@@ -507,6 +517,4 @@ You can replace url with the download URL for the file you want to download. The
 The Range header is defined in the HTTP/1.1 specification (RFC 2616) . The Range header is used to specify the range of bytes that the client wants to retrieve from the server. The server responds with a 206 Partial Content status code and sends the requested range of bytes in the response body.
 
 So, yes, using the Range header to specify the range of bytes you want to download complies with RFC 2616.
-
-
- */
+*/
