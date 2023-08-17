@@ -1,15 +1,17 @@
-﻿<lnk:UnitContainerBase xmlns:lnk="clr-namespace:OleksaScrSvr.View.Base" x:Class="OleksaScrSvr.View.UnitF1View" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+﻿<lnk:UnitContainerBase xmlns:lnk="clr-namespace:OleksaScrSvr.View.Base" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:mgs="clr-namespace:MSGraphSlideshow;assembly=MSGraphSlideshow"
                        xmlns:cnv="clr-namespace:WpfUserControlLib.Converters;assembly=WpfUserControlLib"
-                       d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
+                       xmlns:stm="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" x:Class="OleksaScrSvr.View.UnitF1View" mc:Ignorable="d"
+                       d:DesignHeight="180" d:DesignWidth="1800" x:Name="wnd" Loaded="OnLoadedBase">
   <Grid>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
-    <!--        <mgs:MsgSlideshowUsrCtrl x:Name="Mgs1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Padding="16" Visibility="Collapsed" />    -->
-    <TextBlock Text="Slideshow is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" Foreground="#a00" />    
-    <TextBlock Text="Unit is OFF"      HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"  Foreground="#a00" />
+    
+    <!--        too much complexity:  <mgs:MsgSlideshowUsrCtrl x:Name="Mgs1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Padding="16" Visibility="Collapsed" />    -->
+    <stm:ScreenTimeUsrCtrl />
+
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left" >
-      <MenuItem Header="_X 1" IsCheckable="True" IsChecked="{Binding ElementName=wnd, Path=WindowState}" Height="32" x:Name="MenuIsOn" />
+      <MenuItem Header="_X 1" IsCheckable="True" IsChecked="{Binding WindowState, ElementName=wnd}" Height="32" x:Name="MenuIsOn" />
     </Menu>
   </Grid>
 </lnk:UnitContainerBase>

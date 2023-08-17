@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeaWpfApp\OpenWeaLib.csproj" />
     <ProjectReference Include="..\MSGraphSlideshow\MSGraphSlideshow.csproj" />
     <ProjectReference Include="..\OleksaScrSvr.VM\OleksaScrSvr.VM.csproj" />
+    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

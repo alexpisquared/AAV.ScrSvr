@@ -1,8 +1,4 @@
-﻿//using AAV.Sys.Helpers;
-
-using AmbienceLib;
-
-namespace ScreenTimeUsrCtrlLib.Views;
+﻿namespace ScreenTimeUsrCtrlLib.Views;
 
 public partial class ScreenTimeUsrCtrl
 {
