@@ -349,7 +349,8 @@ public partial class MsgSlideshowUsrCtrl
 #endif
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
-        && 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000
+        //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000 // a big 2gb file on Zoe's account
+        && 500_000 < fileinfo.Length && fileinfo.Length < 30_000_000
 #endif
         )
         return pathfile;
