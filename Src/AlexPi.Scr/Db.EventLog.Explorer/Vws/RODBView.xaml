@@ -23,7 +23,7 @@
   </lnk:WindowBase.Resources>
   <Border Background="#111" BorderThickness="2" BorderBrush="#26a" CornerRadius="5 5 2 5" >
 
-    <Grid DataContext="{StaticResource pcLogicViewSource}" x:Name="ZommablePanel" Margin="5" >
+    <Grid DataContext="{StaticResource pcLogicViewSource}" x:Name="ZoomablePanel" Margin="5" >
       <Grid.LayoutTransform>
         <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
       </Grid.LayoutTransform>

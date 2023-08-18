@@ -195,7 +195,7 @@ public partial class MsgSlideshowUsrCtrl
 
       ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
 
-      if (driveItem.Image is not null)
+      if (driveItem?.Image is not null)
       {
         mediaType = $"img";
         ReportTR.Content = streamReport = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
@@ -467,7 +467,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient.Me.Photo?.Content.Request().GetAsync())).bitmapImage;
+    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient?.Me?.Photo?.Content?.Request().GetAsync())).bitmapImage;
     _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();

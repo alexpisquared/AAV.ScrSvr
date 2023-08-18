@@ -10,7 +10,7 @@
   </lnk:WindowBase.Resources>
   <Border Background="#c0161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
     <Grid x:Name="vizroot" Margin="5" >
-      <Grid    x:Name="ZommablePanel"  >
+      <Grid    x:Name="ZoomablePanel"  >
         <Grid.LayoutTransform>
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>

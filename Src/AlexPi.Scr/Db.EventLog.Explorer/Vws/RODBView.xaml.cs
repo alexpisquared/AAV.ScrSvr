@@ -21,7 +21,7 @@ public partial class RODBView
 
   async void onLoaded(object s, RoutedEventArgs e)
   {
-    ZommablePanel.IsEnabled = false;
+    ZoomablePanel.IsEnabled = false;
     try
     {
       tbInfo.Text = $"Loading ... {_localdb}";
@@ -37,14 +37,14 @@ public partial class RODBView
       tbInfo.Text = $"{_db.PcLogics.Local.Count} PCs, {_db.EvOfInts.Local.Count} events in \r\n{_localdb}.";
     }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { ZommablePanel.IsEnabled = true; }
+    finally { ZoomablePanel.IsEnabled = true; }
   }
   async void onDbSave(object s, RoutedEventArgs e)
   {
-    ZommablePanel.IsEnabled = false;
+    ZoomablePanel.IsEnabled = false;
     try { tbInfo.ToolTip = tbInfo.Text = (await _db.TrySaveReportAsync()).report; }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { ZommablePanel.IsEnabled = true; }
+    finally { ZoomablePanel.IsEnabled = true; }
   }
   async void onLoadEventsForToday(object s, RoutedEventArgs e) => await evLogToDb_days(1);
   async void onLoadEventsForAWeek(object s, RoutedEventArgs e) => await evLogToDb_days(7);
@@ -53,7 +53,7 @@ public partial class RODBView
 
   async Task evLogToDb_days(int daysBack)
   {
-    ZommablePanel.IsEnabled = false;
+    ZoomablePanel.IsEnabled = false;
     try
     {
       var before = _db.EvOfInts.Local.Count;
@@ -65,7 +65,7 @@ public partial class RODBView
       tbInfo.Text = $"Events: {before} before, {afterr}/{(await _db.TrySaveReportAsync()).rowsSavedCnt} found/saved, {_db.EvOfInts.Local.Count} after.";
     }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { ZommablePanel.IsEnabled = true; }
+    finally { ZoomablePanel.IsEnabled = true; }
   }
   async Task<int> evLogToDb(int daysBack)
   {
@@ -80,7 +80,7 @@ public partial class RODBView
       }
     }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { ZommablePanel.IsEnabled = true; }
+    finally { ZoomablePanel.IsEnabled = true; }
 
     return n;
   }

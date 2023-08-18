@@ -166,7 +166,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     var apl1hr = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[TimeCreated[timediff(@SystemTime) &lt;= 299000000]]]</Select></Query></QueryList>";
 
     using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, apl1hr));
-    for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+    for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
     {
       //77 Debug.Write($"\n {er.TimeCreated}  {er.TaskDisplayName}    {er.ProviderName}");
 
@@ -235,9 +235,11 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     try
     {
       using var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
-        if (rv > er.TimeCreated.Value)
-          rv = er.TimeCreated.Value;
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
+        if (er is not null)
+          if (er.TimeCreated is not null)
+            if (rv > er.TimeCreated.Value)
+              rv = er.TimeCreated.Value;
     }
     catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
 
@@ -252,7 +254,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, sleeps));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -267,7 +269,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, /*qryBootUpsOnly*/qryBootUpTmChg(hr00ofTheDate, hr24ofTheDate))); //sep 2018
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -282,13 +284,13 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, qryBootUpsOnly(hr00ofTheDate, hr24ofTheDate)));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
       {
         if (!ignoreReboots)
         {
           var bootUpTime = er.TimeCreated.Value;
           using var reader2 = new EventLogReader(new EventLogQuery("System", PathType.LogName, BootDnWithin5min(bootUpTime)));
-          if ((EventLogRecord)reader2.read() != null) // this is a reboot - ignore it since it is not a session start.
+          if ((EventLogRecord?)reader2.read() != null) // this is a reboot - ignore it since it is not a session start.
             continue;
         }
 
@@ -394,7 +396,7 @@ Kernel-General 12 - up
      {
        using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
        {
-         for (EventLogRecord er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+         for (EventLogRecord er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
            if (rv < er.TimeCreated.Value)
              rv = er.TimeCreated.Value;
        }
@@ -414,7 +416,7 @@ Kernel-General 12 - up
      {
        using (var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, enteringSleep)))
        {
-         for (EventLogRecord er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+         for (EventLogRecord er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
            if (rv < er.TimeCreated.Value)
              rv = er.TimeCreated.Value;
        }
@@ -433,7 +435,7 @@ Kernel-General 12 - up
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, qry));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -451,7 +453,7 @@ Kernel-General 12 - up
     try
     {
       using var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, qryScrSvr(_ssrUp, hr00ofTheDate, hr24ofTheDate)));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -466,7 +468,7 @@ Kernel-General 12 - up
     try
     {
       using var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, qryScrSvr(_ssrDn, hr00ofTheDate, hr24ofTheDate)));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -484,7 +486,7 @@ Kernel-General 12 - up
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, enteringSleep));
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
@@ -505,7 +507,7 @@ Kernel-General 12 - up
 
     using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
     {
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
       {
         if (er.TimeCreated.Value > hr24ofTheDate)
         {
@@ -560,7 +562,7 @@ Kernel-General 12 - up
 
     using (var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, sleeps)))
     {
-      for (var er = (EventLogRecord)reader.read(); null != er; er = (EventLogRecord)reader.read())
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
       {
         if (er.Properties[0] == null || er.Properties[0].Value is not DateTime || er.Properties[1] == null || er.Properties[1].Value is not DateTime) throw new Exception("Not a datetime !!! (AP)");
 

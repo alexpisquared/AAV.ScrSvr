@@ -1,4 +1,6 @@
-﻿namespace ScreenTimeUsrCtrlLib.Views;
+﻿using WpfUserControlLib.Base;
+
+namespace ScreenTimeUsrCtrlLib.Views;
 
 public partial class ScreenTimeUsrCtrl
 {
@@ -48,4 +50,6 @@ public partial class ScreenTimeUsrCtrl
     }
   }
   public void RedrawOnResize(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }
+
+  public static readonly DependencyProperty ZVProperty = DependencyProperty.Register("ZV", typeof(double), typeof(ScreenTimeUsrCtrl), new PropertyMetadata(1.5)); public double ZV { get => (double)GetValue(ZVProperty); set => SetValue(ZVProperty, value); }
 }
