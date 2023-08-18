@@ -1,12 +1,18 @@
 ﻿namespace AsLink;
 
-public static partial class EvLogHelper //2021-09: old RO version. Tried to replace with C:\g\TimeTracking\N50\TimeTracking50\TimeTracker\AsLink\EvLogMngr.cs - too many diffs. 
+public static class EventRecordExt
+{
+  public static EventRecord? read(this EventLogReader reader) { try { return reader.ReadEvent(); } catch (Exception ex) { _ = ex.Log(); return null; } }
+}
+
+
+public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to replace with C:\g\TimeTracking\N50\TimeTracking50\TimeTracker\AsLink\EvLogMngr.cs - too many diffs. 
 {
   const int _ssrUp = 7101, _ssrDn = 7102, _bootUp_12 = 12, _bootDn_13 = 13, _syTime_01 = 1; // when waking from hibernation: 12 is nowhere to be seen, 1 is there.
 
-  static readonly string[] _paths = new[] { _app, _sys };
+  readonly string[] _paths = new[] { _app, _sys };
 
-  public static async Task<double> GetWkSpanForTheDay(DateTime trgDate)
+  public async Task<double> GetWkSpanForTheDay(DateTime trgDate)
   {
     double rv = 0;
     await Task<SortedList<DateTime, int>>.Run(() => GetEoisForTheDay(trgDate)).ContinueWith(_ =>
@@ -64,8 +70,8 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return rv;
   }
 
-  public static SortedList<DateTime, int> GetEoisForTheDay(DateTime trgDate) => GetAllUpDnEvents(trgDate, trgDate.AddDays(.999999));
-  public static SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b)
+  public SortedList<DateTime, int> GetEoisForTheDay(DateTime trgDate) => GetAllUpDnEvents(trgDate, trgDate.AddDays(.999999));
+  public SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b)
   {
     var sortedList = new SortedList<DateTime, int>();
 
@@ -86,7 +92,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return sortedList;
   }
 
-  static void add1stLast(DateTime a, DateTime b, SortedList<DateTime, int> lst, string path)
+  void add1stLast(DateTime a, DateTime b, SortedList<DateTime, int> lst, string path)
   {
     return; // no events found
     (var min, var max) = get1rstLastEvents(qryAll(path, a, b));
@@ -114,7 +120,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     }
   }
 
-  static void collect(SortedList<DateTime, int> lst, string qry, int evOfIntFlag)
+  void collect(SortedList<DateTime, int> lst, string qry, int evOfIntFlag)
   {
     using var reader = GetELReader(qry);
     for (var ev = reader.read(); ev != null; ev = reader.read())
@@ -133,9 +139,8 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     }
   }
 
-  static EventRecord? read(this EventLogReader reader) { try { return reader.ReadEvent(); } catch (Exception ex) { _ = ex.Log(); return null; } }
 
-  static (DateTime min, DateTime max) get1rstLastEvents(string qry)
+  (DateTime min, DateTime max) get1rstLastEvents(string qry)
   {
     var lst = new List<DateTime>();
     using (var reader = GetELReader(qry))
@@ -147,9 +152,9 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return lst.Count < 1 ? (DateTime.MaxValue, DateTime.MinValue) : (lst.Min(), lst.Max());
   }
 
-  static EventLogReader GetELReader(string qry, string path = "System") => new(new EventLogQuery(path, PathType.LogName, qry));
+  EventLogReader GetELReader(string qry, string path = "System") => new(new EventLogQuery(path, PathType.LogName, qry));
 
-  public static TimeSpan CurrentSessionDuration() // lengthy operation: 100 ms.
+  public TimeSpan CurrentSessionDuration() // lengthy operation: 100 ms.
   {
     var lastWakeTime = GetDaysLastWakeBoot(DateTime.Today);
     var lastSsDnTime = GetDaysLastSsDnTime(DateTime.Today);
@@ -161,7 +166,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return lastSsUpTime > lastUp ? TimeSpan.Zero : DateTime.Now - lastUp;
   }
 
-  public static void ta()
+  public void ta()
   {
     var apl1hr = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[TimeCreated[timediff(@SystemTime) &lt;= 299000000]]]</Select></Query></QueryList>";
 
@@ -177,7 +182,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     }
   }
 
-  public static string DailyReport(DateTime hr00ofTheDate, out TimeSpan tup, out TimeSpan tdn)
+  public string DailyReport(DateTime hr00ofTheDate, out TimeSpan tup, out TimeSpan tdn)
   {
     try
     {
@@ -188,7 +193,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     catch (Exception ex) { tup = tdn = TimeSpan.MinValue; return ex.Message; } // ex.Log(); }
   }
 
-  public static DateTime GetDays1rstGenUp(DateTime hr00ofTheDate)
+  public DateTime GetDays1rstGenUp(DateTime hr00ofTheDate)
   {
     var t = new[] { GetDays1rstBootUpTime(hr00ofTheDate), GetDays1rstSsDnTime(hr00ofTheDate), GetDays1rstWakeTime(hr00ofTheDate) };
 
@@ -210,7 +215,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
 
     return min; //
   }
-  public static DateTime GetDays1rstGenDn(DateTime hr00ofTheDate)
+  public DateTime GetDays1rstGenDn(DateTime hr00ofTheDate)
   {
     var ts = GetDaysLastSsUpTime(hr00ofTheDate);
     var ti = GetDaysLastSleepTime(hr00ofTheDate);
@@ -227,7 +232,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return hr00ofTheDate; //
   }
 
-  public static DateTime GetDays1rstSsDnTime(DateTime hr00ofTheDate)
+  public DateTime GetDays1rstSsDnTime(DateTime hr00ofTheDate)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr24ofTheDate;
@@ -245,7 +250,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
 
     return rv;
   }
-  public static DateTime GetDays1rstWakeTime(DateTime hr00ofTheDate)
+  public DateTime GetDays1rstWakeTime(DateTime hr00ofTheDate)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr24ofTheDate;
@@ -262,7 +267,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
 
     return rv;
   }
-  public static DateTime GetDays1rstBootUpTime(DateTime hr00ofTheDate)
+  public DateTime GetDays1rstBootUpTime(DateTime hr00ofTheDate)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr24ofTheDate;
@@ -277,7 +282,7 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
 
     return rv;
   }
-  public static DateTime GetDaysLastBootUpTime(DateTime hr00ofTheDate, bool ignoreReboots = true)
+  public DateTime GetDaysLastBootUpTime(DateTime hr00ofTheDate, bool ignoreReboots = true)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr00ofTheDate;
@@ -303,21 +308,21 @@ public static partial class EvLogHelper //2021-09: old RO version. Tried to repl
     return rv;
   }
 
-  static string BootDnWithin5min(DateTime bootUpTime, int min = -5) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootDn_13}) and TimeCreated[@SystemTime&gt;='{bootUpTime.AddMinutes(min).ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{bootUpTime.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  static string qryScrSvr(int upOrDn, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( EventID={upOrDn} and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
-  static string qryBootUpsOnly(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  static string qryBootUpTmChg(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12} or EventID={_syTime_01}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  static string qryPowerUpsDns(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General' or @Name='Microsoft-Windows-Kernel-Power'] and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  static string qryAll(string path, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{path}'><Select Path='{path}'>*[System[TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string BootDnWithin5min(DateTime bootUpTime, int min = -5) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootDn_13}) and TimeCreated[@SystemTime&gt;='{bootUpTime.AddMinutes(min).ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{bootUpTime.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryScrSvr(int upOrDn, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( EventID={upOrDn} and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+  string qryBootUpsOnly(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryBootUpTmChg(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12} or EventID={_syTime_01}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryPowerUpsDns(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General' or @Name='Microsoft-Windows-Kernel-Power'] and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryAll(string path, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{path}'><Select Path='{path}'>*[System[TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
-  static string qryBootAndWakeUps(DateTime a, DateTime b) =>
+  string qryBootAndWakeUps(DateTime a, DateTime b) =>
 //Both wake and boot up:           Kernel-General 12 - up   	OR      Power-TroubleShooter 1 
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID={_bootUp_12} or EventID={_syTime_01})) or 
 (Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID={_syTime_01}) )  
 and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";//   <QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]]</Select></Query></QueryList>";
 
-  static string qryShutAndSleepDn(DateTime a, DateTime b) =>
+  string qryShutAndSleepDn(DateTime a, DateTime b) =>
 //Both sleep and shut down:
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='User32'] and EventID=1074) or
@@ -356,7 +361,7 @@ Kernel-General 12 - up
 
 */
 
-  static int _ssto = -1; public static int GetSstoFromRegistry // ScreenSaveTimeOut 
+  int _ssto = -1; public int GetSstoFromRegistry // ScreenSaveTimeOut 
   {
     get
     {
@@ -385,7 +390,7 @@ Kernel-General 12 - up
   }
 
   /*
-   public static DateTime GetDays1rstSsUpTime(DateTime hr00ofTheDate)
+   public  DateTime GetDays1rstSsUpTime(DateTime hr00ofTheDate)
    {
      if (hr00ofTheDate == DateTime.Today) return DateTime.Now;
 
@@ -405,7 +410,7 @@ Kernel-General 12 - up
 
      return rv.AddSeconds(-Sstopgp); // actually - earlier.
    }
-   public static DateTime GetDays1rstSleepTime(DateTime hr00ofTheDate)
+   public  DateTime GetDays1rstSleepTime(DateTime hr00ofTheDate)
    {
      if (hr00ofTheDate == DateTime.Today) return DateTime.Now;
 
@@ -427,7 +432,7 @@ Kernel-General 12 - up
    }
    */
 
-  public static DateTime GetDaysLastWakeBoot(DateTime hr00ofTheDate)
+  public DateTime GetDaysLastWakeBoot(DateTime hr00ofTheDate)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr00ofTheDate;
@@ -443,7 +448,7 @@ Kernel-General 12 - up
 
     return rv;
   }
-  public static DateTime GetDaysLastSsUpTime(DateTime hr00ofTheDate)
+  public DateTime GetDaysLastSsUpTime(DateTime hr00ofTheDate)
   {
     //sep 2019: if (hr00ofTheDate == DateTime.Today) return DateTime.Now;
 
@@ -461,7 +466,7 @@ Kernel-General 12 - up
 
     return rv.AddSeconds(-GetSstoFromRegistry); // actually - earlier.
   }
-  public static DateTime GetDaysLastSsDnTime(DateTime hr00ofTheDate)
+  public DateTime GetDaysLastSsDnTime(DateTime hr00ofTheDate)
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr00ofTheDate;
@@ -476,7 +481,7 @@ Kernel-General 12 - up
 
     return rv;
   }
-  public static DateTime GetDaysLastSleepTime(DateTime hr00ofTheDate)
+  public DateTime GetDaysLastSleepTime(DateTime hr00ofTheDate)
   {
     if (hr00ofTheDate == DateTime.Today) return DateTime.Now;
 
@@ -495,7 +500,7 @@ Kernel-General 12 - up
     return rv;
   }
 
-  public static TimeSpan GetTotalIdlePlusScrsvrUpTimeForTheDate(DateTime hr00ofTheDate)
+  public TimeSpan GetTotalIdlePlusScrsvrUpTimeForTheDate(DateTime hr00ofTheDate)
   {
     var sw = Stopwatch.StartNew();
     DateTime now = DateTime.Now, t1 = DateTime.MinValue, t2 = DateTime.MinValue;
@@ -551,7 +556,7 @@ Kernel-General 12 - up
 
     return ttlUpTime + ttlIdleTm;
   }
-  public static TimeSpan GetTotalPowerUpTimeForTheDay(DateTime hr00ofTheDate)
+  public TimeSpan GetTotalPowerUpTimeForTheDay(DateTime hr00ofTheDate)
   {
     Debug.WriteLine("");
     var sw = Stopwatch.StartNew();
@@ -603,11 +608,11 @@ Kernel-General 12 - up
 
   #region Old Obsolete but in use
 
-  public static class FuzzyLogic
+  public class FuzzyLogic
   {
-    static readonly EventLog _eventLog = new("System");//, "R9-N35FM");
+    readonly EventLog _eventLog = new("System");//, "R9-N35FM");
 
-    public static DateTime FirstPowerOnTimeForTheDay(DateTime trg)
+    public DateTime FirstPowerOnTimeForTheDay(DateTime trg)
     {
       var ermsg = "";
 
@@ -642,7 +647,7 @@ Kernel-General 12 - up
 
       return DateTime.Today.AddHours(9);
     }
-    public static DateTime LastPowerOffTimeForTheDay(DateTime trg)
+    public DateTime LastPowerOffTimeForTheDay(DateTime trg)
     {
       var ermsg = "";
 
@@ -675,9 +680,9 @@ Kernel-General 12 - up
     }
   }
 
-  public static class C2
+  public class C2
   {
-    public static List<DateTime> GetAllForDay(DateTime trg, string evn)
+    public List<DateTime> GetAllForDay(DateTime trg, string evn)
     {
       var rv0 = new List<DateTime>();
       try
@@ -728,7 +733,7 @@ Kernel-General 12 - up
     public DateTime DayFinish { get => finish; set => finish = value; }
     public DateTime DayStart { get; set; } = DateTime.MinValue;
 
-    public static List<DateTime?> LastHour
+    public List<DateTime?> LastHour
     {
       get
       {
@@ -739,7 +744,7 @@ Kernel-General 12 - up
         return l;
       }
     }
-    public static List<EventRecord> GetERList(string logName, string queryString)
+    public List<EventRecord> GetERList(string logName, string queryString)
     {
       var sw = new Stopwatch();
       sw.Start();
@@ -754,7 +759,7 @@ Kernel-General 12 - up
 
       return l;
     }
-    public static List<DateTime?> GetDTList(string logName, string queryString)
+    public List<DateTime?> GetDTList(string logName, string queryString)
     {
       var sw = new Stopwatch();
       sw.Start();
@@ -770,7 +775,7 @@ Kernel-General 12 - up
 
       return l;
     }
-    public static void Test2(string logName, string queryString)
+    public void Test2(string logName, string queryString)
     {
       var logReader = new EventLogReader(new EventLogQuery(logName, PathType.LogName, queryString));
 
@@ -782,7 +787,7 @@ Kernel-General 12 - up
       sw.Stop();
       Console.WriteLine("{0,-33} - {1,22} = {2,-22}   (took: {3})", queryString, logName, i, sw.Elapsed);
     }
-    public static void Test3(DateTime td, string lvl, string logName)
+    public void Test3(DateTime td, string lvl, string logName)
     {
       var d1 = (long)(DateTime.Now - td).TotalMilliseconds;
 
@@ -809,12 +814,12 @@ Kernel-General 12 - up
       Console.WriteLine("{0,-22} - {1,22} = {2,-22}   (took: {3})", td, logName, i, sw.Elapsed);
     }
 
-    //public static Path GetNewTickPath(string logName, string queryString, double cpp, double rad_In, double radOut, Brush br)
+    //public  Path GetNewTickPath(string logName, string queryString, double cpp, double rad_In, double radOut, Brush br)
     //{
     //	List<EventRecord> erListSys = GetERList(logName, queryString);
     //	return DailyBoundaries.GetNewTickPath(erListSys, cpp, rad_In, radOut, br);
     //}
-    //public static Path GetNewTickPath(List<EventRecord> erLast, double cpp, double rad_In, double radOut, Brush br)
+    //public  Path GetNewTickPath(List<EventRecord> erLast, double cpp, double rad_In, double radOut, Brush br)
     //{
     //	if (erLast.Count == 0)
     //		return new Path();
@@ -888,21 +893,21 @@ Kernel-General 12 - up
 
   #endregion
 
-  public static async Task<int> UpdateEvLogToDb(int daysback, string msg) //todo: should not it be in the Db.EventLog project? (Jun2019)
+  public async Task<int> UpdateEvLogToDb(int daysback, string msg) //todo: should not it be in the Db.EventLog project? (Jun2019)
   {
     try
     {//Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    UpdateEvLogToDb(): {msg}");
 
       if (!/*VerHelper.*/IsVIP) return -1; // let go ctrl-alt-del
 
-      var dailyEvents = AsLink.EvLogHelper.GetAllUpDnEvents(DateTime.Today.AddDays(-daysback), DateTime.Now);
+      var dailyEvents =new  EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysback), DateTime.Now);
       return dailyEvents.Count > 0 ? await DbLogHelper.UpdateDbWithPotentiallyNewEvents(dailyEvents, Environment.MachineName, msg) : -2;
     }
     catch (Exception ex) { _ = ex.Log(); }
     return -888;
   }
 
-  public static bool IsVIP
+  public bool IsVIP
   {
     get
     {

@@ -190,7 +190,7 @@ public partial class DailyChart
     {
       if (_ssto == -1)
       {
-        _ssto = EvLogHelper.GetSstoFromRegistry;
+        _ssto = new EvLogHelper().GetSstoFromRegistry;
       }
 
       return _ssto;

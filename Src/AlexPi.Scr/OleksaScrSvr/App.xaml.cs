@@ -82,7 +82,7 @@ public partial class App : System.Windows.Application
       if (DevOps.IsDbg == false)
       {
         _mustLogEORun = true;
-        AsLink.EvLogHelper.LogScrSvrBgn(300);         // 300 sec of idle has passed
+        new  AsLink.EvLogHelper().LogScrSvrBgn(300);         // 300 sec of idle has passed
         speech.SpeakFAF($"Armed!");
       }
 
@@ -113,7 +113,7 @@ public partial class App : System.Windows.Application
 
       if (DevOps.IsDbg == false)
       {
-        AsLink.EvLogHelper.LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
+        new  AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
       }
     }
   }

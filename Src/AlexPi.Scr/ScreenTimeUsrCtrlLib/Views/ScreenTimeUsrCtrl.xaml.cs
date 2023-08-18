@@ -28,7 +28,7 @@ public partial class ScreenTimeUsrCtrl
       //tmi: tbInfo.Text = $"► going {daysBack} days back...";      //var sw = Stopwatch.StartNew();
 
       spArrayHolder.Children.Clear();
-      var eois = EvLogHelper.GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
+      var eois =new  EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
       for (var i = 0; i < daysBack; i++)
       {
         var day_i = DateTime.Today.AddDays(-i);

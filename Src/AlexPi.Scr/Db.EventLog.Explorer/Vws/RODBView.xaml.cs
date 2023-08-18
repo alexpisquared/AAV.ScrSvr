@@ -93,7 +93,7 @@ public partial class RODBView
     {
       var t1 = trgDate;
       var t2 = trgDate.AddDays(.99999);
-      await Task.Run(() => EvLogHelper.GetAllUpDnEvents(t1, t2)).ContinueWith(_ =>
+      await Task.Run(() =>new  EvLogHelper().GetAllUpDnEvents(t1, t2)).ContinueWith(_ =>
       {
         try
         {
