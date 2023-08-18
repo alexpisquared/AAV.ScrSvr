@@ -348,8 +348,8 @@ public partial class MsgSlideshowUsrCtrl
       var pathfile = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
 #endif
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
-#if DEBUG_
-        && 2_000_000 < fileinfo.Length && fileinfo.Length < 6_000_000
+#if DEBUG
+        && 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000
 #endif
         )
         return pathfile;
