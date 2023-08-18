@@ -43,6 +43,7 @@ public partial class MainVM : BaseMinVM
 
     if (DateTime.Now == DateTime.Today)
       try { await KeepCheckingForUpdatesAndNeverReturn(); } catch (Exception ex) { ex.Pop(Logger); }
+    //try { throw new Exception("LKJL Testing... 132"); } catch (Exception ex) { ex.Pop(Logger); }
 
     return rv;
   }
