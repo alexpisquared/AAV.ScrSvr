@@ -45,12 +45,12 @@
       <Viewbox Stretch="Uniform">
         <Grid>
           <Canvas x:Name="Canvas1" Background="#3000" Height="205" Width="400">
-            <local:UnitF1View x:Name="UnitF1" ClientId="{Binding ClientId}" />
-            <local:UnitF2View x:Name="UnitF2" />
-            <local:UnitF3View x:Name="UnitF3" />
-            <local:UnitF3View x:Name="UnitF3b" />
-            <local:UnitF4View x:Name="UnitF4" />
-            <local:UnitF5View x:Name="UnitF5" />
+            <local:UnitF1View x:Name="UnitF1"  Tag="Flag" ClientId="{Binding ClientId}" />
+            <local:UnitF2View x:Name="UnitF2"  Tag="Weather"/>
+            <local:UnitF3View x:Name="UnitF3"  Tag="Progress"/>
+            <local:UnitF3View x:Name="UnitF3b" Tag="Progress"/>
+            <local:UnitF4View x:Name="UnitF4"  Tag="FlagDynamic"/>
+            <local:UnitF5View x:Name="UnitF5"  Tag="FlagStatic"/>
           </Canvas>
           <Ellipse Height="205" Width="205" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
           <Ellipse Height="888" Width="001" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
