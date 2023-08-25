@@ -14,11 +14,12 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG
   const int _maxMs = 06_000;
 #else
-  const int _maxMs = 59_000;
+  const int _maxMs = 60_000;
 #endif
   int _currentShowTimeMS = 0;
   bool _alreadyPrintedHeader;
   string? _pathfile;
+  double _stopInMin = 60;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -45,17 +46,27 @@ public partial class MsgSlideshowUsrCtrl
 
   void SetAnimeDurationInMS(long ms)
   {
-    var showTime = new System.Windows.Duration(TimeSpan.FromMilliseconds(ms));
+    var duration = new System.Windows.Duration(TimeSpan.FromMilliseconds(ms));
 
     ((Storyboard)FindResource("_sbIntroOutro")).Duration =
     ((DoubleAnimation)FindResource("_d2IntroOutro")).Duration =
-    ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = showTime;
+    ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = duration;
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public bool ScaleToHalf { get; set; }
-  //public string? ClientNm { get; set; }
+  public void StartCountDown(double stopInMin)
+  {
+    _stopInMin = stopInMin;
+    Task.Run(async () => await Task.Delay(TimeSpan.FromMinutes(_stopInMin)).ContinueWith(_ =>
+    {
+
+    }, TaskScheduler.FromCurrentSynchronizationContext()));
+  }
+
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  IBpr? _bpr;
+
+  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -84,7 +95,7 @@ public partial class MsgSlideshowUsrCtrl
         await Task.CompletedTask;
       }));
 
-      while (VideoView1.MediaPlayer is not null) // forever
+      while (chkIsOn.IsChecked == true)
       {
         if (chkIsOn.IsChecked == true)
           //chkIsOn.IsChecked = 
@@ -108,6 +119,21 @@ public partial class MsgSlideshowUsrCtrl
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnStop(object sender, RoutedEventArgs e)
+  {
+    try
+    {
+      _cancellationTokenSource?.Cancel();
+      VideoView1.MediaPlayer?.Stop();
+      chkIsOn.IsChecked = false;
+    }
+    catch (Exception ex)
+    {
+      ReportBC.FontSize = 16;
+      ReportBC.Content = $"■ {ex.Message}";
+      ex.Pop(Logger, $"ERR {ReportBC.Content} ");
+    }
+  }
   async void OnSignOut(object s, RoutedEventArgs e)
   {
     ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
@@ -140,7 +166,7 @@ public partial class MsgSlideshowUsrCtrl
     var driveItem = (DriveItem?)default;
     DateTimeOffset? takenDateTime = null;
 
-    _pathfile = GetRandomSizeProportinalMediaFile();
+    _pathfile = GetRandomSizeProportionalMediaFile();
 
     try
     {
@@ -172,9 +198,9 @@ public partial class MsgSlideshowUsrCtrl
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... @@@@@@@@@@@@@@@@@++++++++@");
+      //ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... @@@@@@@@@@@@@@@@@++++++++@");
       //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
-      VideoView1.MediaPlayer.Stop();
+      VideoView1.MediaPlayer?.Stop();
 
 #if DEBUG
       Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
@@ -210,7 +236,7 @@ public partial class MsgSlideshowUsrCtrl
         mediaType = $"Video";
         var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
         ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001,-3:N0}s";
-        streamReport = $"{report}  Vol:{VideoView1.MediaPlayer.Volume}%";
+        streamReport = $"{report}  Vol:{VideoView1.MediaPlayer?.Volume}%";
         ImageView1.Visibility = Visibility.Hidden;
       }
       else if (driveItem.Photo is not null)
@@ -294,7 +320,7 @@ public partial class MsgSlideshowUsrCtrl
 
     return (stream, dnldTm);
   }
-  string GetRandomSizeProportinalMediaFile()
+  string GetRandomSizeProportionalMediaFile()
   {
     var _blackList = new string[] {
       ".aae",
@@ -362,7 +388,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     var media = new Media(_libVLC, new StreamMediaInput(stream));
 
-    ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "@@@@@@@@@@@@@@@@@@");
+    ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "■555");
 
     //VideoView1.MediaPlayer.Media = media;
     _ = VideoView1.MediaPlayer.Play(media);

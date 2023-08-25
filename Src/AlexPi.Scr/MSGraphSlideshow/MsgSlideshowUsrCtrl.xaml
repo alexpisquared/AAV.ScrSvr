@@ -95,10 +95,11 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
-          <Button      Content="_Prev" IsDefault="False" Click="OnPrev" />
-          <Button      Content="_Next" IsDefault="True"  Click="OnNext" />
-          <Button      Content="_LogO" IsDefault="False" Click="OnSignOut" Foreground="#a00"/>
-          <Button      Content="_Delt" IsDefault="False" Click="OnDelete"  Foreground="#a00"/>
+          <Button      Content="Prev" IsDefault="False" Click="OnPrev" />
+          <Button      Content="Next" IsDefault="True"  Click="OnNext" />
+          <Button      Content="Delt" IsDefault="False" Click="OnDelete"  Foreground="#880"/>
+          <Button      Content="LogO" IsDefault="False" Click="OnSignOut" Foreground="#840"/>
+          <Button      Content="Stop" IsDefault="False" Click="OnStop"    Foreground="#a00"/>
         </StackPanel>
       </Grid>
     </vlc:VideoView>
