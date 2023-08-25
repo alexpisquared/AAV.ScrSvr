@@ -17,7 +17,7 @@ public partial class MsgSlideshowUsrCtrl
   const int _maxMs = 60_000;
 #endif
   int _currentShowTimeMS = 0;
-  bool _alreadyPrintedHeader;
+  bool _alreadyPrintedHeader, _notShutdown = true;
   string? _pathfile;
   double _stopInMin = 60;
 
@@ -34,6 +34,8 @@ public partial class MsgSlideshowUsrCtrl
 
       ReportBC.FontSize = 48;
       ReportBC.Content = VersionHelper.CurVerStr("MM.dd-HH:mm");
+
+      StartCountDown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep - 1);
     }
     catch (Exception ex)
     {
@@ -57,16 +59,18 @@ public partial class MsgSlideshowUsrCtrl
   public void StartCountDown(double stopInMin)
   {
     _stopInMin = stopInMin;
-    Task.Run(async () => await Task.Delay(TimeSpan.FromMinutes(_stopInMin)).ContinueWith(_ =>
+    _ = Task.Run(async () =>
     {
-
-    }, TaskScheduler.FromCurrentSynchronizationContext()));
+      await Task.Delay(TimeSpan.FromMinutes(_stopInMin));
+    }).
+    ContinueWith(_ =>
+    {
+      Shutdown();
+    }, TaskScheduler.FromCurrentSynchronizationContext());
   }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
-  IBpr? _bpr;
-
-  public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -95,13 +99,16 @@ public partial class MsgSlideshowUsrCtrl
         await Task.CompletedTask;
       }));
 
-      while (chkIsOn.IsChecked == true)
+      while (_notShutdown)
       {
         if (chkIsOn.IsChecked == true)
           //chkIsOn.IsChecked = 
           _ = await LoadWaitThenShowNext();
         else
-          await Task.Delay(100);
+        {
+          await Bpr?.BeepAsync(300, sec: .2); ;
+          await Task.Delay(800);
+        }
       }
     }
     catch (Exception ex)
@@ -119,13 +126,18 @@ public partial class MsgSlideshowUsrCtrl
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
-  void OnStop(object sender, RoutedEventArgs e)
+  void OnShutdown(object s, RoutedEventArgs e) => StartCountDown(.2); //     Shutdown();
+  void Shutdown()
   {
     try
     {
       _cancellationTokenSource?.Cancel();
       VideoView1.MediaPlayer?.Stop();
-      chkIsOn.IsChecked = false;
+      chkIsOn.IsChecked = _notShutdown = false;
+      tbkTheEnd.Visibility = Visibility.Visible;
+      ImageView1.Visibility =
+      VideoView1.Visibility = Visibility.Collapsed;
+      Bpr?.Finish();
     }
     catch (Exception ex)
     {
@@ -198,9 +210,16 @@ public partial class MsgSlideshowUsrCtrl
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
-      //ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... @@@@@@@@@@@@@@@@@++++++++@");
-      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
-      VideoView1.MediaPlayer?.Stop();
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
+      try
+      {
+        VideoView1.MediaPlayer.Stop();
+      }
+      catch (Exception ex)
+      {
+        ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+        ex.Pop(Logger, $"ERR ?!? {ReportBC.Content}");
+      }
 
 #if DEBUG
       Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
@@ -333,9 +352,9 @@ public partial class MsgSlideshowUsrCtrl
       ".ini",
       ".log",
 #if DEBUG
-      ".3gp",
-      ".dng",
-      ".jpg",
+      //".3gp",
+      //".dng",
+      //".jpg",
       //".mov",
       //".mp4",
       //".mpg",
@@ -376,7 +395,7 @@ public partial class MsgSlideshowUsrCtrl
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
         //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000 // a big 2gb file on Zoe's account
-        && 500_000 < fileinfo.Length && fileinfo.Length < 30_000_000
+        && 100_000 < fileinfo.Length && fileinfo.Length < 1_000_000           // tiny pics mostly ... I hope.
 #endif
         )
         return pathfile;

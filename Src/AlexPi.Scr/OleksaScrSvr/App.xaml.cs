@@ -46,7 +46,7 @@ public partial class App : System.Windows.Application
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
-    _ = await TimedSleepAndExit(MinToSleep);
+    _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
   }
   protected override async void OnExit(ExitEventArgs e)
   {
@@ -64,7 +64,7 @@ public partial class App : System.Windows.Application
     base.OnExit(e);
   }
 
-  async Task<bool> TimedSleepAndExit(int min2sleep)
+  async Task<bool> TimedSleepAndExit(double min2sleep)
   {
     var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
     var logger = ServiceProvider.GetRequiredService<ILogger>();
@@ -87,7 +87,7 @@ public partial class App : System.Windows.Application
       }
 
       await Task.Delay(TimeSpan.FromMinutes(min2sleep - 1));  /**/  speech.SpeakFAF($"Turning off in a minute.");
-      await Task.Delay(TimeSpan.FromMinutes(0.50));           /**/  speech.SpeakFAF($"Sorry...");
+      await Task.Delay(TimeSpan.FromMinutes(1)); /**/         await speech.SpeakAsync($"Sorry...");
 
       LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
@@ -118,12 +118,6 @@ public partial class App : System.Windows.Application
     }
   }
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
-  int MinToSleep =>
-    Environment.MachineName == "BEELINK1" ? 18 : // let's see if 10 min limit kicks in here
-    Environment.MachineName == "RAZER1" ? 56 : // 1hr for: PerfectMind registration, etc.
-    Environment.MachineName == "ASUS2" ? 16 :
-    Environment.MachineName == "YOGA1" ? 46 :
-    8; //todo: something closes the app exactly on 10 min mark?!?!?!?! => keep it under 10 > 9.5=8+1+.5
 
   void LogAllLevels(ILogger lgr)
   {

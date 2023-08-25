@@ -4,12 +4,12 @@
              d:DesignHeight="450" d:DesignWidth="1400" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
     <Duration x:Key="inOuTime">0:0:05</Duration>
-    <Duration x:Key="showTime">0:0:59</Duration>
+    <Duration x:Key="showTime">0:1:00</Duration>
 
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
+    <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
+    <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
 
-    <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
+    <Storyboard        Duration="{StaticResource showTime}" x:Key="_sbIntroOutro" >
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
       <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
       <StaticResource ResourceKey="_d2IntroOutro" />
@@ -42,7 +42,7 @@
           </Style>
           <Style TargetType="CheckBox">
             <Setter Property="Padding"          Value="8 0" />
-            <Setter Property="FontSize"         Value="26" />
+            <Setter Property="FontSize"         Value="10" />
             <Setter Property="Foreground"       Value="#08f" />
             <Setter Property="Background"       Value="Transparent" />
             <Setter Property="BorderThickness"  Value="0"/>
@@ -89,18 +89,25 @@
           <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" />
         </StackPanel>
 
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
-          <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn"  />
-          <CheckBox    Content="_Mute"  IsChecked="False" Click="OnMute" />
-        </StackPanel>
+        <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left" Height="60">
+          <StackPanel>
+            <CheckBox  Content="Is On" IsChecked="True" x:Name="chkIsOn"  />
+            <CheckBox  Content="Muted" IsChecked="False" Click="OnMute" />
+          </StackPanel>
+        </Viewbox>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
           <Button      Content="Prev" IsDefault="False" Click="OnPrev" />
           <Button      Content="Next" IsDefault="True"  Click="OnNext" />
-          <Button      Content="Delt" IsDefault="False" Click="OnDelete"  Foreground="#880"/>
-          <Button      Content="LogO" IsDefault="False" Click="OnSignOut" Foreground="#840"/>
-          <Button      Content="Stop" IsDefault="False" Click="OnStop"    Foreground="#a00"/>
+          <Button      Content="Delt" IsDefault="False" Click="OnDelete"   Foreground="#880"/>
+          <Button      Content="LogO" IsDefault="False" Click="OnSignOut"  Foreground="#840"/>
+          <Button      Content="Stop" IsDefault="False" Click="OnShutdown" Foreground="#c00"/>
         </StackPanel>
+
+        <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible">
+          <TextBlock Text=" The End " Foreground="#0a0" Background="#020"/>
+        </Viewbox>
+
       </Grid>
     </vlc:VideoView>
   </Grid>
