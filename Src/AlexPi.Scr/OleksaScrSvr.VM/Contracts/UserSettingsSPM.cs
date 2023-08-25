@@ -1,23 +1,21 @@
-﻿using AutoMapper;
-namespace OleksaScrSvr.VM.Contracts;
+﻿namespace OleksaScrSvr.VM.Contracts;
 public class UserSettingsSPM : StandardLib.Base.UserSettingsStore
 {
   readonly bool _loaded;
   readonly ILogger? _logger;
 
-  public UserSettingsSPM() => WriteLine("    UserSettingsSPM.Ctor(): Deserialized => Loading is done?");
+  public UserSettingsSPM() { } //  => WriteLine($"[{DateTime.Now:HH:mm:ss} ---]     UserSettingsSPM.Ctor(): Deserialized    => Loading is done!");
   public UserSettingsSPM(ILogger lgr)
   {
     _logger = lgr;
-
-    _logger.Log(LogLevel.Trace, "    UserSettingsSPM.Ctor(): Supplied by the DI => Loading here now...");
+    //_logger.Log(LogLevel.Trace, $"    UserSettingsSPM.Ctor(): Supplied by DI  => Loading here ...  _loaded:{_loaded}.");
 
     if (_loaded) return;
 
     var fromFile = Load<UserSettingsSPM>();
 
-    var dtoForThis = new MapperConfiguration(cfg => cfg.CreateMap<UserSettingsSPM, UserSettingsSPM>()).CreateMapper().Map<UserSettingsSPM>(fromFile); //not fun.
-
+    //todo: how to map to itself: var dtoForThis = new AutoMapper.MapperConfiguration(cfg => cfg.CreateMap<UserSettingsSPM, UserSettingsSPM>()).CreateMapper().Map<UserSettingsSPM>(fromFile); 
+        
     PrefDtBsName = fromFile.PrefDtBsName;
     PrefSrvrName = fromFile.PrefSrvrName;
     PrefDtBsRole = fromFile.PrefDtBsRole;

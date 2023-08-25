@@ -47,13 +47,13 @@ public partial class MainVM : BaseMinVM
 
     return rv;
   }
-  public override Task<bool> TryWrapAsync()
+  public override async Task<bool> WrapAsync()
   {
     _navigationStore.CurrentVMChanged -= OnCurrentVMChanged;
     _modalNavgnStore.CurrentVMChanged -= OnCurrentModalVMChanged;
     _IsBusyStore.IsBusyChanged -= OnIsBusyChanged;
 
-    return base.TryWrapAsync();
+    return await base.WrapAsync();
   }
 
   async Task KeepCheckingForUpdatesAndNeverReturn()

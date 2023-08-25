@@ -1,13 +1,12 @@
 ﻿namespace OleksaScrSvr.VM.VMs;
 public partial class BaseDbVM : BaseMinVM
 {
-  readonly int _hashCode;
   readonly ISecForcer _secForcer;
   protected bool _saving, _loading, _inited;
   protected readonly AllowSaveStore _allowSaveStore;
   protected readonly IsBusyStore _IsBusyStore;
 
-  public BaseDbVM(ILogger lgr, IConfigurationRoot cfg, StandardContractsLib.IBpr bpr, ISecForcer sec, Contract.OleksaScrSvrModel inv, IAddChild win, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore, UserSettingsSPM usrStgns, int oid)
+  public BaseDbVM(ILogger lgr, IConfigurationRoot cfg, IBpr bpr, ISecForcer sec, OleksaScrSvrModel inv, IAddChild win, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore, UserSettingsSPM usrStgns, int oid)
   {
     IsDevDbg = VersionHelper.IsDbg;
 
@@ -17,7 +16,6 @@ public partial class BaseDbVM : BaseMinVM
     Bpr = bpr;
     _secForcer = sec;
     MainWin = (Window)win;
-    _hashCode = GetType().GetHashCode();
     UserSetgs = usrStgns;
 
     _allowSaveStore = allowSaveStore; _allowSaveStore.AllowSaveChanged += AllowSaveStore_AllowSaveChanged;
@@ -26,29 +24,29 @@ public partial class BaseDbVM : BaseMinVM
     AllowSave = IsDevDbg && _secForcer.CanEdit && (
       UserSetgs.PrefSrvrName is not null && !UserSetgs.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UserSetgs.AllowSave);
 
-    Logger.LogInformation($"┌── {GetType().Name} eo-ctor      PageRank:{oid}    _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
+    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.ffffffff}      PageRank:{oid}    ");
   }
 
   public override async Task<bool> InitAsync()
   {
     _inited = true;
-    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}");
+    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_ctorTime:HH:mm:ss.ffffffff}   ");
     await Task.Yield();
     return true;
   }
-  public override async Task<bool> TryWrapAsync()
+  public override async Task<bool> WrapAsync()
   {
     try
     {
       await Task.Yield();
       _allowSaveStore.AllowSaveChanged -= AllowSaveStore_AllowSaveChanged;
       _IsBusyStore.IsBusyChanged -= IsBusyStore_IsBusyChanged;
-      return true;
+      return await base.WrapAsync();
     }
     catch (Exception ex) { IsBusy = false; ex.Pop(Logger); return false; }
     finally
     {
-      Logger.LogInformation($"└── {GetType().Name} eo-wrap     _hash:{_hashCode,-10}   br.hash:{SmreModel?.GetType().GetHashCode(),-10}  ");
+      Logger.LogInformation($"└── eo-wrap {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.ffffffff}     ");
     }
   }
   public virtual async Task RefreshReloadAsync([CallerMemberName] string? cmn = "") { WriteLine($"TrWL:> {cmn}->BaseDbVM.RefreshReloadAsync() "); await Task.Yield(); }
