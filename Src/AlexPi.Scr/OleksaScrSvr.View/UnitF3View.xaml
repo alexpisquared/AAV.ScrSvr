@@ -16,9 +16,7 @@
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#1000" BorderBrush="#00a" />
     <TextBlock Text="Unit is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding IsChecked, Converter={cnv:UniConverter InvertValue=True}, ElementName=MenuIsOn}"  Foreground="#800" />
 
-    <Viewbox Visibility="{Binding IsChecked, Converter={cnv:UniConverter InvertValue=False}, ElementName=MenuIsOn}">
-      <Special:TimeTillClose/>
-    </Viewbox>
+    <Special:TimeTillClose Visibility="{Binding IsChecked, Converter={cnv:UniConverter InvertValue=False}, ElementName=MenuIsOn}"/>
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left">

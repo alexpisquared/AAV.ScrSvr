@@ -3,11 +3,9 @@
              xmlns:Special="clr-namespace:OleksaScrSvr.View.Special" 
              xmlns:MSGraphSlideshow="clr-namespace:MSGraphSlideshow;assembly=MSGraphSlideshow" 
              MouseLeftButtonDown="OnDragMove" Cursor="Hand" ToolTip="The only draggable surface" 
-             d:DesignHeight="600" d:DesignWidth="1600" Padding="0" Background="#555">
+             d:DesignHeight="600" d:DesignWidth="1600" Background="#030">
   <Grid>
     <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" />
-    <Viewbox Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 180">
-      <Special:TimeTillClose/>
-    </Viewbox>
+    <Special:TimeTillClose Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 180"/>
   </Grid>
 </UserControl>

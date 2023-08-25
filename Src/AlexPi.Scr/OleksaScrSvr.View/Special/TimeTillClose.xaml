@@ -17,41 +17,43 @@
 
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
+  <Viewbox>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
-    <Ellipse     Width="32" Height="32" Margin="1" Fill="#a000" Grid.RowSpan="2" />
-    <Anime:ArcPi Width="32" Height="32" Margin="1" Radiu="16" x:Name="progressArc1" Angle="33" Color="#c08" Bckgr="#18f" Grid.RowSpan="2" />
-    <TextBlock   Grid.Row="0" d:Text="8:88:   "  FontSize="8" x:Name="ProgressTime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#c08" Margin="0 2 0 -2"/>
-    <Viewbox     Grid.Row="0" Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5.7 0" >
-      <Anime:ArcPi Width="20" Height="20" Radiu="10" x:Name="progressArc2" Angle="33" Color="#c08" Bckgr="#333" />
-    </Viewbox>
-    <TextBlock   Grid.Row="1" d:Text="0:15" FontSize="6" x:Name="ProgressTimB" HorizontalAlignment="Center" VerticalAlignment="Top"    Foreground="#18f" Margin="0 1 0 -1"/>
+      <Ellipse     Width="32" Height="32" Margin="1" Fill="#a000" Grid.RowSpan="2" />
+      <Anime:ArcPi Width="32" Height="32" Margin="1" Radiu="16" x:Name="progressArc1" Angle="33" Color="#c08" Bckgr="#18f" Grid.RowSpan="2" />
+      <TextBlock   Grid.Row="0" d:Text="8:88:   "  FontSize="8" x:Name="ProgressTime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#c08" Margin="0 2 0 -2"/>
+      <Viewbox     Grid.Row="0" Width="5" Height="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5.7 0" >
+        <Anime:ArcPi Width="20" Height="20" Radiu="10" x:Name="progressArc2" Angle="33" Color="#c08" Bckgr="#333" />
+      </Viewbox>
+      <TextBlock   Grid.Row="1" d:Text="0:15" FontSize="6" x:Name="ProgressTimB" HorizontalAlignment="Center" VerticalAlignment="Top"    Foreground="#18f" Margin="0 1 0 -1"/>
 
-    <Grid Margin="0 0 0 4" >
-      <Rectangle Width=".6" Height="3" Fill="#ccc" RenderTransformOrigin="0.5,1.1666666" Margin="0 -1 0 0" >
-        <Rectangle.RenderTransform>
-          <TransformGroup>
-            <ScaleTransform/>
-            <SkewTransform/>
-            <RotateTransform Angle="90" x:Name="HourHand" />
-            <TranslateTransform/>
-          </TransformGroup>
-        </Rectangle.RenderTransform>
-      </Rectangle>
-      <Rectangle Width=".4" Height="5" Fill="#eee" RenderTransformOrigin="0.5,1.1" Margin="0 -3 0 0" >
-        <Rectangle.RenderTransform>
-          <TransformGroup>
-            <ScaleTransform/>
-            <SkewTransform/>
-            <RotateTransform Angle="90" x:Name="MinuteHand" />
-            <TranslateTransform/>
-          </TransformGroup>
-        </Rectangle.RenderTransform>
-      </Rectangle>
+      <Grid Margin="0 0 0 4" >
+        <Rectangle Width=".6" Height="3" Fill="#ccc" RenderTransformOrigin="0.5,1.1666666" Margin="0 -1 0 0" >
+          <Rectangle.RenderTransform>
+            <TransformGroup>
+              <ScaleTransform/>
+              <SkewTransform/>
+              <RotateTransform Angle="90" x:Name="HourHand" />
+              <TranslateTransform/>
+            </TransformGroup>
+          </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle Width=".4" Height="5" Fill="#eee" RenderTransformOrigin="0.5,1.1" Margin="0 -3 0 0" >
+          <Rectangle.RenderTransform>
+            <TransformGroup>
+              <ScaleTransform/>
+              <SkewTransform/>
+              <RotateTransform Angle="90" x:Name="MinuteHand" />
+              <TranslateTransform/>
+            </TransformGroup>
+          </Rectangle.RenderTransform>
+        </Rectangle>
+      </Grid>
     </Grid>
-  </Grid>
+  </Viewbox>
 </UserControl>

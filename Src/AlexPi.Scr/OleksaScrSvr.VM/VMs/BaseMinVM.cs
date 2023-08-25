@@ -2,13 +2,13 @@
 public class BaseMinVM : ObservableValidator, IDisposable
 {
   protected readonly DateTimeOffset _ctorTime = DateTimeOffset.Now;
-  public virtual async Task<bool> InitAsync() { WriteLine($"[{DateTime.Now:HH:mm:ss} ---] ┌── Init of {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.ffffffff}  "); await Task.Yield(); return true; }
-  public virtual async Task<bool> WrapAsync() { WriteLine($"[{DateTime.Now:HH:mm:ss} ---] └── Wrap of {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.ffffffff}  "); await Task.Yield(); return true; }
+  public virtual async Task<bool> InitAsync() { WriteLine($"[{DateTime.Now:HH:mm:ss} ---] ┌── Init of {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.fffffff}  "); await Task.Yield(); return true; }
+  public virtual async Task<bool> WrapAsync() { WriteLine($"[{DateTime.Now:HH:mm:ss} ---] └── Wrap of {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.fffffff}  "); await Task.Yield(); return true; }
 
   bool _disposedValue;
   protected virtual void Dispose(bool disposing)
   {
-    WriteLine($"[{DateTime.Now:HH:mm:ss} ---] └── Dispose {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.ffffffff}  disposing:{disposing}  ");
+    WriteLine($"[{DateTime.Now:HH:mm:ss} ---] └── Dispose {GetType().Name,-26}  hash:{_ctorTime:HH:mm:ss.fffffff}  disposing:{disposing}  ");
     if (!_disposedValue)
     {
       if (disposing)

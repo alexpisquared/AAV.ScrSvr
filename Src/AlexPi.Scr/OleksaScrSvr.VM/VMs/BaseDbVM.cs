@@ -24,13 +24,13 @@ public partial class BaseDbVM : BaseMinVM
     AllowSave = IsDevDbg && _secForcer.CanEdit && (
       UserSetgs.PrefSrvrName is not null && !UserSetgs.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UserSetgs.AllowSave);
 
-    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.ffffffff}      PageRank:{oid}    ");
+    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.fffffff}      PageRank:{oid}    ");
   }
 
   public override async Task<bool> InitAsync()
   {
     _inited = true;
-    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_ctorTime:HH:mm:ss.ffffffff}   ");
+    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_ctorTime:HH:mm:ss.fffffff}   ");
     await Task.Yield();
     return true;
   }
@@ -46,7 +46,7 @@ public partial class BaseDbVM : BaseMinVM
     catch (Exception ex) { IsBusy = false; ex.Pop(Logger); return false; }
     finally
     {
-      Logger.LogInformation($"└── eo-wrap {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.ffffffff}     ");
+      Logger.LogInformation($"└── eo-wrap {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.fffffff}     ");
     }
   }
   public virtual async Task RefreshReloadAsync([CallerMemberName] string? cmn = "") { WriteLine($"TrWL:> {cmn}->BaseDbVM.RefreshReloadAsync() "); await Task.Yield(); }
