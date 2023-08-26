@@ -1,4 +1,7 @@
-﻿namespace OleksaScrSvr.VM.VMs;
+﻿using AmbienceLib;
+using Microsoft.Extensions.Logging;
+
+namespace OleksaScrSvr.VM.VMs;
 public partial class MainVM : BaseMinVM
 {
   readonly bool _ctored;
@@ -100,6 +103,7 @@ public partial class MainVM : BaseMinVM
   [ObservableProperty] string appVerNumber = "0.0";
   [ObservableProperty] object appVerToolTip = "Old";
   [ObservableProperty] string busyMessage = "Loading...";
+  [ObservableProperty] bool isShuttingDown;
   [ObservableProperty] bool isDevDbg;
   [ObservableProperty] bool isObsolete;
   [ObservableProperty] bool isBusy; partial void OnIsBusyChanged(bool value) => _IsBusyStore.ChangIsBusy(value);
@@ -170,4 +174,5 @@ public partial class MainVM : BaseMinVM
       IsObsolete = true;
     }
   }
+  [RelayCommand] void StartShuttingDown(object note) { IsShuttingDown = !IsShuttingDown; Logger.Log(LogLevel.Trace, $"{note}"); }
 }

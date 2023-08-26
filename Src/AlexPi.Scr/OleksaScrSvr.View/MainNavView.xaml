@@ -5,7 +5,7 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="222">
+                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" />
   </WindowChrome.WindowChrome>
@@ -73,11 +73,16 @@
         <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
       </Grid>
 
+      <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">
+        <TextBlock Text=" The End " Foreground="#0aa" Background="#022"/>
+      </Viewbox>
+
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >
         <Menu ToolTip="Settings and such..." Margin="10 0" >
           <MenuItem   Header="_Prim" Click="OnPrimScreens" />
           <MenuItem   Header="_Scnd" Click="OnScndScreens" />
           <MenuItem   Header="_Whol" Click="OnBothScreens" />
+          <MenuItem   Header="S_hut"                      IsChecked="{Binding IsShuttingDown}" Command="{Binding StartShuttingDownCommand}" CommandParameter="Cmnd ■ ■"  ToolTip="Test StartShuttingDown animation++"  />
           <MenuItem   Header="Is Busy" IsCheckable="True" IsChecked="{Binding IsBusy}" ToolTip="DevDbg" />
           <MenuItem Header=" ° ° ° " Padding="16 6 16 0" Foreground="{StaticResource LablForegroundBrush}">
             <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />
