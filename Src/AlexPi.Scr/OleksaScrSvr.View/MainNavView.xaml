@@ -24,15 +24,6 @@
         -->
         <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
-      <Duration     x:Key="du257">0:0:2</Duration>
-      <Storyboard x:Key="sbDropIn">
-        <DoubleAnimation Storyboard.TargetProperty="Value" To="99" Duration="{StaticResource du257}" EasingFunction="{StaticResource si}" />
-      </Storyboard>
-      <Storyboard x:Key="sbDropOu">
-        <DoubleAnimation Storyboard.TargetProperty="Value" To="1"  Duration="{StaticResource du257}" EasingFunction="{StaticResource si}" />
-      </Storyboard>
-
     </ResourceDictionary>
   </lnk:WindowBase.Resources>
   <lnk:WindowBase.InputBindings>
@@ -80,14 +71,22 @@
       </Grid>
 
       <!--<Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">-->
-        <Viewbox Margin="88" x:Name="tbkTheEnd" d:Visibility="Visible">
+      <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">
         <Grid>
+          <Grid.Resources>
+            <Storyboard x:Key="sbDropIn">
+              <DoubleAnimation Storyboard.TargetProperty="Value" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+            </Storyboard>
+            <Storyboard x:Key="sbDropOu">
+              <DoubleAnimation Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
+            </Storyboard>
+          </Grid.Resources>
           <ProgressBar x:Name="pb1" Maximum="100" Foreground="#033" Background="#022" BorderThickness="0" >
             <ProgressBar.Style>
               <Style TargetType="ProgressBar">
-                <Setter Property="Value" Value="50"/>
+                <Setter Property="Value" Value="1"/>
                 <Style.Triggers>
-                  <DataTrigger Binding="{Binding IsShuttingDown}" Value="True">
+                  <DataTrigger Binding="{Binding ElementName=tbkTheEnd, Path=Visibility}" Value="Visible">
                     <DataTrigger.EnterActions>
                       <BeginStoryboard x:Name="sbDropIn" Storyboard="{StaticResource sbDropIn}"/>
                     </DataTrigger.EnterActions>

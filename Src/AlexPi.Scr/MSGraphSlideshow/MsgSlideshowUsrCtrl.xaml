@@ -105,7 +105,34 @@
         </StackPanel>
 
         <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible">
-          <TextBlock Text=" The End " Foreground="#0a0" Background="#020"/>
+          <Grid>
+            <Grid.Resources>
+              <Storyboard x:Key="sbDropIn">
+                <DoubleAnimation Storyboard.TargetProperty="Value" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+              </Storyboard>
+              <Storyboard x:Key="sbDropOu">
+                <DoubleAnimation Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
+              </Storyboard>
+            </Grid.Resources>
+            <ProgressBar x:Name="pb1" Maximum="100" Foreground="#030" Background="#020" BorderThickness="0" >
+              <ProgressBar.Style>
+                <Style TargetType="ProgressBar">
+                  <Setter Property="Value" Value="1"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=tbkTheEnd, Path=Visibility}" Value="Visible">
+                      <DataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="sbDropIn" Storyboard="{StaticResource sbDropIn}"/>
+                      </DataTrigger.EnterActions>
+                      <DataTrigger.ExitActions>
+                        <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
+                      </DataTrigger.ExitActions>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ProgressBar.Style>
+            </ProgressBar>
+            <TextBlock Text=" The End " Foreground="#0a0" />
+          </Grid>
         </Viewbox>
 
       </Grid>
