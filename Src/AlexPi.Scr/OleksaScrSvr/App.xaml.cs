@@ -64,41 +64,45 @@ public partial class App : System.Windows.Application
     base.OnExit(e);
   }
 
-  async Task<bool> TimedSleepAndExit(double min2sleep)
+  async Task<bool> TimedSleepAndExit(double minToPcSleep)
   {
     var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
     var logger = ServiceProvider.GetRequiredService<ILogger>();
 
-    Current.Resources["ExecutionDuration"] = new Duration(TimeSpan.FromMinutes(min2sleep));
+    Current.Resources["ExecutionDuration"] = new Duration(TimeSpan.FromMinutes(minToPcSleep));
 
     try
     {
-      //if (!autoSleep) { await speech.SpeakAsync("Armed! Sleepless mode."); return false; }
-
-      await Task.Delay(TimeSpan.FromSeconds(48)); // grace period 1
-      speech.SpeakFAF($"Really?");
-      await Task.Delay(TimeSpan.FromSeconds(12)); // grace period 2
-
-      if (DevOps.IsDbg == false)
+      if (DevOps.IsDbg)
       {
-        _mustLogEORun = true;
-        new AsLink.EvLogHelper().LogScrSvrBgn(300);         // 300 sec of idle has passed
-        speech.SpeakFAF($"Armed!");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0));   /**/        speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(1));                  /**/  await speech.SpeakAsync($"Sorry...");
+
+        speech.SpeakFAF("That is where PC is sent to sleep in release mode.");
       }
+      else
+      {
+        await Task.Delay(TimeSpan.FromSeconds(48)); // grace period 1
+        speech.SpeakFAF($"Really?");
+        await Task.Delay(TimeSpan.FromSeconds(12)); // grace period 2
 
-      await Task.Delay(TimeSpan.FromMinutes(min2sleep - 1));  /**/  speech.SpeakFAF($"Turning off in a minute.");
-      await Task.Delay(TimeSpan.FromMinutes(1)); /**/         await speech.SpeakAsync($"Sorry...");
+        _mustLogEORun = true;
+        new AsLink.EvLogHelper().LogScrSvrBgn(300);           // 300 sec of idle has passed
+        speech.SpeakFAF($"Armed!");
 
-      LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));   /**/        speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(1));                  /**/  await speech.SpeakAsync($"Sorry...");
 
-      var sleepStart = DateTimeOffset.Now;
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1, RAZER1, ..  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-      logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();
-      //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
-      // never gets here: 
-      //Environment.Exit(87);
-      //Environment.FailFast("Environment.FailFast");
+        var sleepStart = DateTimeOffset.Now;
+        logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1, RAZER1, ..  \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+        logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+
+        // never gets here: 
+        //Environment.Exit(87);
+        //Environment.FailFast("Environment.FailFast");
+      }
     }
     catch (Exception ex) { logger.LogError(ex, _audit); }
 
@@ -107,15 +111,10 @@ public partial class App : System.Windows.Application
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
-    if (_mustLogEORun)
-    {
-      _mustLogEORun = false;
+    if (!_mustLogEORun) return;
 
-      if (DevOps.IsDbg == false)
-      {
-        new AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
-      }
-    }
+    _mustLogEORun = false;
+    new AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
   }
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
 

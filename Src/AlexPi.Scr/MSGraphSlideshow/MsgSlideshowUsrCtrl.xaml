@@ -17,18 +17,41 @@
         -->
         <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
       </ResourceDictionary.MergedDictionaries>
-    <Duration x:Key="inOuTime">0:0:05</Duration>
-    <Duration x:Key="showTime">0:1:00</Duration>
 
-    <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
-    <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
+      <Style TargetType="{x:Type ProgressBar}" x:Key="TimeOutAnimationStyle_doesnotfire">
+        <Setter Property="Value" Value="1"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Visibility, ElementName=ImageView1}" Value="Collapsed">
+            <DataTrigger.EnterActions>
+              <BeginStoryboard x:Name="sbDropIn" Storyboard="{StaticResource sbDropIn}"/>
+            </DataTrigger.EnterActions>
+            <DataTrigger.ExitActions>
+              <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
+            </DataTrigger.ExitActions>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
 
-    <Storyboard        Duration="{StaticResource showTime}" x:Key="_sbIntroOutro" >
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
-      <StaticResource ResourceKey="_d2IntroOutro" />
-      <StaticResource ResourceKey="_d3IntroOutro" />
-    </Storyboard>
+      <Duration x:Key="inOuTime">0:0:05</Duration>
+      <Duration x:Key="showTime">0:1:00</Duration>
+
+      <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
+      <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
+
+      <Storyboard        Duration="{StaticResource showTime}" x:Key="_sbIntroOutro" >
+        <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
+        <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
+        <StaticResource ResourceKey="_d2IntroOutro" />
+        <StaticResource ResourceKey="_d3IntroOutro" />
+      </Storyboard>
+
+      <Storyboard x:Key="sbDropIn">
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" From="0" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+      </Storyboard>
+      <Storyboard x:Key="sbDropOu">
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
+      </Storyboard>
+      
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid            x:Name="mediaGrid1" Margin="0" >
@@ -116,36 +139,12 @@
           <Button      Content="Next" IsDefault="True"  Click="OnNext" />
           <Button      Content="Delt" IsDefault="False" Click="OnDelete"   Foreground="#880"/>
           <Button      Content="LogO" IsDefault="False" Click="OnSignOut"  Foreground="#840"/>
-          <Button      Content="Stop" IsDefault="False" Click="OnShutdown" Foreground="#c00"/>
+          <Button      Content="Shut" IsDefault="False" Click="OnShutdown" Foreground="#c00" ToolTip="Dev test of shutting down in a minute animation."/>
         </StackPanel>
 
-        <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible">
+        <Viewbox Margin="128" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible">
           <Grid>
-            <Grid.Resources>
-              <Storyboard x:Key="sbDropIn">
-                <DoubleAnimation Storyboard.TargetProperty="Value" From="0" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
-              </Storyboard>
-              <Storyboard x:Key="sbDropOu">
-                <DoubleAnimation Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
-              </Storyboard>
-            </Grid.Resources>
-            <ProgressBar x:Name="pb1" Maximum="100" Foreground="#030" Background="#020" BorderThickness="0" >
-              <ProgressBar.Style>
-                <Style TargetType="ProgressBar">
-                  <Setter Property="Value" Value="1"/>
-                  <Style.Triggers>
-                    <DataTrigger Binding="{Binding ElementName=tbkTheEnd, Path=Visibility}" Value="Visible">
-                      <DataTrigger.EnterActions>
-                        <BeginStoryboard x:Name="sbDropIn" Storyboard="{StaticResource sbDropIn}"/>
-                      </DataTrigger.EnterActions>
-                      <DataTrigger.ExitActions>
-                        <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
-                      </DataTrigger.ExitActions>
-                    </DataTrigger>
-                  </Style.Triggers>
-                </Style>
-              </ProgressBar.Style>
-            </ProgressBar>
+            <ProgressBar x:Name="pb1" Maximum="100" Foreground="#040" Background="#020" BorderThickness="0" />
             <TextBlock Text=" The End " Foreground="#0a0" />
           </Grid>
         </Viewbox>

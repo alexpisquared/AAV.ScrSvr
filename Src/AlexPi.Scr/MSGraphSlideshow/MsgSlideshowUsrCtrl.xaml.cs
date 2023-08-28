@@ -1,4 +1,6 @@
-﻿namespace MSGraphSlideshow;
+﻿using System.Windows.Controls;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -19,7 +21,6 @@ public partial class MsgSlideshowUsrCtrl
   int _currentShowTimeMS = 0;
   bool _alreadyPrintedHeader, _notShutdown = true;
   string? _pathfile;
-  double _stopInMin = 60;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -35,7 +36,7 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.FontSize = 48;
       ReportBC.Content = VersionHelper.CurVerStr("MM.dd-HH:mm");
 
-      StartCountDown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep - 1);
+      StartCountDown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
     }
     catch (Exception ex)
     {
@@ -56,16 +57,15 @@ public partial class MsgSlideshowUsrCtrl
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public bool ScaleToHalf { get; set; }
-  public void StartCountDown(double stopInMin)
+  public void StartCountDown(double minToPcSleep)
   {
-    _stopInMin = stopInMin;
     _ = Task.Run(async () =>
     {
-      await Task.Delay(TimeSpan.FromMinutes(_stopInMin));
+      await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
     }).
     ContinueWith(_ =>
     {
-      Shutdown();
+      ShutdownStart();
     }, TaskScheduler.FromCurrentSynchronizationContext());
   }
 
@@ -126,11 +126,13 @@ public partial class MsgSlideshowUsrCtrl
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
-  void OnShutdown(object s, RoutedEventArgs e) => StartCountDown(.2); //     Shutdown();
-  void Shutdown()
+  void OnShutdown(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; StartCountDown(.03); }
+  void ShutdownStart()
   {
     try
     {
+      ((Storyboard)FindResource("sbDropIn"))?.Begin();
+
       _cancellationTokenSource?.Cancel();
       VideoView1.MediaPlayer?.Stop();
       chkIsOn.IsChecked = _notShutdown = false;
