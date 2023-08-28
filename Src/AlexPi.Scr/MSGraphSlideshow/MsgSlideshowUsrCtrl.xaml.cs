@@ -378,26 +378,26 @@ public partial class MsgSlideshowUsrCtrl
     for (var i = 0; i < _sizeWeightedRandomPicker.Count; i++)
     {
 #if DEBUG_
-      var items = new string[] {
-          //@"Pictures/id.png",
-          //@"Pictures\2016-09\WP_20160907_19_43_10_Pro.mp4",
-          @"Pictures\2016-09\wp_ss_20160901_0005.png",
-          @"Pictures\2016-09\wp_ss_20160901_0006.png",
-          @"Pictures\2016-09\wp_ss_20160913_0001.png",
-          @"Pictures\2016-09\wp_ss_20160913_0002.png",
-          @"Pictures\2016-09\wp_ss_20160913_0003.png",
-          @"Pictures\2016-09\wp_ss_20160913_0004.png",
+      var pathfile = 
+          @"Pictures\2016-09\wp_ss_20160901_0005.png";
+          /*
+          @"Pictures/id.png"; // the only one works on WO
+          @"Pictures\2016-09\WP_20160907_19_43_10_Pro.mp4";
+          @"Pictures\2016-09\wp_ss_20160901_0006.png";
+          @"Pictures\2016-09\wp_ss_20160913_0001.png";
+          @"Pictures\2016-09\wp_ss_20160913_0002.png";
+          @"Pictures\2016-09\wp_ss_20160913_0003.png";
+          @"Pictures\2016-09\wp_ss_20160913_0004.png";
           @"Pictures\2016-09\wp_ss_20160915_0001.png"};
-
-      var pathfile = items[i % items.Length];
+          */
 #else
       var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
-      var pathfile = fileinfo.FullName[(OneDrive.Root.Length - Environment.UserName.Length + 5)..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      var pathfile = fileinfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
 #endif
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
         //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000 // a big 2gb file on Zoe's account
-        && 100_000 < fileinfo.Length && fileinfo.Length < 1_000_000           // tiny pics mostly ... I hope.
+        && 100_000 < fileinfo.Length && fileinfo.Length < 2_000_000           // tiny pics mostly ... I hope.
 #endif
         )
         return pathfile;
