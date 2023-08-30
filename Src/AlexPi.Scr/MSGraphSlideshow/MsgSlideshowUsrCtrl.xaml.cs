@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -20,7 +18,7 @@ public partial class MsgSlideshowUsrCtrl
 #endif
   int _currentShowTimeMS = 0;
   bool _alreadyPrintedHeader, _notShutdown = true;
-  string? _pathfile;
+  string? _filename;
 
   public MsgSlideshowUsrCtrl()
   {
@@ -86,7 +84,7 @@ public partial class MsgSlideshowUsrCtrl
       this.FindParentWindow().WindowState = WindowState.Normal;
       if (!success)
       {
-        ReportBC.Content = $"{_pathfile}:- {report}";
+        ReportBC.Content = $"{_filename}:- {report}";
         Logger.Log(LogLevel.Information, $"° {report}");
       }
 
@@ -122,7 +120,8 @@ public partial class MsgSlideshowUsrCtrl
       this.FindParentWindow().WindowState = WindowState.Normal;
     }
   }
-  void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((System.Windows.Controls.CheckBox)s).IsChecked ?? false; }
+  void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((CheckBox)s).IsChecked ?? false; }
+  void OnLoud(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Volume = ((CheckBox)s).IsChecked == true ? 5 : 99; }
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
@@ -167,10 +166,10 @@ public partial class MsgSlideshowUsrCtrl
   }
   void OnDelete(object s, RoutedEventArgs e)
   {
-    if (_pathfile is not null && System.IO.File.Exists(_pathfile))
-      _ = System.Diagnostics.Process.Start("Explorer.exe", $"/select, \"{_pathfile}\"");
+    if (_filename is not null && System.IO.File.Exists(_filename))
+      _ = System.Diagnostics.Process.Start("Explorer.exe", $"/select, \"{_filename}\"");
     else
-      _ = MessageBox.Show($"Filename \n\n{_pathfile} \n\ndoes not exist", "Warning");
+      _ = MessageBox.Show($"Filename \n\n{_filename} \n\ndoes not exist", "Warning");
   }
 
   async Task<bool> LoadWaitThenShowNext()
@@ -180,20 +179,20 @@ public partial class MsgSlideshowUsrCtrl
     var driveItem = (DriveItem?)default;
     DateTimeOffset? takenDateTime = null;
 
-    _pathfile = GetRandomSizeProportionalMediaFile();
+    _filename = GetRandomSizeProportionalMediaFile();
 
     try
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
-      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(_pathfile).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(_filename).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
-      var taskStream = TaskDownloadStreamGraph(_pathfile); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+      var taskStream = TaskDownloadStreamGraph(_filename); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
 
       try
@@ -206,22 +205,23 @@ public partial class MsgSlideshowUsrCtrl
       catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
       catch (Exception ex)
       {
-        ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+        ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
 
         ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
-      try
-      {
-        VideoView1.MediaPlayer.Stop();
-      }
-      catch (Exception ex)
-      {
-        ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-        ex.Pop(Logger, $"ERR ?!? {ReportBC.Content}");
-      }
+      // Hangs sometimes .. let's try without:
+      //ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
+      //try
+      //{
+      //  VideoView1.MediaPlayer.Stop(); // Hangs sometimes .. let's try without:
+      //}
+      //catch (Exception ex)
+      //{
+      //  ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
+      //  ex.Pop(Logger, $"ERR ?!? {ReportBC.Content}");
+      //}
 
 #if DEBUG
       Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
@@ -263,8 +263,8 @@ public partial class MsgSlideshowUsrCtrl
       else if (driveItem.Photo is not null)
       {
         mediaType = $"■Photo■";
-        ReportBC.Content = $"{_pathfile}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
+        ReportBC.Content = $"{_filename}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        Logger?.Log(LogLevel.Information, $" !? {_filename}  {ReportBC.Content}  ");
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
@@ -273,12 +273,12 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportBC.Content = $"{_pathfile}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
-        Logger?.Log(LogLevel.Information, $" !? {_pathfile}  {ReportBC.Content}  ");
+        ReportBC.Content = $"{_filename}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        Logger?.Log(LogLevel.Information, $" !? {_filename}  {ReportBC.Content}  ");
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
 
-      //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:yy-MM-dd}  {_pathfile} ");
+      //Logger?.Log(LogLevel.Warning, $"xx  {takenDateTime:yy-MM-dd}  {_filename} ");
 
       ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
@@ -287,7 +287,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (ServiceException ex)
     {
       ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
+      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
@@ -295,7 +295,7 @@ public partial class MsgSlideshowUsrCtrl
     catch (Exception ex)
     {
       ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_pathfile}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _pathfile}";
+      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
@@ -365,7 +365,7 @@ public partial class MsgSlideshowUsrCtrl
       //".m2ts",
       //".mts",
       //".png",
-      ".wmv",
+      //".wmv",
 #endif
       ".manifest",
       ".nar",
@@ -397,7 +397,8 @@ public partial class MsgSlideshowUsrCtrl
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
         //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000 // a big 2gb file on Zoe's account
-        && 100_000 < fileinfo.Length && fileinfo.Length < 2_000_000           // tiny pics mostly ... I hope.
+        //&&  100_000 < fileinfo.Length && fileinfo.Length < 2_000_000           // tiny pics mostly ... I hope.
+        && 12_000_000 < fileinfo.Length && fileinfo.Length < 26_000_000          // small videos
 #endif
         )
         return pathfile;
@@ -415,8 +416,8 @@ public partial class MsgSlideshowUsrCtrl
     _ = VideoView1.MediaPlayer.Play(media);
     //var report2 = $"►{(playSucces ? "+" : "-")} ";
 
-    VideoView1.MediaPlayer.Volume = _volumePerc;
-    VideoView1.MediaPlayer.Mute = VideoView1.MediaPlayer.Volume != _volumePerc;
+    //VideoView1.MediaPlayer.Volume = _volumePerc;
+    //VideoView1.MediaPlayer.Mute = false; // VideoView1.MediaPlayer.Volume != _volumePerc;
 
     var (durationMs, isExact, report) = await TryGetBetterDuration(driveItem, media);
     _currentShowTimeMS = Math.Min((int)durationMs, _maxMs);

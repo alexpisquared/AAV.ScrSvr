@@ -46,10 +46,10 @@
       </Storyboard>
 
       <Storyboard x:Key="sbDropIn">
-        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" From="0" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" From="0" To="99.8" Duration="0:1:0" EasingFunction="{StaticResource si}" />
       </Storyboard>
       <Storyboard x:Key="sbDropOu">
-        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" To="1"             Duration="0:0:1" EasingFunction="{StaticResource si}" />
       </Storyboard>
       
     </ResourceDictionary>
@@ -75,14 +75,14 @@
             <Setter Property="Padding"          Value="8 0" />
             <Setter Property="FontSize"         Value="26" />
             <Setter Property="Foreground"       Value="#08f" />
-            <Setter Property="Background"       Value="Transparent" />
+            <Setter Property="Background"       Value="#3000" />
             <Setter Property="BorderThickness"  Value="0"/>
           </Style>
           <Style TargetType="CheckBox">
             <Setter Property="Padding"          Value="8 0" />
             <Setter Property="FontSize"         Value="10" />
             <Setter Property="Foreground"       Value="#08f" />
-            <Setter Property="Background"       Value="Transparent" />
+            <Setter Property="Background"       Value="#3fff" />
             <Setter Property="BorderThickness"  Value="0"/>
           </Style>
         </Grid.Resources>
@@ -129,8 +129,15 @@
 
         <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left" Height="60">
           <StackPanel>
-            <CheckBox  Content="Is On" IsChecked="True" x:Name="chkIsOn"  />
-            <CheckBox  Content="Muted" IsChecked="False" Click="OnMute" />
+            <CheckBox  IsChecked="True" x:Name="chkIsOn" >
+              <TextBlock Text="Is On" FontSize="11" Background="#3000" />
+            </CheckBox>
+            <CheckBox  IsChecked="False" Click="OnMute"  >
+              <TextBlock Text="Muted" FontSize="11" Background="#3000" />
+            </CheckBox>
+            <CheckBox  IsChecked="False" Click="OnLoud"  >
+              <TextBlock Text="Quiet" FontSize="11" Background="#3000" />
+            </CheckBox>
           </StackPanel>
         </Viewbox>
 

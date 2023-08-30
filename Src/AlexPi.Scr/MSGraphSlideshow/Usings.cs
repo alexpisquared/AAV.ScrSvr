@@ -19,3 +19,4 @@ global using StandardContractsLib;
 global using StandardLib.Helpers;
 global using WpfUserControlLib.Extensions;
 global using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+global using System.Windows.Controls;
