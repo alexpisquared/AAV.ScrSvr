@@ -9,13 +9,14 @@ public partial class MainVM : BaseMinVM
   readonly ModalNavgnStore _modalNavgnStore;
   readonly IsBusyStore _IsBusyStore;
   readonly Window _mainWin;
-  public MainVM(NavigationStore navigationStore, ModalNavgnStore modalNavgnStore, IsBusyStore IsBusyStore, ILogger lgr, IBpr bpr, UserSettingsSPM usrStgns, IAddChild wnd)
+  public MainVM(NavigationStore navigationStore, ModalNavgnStore modalNavgnStore, IsBusyStore IsBusyStore, ILogger lgr, IBpr bpr, SpeechSynth synth, UserSettingsSPM usrStgns, IAddChild wnd)
   {
     _navigationStore = navigationStore;
     _modalNavgnStore = modalNavgnStore;
     _IsBusyStore = IsBusyStore;
     Logger = lgr;
     Bpr = bpr;
+    Synth = synth;
     UsrStgns = usrStgns;
     _mainWin = (Window)wnd;
 
@@ -93,6 +94,7 @@ public partial class MainVM : BaseMinVM
 
   string? _ds; public string DeploymntSrcExe { get => _ds ?? DeplConst.DeplSrcExe; set => _ds = value; }
   public IBpr Bpr { get; }
+  public SpeechSynth Synth { get; }
   public ILogger Logger { get; }
   public UserSettingsSPM UsrStgns { get; }
   public BaseMinVM? CurrentVM => _navigationStore.CurrentVM;

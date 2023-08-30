@@ -2,7 +2,7 @@
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
-  const int _volumePerc = 5;
+  const int _veryQuiet = 12; // 9 is already hardly hearable.
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
   GraphServiceClient? _graphServiceClient;
@@ -12,7 +12,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 06_000;
+  const int _maxMs = 12_000;
 #else
   const int _maxMs = 60_000;
 #endif
@@ -27,7 +27,7 @@ public partial class MsgSlideshowUsrCtrl
       InitializeComponent();
 
       _libVLC = new LibVLC(enableDebugLogs: true);
-      VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _volumePerc }; // percent
+      VideoView1.MediaPlayer = new MediaPlayer(_libVLC) { Volume = _veryQuiet }; // percent
       VideoView1.MediaPlayer.EndReached += OnEndReached;
       _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
 
@@ -69,6 +69,7 @@ public partial class MsgSlideshowUsrCtrl
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
+  SpeechSynth? _synth; public SpeechSynth? Synth => _synth ??= (DataContext as dynamic)?.Synth;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -104,8 +105,8 @@ public partial class MsgSlideshowUsrCtrl
           _ = await LoadWaitThenShowNext();
         else
         {
-          await Bpr?.BeepAsync(300, sec: .2); ;
-          await Task.Delay(800);
+          await Bpr?.BeepAsync(300, sec: .500); ;
+          await Task.Delay(2_000);
         }
       }
     }
@@ -121,7 +122,7 @@ public partial class MsgSlideshowUsrCtrl
     }
   }
   void OnMute(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Mute = ((CheckBox)s).IsChecked ?? false; }
-  void OnLoud(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Volume = ((CheckBox)s).IsChecked == true ? 5 : 99; }
+  void OnLoud(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Volume = ((CheckBox)s).IsChecked == true ? _veryQuiet : 88; }
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
@@ -222,10 +223,6 @@ public partial class MsgSlideshowUsrCtrl
       //  ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
       //  ex.Pop(Logger, $"ERR ?!? {ReportBC.Content}");
       //}
-
-#if DEBUG
-      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
-#endif
 
       HistoryR.Content += $"\n{ReportBR.Content}";
       ReportBR.Content = $"{driveItem.Name}";
@@ -328,6 +325,10 @@ public partial class MsgSlideshowUsrCtrl
     var stream = await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
+#if DEBUG
+    Synth?.SpeakFAF("Downloaded");
+#endif
+
     return (stream, dnldTm);
   }
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamAPI(string url)
@@ -416,13 +417,19 @@ public partial class MsgSlideshowUsrCtrl
     _ = VideoView1.MediaPlayer.Play(media);
     //var report2 = $"►{(playSucces ? "+" : "-")} ";
 
-    //VideoView1.MediaPlayer.Volume = _volumePerc;
-    //VideoView1.MediaPlayer.Mute = false; // VideoView1.MediaPlayer.Volume != _volumePerc;
+    VideoView1.MediaPlayer.Volume = _veryQuiet;
+    VideoView1.MediaPlayer.Mute = false;
+
+    Volume__.Content = $"a {VideoView1.MediaPlayer.Volume} %";
 
     var (durationMs, isExact, report) = await TryGetBetterDuration(driveItem, media);
     _currentShowTimeMS = Math.Min((int)durationMs, _maxMs);
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
+
+#if DEBUG
+    Synth?.SpeakFAF("Starting...");
+#endif
 
     var report2 = report;
     if (durationMs > _currentShowTimeMS)
@@ -432,14 +439,23 @@ public partial class MsgSlideshowUsrCtrl
       var seekToPerc = (double)seekToMSec / durationMs;
       ProgressBar2.Value = seekToPerc;
 
-      await Task.Delay(333);
-#if DEBUG
-      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
-#endif
+      await Task.Delay(333); // what for: to see the move to a better position.
 
       VideoView1.MediaPlayer.SetPause(true);
       VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));
       VideoView1.MediaPlayer.SetPause(false);
+
+      Volume__.Content = $"b {VideoView1.MediaPlayer.Volume} % == 12 ?";
+
+      if (VideoView1.MediaPlayer.Volume != _veryQuiet)
+      {
+        Logger.LogWarning($"▀▄▀▄▀▄ ■825 After seeking Volume got out: {VideoView1.MediaPlayer.Volume} !!!  Setting back to {_veryQuiet}.");
+        VideoView1.MediaPlayer.Volume = _veryQuiet;
+      }
+
+#if DEBUG
+      Synth?.SpeakFAF("Moved");
+#endif
 
       //while (VideoView1.MediaPlayer.Position < seekToPerc)      {        VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));        await Task.Delay(10);        Write("!");      }
 
@@ -451,7 +467,6 @@ public partial class MsgSlideshowUsrCtrl
 #if DEBUG_SEEK
       await Task.Delay(500);
       report2 += $" {(VideoView1.MediaPlayer.Position <= seekToPerc ? "FAILS" : "+ + +")} dt:{(VideoView1.MediaPlayer.Position - seekToPerc) * 100,3:N1}%";
-      Bpr?.Yes(); // System.Media.SystemSounds.Hand.Play();
 #endif
 
       var k = 1000.0 / durationMs;

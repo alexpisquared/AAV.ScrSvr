@@ -82,7 +82,7 @@
             <Setter Property="Padding"          Value="8 0" />
             <Setter Property="FontSize"         Value="10" />
             <Setter Property="Foreground"       Value="#08f" />
-            <Setter Property="Background"       Value="#3fff" />
+            <Setter Property="Background"       Value="#5ff0" />
             <Setter Property="BorderThickness"  Value="0"/>
           </Style>
         </Grid.Resources>
@@ -122,6 +122,7 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+          <Label x:Name="Volume__"   Content="Volume:"            Foreground="#08f" />
           <Label x:Name="History_"   Content="mb:"                Foreground="#ac0" />
           <Label x:Name="HistoryL" d:Content="26.0"               Foreground="#0f0" />
           <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" />
@@ -130,13 +131,13 @@
         <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left" Height="60">
           <StackPanel>
             <CheckBox  IsChecked="True" x:Name="chkIsOn" >
-              <TextBlock Text="Is On" FontSize="11" Background="#3000" />
+              <TextBlock Text="Is On"   FontSize="11" Background="#3000" Foreground="#08f" />
             </CheckBox>
             <CheckBox  IsChecked="False" Click="OnMute"  >
-              <TextBlock Text="Muted" FontSize="11" Background="#3000" />
+              <TextBlock Text="Muted"   FontSize="11" Background="#3000" Foreground="#08f" />
             </CheckBox>
             <CheckBox  IsChecked="False" Click="OnLoud"  >
-              <TextBlock Text="Quiet" FontSize="11" Background="#3000" />
+              <TextBlock Text="Quieter" FontSize="11" Background="#3000" Foreground="#08f" />
             </CheckBox>
           </StackPanel>
         </Viewbox>
