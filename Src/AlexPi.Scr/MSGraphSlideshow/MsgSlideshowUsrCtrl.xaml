@@ -1,7 +1,7 @@
 <UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
              xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-             d:DesignHeight="450" d:DesignWidth="1400" Background="Transparent" Loaded="OnLoaded">
+             d:DesignHeight="1080" d:DesignWidth="1920" Background="Transparent" Loaded="OnLoaded">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -46,16 +46,15 @@
       </Storyboard>
 
       <Storyboard x:Key="sbDropIn">
-        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" From="0" To="99.8" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" From="0" To="1" Duration="0:1:0" EasingFunction="{StaticResource si}" />
       </Storyboard>
       <Storyboard x:Key="sbDropOu">
-        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" To="1"             Duration="0:0:1" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="pb1" Storyboard.TargetProperty="Value" To="1"          Duration="0:0:1" EasingFunction="{StaticResource si}" />
       </Storyboard>
       
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid            x:Name="mediaGrid1" Margin="0" >
-    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
       <Grid x:Name="GridVideoControls" Margin="0">
         <Grid.Resources>
@@ -150,15 +149,16 @@
           <Button      Content="Shut" IsDefault="False" Click="OnShutdown" Foreground="#c00" ToolTip="Dev test of shutting down in a minute animation."/>
         </StackPanel>
 
-        <Viewbox Margin="128" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible">
-          <Grid>
-            <ProgressBar x:Name="pb1" Maximum="100" Foreground="#040" Background="#020" BorderThickness="0" />
-            <TextBlock Text=" The End " Foreground="#0a0" />
-          </Grid>
-        </Viewbox>
-
       </Grid>
     </vlc:VideoView>
+    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
+
+    <Viewbox Margin="0" x:Name="tbkTheEnd" Visibility="Collapsed" d:Visibility="Visible" Stretch="Fill">
+      <Grid>
+        <ProgressBar x:Name="pb1"   Width="136" Maximum="100" Value="33" Foreground="#6000" BorderThickness="0" />
+        <TextBlock Text=" The End " Width="136" FontFamily="Goudy Stout" Foreground="#0a0" />
+      </Grid>
+    </Viewbox>
   </Grid>
   <!--https://stackoverflow.com/questions/60968814/how-to-intercept-errors-and-change-the-style-of-libvlcsharp-xamarin-forms
     <vlc:MediaPlayerElement x:Name="VideoView"

@@ -15,13 +15,13 @@ public static class MvvmInitHelper
 
     //tu: Start Page Startup Page controller.
     _ = DevOps.IsDbg
-      ?          /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
+      ?                /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
       : Environment.MachineName switch
       {
         "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
-                 /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(),
-        "RAZER1" /**/ => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(),
-        _        /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(),
+                       /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(),
+        "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(),
+        _              /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(),
       };
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
