@@ -25,7 +25,8 @@ public partial class UnitContainerBase : UserControl
   }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
-  string JsonFile => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
+  string JsonFil => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
+  string JsonFile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @$"AppSettings\{AppDomain.CurrentDomain.FriendlyName}\_{Name}_{(VersionHelper.IsDbg ? "dbg" : "")}.json");
 
   async Task Store()
   {

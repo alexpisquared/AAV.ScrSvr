@@ -58,7 +58,7 @@
         </Grid>
       </Viewbox>
 
-      <Button Content="_#" Click="OnResetPlacement" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8 52" />
+      <Button Content="_#" Click="OnResetPlacement" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8 52" ToolTip="Reset the layour"/>
 
     </Grid>
   </Border>

@@ -2,7 +2,7 @@
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
-  const int _veryQuiet = 12; // 9 is already hardly hearable.
+  const int _veryQuiet = 16; // 9 is already hardly hearable on max. 12 is too low for Nuc2 since it is usually on 10 there already.
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
   GraphServiceClient? _graphServiceClient;
@@ -130,12 +130,12 @@ public partial class MsgSlideshowUsrCtrl
   {
     try
     {
-      ((Storyboard)FindResource("sbDropIn"))?.Begin();
+      ((Storyboard)FindResource("sbFinal1m"))?.Begin();
 
       _cancellationTokenSource?.Cancel();
       VideoView1.MediaPlayer?.Stop();
       chkIsOn.IsChecked = _notShutdown = false;
-      tbkTheEnd.Visibility = Visibility.Visible;
+      vbFinal1m.Visibility = Visibility.Visible;
       ImageView1.Visibility =
       VideoView1.Visibility = Visibility.Collapsed;
       Bpr?.Finish();
@@ -180,6 +180,8 @@ public partial class MsgSlideshowUsrCtrl
     DateTimeOffset? takenDateTime = null;
 
     _filename = GetRandomSizeProportionalMediaFile();
+
+    //pass:  Logger.Log(LogLevel.Warning, "Test");
 
     try
     {
@@ -238,7 +240,7 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem?.Image is not null)
       {
         mediaType = $"img";
-        ReportTR.Content = streamReport = $"{driveItem.Image.Width,6:N0} x {driveItem.Image.Height,-6:N0}";
+        ReportTR.Content = streamReport = $"{driveItem.Image.Width,5:N0} x {driveItem.Image.Height,-6:N0} ";
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         ImageView1.Visibility = Visibility.Visible;
         VideoView1.Visibility = Visibility.Hidden;
@@ -248,9 +250,9 @@ public partial class MsgSlideshowUsrCtrl
       }
       else if (driveItem?.Video is not null)
       {
+        mediaType = $"Video";
         if (_notShutdown && chkIsOn.IsChecked == true) // a waste ... I know.
         {
-          mediaType = $"Video";
           var (durationInMs, isExact, report) = await StartPlayingMediaStream(taskStream.Result.stream, driveItem);
           ReportTR.Content = $"{(isExact ? ' ' : '~')}{durationInMs * .001,-3:N0}s";
           streamReport = $"{report}  Vol:{VideoView1.MediaPlayer?.Volume}%";
@@ -335,7 +337,7 @@ public partial class MsgSlideshowUsrCtrl
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
 #if DEBUG
-    Synth?.SpeakFAF("Downloaded");
+    Synth?.SpeakFAF("Got it!");
 #endif
 
     return (stream, dnldTm);
@@ -409,7 +411,7 @@ public partial class MsgSlideshowUsrCtrl
         //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000     // a big 2gb file on Zoe's account
         //&&  100_000 < fileinfo.Length && fileinfo.Length < 2_000_000            // tiny pics mostly ... I hope.
         //&& 12_000_000 < fileinfo.Length && fileinfo.Length < 26_000_000         // small videos
-        && 500_000 < fileinfo.Length && fileinfo.Length < 22_000_000            // small videos and pics
+        && 3_000_000 < fileinfo.Length && fileinfo.Length < 22_000_000            // 50/50 videos/pics mix
 #endif
         )
         return pathfile;
@@ -423,54 +425,39 @@ public partial class MsgSlideshowUsrCtrl
 
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "■555");
 
-    //VideoView1.MediaPlayer.Media = media;
     _ = VideoView1.MediaPlayer.Play(media);
-    //var report2 = $"►{(playSucces ? "+" : "-")} ";
+
+#if DEBUG
+    Synth?.SpeakFAF("Play!");
+#endif
 
     VideoView1.MediaPlayer.Volume = _veryQuiet;
     VideoView1.MediaPlayer.Mute = false;
-
-    Volume__.Content = $"a {VideoView1.MediaPlayer.Volume} %";
 
     var (durationMs, isExact, report) = await TryGetBetterDuration(driveItem, media);
     _currentShowTimeMS = Math.Min((int)durationMs, _maxMs);
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
 
-#if DEBUG
-    Synth?.SpeakFAF("Starting...");
-#endif
-
     var report2 = report;
     if (durationMs > _currentShowTimeMS)
     {
+      VideoInterval.Visibility = Visibility.Visible;
+
       var diffMs = durationMs - _currentShowTimeMS;
       var seekToMSec = _random.Next((int)diffMs);
       var seekToPerc = (double)seekToMSec / durationMs;
       ProgressBar2.Value = seekToPerc;
 
-      await Task.Delay(333); // what for: to see the move to a better position.
+      await Task.Delay(999); // to demo the seek to a better position.
 
       VideoView1.MediaPlayer.SetPause(true);
       VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));
       VideoView1.MediaPlayer.SetPause(false);
 
-      Volume__.Content = $"b {VideoView1.MediaPlayer.Volume} % == 12 ?";
-
-      if (VideoView1.MediaPlayer.Volume != _veryQuiet)
-      {
-        Logger.LogWarning($"▀▄▀▄▀▄ ■825 After seeking Volume got out: {VideoView1.MediaPlayer.Volume} !!!  Setting back to {_veryQuiet}.");
-        VideoView1.MediaPlayer.Volume = _veryQuiet;
-      }
-
 #if DEBUG
-      Synth?.SpeakFAF("Moved");
+      Synth?.SpeakFAF("Seek!");
 #endif
-
-      //while (VideoView1.MediaPlayer.Position < seekToPerc)      {        VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));        await Task.Delay(10);        Write("!");      }
-
-      //_logger?.Log(LogLevel.Trace, $"      {seekToPerc,6:N2} % ~~ {TimeSpan.FromMilliseconds(seekToMSec):mm\\:ss}         <== new setting to !!!!!!!");
-      //_logger?.Log(LogLevel.Trace, $"  Psn:{VideoView1.MediaPlayer.Position,6:N2} %         after ^^ ");
 
       report2 += $"{(int)(seekToMSec * .001),3}/{(int)(durationMs * .001),-3}";
 
@@ -483,8 +470,6 @@ public partial class MsgSlideshowUsrCtrl
       rectnglStart.Width = seekToMSec * k;
       progressBar3.Width = _currentShowTimeMS * k;
       rectnglRest1.Width = (durationMs - seekToMSec - _currentShowTimeMS) * k;
-
-      VideoInterval.Visibility = Visibility.Visible;
     }
     else if (durationMs > 0)
       report2 += $"  0/{durationMs * .001,-3:N0}";
