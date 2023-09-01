@@ -13,7 +13,7 @@ public partial class MainNavView : WindowBase
 
     Bpr = bpr;
     themeSelector1.ThemeApplier = ApplyTheme; //dnf theming 1/2
-    //Topmost = Debugger.IsAttached;
+    //if (Debugger.IsAttached) Topmost = true;
 
     DragMovable = false;
     IgnoreEscape = false;

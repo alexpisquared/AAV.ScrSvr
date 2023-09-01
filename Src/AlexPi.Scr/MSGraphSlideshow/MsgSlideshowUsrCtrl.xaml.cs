@@ -133,7 +133,7 @@ public partial class MsgSlideshowUsrCtrl
       ((Storyboard)FindResource("sbFinal1m"))?.Begin();
 
       _cancellationTokenSource?.Cancel();
-      VideoView1.MediaPlayer?.Stop();
+      if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing
       chkIsOn.IsChecked = _notShutdown = false;
       vbFinal1m.Visibility = Visibility.Visible;
       ImageView1.Visibility =
@@ -213,17 +213,7 @@ public partial class MsgSlideshowUsrCtrl
       }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
-      //                                 // Hangs sometimes .. let's try without:
-      //ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
-      //try
-      //{
-      //  VideoView1.MediaPlayer.Stop(); // Hangs sometimes .. let's try without:
-      //}
-      //catch (Exception ex)
-      //{
-      //  ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-      //  ex.Pop(Logger, $"ERR ?!? {ReportBC.Content}");
-      //}
+      if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
 
       HistoryR.Content += $"\n{ReportBR.Content}";
       ReportBR.Content = $"{driveItem.Name}";
@@ -236,6 +226,9 @@ public partial class MsgSlideshowUsrCtrl
       dateReport = tr.report;
 
       ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
+
+      ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");      
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      
 
       if (driveItem?.Image is not null)
       {
@@ -273,7 +266,7 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportBC.Content = $"{_filename}:- {.000001 * driveItem.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{_filename}:- {.000001 * driveItem?.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_filename}  {ReportBC.Content}  ");
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
@@ -324,7 +317,8 @@ public partial class MsgSlideshowUsrCtrl
 
   (DateTimeOffset date, string report) EarliestDate(DateTimeOffset? taken, DateTimeOffset? created, DateTimeOffset? lastModified, DateTimeOffset? createdFSI, DateTimeOffset? lastModifiedFSI)
   {
-    var d = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > new DateTimeOffset(new DateTime(1970, 01, 01))).Min(d => d.Value);
+    var oldest = new DateTimeOffset(new DateTime(1980, 01, 01));
+    var d = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > oldest).Min(d => d.HasValue ? d.Value : oldest);
     var r = $"{taken,8:yy-MM-dd}  {created:yy-MM-dd}  {lastModified:yy-MM-dd}  {createdFSI:yy-MM-dd}  {lastModifiedFSI:yy-MM-dd}    {d:yy-MM-dd HH:mm}";
     return (d, r);
   }

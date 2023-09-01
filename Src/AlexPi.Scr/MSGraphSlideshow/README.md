@@ -69,3 +69,16 @@ QuickStart from portal:
 
 
 Try if this simple code works as a standalone Console App for me, then Zoe:  https://learn.microsoft.com/EN-us/azure/active-directory/develop/msal-net-acquire-token-silently
+
+
+2023-09-01  from https://code.videolan.org/videolan/LibVLCSharp/-/blob/3.x/samples/LibVLCSharp.WPF.Sample/Controls.xaml.cs
+
+ ...is it possible to play URL from MsGraph?
+ void PlayButton_Click(object sender, RoutedEventArgs e)
+ {
+     if (!parent.VideoView.MediaPlayer.IsPlaying)
+     {
+         using (var media = new Media(_libVLC, new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")))
+             parent.VideoView.MediaPlayer.Play(media);
+     }
+ }

@@ -154,56 +154,9 @@
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <Viewbox       x:Name="vbFinal1m"  Visibility="Collapsed" Stretch="Fill">
       <Grid>
-        <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" Foreground="#222" BorderThickness="0" Background="#333" />
-        <TextBlock Text=" The End "     Width="136" FontFamily="Goudy Stout" Foreground="#0a0" />
+        <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" BorderThickness="0" Foreground="#111" Background="#333" />
+        <TextBlock Text="The End" FontFamily="Goudy Stout" HorizontalAlignment="Center" Foreground="#0a0" />
       </Grid>
     </Viewbox>
   </Grid>
-  <!--https://stackoverflow.com/questions/60968814/how-to-intercept-errors-and-change-the-style-of-libvlcsharp-xamarin-forms
-    <vlc:MediaPlayerElement x:Name="VideoView"
-                            AbsoluteLayout.LayoutFlags="All"
-                            EnableRendererDiscovery="False"
-                            AbsoluteLayout.LayoutBounds="0,0,1,1">
-
-      <vlc:MediaPlayerElement.PlaybackControls>
-        <vlc:PlaybackControls IsVisible="true"
-                                  IsAspectRatioButtonVisible="True"
-                                  ShowAndHideAutomatically="True"
-                                  IsRewindButtonVisible="True"
-                                  IsCastButtonVisible="True"
-                                  IsLockButtonVisible="True"
-                                  IsSeekBarVisible="True"
-                                  IsSeekButtonVisible="True"
-                                  IsSeekEnabled="True"
-                                  IsTracksButtonVisible="True">
-
-          <vlc:PlaybackControls.RemainingTimeLabelStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-            </Style>
-          </vlc:PlaybackControls.RemainingTimeLabelStyle>
-
-          <vlc:PlaybackControls.MessageStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-              <Setter  Property="TextColor" Value="Transparent"/>
-
-
-              <Setter Property="Text"
-                                Value="0" />
-            </Style>
-          </vlc:PlaybackControls.MessageStyle>
-
-
-          <vlc:PlaybackControls.ElapsedTimeLabelStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-            </Style>
-          </vlc:PlaybackControls.ElapsedTimeLabelStyle>
-        </vlc:PlaybackControls>
-      </vlc:MediaPlayerElement.PlaybackControls>
-    </vlc:MediaPlayerElement>-->
 </UserControl>
