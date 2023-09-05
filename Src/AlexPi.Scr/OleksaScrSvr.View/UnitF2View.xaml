@@ -4,11 +4,11 @@
                        d:DesignHeight="450" d:DesignWidth="800" x:Name="wnd" Loaded="OnLoadedBase">
   <Grid>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
-    <Views:MainPlotViewUsrCtrl Margin="10 10 1 1" IsActive="{Binding WindowState, ElementName=wnd, Mode=OneWay}" Visibility="Visible" />
+    <Views:MainPlotViewUsrCtrl Margin="10 10 1 1" IsActive="{Binding IsOpenState, ElementName=wnd, Mode=OneWay}" Visibility="Visible" />
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
-      <MenuItem Header="_Y 2" IsCheckable="True" IsChecked="{Binding WindowState, ElementName=wnd}" Height="32" />
+      <MenuItem Header="_Y 2" IsCheckable="True" IsChecked="{Binding IsOpenState, ElementName=wnd}" Height="32" />
     </Menu>
 
   </Grid>

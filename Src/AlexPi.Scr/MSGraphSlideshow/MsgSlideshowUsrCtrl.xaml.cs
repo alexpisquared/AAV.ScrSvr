@@ -32,7 +32,7 @@ public partial class MsgSlideshowUsrCtrl
       _ = new DispatcherTimer(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, new EventHandler(OnMoveProgressBarTimerTick), Dispatcher.CurrentDispatcher);
 
       ReportBC.FontSize = 48;
-      ReportBC.Content = VersionHelper.CurVerStr("MM.dd-HH:mm");
+      ReportBC.Content = VersionHelper.CurVerStr;
 
       ScheduleShutdown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
     }

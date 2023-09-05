@@ -25,7 +25,7 @@ public partial class RODBView
     try
     {
       tbInfo.Text = $"Loading ... {_localdb}";
-      tbCurVer.Text = $"{VersionHelper.CurVerStr("")}";
+      tbCurVer.Text = $"{VersionHelper.CurVerStr}";
 
       await _db.PcLogics.LoadAsync();
       await _db.EvOfInts.OrderByDescending(r => r.TimeID).LoadAsync(); //tu: error "'EditItem' is not allowed for this view." if Order is done on Local !!!!!!!!!!!!!!
