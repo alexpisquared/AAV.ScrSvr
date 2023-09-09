@@ -20,4 +20,5 @@ global using Microsoft.Graph;
 global using StandardContractsLib;
 global using StandardLib.Helpers;
 global using WpfUserControlLib.Extensions;
+global using WpfUserControlLib.Services;
 global using LogLevel = Microsoft.Extensions.Logging.LogLevel;

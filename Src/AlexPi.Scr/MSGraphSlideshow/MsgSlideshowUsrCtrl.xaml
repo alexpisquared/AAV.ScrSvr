@@ -142,11 +142,13 @@
         </Viewbox>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
-          <Button      Content="Prev" IsDefault="False" Click="OnPrev" />
-          <Button      Content="Next" IsDefault="True"  Click="OnNext" />
-          <Button      Content="Delt" IsDefault="False" Click="OnDelete"   Foreground="#880"/>
-          <Button      Content="LogO" IsDefault="False" Click="OnSignOut"  Foreground="#840"/>
-          <Button      Content="Shut" IsDefault="False" Click="OnShutdown" Foreground="#c00" ToolTip="Dev test of shutting down in a minute animation."/>
+          <Button      Content="Prev" Click="OnPrev" />
+          <Button      Content="Next" Click="OnNext" IsDefault="True"  />
+          <Button      Content="Delt" Click="OnDelete"   Foreground="#880"/>
+          <Button      Content="LogO" Click="OnSignOut"  Foreground="#840"/>
+          <Button      Content="Shut" Click="OnShutdown" Foreground="#c00" ToolTip="Dev test of shutting down in a minute animation."/>
+          <Button      Content="Snap" Click="OnSnapshotOld" Foreground="#08f" ToolTip="Test saving a snapshot on other PCs...Old"/>
+          <Button      Content="Snap" Click="OnSnapshotNew" Foreground="#08f" ToolTip="Test saving a snapshot on other PCs...New"/>
         </StackPanel>
 
       </Grid>

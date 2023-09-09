@@ -125,7 +125,10 @@ public partial class MsgSlideshowUsrCtrl
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
   void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnSnapshotOld(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_Old", false);
+  void OnSnapshotNew(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_New", true);
   void OnShutdown(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; ScheduleShutdown(.03); }
+
   void ShutdownStart()
   {
     try
@@ -227,8 +230,8 @@ public partial class MsgSlideshowUsrCtrl
 
       ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
 
-      ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");      
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");      
+      ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");
 
       if (driveItem?.Image is not null)
       {
