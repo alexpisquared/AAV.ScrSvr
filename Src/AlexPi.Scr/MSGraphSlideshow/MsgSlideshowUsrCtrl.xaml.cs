@@ -1,4 +1,6 @@
-﻿namespace MSGraphSlideshow;
+﻿using Microsoft.Graph;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -59,7 +61,11 @@ public partial class MsgSlideshowUsrCtrl
   {
     _ = Task.Run(async () =>
     {
-      await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
+      ArgumentNullException.ThrowIfNull(Bpr, $"▀885");
+      var taskScream = Bpr.GradientAsync(52, 9_000, 19, 120_000);
+      var taskDelay = Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
+
+      await Task.WhenAll(taskScream, taskDelay);
     }).
     ContinueWith(_ =>
     {
@@ -139,6 +145,9 @@ public partial class MsgSlideshowUsrCtrl
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing
       chkIsOn.IsChecked = _notShutdown = false;
       vbFinal1m.Visibility = Visibility.Visible;
+
+      ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■325");
+
       ImageView1.Visibility =
       VideoView1.Visibility = Visibility.Collapsed;
       Bpr?.Finish();
