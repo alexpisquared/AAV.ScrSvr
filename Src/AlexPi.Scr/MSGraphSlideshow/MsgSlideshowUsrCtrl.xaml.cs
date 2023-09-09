@@ -59,13 +59,13 @@ public partial class MsgSlideshowUsrCtrl
   public bool ScaleToHalf { get; set; }
   public void ScheduleShutdown(double minToPcSleep)
   {
+    ArgumentNullException.ThrowIfNull(Bpr, $"▀885");
+
     _ = Task.Run(async () =>
     {
-      ArgumentNullException.ThrowIfNull(Bpr, $"▀885");
+      var taskDelay = Task.Delay(TimeSpan.FromMinutes(minToPcSleep)); // must go first, or else it will be scheduled AFTER! completion of the scream.
       var taskScream = Bpr.GradientAsync(52, 9_000, 19, 120_000);
-      var taskDelay = Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
-
-      await Task.WhenAll(taskScream, taskDelay);
+      await Task.WhenAll(taskDelay, taskScream);
     }).
     ContinueWith(_ =>
     {
