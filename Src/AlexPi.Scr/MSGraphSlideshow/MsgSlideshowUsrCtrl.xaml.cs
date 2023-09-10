@@ -1,6 +1,4 @@
-﻿using Microsoft.Graph;
-
-namespace MSGraphSlideshow;
+﻿namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -59,17 +57,13 @@ public partial class MsgSlideshowUsrCtrl
   public bool ScaleToHalf { get; set; }
   public void ScheduleShutdown(double minToPcSleep)
   {
-    ArgumentNullException.ThrowIfNull(Bpr, $"▀885");
-
     _ = Task.Run(async () =>
     {
-      var taskDelay = Task.Delay(TimeSpan.FromMinutes(minToPcSleep)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      var taskScream = Bpr.GradientAsync(52, 9_000, 19, 120_000);
-      await Task.WhenAll(taskDelay, taskScream);
+      await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
     }).
     ContinueWith(_ =>
     {
-      ShutdownStart();
+      ShutdownIndicatorStart();
     }, TaskScheduler.FromCurrentSynchronizationContext());
   }
 
@@ -135,7 +129,7 @@ public partial class MsgSlideshowUsrCtrl
   void OnSnapshotNew(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_New", true);
   void OnShutdown(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; ScheduleShutdown(.03); }
 
-  void ShutdownStart()
+  void ShutdownIndicatorStart()
   {
     try
     {

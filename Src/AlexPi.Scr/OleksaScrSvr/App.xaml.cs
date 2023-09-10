@@ -76,9 +76,8 @@ public partial class App : System.Windows.Application
       if (DevOps.IsDbg)
       {
         await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0));   /**/        speech.SpeakFAF($"Turning off in a minute.");
-        await Task.Delay(TimeSpan.FromMinutes(1));                  /**/  await speech.SpeakAsync($"Sorry...");
 
-        speech.SpeakFAF("That is where PC is sent to sleep in release mode.");
+        LastMinuteChanceToCancelShutdown(speech, .25, logger);
       }
       else
       {
@@ -90,9 +89,30 @@ public partial class App : System.Windows.Application
         new AsLink.EvLogHelper().LogScrSvrBgn(300);           // 300 sec of idle has passed
         speech.SpeakFAF($"Armed!");
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));   /**/        speech.SpeakFAF($"Turning off in a minute.");
-        await Task.Delay(TimeSpan.FromMinutes(1));                  /**/  await speech.SpeakAsync($"Sorry...");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));           
+        speech.SpeakFAF($"Turning off in a minute.");
+        
+        LastMinuteChanceToCancelShutdown(speech, 1, logger);
+      }
+    }
+    catch (Exception ex) { logger.LogError(ex, _audit); }
 
+    return true;
+  }
+  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger)
+  {
+    _ = Task.Run(async () =>
+    {
+      var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
+      var taskScream = ServiceProvider.GetRequiredService<IBpr>().GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute));
+      await Task.WhenAll(taskDelay, taskScream);
+    }).ContinueWith(async t =>
+    {
+      await speech.SpeakAsync($"Sorry...");
+      if (DevOps.IsDbg)
+        speech.SpeakFAF("That is where PC is sent to sleep in release mode.");
+      else
+      {
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
         var sleepStart = DateTimeOffset.Now;
@@ -103,10 +123,7 @@ public partial class App : System.Windows.Application
         //Environment.Exit(87);
         //Environment.FailFast("Environment.FailFast");
       }
-    }
-    catch (Exception ex) { logger.LogError(ex, _audit); }
-
-    return true;
+    }, TaskScheduler.FromCurrentSynchronizationContext());
   }
 
   void LogScrSvrUptimeOncePerSession(string msg)
