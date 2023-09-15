@@ -10,52 +10,161 @@
       <Setter Property="Foreground"       Value="#f0af"    />
     </Style>
   </UserControl.Resources>
-  <Grid x:Name="ZoomablePanel">
-    <Grid.LayoutTransform>
-      <ScaleTransform ScaleX="{Binding ZV, ElementName=ths, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=ths, FallbackValue=1}" />
-    </Grid.LayoutTransform>
-    <StackPanel VerticalAlignment="Top">
-        <Grid x:Name="timeTicks">
-          <Grid.Resources>
-            <Style TargetType="{x:Type TextBlock}">
-              <Setter Property="Foreground"   Value="#aaa" />
-              <Setter Property="HorizontalAlignment"       Value="Center" />
-              <Setter Property="FontSize"       Value="8" />
-            </Style>
-          </Grid.Resources>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
-          </Grid.ColumnDefinitions>
-          <TextBlock Text="3"  Grid.Column="1"  />
-          <TextBlock Text="6"  Grid.Column="2"  />
-          <TextBlock Text="9"  Grid.Column="3"  />
-          <TextBlock Text="12" Grid.Column="4"  />
-          <TextBlock Text="15" Grid.Column="5"  />
-          <TextBlock Text="18" Grid.Column="6"  />
-          <TextBlock Text="21" Grid.Column="7"  />
-        </Grid>
-        <StackPanel x:Name="spArrayHolder" />
-      </StackPanel>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" >
+    <Grid>
+      <Grid x:Name="ZoomablePanel">
+        <Grid.LayoutTransform>
+          <ScaleTransform ScaleX="{Binding ZV, ElementName=ths, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=ths, FallbackValue=1}" />
+        </Grid.LayoutTransform>
+        <StackPanel VerticalAlignment="Top">
+          <StackPanel x:Name="spArrayHolder" />
+        </StackPanel>
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" x:Name="ctrlpnl" >
-      <Label  Content=" Re-Draw days back:" VerticalAlignment="Center" FontSize="8" Foreground="#4af" />
-      <Button Content=" _1 " Click="onDrawDays" Tag="1" />
-      <Button Content=" _5 " Click="onDrawDays" Tag="5" />
-      <Button Content=" _8 " Click="onDrawDays" Tag="8" />
-      <Button Content="_32"  Click="onDrawDays" Tag="32" />
-      <Button Content="_99"  Click="onDrawDays" Tag="99" />
-      <Button Content="600"  Click="onDrawDays" Tag="600" />
-      <TextBlock x:Name="tbInfo" d:Text="◄◄◄ " Margin="10 0" Foreground="#4af" />
-      <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=ths, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />
-    </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" x:Name="ctrlpnl" >
+          <Label  Content=" Re-Draw days back:" VerticalAlignment="Center" FontSize="8" Foreground="#4af" />
+          <Button Content=" _1 " Click="onDrawDays" Tag="1" />
+          <Button Content=" _5 " Click="onDrawDays" Tag="5" />
+          <Button Content=" _8 " Click="onDrawDays" Tag="8" />
+          <Button Content="_32"  Click="onDrawDays" Tag="32" />
+          <Button Content="_99"  Click="onDrawDays" Tag="99" />
+          <Button Content="600"  Click="onDrawDays" Tag="600" />
+          <TextBlock x:Name="tbInfo" d:Text="◄◄◄ " Margin="10 0" Foreground="#4af" />
+          <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=ths, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />
+        </StackPanel>
 
-  </Grid>
+      </Grid>
+      <Grid>
+        <Grid.Resources>
+          <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#888"/>
+            <Setter Property="FontSize" Value="6"/>
+          </Style>
+          <Style TargetType="{x:Type Rectangle}">
+            <Setter Property="Margin" Value="0 12 0 0"/>
+            <Setter Property="Width" Value=".15"/>
+            <Setter Property="Fill" Value="#fff"/>
+          </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="0.5*" />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="1"   Text="1"  />
+        <TextBlock Grid.Column="2"   Text="2"  />
+        <TextBlock Grid.Column="4"   Text="4"  />
+        <TextBlock Grid.Column="5"   Text="5"  />
+        <TextBlock Grid.Column="7"   Text="7"  />
+        <TextBlock Grid.Column="8"   Text="8"  />
+        <TextBlock Grid.Column="10"  Text="10"  />
+        <TextBlock Grid.Column="11"  Text="11"  />
+        <TextBlock Grid.Column="13"  Text="13"  />
+        <TextBlock Grid.Column="14"  Text="14"  />
+        <TextBlock Grid.Column="16"  Text="16"  />
+        <TextBlock Grid.Column="17"  Text="17"  />
+        <TextBlock Grid.Column="19"  Text="19"  />
+        <TextBlock Grid.Column="20"  Text="20"  />
+        <TextBlock Grid.Column="22"  Text="22"  />
+        <TextBlock Grid.Column="23"  Text="23"  />
+
+        <Rectangle Grid.Column="1"  />
+        <Rectangle Grid.Column="2"  />
+        <Rectangle Grid.Column="4"  />
+        <Rectangle Grid.Column="5"  />
+        <Rectangle Grid.Column="7"  />
+        <Rectangle Grid.Column="8"  />
+        <Rectangle Grid.Column="10" />
+        <Rectangle Grid.Column="11" />
+        <Rectangle Grid.Column="13" />
+        <Rectangle Grid.Column="14" />
+        <Rectangle Grid.Column="16" />
+        <Rectangle Grid.Column="17" />
+        <Rectangle Grid.Column="19" />
+        <Rectangle Grid.Column="20" />
+        <Rectangle Grid.Column="22" />
+        <Rectangle Grid.Column="23" />
+      </Grid>
+      <Grid>
+        <Grid.Resources>
+          <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#888"/>
+            <Setter Property="FontSize" Value="8"/>
+          </Style>
+          <Style TargetType="{x:Type Rectangle}">
+            <Setter Property="Margin" Value="0 12 0 0"/>
+            <Setter Property="Width" Value=".6"/>
+            <Setter Property="Fill" Value="#fff"/>
+          </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="0.5*" />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="3"   Text="3"  />
+        <TextBlock Grid.Column="6"   Text="6"  />
+        <TextBlock Grid.Column="9"   Text="9"  />
+        <TextBlock Grid.Column="12"  Text="12" />
+        <TextBlock Grid.Column="15"  Text="15" />
+        <TextBlock Grid.Column="18"  Text="18" />
+        <TextBlock Grid.Column="21"  Text="21" />
+
+        <Rectangle Grid.Column="3"  />
+        <Rectangle Grid.Column="6"  />
+        <Rectangle Grid.Column="9"  />
+        <Rectangle Grid.Column="12" />
+        <Rectangle Grid.Column="15" />
+        <Rectangle Grid.Column="18" />
+        <Rectangle Grid.Column="21" />
+      </Grid>
+    </Grid>
+  </ScrollViewer>
 </UserControl>

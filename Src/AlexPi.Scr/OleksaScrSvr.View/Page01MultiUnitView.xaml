@@ -52,9 +52,11 @@
             <local:UnitF4View x:Name="UnitF4"  Tag="FlagDynamic"/>
             <local:UnitF5View x:Name="UnitF5"  Tag="FlagStatic"/>
           </Canvas>
+          <!--
           <Ellipse Height="205" Width="205" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
           <Ellipse Height="888" Width="001" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
           <Ellipse Height="001" Width="888" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="1" Stroke="#444" />
+          -->
         </Grid>
       </Viewbox>
 

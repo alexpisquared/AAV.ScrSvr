@@ -6,7 +6,6 @@
   <Grid>
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
     
-    <!--        too much complexity:  <mgs:MsgSlideshowUsrCtrl x:Name="Mgs1" ClientId="{Binding ElementName=wnd, Path=ClientId}" Padding="16" Visibility="Collapsed" />    -->
     <stm:ScreenTimeUsrCtrl />
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
