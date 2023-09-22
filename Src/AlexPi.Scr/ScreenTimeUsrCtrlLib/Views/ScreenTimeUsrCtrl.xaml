@@ -38,7 +38,7 @@
           <Style TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="#888"/>
-            <Setter Property="FontSize" Value="6"/>
+            <Setter Property="FontSize" Value="9"/>
           </Style>
           <Style TargetType="{x:Type Rectangle}">
             <Setter Property="Margin" Value="0 12 0 0"/>
@@ -113,12 +113,12 @@
           <Style TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="#888"/>
-            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="FontSize" Value="12"/>
           </Style>
           <Style TargetType="{x:Type Rectangle}">
-            <Setter Property="Margin" Value="0 12 0 0"/>
-            <Setter Property="Width" Value=".6"/>
-            <Setter Property="Fill" Value="#fff"/>
+            <Setter Property="Margin"       Value="0 16 0 0"/>
+            <Setter Property="Width"        Value=".6"/>
+            <Setter Property="Fill"         Value="#fff"/>
           </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
