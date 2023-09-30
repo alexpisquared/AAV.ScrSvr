@@ -4,20 +4,20 @@ namespace ScreenTimeUsrCtrlLib.Views;
 
 public partial class ScreenTimeUsrCtrl
 {
-  int _daysback = 2;
+  int _daysBack = 7;
   Bpr _bpr = new Bpr();
 
-  public int DaysBack { get => _daysback; set => _daysback = value; }
+  public int DaysBack { get => _daysBack; set => _daysBack = value; }
   public int DelaySec { get; set; } = 15;
 
   public ScreenTimeUsrCtrl()
   {
     InitializeComponent();
     if (!DesignerProperties.GetIsInDesignMode(this)) //tu: design time mode
-      Loaded += onDrawDays;
+      Loaded += onDrawDays; //note: needs Tag on the user control
   }
-  async void onDrawDays(object s, RoutedEventArgs e) => await repopulateUsrCtrlCharts(((FrameworkElement)s).Tag?.ToString() ?? _daysback.ToString());
-  async Task repopulateUsrCtrlCharts(string str) => await repopulateUsrCtrlCharts(int.TryParse(str, out _daysback) ? _daysback : 21);
+  async void onDrawDays(object s, RoutedEventArgs e) => await repopulateUsrCtrlCharts(((FrameworkElement)s).Tag?.ToString() ?? _daysBack.ToString());
+  async Task repopulateUsrCtrlCharts(string str) => await repopulateUsrCtrlCharts(int.TryParse(str, out _daysBack) ? _daysBack : 21);
   async Task repopulateUsrCtrlCharts(int daysBack)
   {
     try

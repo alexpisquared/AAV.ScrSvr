@@ -1,6 +1,6 @@
 ﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UpTimeChart="clr-namespace:UpTimeChart" x:Class="ScreenTimeUsrCtrlLib.Views.ScreenTimeUsrCtrl" mc:Ignorable="d"                              
              xmlns:xui="clr-namespace:WpfUserControlLib.Views;assembly=WpfUserControlLib" 
-             d:DesignHeight="100" d:DesignWidth="900" Tag="2" x:Name="ths">
+             d:DesignHeight="100" d:DesignWidth="900" x:Name="ths">
   <UserControl.Resources>
     <Style TargetType="{x:Type Button}">
       <Setter Property="FontSize"         Value="9"    />

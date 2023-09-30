@@ -15,7 +15,7 @@
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
 
-        <stm:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
+        <stm:ScreenTimeUsrCtrl DaysBack="8" DelaySec="0"  Name="stuc"/>
 
       </Grid>
       <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
