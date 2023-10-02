@@ -30,6 +30,6 @@ public partial class MainEvLogExplr
     var lastSize = e.NewSize;
     await Task.Delay(333);
     if (lastSize.Width == e.NewSize.Width) // if finished resizing.
-      stuc.RedrawOnResize(s, null);
+      stuc.RedrawOnResize_todo(s, null);
   }
 }
