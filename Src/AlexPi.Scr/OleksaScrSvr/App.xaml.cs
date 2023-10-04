@@ -75,6 +75,9 @@ public partial class App : System.Windows.Application
     {
       if (DevOps.IsDbg)
       {
+        await speech.SpeakAsync($"Last minute!");
+        await speech.SpeakAsync($"Time to change!");
+
         await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0));   /**/        speech.SpeakFAF($"Turning off in a minute.");
 
         LastMinuteChanceToCancelShutdown(speech, .25, logger);
@@ -89,9 +92,9 @@ public partial class App : System.Windows.Application
         new AsLink.EvLogHelper().LogScrSvrBgn(300);           // 300 sec of idle has passed
         speech.SpeakFAF($"Armed!");
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));           
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));
         speech.SpeakFAF($"Turning off in a minute.");
-        
+
         LastMinuteChanceToCancelShutdown(speech, 1, logger);
       }
     }
