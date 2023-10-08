@@ -69,6 +69,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeaLib", "..\..\..\Rada
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeaSvc", "..\..\..\Radar\Src\OpenWeather2022\OpenWeaSvc.csproj", "{7F032004-E85E-439C-94E8-2546EBE39255}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TtsVoicesPocConsoleApp", "TtsVoicesPocConsoleApp\TtsVoicesPocConsoleApp.csproj", "{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BldRls|Any CPU = BldRls|Any CPU
@@ -604,6 +606,24 @@ Global
 		{7F032004-E85E-439C-94E8-2546EBE39255}.Release|x64.Build.0 = Release|x64
 		{7F032004-E85E-439C-94E8-2546EBE39255}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F032004-E85E-439C-94E8-2546EBE39255}.Release|x86.Build.0 = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|Any CPU.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|x64.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|x64.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|x86.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.BldRls|x86.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|x64.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Debug|x86.Build.0 = Debug|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x64.ActiveCfg = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x64.Build.0 = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x86.ActiveCfg = Release|Any CPU
+		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

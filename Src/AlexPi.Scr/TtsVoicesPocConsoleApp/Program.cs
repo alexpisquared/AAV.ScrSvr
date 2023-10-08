@@ -1,7 +1,7 @@
-﻿using SpeechSynthLib;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using TtsVoicesPocConsoleApp;
+using AmbienceLib;
+using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Apparently, 
@@ -25,43 +25,20 @@ catch (Exception ex)
 
 Console.WriteLine("          ... the end!");
 
-static async Task Test3()
-{
-  var synth = new SpeechSynth();
-  var vm = new VoiceMap();
-  var msg =
-    //"Привет! Hi there? " +
-    "爸爸饿了";
-
-
-  foreach (var v in vm.AllVoiceNames())
-    foreach (var t in vm.AllVoiceStyle(v))
-      await showAndSay(synth, msg, v, t);
-
-  //Console.WriteLine("          ... press Space to continue VVVVVVVVVVV!");
-  //do
-  //{
-  //  var v = vm.RandomVoice();
-  //  var t = vm.RandomVoiceStyle(v);
-  //  await showAndSay(synth, msg, v, t);
-  //} while (Console.ReadKey(true).Key == ConsoleKey.Spacebar);
-}
-
-static async Task Test2() => await new VoiceTester().Test1();
-
-static async Task showAndSay(SpeechSynth synth, string msg, string v, string t)
-{
-  Console.WriteLine($"   {v,-22} {t,-33}");
-  await synth.SpeakAsync(msg, VMode.Express, v, t);
-}
 public class SpeechSynth2 : SpeechSynth, IDisposable
 {
+  public SpeechSynth2(string speechKey, bool useCached = true, string voice = "en-US-AriaNeural", string speechSynthesisLanguage = "uk-UA", ILogger lgr = null, string pathToCache = "C:\\g\\AAV.Shared\\Src\\NetLts\\Ambience\\MUMsgs\\") : base(speechKey, useCached, voice, speechSynthesisLanguage, lgr, pathToCache)
+  {
+  }
+
+  public void Dispose() => throw new NotImplementedException();
+
   public async Task<bool> test1()
   {
-    using var _synth = new SpeechSynth();
+    using var _synth = new SpeechSynth("");
     var s = "Hi there?";
-    await _synth.SpeakAsync(s, VMode.Prosody, "es-ES-HelenaRUS");
-    await _synth.SpeakAsync(s, VMode.Express, "es-ES-HelenaRUS");
+    await _synth.SpeakAsync(s, 1, 100, "es-ES-HelenaRUS");
+    await _synth.SpeakAsync(s, 1, 100, "es-ES-HelenaRUS");
 
     //await _synth.SpeakAsync(s, a, "uk-UA-OstapNeural");
     //await _synth.SpeakAsync(s, a, "uk-UA-OstapNeural");  // bad ending
