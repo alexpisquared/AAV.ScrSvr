@@ -104,7 +104,8 @@ public partial class MsgSlideshowUsrCtrl
           _ = await LoadWaitThenShowNext();
         else
         {
-          await Bpr?.BeepAsync(300, sec: .500); ;
+          ArgumentNullException.ThrowIfNull(Bpr, "Bpr... ■325");
+          await Bpr.BeepAsync(300, sec: .500); ;
           await Task.Delay(2_000);
         }
       }
@@ -272,7 +273,7 @@ public partial class MsgSlideshowUsrCtrl
       else
       {
         mediaType = $"■ else ■";
-        ReportBC.Content = $"{_filename}:- {.000001 * driveItem?.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
+        ReportBC.Content = $"{_filename}:- {.000001 * driveItem?.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem?.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_filename}  {ReportBC.Content}  ");
         ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
       }
@@ -421,7 +422,7 @@ public partial class MsgSlideshowUsrCtrl
   }
   async Task<(long durationInMs, bool isExact, string report)> StartPlayingMediaStream(Stream stream, DriveItem driveItem)
   {
-    var media = new Media(_libVLC, new StreamMediaInput(stream));
+    var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
 
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "■555");
 
@@ -526,7 +527,7 @@ public partial class MsgSlideshowUsrCtrl
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream(await _graphServiceClient?.Me?.Photo?.Content?.Request().GetAsync())).bitmapImage;
+    ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.Request().GetAsync()))).bitmapImage;
     _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
     _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
