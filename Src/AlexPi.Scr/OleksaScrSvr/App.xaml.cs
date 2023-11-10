@@ -84,9 +84,9 @@ public partial class App : System.Windows.Application
       }
       else
       {
-        await Task.Delay(TimeSpan.FromSeconds(48)); // grace period 1
-        speech.SpeakFAF($"Really?");
-        await Task.Delay(TimeSpan.FromSeconds(12)); // grace period 2
+        await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?");
+        await Task.Delay(TimeSpan.FromSeconds(15)); speech.SpeakFAF($"Arming...");
+        await Task.Delay(TimeSpan.FromSeconds(05)); 
 
         _mustLogEORun = true;
         new AsLink.EvLogHelper().LogScrSvrBgn(300);           // 300 sec of idle has passed
