@@ -300,13 +300,17 @@ public partial class MsgSlideshowUsrCtrl
     }
     finally
     {
+      var l = @$"C:\Users\{Environment.UserName}\OneDrive\Public\Logs\OleksaScrSvr.Video.log";
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
         Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
+        await System.IO.File.AppendAllTextAsync(l, $"yyyyMMdd-HHmmss  takenYMD  taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!    Mb|\r\n");
       }
 
       Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport,-26}{dateReport}");
+
+      await System.IO.File.AppendAllTextAsync(l, $"{DateTime.Now:yyyyMMdd-HHmmss}  {takenDateTime,8:yy-MM-dd}  {dateReport,56}{.000001 * driveItem?.Size,6:N0} |{_filename}\r\n");
 
       _currentShowTimeMS = _maxMs;
     }
