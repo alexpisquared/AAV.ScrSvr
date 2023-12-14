@@ -68,6 +68,7 @@ public partial class App : System.Windows.Application
   {
     var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
     var logger = ServiceProvider.GetRequiredService<ILogger>();
+    var beeper = ServiceProvider.GetRequiredService<IBpr>();
 
     Current.Resources["ExecutionDuration"] = new Duration(TimeSpan.FromMinutes(minToPcSleep));
 
@@ -78,36 +79,32 @@ public partial class App : System.Windows.Application
         await speech.SpeakAsync($"Last minute!");
         await speech.SpeakAsync($"Time to change!");
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0));   /**/        speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in a minute.");
 
-        LastMinuteChanceToCancelShutdown(speech, .25, logger);
-      }
-      else
+        LastMinuteChanceToCancelShutdown(speech, .25, logger, beeper);
+      } else
       {
         await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?");
         await Task.Delay(TimeSpan.FromSeconds(15)); speech.SpeakFAF($"Arming...");
-        await Task.Delay(TimeSpan.FromSeconds(05)); 
+        await Task.Delay(TimeSpan.FromSeconds(05)); speech.SpeakFAF($"Armed!");
 
         _mustLogEORun = true;
-        new AsLink.EvLogHelper().LogScrSvrBgn(300);           // 300 sec of idle has passed
-        speech.SpeakFAF($"Armed!");
+        new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1));
-        speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1)); speech.SpeakFAF($"Turning off in a minute.");
 
-        LastMinuteChanceToCancelShutdown(speech, 1, logger);
+        LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
       }
-    }
-    catch (Exception ex) { logger.LogError(ex, _audit); }
+    } catch (Exception ex) { logger.LogError(ex, _audit); }
 
     return true;
   }
-  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger)
+  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
   {
     _ = Task.Run(async () =>
     {
       var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      var taskScream = ServiceProvider.GetRequiredService<IBpr>().GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute));
+      var taskScream = bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute));
       await Task.WhenAll(taskDelay, taskScream);
     }).ContinueWith(async t =>
     {
