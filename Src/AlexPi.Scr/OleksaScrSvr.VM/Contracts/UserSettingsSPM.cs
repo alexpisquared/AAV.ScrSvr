@@ -15,7 +15,7 @@ public class UserSettingsSPM : StandardLib.Base.UserSettingsStore
     var fromFile = Load<UserSettingsSPM>();
 
     //todo: how to map to itself: var dtoForThis = new AutoMapper.MapperConfiguration(cfg => cfg.CreateMap<UserSettingsSPM, UserSettingsSPM>()).CreateMapper().Map<UserSettingsSPM>(fromFile); 
-        
+
     PrefDtBsName = fromFile.PrefDtBsName;
     PrefSrvrName = fromFile.PrefSrvrName;
     PrefDtBsRole = fromFile.PrefDtBsRole;
@@ -33,7 +33,7 @@ public class UserSettingsSPM : StandardLib.Base.UserSettingsStore
   string _r = "IpmUserRole";    /**/ public string PrefDtBsRole { get => _r; set { if (_r != value) { _r = value; SaveIf(); } } }
   bool _o;                      /**/ public bool AllowSave { get => _o; set { if (_o != value) { _o = value; SaveIf(); } } }
   int _a = -2;                  /**/ public int PrefAplctnId { get => _a; set { if (_a != value) { _a = value; SaveIf(); } } }
-  bool _u;                      /**/ public bool IsAudible { get => _u; set { if (_u != value) { _u = value; SaveIf(); } } }
+  bool _u = true;               /**/ public bool IsAudible { get => _u; set { if (_u != value) { _u = value; SaveIf(); } } }
   bool _n;                      /**/ public bool IsAnimeOn { get => _n; set { if (_n != value) { _n = value; SaveIf(); } } }
   string _p = "IpmUserRole";    /**/ public string StartPage { get => _p; set { if (_p != value) { _p = value; SaveIf(); } } }
 }
