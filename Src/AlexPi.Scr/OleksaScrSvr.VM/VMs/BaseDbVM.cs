@@ -17,6 +17,8 @@ public partial class BaseDbVM : BaseMinVM
     _secForcer = sec;
     MainWin = (Window)win;
     UserSetgs = usrStgns;
+    
+    UserSetgs.IsAnimeOn = true;
 
     _allowSaveStore = allowSaveStore; _allowSaveStore.AllowSaveChanged += AllowSaveStore_AllowSaveChanged;
     _IsBusyStore = IsBusyStore; _IsBusyStore.IsBusyChanged += IsBusyStore_IsBusyChanged;
@@ -24,13 +26,13 @@ public partial class BaseDbVM : BaseMinVM
     AllowSave = IsDevDbg && _secForcer.CanEdit && (
       UserSetgs.PrefSrvrName is not null && !UserSetgs.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UserSetgs.AllowSave);
 
-    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.fffffff}      PageRank:{oid}    ");
+    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26}       PageRank:{oid}     IsAudible:{UserSetgs.IsAudible} ");
   }
 
   public override async Task<bool> InitAsync()
   {
     _inited = true;
-    //Logger.LogInformation($"├── {GetType().Name} eo-init     _hash:{_ctorTime:HH:mm:ss.fffffff}   ");
+    //Logger.LogInformation($"├── {GetType().Name} eo-init        ");
     await Task.Yield();
     return true;
   }
@@ -46,7 +48,7 @@ public partial class BaseDbVM : BaseMinVM
     catch (Exception ex) { IsBusy = false; ex.Pop(Logger); return false; }
     finally
     {
-      Logger.LogInformation($"└── eo-wrap {GetType().Name,-26} _hash:{_ctorTime:HH:mm:ss.fffffff}     ");
+      Logger.LogInformation($"└── eo-wrap {GetType().Name,-26}      ");
     }
   }
   public virtual async Task RefreshReloadAsync([CallerMemberName] string? cmn = "") { WriteLine($"TrWL:> {cmn}->BaseDbVM.RefreshReloadAsync() "); await Task.Yield(); }

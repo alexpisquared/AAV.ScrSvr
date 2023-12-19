@@ -1,4 +1,5 @@
 ﻿using AmbienceLib;
+using MSGraphSlideshow;
 
 namespace OleksaScrSvr;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -78,11 +79,12 @@ public partial class App : System.Windows.Application
     {
       if (DevOps.IsDbg)
       {
-        await speech.SpeakAsync($"Last minute!");
-        await speech.SpeakAsync($"Time to change!");
-                var taskScream = beeper.GradientAsync(52, 9_000, 19, (int)(120_000 ));
+        ////await speech.SpeakAsync($"Last minute!");
+        ////await speech.SpeakAsync($"Time to change!");
+        //        var taskScream = beeper.GradientAsync(52, 9_000, 19, (int)(120_000 ));
 
-                await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in a minute.");
+        new EarliestDateTests().TestEarliestDate();
+                await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in 15 seconds.");
 
         LastMinuteChanceToCancelShutdown(speech, .25, logger, beeper);
       } else

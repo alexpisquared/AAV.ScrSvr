@@ -7,10 +7,21 @@
       "..\\..\\..\\AAV.Shared\\Src\\NetLts\\StandardLib\\StandardLib.csproj",
       "..\\..\\..\\AAV.Shared\\Src\\NetLts\\WinFormsControlLib\\WinFormsControlLib.csproj",
       "..\\..\\..\\AAV.Shared\\Src\\NetLts\\WpfUserControlLib\\WpfUserControlLib.csproj",
+      "..\\..\\..\\Microsoft-Graph\\Src\\msgraph-training-uwp\\DemoLibrary\\DemoLibrary.csproj",
+      "..\\..\\..\\Microsoft-Graph\\Src\\msgraph-training-uwp\\Microsoft.Identity.Client.Extensions.Msal\\Microsoft.Identity.Client.Extensions.Msal.csproj",
+      "..\\..\\..\\Microsoft-Graph\\Src\\msgraph-training-uwp\\Shared\\Shared.shproj",
+      "..\\..\\..\\Radar\\Src\\DB.WeatherX.PwrTls\\DB.WeatherX.PwrTls.csproj",
+      "..\\..\\..\\Radar\\Src\\OpenWeaWpfApp\\OpenWeaLib.csproj",
+      "..\\..\\..\\Radar\\Src\\OpenWeather2022\\OpenWeaSvc.csproj",
+      "..\\..\\..\\Radar\\Src\\PixelMeasure\\PixelMeasure.csproj",
+      "..\\..\\..\\Radar\\Src\\Radar22.Lib\\Radar22.Lib.csproj",
+      "Db.EventLog\\Db.EventLog.csproj",
+      "MSGraphSlideshow\\MSGraphSlideshow.csproj",
       "OleksaScrSvr.Contract\\OleksaScrSvr.Contract.csproj",
       "OleksaScrSvr.VM\\OleksaScrSvr.VM.csproj",
       "OleksaScrSvr.View\\OleksaScrSvr.View.csproj",
-      "OleksaScrSvr\\OleksaScrSvr.csproj"
+      "OleksaScrSvr\\OleksaScrSvr.csproj",
+      "ScreenTimeUsrCtrlLib\\ScreenTimeUsrCtrlLib.csproj"
     ]
   }
 }

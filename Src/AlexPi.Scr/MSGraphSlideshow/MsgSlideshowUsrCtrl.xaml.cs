@@ -35,8 +35,7 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.Content = VersionHelper.CurVerStr;
 
       ScheduleShutdown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
-    }
-    catch (Exception ex)
+    } catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
@@ -109,14 +108,12 @@ public partial class MsgSlideshowUsrCtrl
           await Task.Delay(2_000);
         }
       }
-    }
-    catch (Exception ex)
+    } catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
-    }
-    finally
+    } finally
     {
       this.FindParentWindow().WindowState = WindowState.Normal;
     }
@@ -146,8 +143,7 @@ public partial class MsgSlideshowUsrCtrl
       ImageView1.Visibility =
       VideoView1.Visibility = Visibility.Collapsed;
       Bpr?.Finish();
-    }
-    catch (Exception ex)
+    } catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
@@ -181,10 +177,10 @@ public partial class MsgSlideshowUsrCtrl
 
   async Task<bool> LoadWaitThenShowNext()
   {
-    string mediaType = "----", streamReport = "-- ", cancelReport = "", dateReport = "";
+    string mediaType = "----", streamReport = "-- ", cancelReport = "", allDates = "";
     var dnldTime = TimeSpan.Zero;
     var driveItem = (DriveItem?)default;
-    DateTimeOffset? takenDateTime = null;
+    DateTimeOffset? minDate = null;
 
     _filename = GetRandomSizeProportionalMediaFile();
 
@@ -210,15 +206,12 @@ public partial class MsgSlideshowUsrCtrl
         var taskDelay = Task.Delay(_currentShowTimeMS, _cancellationTokenSource.Token);
         await Task.WhenAll(taskStream, taskDelay);
         dnldTime = taskStream.Result.dnldTime;
-      }
-      catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
-      catch (Exception ex)
+      } catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; } catch (Exception ex)
       {
         ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
 
         ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
-      }
-      finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
+      } finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
 
@@ -228,11 +221,11 @@ public partial class MsgSlideshowUsrCtrl
 
       VideoInterval.Visibility = Visibility.Hidden;
 
-      var tr = GetEarliestDate(driveItem);
-      takenDateTime = tr.date;
-      dateReport = tr.report;
+      var tr = MicrosoftGraphHelpers.GetEarliestDate(driveItem);
+      minDate = tr.minDate;
+      allDates = tr.report;
 
-      ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
+      ReportTL.Content = $"{minDate:yyyy-MM-dd}";
 
       ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");
       ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");
@@ -247,8 +240,7 @@ public partial class MsgSlideshowUsrCtrl
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
         ReportTL.Content = $"{driveItem?.Photo?.TakenDateTime ?? driveItem?.CreatedDateTime:yyyy-MM-dd}";
-      }
-      else if (driveItem?.Video is not null)
+      } else if (driveItem?.Video is not null)
       {
         mediaType = $"Video";
         if (_notShutdown && chkIsOn.IsChecked == true) // a waste ... I know.
@@ -259,8 +251,7 @@ public partial class MsgSlideshowUsrCtrl
           ImageView1.Visibility = Visibility.Hidden;
           VideoView1.Visibility = Visibility.Visible;
         }
-      }
-      else if (driveItem?.Photo is not null)
+      } else if (driveItem?.Photo is not null)
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{_filename}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
@@ -268,37 +259,33 @@ public partial class MsgSlideshowUsrCtrl
         ImageView1.Source = (await GetBipmapFromStream(taskStream.Result.stream)).bitmapImage;
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
-        ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
-      }
-      else
+        ReportTL.Content = $"{minDate:yyyy-MM-dd}";
+      } else
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{_filename}:- {.000001 * driveItem?.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem?.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
         Logger?.Log(LogLevel.Information, $" !? {_filename}  {ReportBC.Content}  ");
-        ReportTL.Content = $"{takenDateTime:yyyy-MM-dd}";
+        ReportTL.Content = $"{minDate:yyyy-MM-dd}";
       }
 
       ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
       return true;
-    }
-    catch (ServiceException ex)
+    } catch (ServiceException ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
-    }
-    catch (Exception ex)
+    } catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
-    }
-    finally
+    } finally
     {
       var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log");
 
@@ -306,33 +293,15 @@ public partial class MsgSlideshowUsrCtrl
       {
         _alreadyPrintedHeader = true;
         Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd}  takenYMD  taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!    Mb |  {OneDrive.Folder("")}\r\n");
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd}  taken     created   lastModi  fsi crea  fsi last   the Earliest!!    Mb {OneDrive.Folder("")}\n");
       }
 
-      Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {takenDateTime:yy-MM-dd}  {cancelReport,-26}{dateReport}");
+      Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}   {takenDateTime,8:yy-MM-dd}  {dateReport,56}{.000001 * driveItem?.Size,6:N0} |{_filename}\r\n");
+      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {allDates,56}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{_filename}\r\n");
 
       _currentShowTimeMS = _maxMs;
     }
-  }
-
-  (DateTimeOffset date, string report) GetEarliestDate(DriveItem? driveItem)
-  {
-    return EarliestDate(
-      driveItem?.Photo?.TakenDateTime,
-      driveItem?.CreatedDateTime,
-      driveItem?.LastModifiedDateTime,
-      driveItem?.FileSystemInfo?.CreatedDateTime,
-      driveItem?.FileSystemInfo?.LastModifiedDateTime);
-  }
-
-  (DateTimeOffset date, string report) EarliestDate(DateTimeOffset? taken, DateTimeOffset? created, DateTimeOffset? lastModified, DateTimeOffset? createdFSI, DateTimeOffset? lastModifiedFSI)
-  {
-    var oldest = new DateTimeOffset(new DateTime(1980, 01, 01));
-    var d = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > oldest).Min(d => d.HasValue ? d.Value : oldest);
-    var r = $"{taken,8:yy-MM-dd}  {created:yy-MM-dd}  {lastModified:yy-MM-dd}  {createdFSI:yy-MM-dd}  {lastModifiedFSI:yy-MM-dd}    {d:yy-MM-dd HH:mm}";
-    return (d, r);
   }
 
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
@@ -476,8 +445,7 @@ public partial class MsgSlideshowUsrCtrl
       rectnglStart.Width = seekToMSec * k;
       progressBar3.Width = _currentShowTimeMS * k;
       rectnglRest1.Width = (durationMs - seekToMSec - _currentShowTimeMS) * k;
-    }
-    else if (durationMs > 0)
+    } else if (durationMs > 0)
       report2 += $"  0/{durationMs * .001,-3:N0}";
     else
       report2 += $" ° :Prorate this ext! ▄▀▄▀";
