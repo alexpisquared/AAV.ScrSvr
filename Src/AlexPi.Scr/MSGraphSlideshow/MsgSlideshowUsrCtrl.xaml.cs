@@ -287,18 +287,18 @@ public partial class MsgSlideshowUsrCtrl
       return false;
     } finally
     {
-      var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log");
+      var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
 
       if (!_alreadyPrintedHeader)
       {
         _alreadyPrintedHeader = true;
         Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd}  taken     created   lastModi  fsi crea  fsi last   the Earliest!!    Mb {OneDrive.Folder("")}\n");
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb {OneDrive.Folder("")}\n");
       }
 
       Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {allDates,56}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{_filename}\r\n");
+      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {minDate:yy-MM-dd HH:mm}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{_filename,-99}\t{driveItem.WebUrl}\n"); /////////////////////////////////////////////
 
       _currentShowTimeMS = _maxMs;
     }

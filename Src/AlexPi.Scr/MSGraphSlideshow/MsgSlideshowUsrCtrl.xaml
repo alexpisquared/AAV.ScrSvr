@@ -47,7 +47,7 @@
 
       <Storyboard x:Key="sbFinal1m">
         <DoubleAnimation Storyboard.TargetName="pbFinal1m" Storyboard.TargetProperty="Value"   From="0.0" To="100" Duration="0:1:0" EasingFunction="{StaticResource si}" />
-        <DoubleAnimation Storyboard.TargetName="vbFinal1m" Storyboard.TargetProperty="Opacity" From="0.1" To="1.0" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="vbFinal1m" Storyboard.TargetProperty="Opacity" From="0.3" To="1.0" Duration="0:1:0" EasingFunction="{StaticResource si}" />
       </Storyboard>
       <Storyboard x:Key="sbDropOu">
         <DoubleAnimation Storyboard.TargetName="pbFinal1m" Storyboard.TargetProperty="Value" To="1"            Duration="0:0:1" EasingFunction="{StaticResource si}" />
@@ -156,8 +156,8 @@
     <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <Viewbox       x:Name="vbFinal1m"  Visibility="Collapsed" Stretch="Fill">
       <Grid>
-        <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" BorderThickness="0" Foreground="#111" Background="#333" />
-        <TextBlock Text="The End" FontFamily="Goudy Stout" HorizontalAlignment="Center" Foreground="#0a0" />
+        <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" BorderThickness="0" Foreground="#500" Background="#008" />
+        <TextBlock Text="The End" FontFamily="Goudy Stout" HorizontalAlignment="Center" Foreground="#080" />
       </Grid>
     </Viewbox>
   </Grid>
