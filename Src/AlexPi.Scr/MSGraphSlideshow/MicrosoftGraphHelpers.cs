@@ -12,7 +12,7 @@
 
   static (DateTimeOffset minDate, string report) EarliestDate(DateTimeOffset? taken, DateTimeOffset? created, DateTimeOffset? lastModified, DateTimeOffset? createdFSI, DateTimeOffset? lastModifiedFSI)
   {
-    var same = " ________ ";
+    var same = " ____.____";
     var minValid = new DateTimeOffset(new DateTime(1980, 01, 01));
     var min = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > minValid).Min(d => d.HasValue ? d.Value : minValid);
     var all = // $"{taken:yy-MM-dd}  {created:yy-MM-dd}  {lastModified:yy-MM-dd}  {createdFSI:yy-MM-dd}  {lastModifiedFSI:yy-MM-dd}   {min:yy-MM-dd HH:mm}";
