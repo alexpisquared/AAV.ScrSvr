@@ -293,12 +293,12 @@ public partial class MsgSlideshowUsrCtrl
       {
         _alreadyPrintedHeader = true;
         Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb https://1drv.ms/i/s!AGmSfHgV- {OneDrive.Folder("")}\\Pictures\n");
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb {OneDrive.Folder("")}\\Pictures\\1drv.ms/i/s!AGmSfHgV-\n");
       }
 
       Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {minDate:yy-MM-dd HH:mm}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}  {_filename.Replace(@"\Pictures", ""),-99}\n"); /////////////////////////////////////////////
+      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {minDate:yy-MM-dd HH:mm}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")} {_filename.Replace(@"\Pictures", ""),-99}\n"); /////////////////////////////////////////////
 
       _currentShowTimeMS = _maxMs;
     }
