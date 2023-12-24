@@ -161,7 +161,7 @@ public partial class DailyChart
         new TextBlock
         {
           Text = isOver1hr ? $"{dTime:h\\:mm}" : $"{dTime,3:\\:m}",
-          FontSize = isUp ? 13 : 11,
+          FontSize = isUp ? 13 : .1, // op: change to 11 if need to see the off times.
           Foreground = isUp ? Brushes.LimeGreen : Brushes.DodgerBlue,
           ToolTip = tooltip,
           Margin = isUp ? new Thickness(3, 2, -3, -2) : new Thickness(3, -2, -3, 2)
