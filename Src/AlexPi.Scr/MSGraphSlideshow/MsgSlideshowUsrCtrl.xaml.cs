@@ -66,7 +66,7 @@ public partial class MsgSlideshowUsrCtrl
     }, TaskScheduler.FromCurrentSynchronizationContext());
   }
 
-  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<MsgSlideshowUsrCtrl>();
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
   SpeechSynth? _synth; public SpeechSynth? Synth => _synth ??= (DataContext as dynamic)?.Synth;
 

@@ -53,7 +53,7 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit \n██");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
 
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
 
@@ -121,8 +121,8 @@ public partial class App : System.Windows.Application
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
         var sleepStart = DateTimeOffset.Now;
-        logger.Log(LogLevel.Information, $"+{TimeSoFar}  SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█··· "); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-        logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+        logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█···                   │"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+        logger.Log(LogLevel.Information, $"╘══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
 
         // never gets here: 
         //Environment.Exit(87);

@@ -22,7 +22,7 @@ public partial class UnitContainerBase : UserControl
     }
   }
 
-  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<UnitContainerBase>();
   string JsonFil => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
   string JsonFile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @$"AppSettings\{AppDomain.CurrentDomain.FriendlyName}\_{Name}_{(VersionHelper.IsDbg ? "dbg" : "")}.json");
 

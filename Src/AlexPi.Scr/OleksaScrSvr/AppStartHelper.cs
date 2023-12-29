@@ -1,11 +1,13 @@
-﻿namespace OleksaScrSvr;
+﻿using OleksaScrSvr.Properties;
+
+namespace OleksaScrSvr;
 public static class AppStartHelper
 {
   public static void InitAppSvcs(IServiceCollection services)
   {
-    _ = services.AddSingleton<IConfigurationRoot>(new ConfigRandomizer("appsettings.OleksaScrSvr.json").Config);
+    _ = services.AddSingleton<IConfigurationRoot>(new ConfigRandomizer("appsettings.OleksaScrSvr.json").Config); //todo: use both secrets.json and appsettings.OleksaScrSvr.json.
 
-    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.InitLoggerFactory(@$"{Path.Combine(OneDrive.Root, @"Public")}\Logs\{Assembly.GetExecutingAssembly().GetName().Name}.{Environment.MachineName[..3]}.{Environment.UserName[..3]}..log", sp.GetRequiredService<IConfigurationRoot>()["MinimumLogLevel"] ?? "+Info -Verb +Infi").CreateLogger<MainNavView>());
+    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.CreateLogger<MainNavView>(Settings.Default.MinLogLevel));
 
     _ = services.AddSingleton<IBpr, Bpr>(); // _ = VersionHelper.IsDbgAndRBD ? services.AddSingleton<IBpr, Bpr>() : services.AddSingleton<IBpr, BprSilentMock>();
 
