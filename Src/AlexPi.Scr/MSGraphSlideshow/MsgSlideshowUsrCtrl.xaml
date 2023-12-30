@@ -133,10 +133,10 @@
               <TextBlock Text="Is On   " FontSize="11" Background="#3333" Foreground="#08f" />
             </CheckBox>
             <CheckBox  IsChecked="False" Click="OnMute"  >
-              <TextBlock Text="Muted   " FontSize="11" Background="#3333" Foreground="#08f" />
+              <TextBlock Text="Mute " FontSize="11" Background="#3333" Foreground="#08f" />
             </CheckBox>
             <CheckBox  IsChecked="False" Click="OnLoud"  >
-              <TextBlock Text="Quieter " FontSize="11" Background="#3333" Foreground="#08f" />
+              <TextBlock Text="Quiet" FontSize="11" Background="#3333" Foreground="#08f" />
             </CheckBox>
           </StackPanel>
         </Viewbox>
