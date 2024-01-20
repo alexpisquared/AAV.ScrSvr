@@ -84,10 +84,11 @@ public partial class App : System.Windows.Application
         //        var taskScream = beeper.GradientAsync(52, 9_000, 19, (int)(120_000 ));
 
         new EarliestDateTests().TestEarliestDate();
-                await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in 15 seconds.");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in 15 seconds.");
 
         LastMinuteChanceToCancelShutdown(speech, .25, logger, beeper);
-      } else
+      }
+      else
       {
         await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?");
         await Task.Delay(TimeSpan.FromSeconds(15)); speech.SpeakFAF($"Arming...");
@@ -100,7 +101,8 @@ public partial class App : System.Windows.Application
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
       }
-    } catch (Exception ex) { logger.LogError(ex, _audit); }
+    }
+    catch (Exception ex) { logger.LogError(ex, _audit); }
 
     return true;
   }
@@ -109,7 +111,18 @@ public partial class App : System.Windows.Application
     _ = Task.Run(async () =>
     {
       var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      var taskScream = bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute));
+      var taskScream =
+      Environment.MachineName switch
+      {
+        "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
+          => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
+        "NUC2"
+          => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
+        "RAZER1" 
+          => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
+        _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
+      };
+
       await Task.WhenAll(taskDelay, taskScream);
     }).ContinueWith(async t =>
     {
