@@ -21,6 +21,7 @@
       "OleksaScrSvr.VM\\OleksaScrSvr.VM.csproj",
       "OleksaScrSvr.View\\OleksaScrSvr.View.csproj",
       "OleksaScrSvr\\OleksaScrSvr.csproj",
+      "PostScrSvr\\PostScrSvr.csproj",
       "ScreenTimeUsrCtrlLib\\ScreenTimeUsrCtrlLib.csproj"
     ]
   }

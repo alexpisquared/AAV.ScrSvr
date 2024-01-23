@@ -16,7 +16,8 @@
 
     <Label Grid.ColumnSpan="4" Content="Video Terminator" FontSize="26" FontWeight="Medium" FontFamily="Old English Text MT" Margin="8 3" Foreground="#a0f" />
 
-    <DataGrid x:Name="dg1" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="dg1_SelectionChanged" Background="Transparent" Foreground="#ccc" RowBackground="#1000" AlternatingRowBackground="#1fff" AutoGenerateColumns="False" >
+    <DataGrid x:Name="dg1" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="dg1_SelectionChanged" Background="Transparent" Foreground="#ccc" RowBackground="#1000" AlternatingRowBackground="#1fff" AutoGenerateColumns="False" 
+              MouseDoubleClick="OnDblClick" SelectionMode="Single" IsReadOnly="True" >
       <DataGrid.Columns>
         <DataGridTextColumn Header="Displayed"      Width="80" Binding="{Binding Displayed, StringFormat='{}{0:ddd HH:mm}'}" Foreground="#5af" />
         <DataGridTextColumn Header="Created"        Width="80" Binding="{Binding Created, StringFormat='{}{0:y-MM-dd}'}"     Foreground="#f8f" />
@@ -36,10 +37,11 @@
     <MediaElement x:Name="mediaElement1" Grid.Column="2" Margin="5" Grid.Row="1" LoadedBehavior="Play" />
 
     <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-      <Button Content="_Open Path"      Click="OnOpenPath"  Margin="5" IsDefault="True" />
-      <Button Content="_Move to Nadine" Click="OnOpenPath"  Margin="5" IsEnabled="False" />
-      <Button Content="_Delete"         Click="OnOpenPath"  Margin="5" IsEnabled="False" />
-      <Button Content="Exit"            Click="OnExit"      Margin="5" IsCancel="True" />
+      <Button Content="_Play Start"     Click="OnPlayStart" Margin="5" IsDefault="True"  Foreground="#070" />
+      <Button Content="_Open Path"      Click="OnOpenPath"  Margin="5"                   Foreground="#00f" />
+      <Button Content="_Move to Nadine" Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f"  />
+      <Button Content="_Delete"         Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f"  />
+      <Button Content="Exit"            Click="OnExit"      Margin="5" IsCancel="True"   Foreground="#00f"  />
     </StackPanel>
 
   </Grid>
