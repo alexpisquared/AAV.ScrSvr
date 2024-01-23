@@ -71,6 +71,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeaSvc", "..\..\..\Rada
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TtsVoicesPocConsoleApp", "TtsVoicesPocConsoleApp\TtsVoicesPocConsoleApp.csproj", "{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostScrSvr", "PostScrSvr\PostScrSvr.csproj", "{6487B0D9-46DC-4E18-88C2-3FD0690D6460}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BldRls|Any CPU = BldRls|Any CPU
@@ -624,6 +626,24 @@ Global
 		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x64.Build.0 = Release|Any CPU
 		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x86.ActiveCfg = Release|Any CPU
 		{B46DCBF6-1101-4F1F-BD6B-FCA49D59ADCD}.Release|x86.Build.0 = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|Any CPU.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|Any CPU.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|x64.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|x64.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|x86.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.BldRls|x86.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|x64.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Debug|x86.Build.0 = Debug|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|x64.ActiveCfg = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|x64.Build.0 = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|x86.ActiveCfg = Release|Any CPU
+		{6487B0D9-46DC-4E18-88C2-3FD0690D6460}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

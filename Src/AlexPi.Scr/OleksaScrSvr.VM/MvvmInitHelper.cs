@@ -13,9 +13,9 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<AllowSaveStore>();
     _ = services.AddSingleton<IsBusyStore>();
 
-    //tu: Start Page Startup Page controller.
+    //tu: Start Page Startup Start up Page controller.
     _ = DevOps.IsDbg
-      ?                /**/    services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>()
+      ?                /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
       : Environment.MachineName switch
       {
         "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"

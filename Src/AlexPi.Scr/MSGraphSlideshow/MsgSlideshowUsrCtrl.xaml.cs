@@ -35,7 +35,8 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.Content = VersionHelper.CurVerStr;
 
       ScheduleShutdown(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
@@ -108,12 +109,14 @@ public partial class MsgSlideshowUsrCtrl
           await Task.Delay(2_000);
         }
       }
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
-    } finally
+    }
+    finally
     {
       this.FindParentWindow().WindowState = WindowState.Normal;
     }
@@ -143,7 +146,8 @@ public partial class MsgSlideshowUsrCtrl
       ImageView1.Visibility =
       VideoView1.Visibility = Visibility.Collapsed;
       Bpr?.Finish();
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"■ {ex.Message}";
@@ -177,7 +181,7 @@ public partial class MsgSlideshowUsrCtrl
 
   async Task<bool> LoadWaitThenShowNext()
   {
-    string mediaType = "----", streamReport = "-- ", cancelReport = "", allDates = "";
+    string mediaType = "----", streamReport = "-- ", cancelReport = "", allDates = "", thmb = "";
     var dnldTime = TimeSpan.Zero;
     var driveItem = (DriveItem?)default;
     DateTimeOffset? minDate = null;
@@ -195,6 +199,22 @@ public partial class MsgSlideshowUsrCtrl
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
+      Trace.WriteLine(thmb = driveItem.Thumbnails[0].Large.Url);
+      /*
+https://chi01pap001files.storage.live.com/y4mgPw3S1CXM_o-MciLRv-kvsHUZsaTyaBoHJ1qtwVCgxCsfeHZW7Rg7NzdYcLOmrPrh5rERJ1vC1WIkGy_XDdFJ9XWyG60w1evS0G_cd71_VT_hShJMBfGPy7nwTPgfbizPLOOR-mt2veIElvIN9xVYa6k9bWvJ6cw_3flK4GONGQpNV1gLh-gaicXwwlOZieaBdILqIq9RbApaGeayEs_UHRAgoPs4PRFNv3RTEFTf1Q?width=176&height=132&cropmode=none
+https://sat02pap002files.storage.live.com/y4mmV1qPhwV0gkRdceZ5M2ZzcAK5CrfwO0dr7M6ov6ALMUzQJVfj-LmiZ_FO0wS1jM9g06187J6cJyhQfjfZfRcYoRPXaVb-pCNSnEIfOr2QFIUfcm3iXRal0WMC2Dct16nOavwUZURc3rm_4TMashczqKYLLZVIQf10vFLYMQFtVyRVyvYWlLfqwkmOFB6b5QJN54yfl-IviYFiabxNFqqVpooYdvkjehbZ2iXzMsJrKM?width=176&height=132&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mgllQ0lUeEq3TbhrVCBKl_Pq23VLMzT1MqzqoMjXOLsPbIDQRFMuaC8h_TodzrJd1tju3HLjH9_LZfycSteKnROdQEdrNNoXdQjX3oq4N2pAIvQdZ6v8ZrCpTeK3JWMOtnWA-NHWrdM_XOKw4mV_P9qNGJeJXHziYR-dEVaqNrTGur_mx1rqUPeFgj2M0eyJ2owJcfMfaq8gpKgapRgn47fpMkhKslyz46RJBV8YgqEo?width=176&height=132&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mbsw7kRKcftBgFdyj6iJf3YoGJB6FjhJWtbjZp_fxvpOFUOdTMeY-hci8nxaF8_7m11q0M93dFWNyQAK2nkkd8xbZtkGX8cA7LWH0kKt3RPyR9Tf3_TF9mdG2-pnotPfxnQy_2xsuY_lFLePyerwUwuJDU3tVv-kmgLVrIjfWNcnpjPo0t6HuAGnc4Nmg13UNFxyJzjhCT8qrycF1GHQutHPCusN9VVRvhrwt5WZYzvQ?width=800&height=450&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mlMtZ0OTrAHRuk2lSRog-oEHo0FdIxBqahzXdTrJB4oRYjZfAKPmx3TTb_-R_BpRL-DDSyzIpQSjHpwAe1euoGqE7uGSh5TCzDV7TZFSexRyutDT2WT6B5YgJ2Pre8mm5q8abCATo53lK2xd-3R9Jder6-83e66ZBAF1rF_XsE8rtjZ8oDtetl8FBUa7guaJAtTSWjo5k8RrySAyM2AcCcnp0Xw_Agz-AZWdYjqjeMP8?width=800&height=600&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mW-Voj3_xwEPbWiWcuYXHfMWJx4siDgLNBLKnlKi2OWFASu6G36otUT2dnemhbUFGRvR7QrpQrAYDFqge_KXWVYF4QWmpjuTVVL9YjAHdPovFCiarQ3Jlu3jAvkz1c3LlmBPqtmXKCCKjzpSEgyFZsVlNXbZXLs9kY_D4s-QLtxGinXCIkEWSvncLB-kJa5UMu-lxfKWars3JFftIBNXzZW1oq66KrNiunrVkHKSMjog?width=800&height=450&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mdvexSNHnylvhqU4Tbowf5oiEgSdAHDvY2NF1TFTYoNG-1YBVqwRcfT7vnI6mgw_d5Qs5eojoqm9VqTUNOy6vn1lWYCX3BUelPNOPaiRFsHYkXC1m2MK5M8w5_pX4X46uFqwLlglA7p6l27HQs0clXGmaIOVHL1eduyABzPgFq6tB5sew8WapERQyIdlhgowmuHZTGg2V2bddzHKJ2c8NQpRsTb1zdvBpHM1TWtXZOiI?width=800&height=451&cropmode=none
+https://ch3301files.storage.live.com/y4mhjal8TnOw7xVO_wnDljaBFZqR12IYyWxxZxJRuICXHaBqihS_TuvgLG6nRmpnaRJc-x-rRTm9Jcas42bOT2o60l0LbBg3HUwwtKNOgaRM12cQjEnnMlIIIUxUqzzfhr06NuyvMmN_Ts_ey6g6sS398XdCOtqbrrxlTwjlE6WPDP1Z9L1s8EzADBYJPsV886sn6OETqQ7ekQoW32gQ-Bc9vqJIKUpxDVJ1dhBGVqrwD4?width=800&height=450&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mu7LUeRWk8ATb8nJxGd_PpTjbTxOo_jY_pA5m_SUm5oDHu_Xdo7r16VMpn9DF-NLl2YGKTqahl-0LmbAvDjan5zgyOTGxi_ebJpSeXydyyFl6NUJU1L9D3NNVrAzIFWLvZ6gASursbKNNoKpzO9VrMnNskKgTafHMgnp4gY7GgKFuFM9hqWmCNXKLRtD2Ioz0BDRrN3UvjlVsg6GVcpmFxrO2kh79Ebxb0HoK5D3nneU?width=800&height=450&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mTG2tj7147QTuN5i77cXlz7_8w0UxhdLXu3vfPv8Yb9nAzVtsJHJN204bwngRpEMXlHFi1Qz5RhsaV2vZfTc3Xk_L3poxNQslT1ES036rnQZreHhXBJwQhHYZbxc_o4O46Oe2K7kDPTnhTmBiCMzxi_i14-jdWQ4SIG3ZgDplga9RJi1YCgaXWJePb-Xa_gn8Qq3ZSnh6eFe-iavEvEh-3pR47-ID3seCila9VZh75a4?width=800&height=451&cropmode=none
+https://dsm04pap002files.storage.live.com/y4mRKHNrX-YhXbWPqv4Ixz3gH6IdzHtiM1oho6qTmlNrPzdwxrZWzypp95gRzhxx9ss51Pweuqt688KWLaRtaQXJQqZBtKRrY1Lpdbiaad7WLwe_nBY8zwXNWB1PBh5Pc6vTT7A7Nt3J9EQPcVGu18_vCqyPZXlmyRXSqLXehYmiUDT7_-d5_Odw_IwA7x758Q16aI2sj4SGMi_jx2K7liVHb0EJ9eMqKoNOHD0H7nTlgg?width=450&height=800&cropmode=none
+https://dsm04pap002files.storage.live.com/y4m7kPrdpWp5_Hbr3NT48zolOUVDW6Kptk2aOGnXlwFHI-p-CHBeAftuG5pPONEOhV4dhXtjG4jrX2VlgTQe_TL6kvLow4I3oajmMD_Z_2P-rM-9TcWmbaEepXRwafEageKbAxa_V8_0icqSP-lm5Q70sNbwP2qELeHfbGvCU3zHi-ooRnaUvqkziOVSgbqmUc_aTNJD0xrFvDiIW-vMVIdtwT61o34C-QFuJdoFblsbZY?width=800&height=533&cropmode=none
+https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVKHf_aujRoseNwjmwiEFoqHIILBmVQRX1QHZ7yk6c-hructLqhSqbpxawo7e_TN94YBGRPcv_Fz1rWnO3icDKUb16Lzv6T6jPuHTrf3UoQ0LKHryVfRgKKT_L0PQIYJ4d8utupHaqSOsPyCjEhpRkOSRQ8QwQtuIk4PsPNRT06LaYjnQwWZoFmazbSf2daFdVQJqv8SZik?width=800&height=600&cropmode=none
+       */
       HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
 
       var taskStream = TaskDownloadStreamGraph(_filename); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
@@ -206,12 +226,15 @@ public partial class MsgSlideshowUsrCtrl
         var taskDelay = Task.Delay(_currentShowTimeMS, _cancellationTokenSource.Token);
         await Task.WhenAll(taskStream, taskDelay);
         dnldTime = taskStream.Result.dnldTime;
-      } catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; } catch (Exception ex)
+      }
+      catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
+      catch (Exception ex)
       {
         ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
 
         ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
-      } finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
+      }
+      finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
 
@@ -240,7 +263,8 @@ public partial class MsgSlideshowUsrCtrl
         SetAnimeDurationInMS(_maxMs);
         _sbIntroOutro?.Begin();
         ReportTL.Content = $"{driveItem?.Photo?.TakenDateTime ?? driveItem?.CreatedDateTime:yyyy-MM-dd}";
-      } else if (driveItem?.Video is not null)
+      }
+      else if (driveItem?.Video is not null)
       {
         mediaType = $"Video";
         if (_notShutdown && chkIsOn.IsChecked == true) // a waste ... I know.
@@ -251,7 +275,8 @@ public partial class MsgSlideshowUsrCtrl
           ImageView1.Visibility = Visibility.Hidden;
           VideoView1.Visibility = Visibility.Visible;
         }
-      } else if (driveItem?.Photo is not null)
+      }
+      else if (driveItem?.Photo is not null)
       {
         mediaType = $"■Photo■";
         ReportBC.Content = $"{_filename}:- {.000001 * driveItem.Size,8:N1}mb  ??? What to do with Photo? ??     {driveItem.Photo?.CameraMake} x {driveItem.Photo?.CameraModel}    {driveItem.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
@@ -260,7 +285,8 @@ public partial class MsgSlideshowUsrCtrl
         VideoInterval.Visibility = Visibility.Hidden;
         ImageView1.Visibility = Visibility.Visible;
         ReportTL.Content = $"{minDate:yyyy-MM-dd}";
-      } else
+      }
+      else
       {
         mediaType = $"■ else ■";
         ReportBC.Content = $"{_filename}:- {.000001 * driveItem?.Size,8:N1}mb  !!! NOT A MEDIA FILE !!!    {driveItem?.Name}   ▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐▌▐";
@@ -271,21 +297,24 @@ public partial class MsgSlideshowUsrCtrl
       ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
       return true;
-    } catch (ServiceException ex)
+    }
+    catch (ServiceException ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
       ReportBC.FontSize = 16;
       ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
       ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
 
       return false;
-    } finally
+    }
+    finally
     {
       var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
 
@@ -293,12 +322,12 @@ public partial class MsgSlideshowUsrCtrl
       {
         _alreadyPrintedHeader = true;
         Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb {OneDrive.Folder("")}\\Pictures\\1drv.ms/i/s!AGmSfHgV-\n");
+        //await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb 1drv.ms/i/s!AGmSfHgV-\n");
       }
 
       Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:HH:mm:ss}  {minDate:yy-MM-dd HH:mm}{.000001 * driveItem?.Size,6:N0} {new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")} {_filename.Replace(@"\Pictures", ""),-99}\n"); /////////////////////////////////////////////
+      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
 
       _currentShowTimeMS = _maxMs;
     }
@@ -445,7 +474,8 @@ public partial class MsgSlideshowUsrCtrl
       rectnglStart.Width = seekToMSec * k;
       progressBar3.Width = _currentShowTimeMS * k;
       rectnglRest1.Width = (durationMs - seekToMSec - _currentShowTimeMS) * k;
-    } else if (durationMs > 0)
+    }
+    else if (durationMs > 0)
       report2 += $"  0/{durationMs * .001,-3:N0}";
     else
       report2 += $" ° :Prorate this ext! ▄▀▄▀";
