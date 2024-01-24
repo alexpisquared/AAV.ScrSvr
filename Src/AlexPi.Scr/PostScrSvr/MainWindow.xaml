@@ -19,11 +19,27 @@
     <DataGrid x:Name="dg1" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="dg1_SelectionChanged" Background="Transparent" Foreground="#ccc" RowBackground="#1000" AlternatingRowBackground="#1fff" AutoGenerateColumns="False" 
               MouseDoubleClick="OnDblClick" SelectionMode="Single" IsReadOnly="True" >
       <DataGrid.Columns>
-        <DataGridTextColumn Header="Displayed"      Width="80" Binding="{Binding Displayed, StringFormat='{}{0:ddd HH:mm}'}" Foreground="#5af" />
-        <DataGridTextColumn Header="Created"        Width="80" Binding="{Binding Created, StringFormat='{}{0:y-MM-dd}'}"     Foreground="#f8f" />
-        <DataGridTextColumn Header="SizeMb"         Width="60" Binding="{Binding SizeMb, StringFormat='{}{0,5}'}"            Foreground="#fa0" FontFamily="Consolas" />
-        <DataGridTextColumn Header="SizeColumn"     Width="80" Binding="{Binding SizeColumn}"                                Foreground="#fa0" />
-        <!--<DataGridTextColumn Header="VideoFilename"  Binding="{Binding VideoFilename, StringFormat='{}{0}'}" Width="*" />-->
+        <DataGridTextColumn Header="Displayed"      Width="080" Binding="{Binding Displayed, StringFormat='{}{0:&#10;  ddd &#10;&#10; HH:mm}'}" FontSize="17" Foreground="#5af" />
+        <DataGridTextColumn Header="Created"        Width="080" Binding="{Binding Created, StringFormat='{}{0:&#10;yyyy&#10;&#10;MM-dd}'}"      FontSize="17" Foreground="#f8f" />
+        <DataGridTemplateColumn Header="Size"       Width="200" SortMemberPath="SizeMb">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Grid>
+                <Rectangle Height="48" Width="0.21" HorizontalAlignment="Left" Fill="#530" >
+                  <Rectangle.RenderTransform>
+                    <TransformGroup>
+                      <ScaleTransform ScaleX="{Binding SizeMb}"/>
+                      <SkewTransform/>
+                      <RotateTransform />
+                      <TranslateTransform/>
+                    </TransformGroup>
+                  </Rectangle.RenderTransform>
+                </Rectangle>
+                <TextBlock Text="{Binding SizeMb, StringFormat='{}{0,4}'}" FontSize="26" FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0" Foreground="#e90" />
+              </Grid>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
         <DataGridTemplateColumn Header="Thumbnail"  >
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
@@ -31,6 +47,10 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
+        <!--
+        <DataGridTextColumn Header="SizeMb"         Width="60" Binding="{Binding SizeMb, StringFormat='{}{0,5}'}"            Foreground="#fa0" FontFamily="Consolas" />
+        <DataGridTextColumn Header="SizeColumn"     Width="80" Binding="{Binding SizeColumn}"                                Foreground="#fa0" />
+        <DataGridTextColumn Header="VideoFilename"  Binding="{Binding VideoFilename, StringFormat='{}{0}'}" Width="*" />-->
       </DataGrid.Columns>
     </DataGrid>
 
@@ -42,7 +62,19 @@
       <Button Content="_Move to Nadine" Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f"  />
       <Button Content="_Delete"         Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f"  />
       <Button Content="Exit"            Click="OnExit"      Margin="5" IsCancel="True"   Foreground="#00f"  />
+      <Rectangle Height="22" Width=".1" Fill="#333" HorizontalAlignment="Left">
+        <Rectangle.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleX="1000"/>
+            <SkewTransform/>
+            <RotateTransform />
+            <TranslateTransform/>
+          </TransformGroup>
+        </Rectangle.RenderTransform>
+      </Rectangle>
+
     </StackPanel>
 
+    
   </Grid>
 </Window>
