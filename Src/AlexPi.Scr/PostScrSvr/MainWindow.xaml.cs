@@ -2,17 +2,23 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using AmbienceLib;
+using StandardLib.Helpers;
 
 namespace PostScrSvr;
 public partial class MainWindow : Window
 {
-  public string videoFilename
+  List<VideoLogEntry> entries;
+
+  public string VideoFilename
   {
     get {
-      Trace.WriteLine($"** {((VideoLogEntry)dg1.SelectedItem).VideoFilename}");
-      return dg1.SelectedItem == null
-        ? @"C:\Users\alexp\OneDrive\Pictures\id.png"
-        : @"C:\Users\alexp\OneDrive" + ((VideoLogEntry)dg1.SelectedItem).VideoFilename;
+      var r = dg1.SelectedItem == null
+        ? OneDrive.Folder(@"Pictures\id.png")
+        : OneDrive.Folder(((VideoLogEntry)dg1.SelectedItem).VideoFilename);
+
+      Trace.WriteLine($"** {r}");
+      return r;
     }
   }
 
@@ -20,11 +26,11 @@ public partial class MainWindow : Window
 
   async void OnLoadedAsync(object s, RoutedEventArgs e)
   {
-    var list = await File.ReadAllLinesAsync("""C:\Users\alexp\OneDrive\Public\Logs\OleksaScrSvr.Video.log""");
-    var entries = list.Select(x => x.Split('\t')).Select(x => SafeCreateRecord(x)
-    ).ToList();
+    new Bpr().AppStart();
+    var list = await File.ReadAllLinesAsync(OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"));
+    entries = list.Select(x => x.Split('\t')).Select(SafeCreateRecord).ToList();
 
-    dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed);
+    dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed).Take(8);
   }
 
   static VideoLogEntry SafeCreateRecord(string[] x)
@@ -40,12 +46,14 @@ public partial class MainWindow : Window
   }
 
   void dg1_SelectionChanged(object s, SelectionChangedEventArgs e) { mediaElement1.Source = new Uri(((VideoLogEntry)dg1.SelectedItem).ThumbnailUrl); ; }
-  void OnOpenPath(object s, RoutedEventArgs e) => _ = Process.Start("Explorer.exe", $"/select, \"{videoFilename}\"");
-  void OnExit(object s, RoutedEventArgs e) => Close();
+  void OnOpenPath(object s, RoutedEventArgs e) => _ = Process.Start("Explorer.exe", $"/select, \"{VideoFilename}\"");
   void OnThumbMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) { }
   void OnThumbMouseEnter(object s, System.Windows.Input.MouseEventArgs e) { Title = $"{((Image)s).Tag} mb   {((Image)s).ToolTip}"; ; }
-  void OnPlayStart(object s, RoutedEventArgs e) { mediaElement1.Source = new Uri(videoFilename); ; }
+  void OnPlayStart(object s, RoutedEventArgs e) { mediaElement1.Source = new Uri(VideoFilename); ; }
   void OnDblClick(object s, System.Windows.Input.MouseButtonEventArgs e) { OnPlayStart(s, e); ; }
+  void OnAll(object sender, RoutedEventArgs e) => dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed);
+  void OnTop(object sender, RoutedEventArgs e) => dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed).Take(8);
+  async void OnExit(object s, RoutedEventArgs e) { await new Bpr().AppFinishAsync(); Close(); }
 }
 
 public record VideoLogEntry(DateTimeOffset Displayed, DateTimeOffset Created, int SizeMb, string SizeColumn, string Http, string VideoFilename, string ThumbnailUrl);
