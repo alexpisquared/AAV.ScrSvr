@@ -1,12 +1,3 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
-
-namespace PostScrSvr;
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
-{
-}
+﻿namespace PostScrSvr;
+public partial class App : Application { }
 
