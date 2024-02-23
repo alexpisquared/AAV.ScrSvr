@@ -2,7 +2,7 @@
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
-  const int _veryQuiet = 26; // 9 is already hardly hearable on max. 16 is too low for Nuc2 since it is usually on 10 there already.
+  const int _veryQuiet = 33; // 9 is already hardly hearable on max. 26 for Nuc2 is still low since it is usually on 10 there already.
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
   GraphServiceClient? _graphServiceClient;
