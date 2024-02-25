@@ -87,8 +87,8 @@ public partial class DailyChart
 
       if (trgDate >= DateTime.Today)
       {
-        OnTimer();
-        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(1), OnTimer);
+        OnTimer_AddRectangle();
+        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(1), OnTimer_AddRectangle);
         await Task.Delay(300);
         //await bt.StopAsync();
       }
@@ -97,9 +97,9 @@ public partial class DailyChart
     finally { WriteLine($" ==> {tbSummary.Text} "); }
   }
 
-  void OnTimer()
+  void OnTimer_AddRectangle()
   {
-    addRectangle(0, _ah, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+    addRectangle(0, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
 
     var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
@@ -170,12 +170,7 @@ public partial class DailyChart
 
     Write($"\n");
   }
-  void addUiElnt(double top, double left, UIElement el)
-  {
-    Canvas.SetLeft(el, left);
-    Canvas.SetTop(el, top);
-    _ = canvasBar.Children.Add(el);
-  }
+  void addUiElnt(double top, double left, UIElement el) { Canvas.SetLeft(el, left); Canvas.SetTop(el, top); _ = canvasBar.Children.Add(el); }
   public static readonly DependencyProperty TrgDateCProperty = DependencyProperty.Register("TrgDateC", typeof(DateTime), typeof(DailyChart)); public DateTime TrgDateC { get => (DateTime)GetValue(TrgDateCProperty); set => SetValue(TrgDateCProperty, value); }
 
   #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AlexPi.Scr\App.xaml.cs
@@ -186,8 +181,7 @@ public partial class DailyChart
   //[Obsolete]
   public static int ScrSvrTimeoutSec
   {
-    get
-    {
+    get {
       if (_ssto == -1)
       {
         _ssto = new EvLogHelper().GetSstoFromRegistry;
