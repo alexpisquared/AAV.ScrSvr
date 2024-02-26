@@ -99,7 +99,7 @@ public partial class DailyChart
 
   void OnTimer_AddRectangle()
   {
-    addRectangle(0, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 1, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+    addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
 
     var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
