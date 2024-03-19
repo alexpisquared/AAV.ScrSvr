@@ -1,4 +1,6 @@
-﻿namespace AsLink;
+﻿using StandardLib.Helpers;
+
+namespace AsLink;
 
 public static class EventRecordExt
 {

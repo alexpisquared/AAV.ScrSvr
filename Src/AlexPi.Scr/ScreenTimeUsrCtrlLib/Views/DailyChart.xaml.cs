@@ -1,4 +1,6 @@
-﻿namespace UpTimeChart;
+﻿using StandardLib.Services;
+
+namespace UpTimeChart;
 public partial class DailyChart
 {
   public struct TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
