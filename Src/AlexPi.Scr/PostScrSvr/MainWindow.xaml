@@ -1,7 +1,11 @@
-﻿<Window x:Class="PostScrSvr.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+﻿<lnk:WindowBase xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib" x:Class="PostScrSvr.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:local="clr-namespace:PostScrSvr"
         Title="Video Terminator" Height="450" Width="1800" Loaded="OnLoadedAsync" Background="#100">
-  <Window.Resources>
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" />
+  </WindowChrome.WindowChrome>
+  <!--<lnk:WindowBase.Resources>-->
+    <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
@@ -31,11 +35,10 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <Label Grid.ColumnSpan="4" Content="Video Terminator" FontSize="26" FontWeight="Medium" FontFamily="Old English Text MT" Margin="8 3" Foreground="#a0f" />
-    <Label Grid.ColumnSpan="4" Content="Video Terminator" FontSize="26" FontWeight="Medium" HorizontalAlignment="Center" x:Name="lblInfo" Margin="8 3" Foreground="#a0f" />
+    <Label Grid.ColumnSpan="4" Content="Video Terminator"       FontSize="32" FontWeight="Medium" HorizontalAlignment="Left"   FontFamily="Old English Text MT" Margin="8 3" Foreground="#c0f" />
+    <Label Grid.ColumnSpan="4" Content="Last 64 / 128 viewings" FontSize="20" FontWeight="Medium" HorizontalAlignment="Center" x:Name="lblInfo" Margin="8 3"                 Foreground="#c6f" />
 
-    <DataGrid x:Name="dg1" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="dg1_SelectionChanged" Background="Transparent" Foreground="#ccc" RowBackground="#1000" AlternatingRowBackground="#1fff" AutoGenerateColumns="False" 
-              MouseDoubleClick="OnDblClick" SelectionMode="Single" IsReadOnly="True" >
+    <DataGrid x:Name="dg1" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="dg1_SelectionChanged" MouseDoubleClick="OnDblClick" SelectionMode="Single" IsReadOnly="True" >
       <DataGrid.Columns>
         <DataGridTextColumn Header="Displayed"      Width="080" Binding="{Binding Displayed, StringFormat='{}{0:&#10;  ddd &#10;&#10; HH:mm}'}" FontSize="17" Foreground="#5af" />
         <DataGridTextColumn Header="Created"        Width="080" Binding="{Binding Created, StringFormat='{}{0:&#10;yyyy&#10;&#10;MM-dd}'}"      FontSize="17" Foreground="#f8f" />
@@ -63,7 +66,7 @@
         <DataGridTemplateColumn Header="Thumbnail"  >
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
-              <Image Source="{Binding ThumbnailUrl}" Width="200" Tag="{Binding SizeMb}" ToolTip="{Binding VideoFilename}" MouseUp="OnThumbMouseUp" MouseEnter="OnThumbMouseEnter"/>
+              <Image Source="{Binding ThumbnailUrl}" Width="200" MinHeight="100" Tag="{Binding SizeMb}" ToolTip="{Binding VideoFilename}" MouseUp="OnThumbMouseUp" MouseEnter="OnThumbMouseEnter" />
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
@@ -77,10 +80,11 @@
     <MediaElement x:Name="mediaElement1" Grid.Column="2" Margin="5" Grid.Row="1" LoadedBehavior="Play" />
 
     <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-      <CheckBox Content="_Large"      x:Name="chkLargeOnly" Margin="5" Checked="OnBig" Unchecked="OnAll" Foreground="#c80" ToolTip="..or top 8 only is shown." />
+      <CheckBox Content="_Large"      x:Name="chkLargeOnly" Margin="5" Checked="OnBig" Unchecked="OnAll" Foreground="#c80" ToolTip="Only > 300 Mb" />
       <CheckBox Content="_Show All"   x:Name="chkTodayOnly" Margin="5" Checked="OnTop" Unchecked="OnAll" Foreground="#c80" ToolTip="..or top 8 only is shown." />
       <Button Content="_Play Start"     Click="OnPlayStart" Margin="5" IsDefault="True"  Foreground="#070" />
       <Button Content="_Open Path"      Click="OnOpenPath"  Margin="5"                   Foreground="#00f" ToolTip="..or go to the location."/>
+      <Button Content="_Copy Thumb"     Click="OnCopyThumb" Margin="5"                   Foreground="#a80" ToolTip="Copy thumbnail URL to Clipboard."/>
       <Button Content="_Move to Nadine" Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f" />
       <Button Content="_Move Out of 1d" Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#00f" />
       <Button Content="_Delete"         Click="OnOpenPath"  Margin="5" IsEnabled="False" Foreground="#a00" />
@@ -100,4 +104,4 @@
 
     
   </Grid>
-</Window>
+</lnk:WindowBase>

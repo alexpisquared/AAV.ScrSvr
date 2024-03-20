@@ -2,9 +2,10 @@
 using AmbienceLib;
 
 namespace PostScrSvr;
-public partial class MainWindow : Window
+public partial class MainWindow
 {
-  List<VideoLogEntry> entries;
+  List<VideoLogEntry>? entries;
+  VideoLogEntry? _selectedVLE;
 
   public string VideoFilename
   {
@@ -33,7 +34,7 @@ public partial class MainWindow : Window
 
     dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed).Take(showAndKeepOnlyLastLines);
 
-    lblInfo.Content = $"Last 20 / {entries.Count} records";
+    lblInfo.Content = $"Last {showAndKeepOnlyLastLines} / {entries.Count} viewings";
   }
 
   static VideoLogEntry SafeCreateRecord(string[] x)
@@ -49,16 +50,31 @@ public partial class MainWindow : Window
     }
   }
 
-  void dg1_SelectionChanged(object s, SelectionChangedEventArgs e) { mediaElement1.Source = new Uri(((VideoLogEntry)dg1.SelectedItem).ThumbnailUrl); ; }
+  void dg1_SelectionChanged(object s, SelectionChangedEventArgs e)
+  {
+    _selectedVLE = ((VideoLogEntry)dg1.SelectedItem);
+    mediaElement1.Source = new Uri(_selectedVLE.ThumbnailUrl);
+    lblInfo.Content = $"{_selectedVLE.SizeMb} mb   {_selectedVLE.VideoFilename}";
+  }
   void OnOpenPath(object s, RoutedEventArgs e) => _ = Process.Start("Explorer.exe", $"/select, \"{VideoFilename}\"");
   void OnThumbMouseUp(object s, System.Windows.Input.MouseButtonEventArgs e) { }
-  void OnThumbMouseEnter(object s, System.Windows.Input.MouseEventArgs e) { Title = $"{((Image)s).Tag} mb   {((Image)s).ToolTip}"; ; }
+  void OnThumbMouseEnter(object s, System.Windows.Input.MouseEventArgs e) { lblInfo.Content = $"{((Image)s).Tag} mb   {((Image)s).ToolTip}"; ; }
   void OnPlayStart(object s, RoutedEventArgs e) { mediaElement1.Source = new Uri(VideoFilename); ; }
   void OnDblClick(object s, System.Windows.Input.MouseButtonEventArgs e) { OnPlayStart(s, e); ; }
   void OnAll(object sender, RoutedEventArgs e) => dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed);
   void OnTop(object sender, RoutedEventArgs e) => dg1.ItemsSource = entries.OrderByDescending(r => r.Displayed).Take(8);
   void OnBig(object sender, RoutedEventArgs e) => dg1.ItemsSource = entries.Where(r => r.SizeMb > 300).OrderByDescending(r => r.SizeMb);
   async void OnExit(object s, RoutedEventArgs e) { Hide(); await new Bpr().AppFinishAsync(); Close(); }
+  void OnCopyThumb(object sender, RoutedEventArgs e)
+  {
+    if (_selectedVLE is not null)
+    {
+      Clipboard.SetText(_selectedVLE.ThumbnailUrl);
+      lblInfo.Content = $"Thumbnail URL copied!";
+    }
+  }
 }
 
 public record VideoLogEntry(DateTimeOffset Displayed, DateTimeOffset Created, int SizeMb, string SizeColumn, string Http, string VideoFilename, string ThumbnailUrl);
+
+/// Thumbnail URLs are temporary and expire after a few hours.  Mar 2024.
