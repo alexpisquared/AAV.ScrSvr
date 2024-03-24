@@ -209,7 +209,7 @@ public partial class RadarUsrCtrl
         if (DateTime.Now - new FileInfo(imageFile).LastWriteTime > TimeSpan.FromDays(7))
           File.Delete(imageFile);
     }
-    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod().Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
+    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod()?.Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
   }
   public static string DeleteOldImages()
   {
@@ -228,7 +228,7 @@ public partial class RadarUsrCtrl
           }
       }
     }
-    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod().Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
+    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod()?.Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
 
     return string.Format("{0} out of {1} files are deleted", deleted, ttl);
   }
@@ -289,7 +289,7 @@ public partial class RadarUsrCtrl
       {
         result.Add(new MyImage(new BitmapImage(new Uri(filename)), System.IO.Path.GetFileNameWithoutExtension(filename)));
       }
-      catch (Exception ex) { Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod().Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
+      catch (Exception ex) { Trace.WriteLine(ex.Message, System.Reflection.MethodInfo.GetCurrentMethod()?.Name); if (System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Break(); throw; }
     }
     return result;
   }
