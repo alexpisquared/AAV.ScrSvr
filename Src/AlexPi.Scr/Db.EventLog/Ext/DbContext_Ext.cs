@@ -116,7 +116,7 @@ namespace Db.EventLog.Ext
         if (lineCur > maxRowsToShow) break;
       }
 
-      Trace.WriteLine($">>> DbChangesReport  {sw.ElapsedMilliseconds,6:N0} ms");
+      //tmi: Trace.WriteLine($">>> DbChangesReport  {sw.ElapsedMilliseconds,6:N0} ms");
       return prompt;
     }
 
