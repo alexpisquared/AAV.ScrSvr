@@ -5,7 +5,7 @@ public static class AppStartHelper
   {
     _ = services.AddSingleton<IConfigurationRoot>(new ConfigRandomizer("appsettings.OleksaScrSvr.json").Config); //todo: use both secrets.json and appsettings.OleksaScrSvr.json.
 
-    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.CreateLogger<MainNavView>(Settings.Default.MinLogLevel));
+    _ = services.AddSingleton<ILogger>(sp => SeriLogHelper.CreateLogger<MainNavView>(Properties.Settings.Default.MinLogLevel));
 
     _ = services.AddSingleton<IBpr, Bpr>(); // _ = VersionHelper.IsDbgAndRBD ? services.AddSingleton<IBpr, Bpr>() : services.AddSingleton<IBpr, BprSilentMock>();
 

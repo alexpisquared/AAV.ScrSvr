@@ -1,5 +1,8 @@
-﻿using AmbienceLib;
+﻿using System.Speech.Recognition;
+using System.Windows.Interop;
+using AmbienceLib;
 using MSGraphSlideshow;
+using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -97,7 +100,8 @@ public partial class App : System.Windows.Application
         _mustLogEORun = true;
         new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 1)); speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 5 - 1)); SpeakRandomFunMessage();
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 1 - 1)); speech.SpeakFAF($"Turning off in a minute.");
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
       }
@@ -105,6 +109,20 @@ public partial class App : System.Windows.Application
     catch (Exception ex) { logger.LogError(ex, _audit); }
 
     return true;
+  }
+  void SpeakRandomFunMessage()
+  {
+    var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
+    var messages = new FunMessages();
+
+    switch (new Random(DateTime.Now.Microsecond).Next(5))
+    {
+      case 3: speech.SpeakFAF(messages.RandomMessage, voice: CC.Aria, style: CC.whispering); break;
+      case 1: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.sad, role: CC.Girl); break;
+      case 0: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.fearful, role: CC.Girl); break;
+      case 2: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.affectionate, role: CC.Girl); break;
+      default: break;
+    }
   }
   void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
   {
@@ -118,7 +136,7 @@ public partial class App : System.Windows.Application
           => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
         "NUC2"
           => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
-        "RAZER1" 
+        "RAZER1"
           => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
         _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
       };
