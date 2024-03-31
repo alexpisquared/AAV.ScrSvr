@@ -113,16 +113,18 @@ public partial class App : System.Windows.Application
   void SpeakRandomFunMessage()
   {
     var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
-    var messages = new FunMessages();
+    var funMsg = new FunMessages().RandomMessage;
 
-    switch (new Random(DateTime.Now.Microsecond).Next(5))
+    switch (new Random(DateTime.Now.Microsecond).Next(4))
     {
-      case 3: speech.SpeakFAF(messages.RandomMessage, voice: CC.Aria, style: CC.whispering); break;
-      case 1: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.sad, role: CC.Girl); break;
-      case 0: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.fearful, role: CC.Girl); break;
-      case 2: speech.SpeakFAF(messages.RandomMessage, voice: CC.Xiaomo, style: CC.affectionate, role: CC.Girl); break;
+      case 3: speech.SpeakFAF(funMsg, voice: CC.Aria, style: CC.whispering); break;
+      case 1: speech.SpeakFAF(funMsg, voice: CC.Xiaomo, style: CC.sad, role: CC.Girl); break;
+      case 0: speech.SpeakFAF(funMsg, voice: CC.Xiaomo, style: CC.fearful, role: CC.Girl); break;
+      case 2: speech.SpeakFAF(funMsg, voice: CC.Xiaomo, style: CC.affectionate, role: CC.Girl); break;
       default: break;
     }
+    
+    ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│"); 
   }
   void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
   {
