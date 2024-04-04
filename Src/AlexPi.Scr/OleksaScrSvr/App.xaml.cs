@@ -100,8 +100,8 @@ public partial class App : System.Windows.Application
         _mustLogEORun = true;
         new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 5 - 1)); SpeakRandomFunMessage();
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 1 - 1)); speech.SpeakFAF($"Turning off in a minute.");
+        await Task.Delay(TimeSpan.FromMinutes(02)); SpeakRandomFunMessage();
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 1 - 3)); speech.SpeakFAF($"Turning off in a minute.");
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
       }
