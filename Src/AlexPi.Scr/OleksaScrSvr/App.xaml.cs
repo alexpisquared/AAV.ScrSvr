@@ -93,15 +93,16 @@ public partial class App : System.Windows.Application
       }
       else
       {
-        await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?");
-        await Task.Delay(TimeSpan.FromSeconds(15)); speech.SpeakFAF($"Arming...");
-        await Task.Delay(TimeSpan.FromSeconds(05)); speech.SpeakFAF($"Armed!");
+        await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?", volumePercent: 60);
+        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locking...", volumePercent: 20);
+        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locked!", volumePercent: 20);
 
         _mustLogEORun = true;
         new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
         await Task.Delay(TimeSpan.FromMinutes(02)); SpeakRandomFunMessage();
-        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep / 1 - 3)); speech.SpeakFAF($"Turning off in a minute.");
+        
+        await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 3)); speech.SpeakFAF($"Turning off in a minute.", volumePercent: 20);
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
       }
