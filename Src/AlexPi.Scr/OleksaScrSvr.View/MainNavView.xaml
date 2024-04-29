@@ -5,7 +5,7 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333">
+                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333" Background="#5000">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" />
   </WindowChrome.WindowChrome>
@@ -54,7 +54,7 @@
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Left"  CommandParameter="Prev" Modifiers="Ctrl" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Right" CommandParameter="Next" Modifiers="Ctrl" />-->
   </lnk:WindowBase.InputBindings>
-  <Border Style="{StaticResource BorderStyle_Aav0}" Padding="0" CornerRadius="5" Background="#000">
+  <Border Style="{StaticResource BorderStyle_Aav0}" Padding="0" CornerRadius="5" Background="Transparent">
     <Grid Margin="0">
       <Grid x:Name="ZoomablePanel">
         <Grid.LayoutTransform>

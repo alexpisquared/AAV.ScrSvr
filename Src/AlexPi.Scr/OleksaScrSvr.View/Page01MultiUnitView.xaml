@@ -5,7 +5,7 @@
              xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
              xmlns:local="clr-namespace:OleksaScrSvr.View"              
              d:DataContext="{d:DesignInstance Type={x:Type vms:Page01MultiUnitVM}}" 
-             d:DesignHeight="1080" d:DesignWidth="1920" >
+             d:DesignHeight="1080" d:DesignWidth="1920" Background="Transparent">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -37,7 +37,7 @@
 
     </ResourceDictionary>
   </UserControl.Resources>
-  <Border CornerRadius="4" Background="#000">
+  <Border CornerRadius="4" Background="Transparent">
     <Grid>
       <Rectangle Fill="Transparent" MouseLeftButtonDown="OnDragMove" Cursor="Hand" Tag="Works here. Does not at the UserControl level (interferes with the canvas' units)."/>
 

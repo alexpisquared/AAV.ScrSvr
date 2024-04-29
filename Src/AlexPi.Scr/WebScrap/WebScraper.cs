@@ -270,7 +270,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
       var request = WebRequest.Create(url); // WebRequest request = createWebRequest(new Uri(url));
       request.Timeout = 5000; //ms                //if (Debugger.IsAttached) Debugger.Break();
 
-      using var response = request.GetResponse(); //todo: Nov 2017 : hangs here
+      using var response = request.GetResponse(); //todo: Nov 2017 : hangs here ............... Apr 2024 : still hangs!!!!!!!!?
       using var stream = new StreamReader(response.GetResponseStream());
       return stream.ReadToEnd();
     }

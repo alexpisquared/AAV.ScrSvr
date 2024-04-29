@@ -23,7 +23,7 @@ public partial class App : System.Windows.Application
     MvvmInitHelper.InitMVVM(services);
 
     _ = services.AddSingleton<IAddChild, MainNavView>();
-    _ = services.AddSingleton<MainNavView>(s => new MainNavView(s.GetRequiredService<ILogger>(), s.GetRequiredService<IConfigurationRoot>(), s.GetRequiredService<IBpr>()) { DataContext = s.GetRequiredService<MainVM>() });
+    _ = services.AddSingleton<MainNavView>(s => new MainNavView(s.GetRequiredService<ILogger>(), s.GetRequiredService<IConfigurationRoot>(), s.GetRequiredService<IBpr>(), s.GetRequiredService<SpeechSynth>()) { DataContext = s.GetRequiredService<MainVM>() });
 
     ServiceProvider = services.BuildServiceProvider();
 
