@@ -12,8 +12,8 @@
     <!-- OP: Do not use this version yet:
     <PackageReference Include="Microsoft.Graph" Version="5.37.0" />-->
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />
-    <PackageReference Include="LibVLCSharp" Version="3.8.2" />
-    <PackageReference Include="LibVLCSharp.WPF" Version="3.8.2" />
+    <PackageReference Include="LibVLCSharp" Version="3.8.5" />
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.8.5" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
   </ItemGroup>
 

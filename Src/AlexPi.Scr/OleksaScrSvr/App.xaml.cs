@@ -32,8 +32,8 @@ public partial class App : System.Windows.Application
 
   protected override async void OnStartup(StartupEventArgs e)
   {
-    UnhandledExceptionHndlr.Logger = ServiceProvider.GetRequiredService<ILogger>();
-    Current.DispatcherUnhandledException += UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
+    UnhandledExceptionHndlrUI.Logger = ServiceProvider.GetRequiredService<ILogger>();
+    Current.DispatcherUnhandledException += UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
     EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox ?? new TextBox()).SelectAll(); }));
     ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15000));
 
@@ -60,7 +60,7 @@ public partial class App : System.Windows.Application
 
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
 
-    if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlr.OnCurrentDispatcherUnhandledException;
+    if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
 
     if (DateTime.Now == DateTime.Today) LogAllLevels(ServiceProvider.GetRequiredService<ILogger>());
