@@ -23,7 +23,7 @@ public partial class MainWindow
 
   async void OnLoadedAsync(object s, RoutedEventArgs e)
   {
-    new Bpr().AppStart();
+    //new Bpr().AppStart();
 
     const int showAndKeepOnlyLastLines = 64;
 

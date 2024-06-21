@@ -31,12 +31,12 @@
 
     </ResourceDictionary>
   </lnk:UnitContainerBase.Resources>
-  <lnk:UnitContainerBase.Triggers>
+  <!--<lnk:UnitContainerBase.Triggers>
     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
       <BeginStoryboard Storyboard="{StaticResource PeriodicFlash}" />
       <BeginStoryboard Storyboard="{StaticResource PeriodicFlas2}" />
     </EventTrigger>
-  </lnk:UnitContainerBase.Triggers>
+  </lnk:UnitContainerBase.Triggers>-->
   <Grid>
 
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
