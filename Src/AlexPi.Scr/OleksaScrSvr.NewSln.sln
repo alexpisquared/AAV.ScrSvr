@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr.Contract", "Ol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr.VM", "OleksaScrSvr.VM\OleksaScrSvr.VM.csproj", "{1704799B-EF80-4064-AA24-0A38B360179B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OleksaScrSvr", "OleksaScrSvr\OleksaScrSvr.csproj", "{B8F73320-F240-4748-97C6-7533DFBDE31D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{1704799B-EF80-4064-AA24-0A38B360179B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1704799B-EF80-4064-AA24-0A38B360179B}.Release|x64.ActiveCfg = Release|x64
 		{1704799B-EF80-4064-AA24-0A38B360179B}.Release|x64.Build.0 = Release|x64
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Debug|x64.ActiveCfg = Debug|x64
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Debug|x64.Build.0 = Debug|x64
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Release|x64.ActiveCfg = Release|x64
+		{B8F73320-F240-4748-97C6-7533DFBDE31D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
