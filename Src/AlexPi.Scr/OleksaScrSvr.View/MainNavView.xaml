@@ -70,7 +70,6 @@
         <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
       </Grid>
 
-      <!--<Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">-->
       <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">
         <Grid>
           <Grid.Resources>
