@@ -11,7 +11,12 @@ public partial class MainNavView : WindowBase
   public MainNavView(ILogger logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : this((ILogger<Window>)logger, config, bpr, speech) { }
   public MainNavView(ILogger<Window> logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : base(logger)
   {
-    InitializeComponent(); KeepOpenReason = "";
+    InitializeComponent();
+
+    PreviewKeyDown += (s, ves) => logger.LogInformation($"::PreviewKeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
+    KeyDown += (s, ves) => logger.LogInformation($"::KeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
+
+    KeepOpenReason = "";
 
     //tu: ..if needed!!! MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight; // MaximumWindowTrackHeight; // 2021-11: is it for not overlapping the taskbar?
 
