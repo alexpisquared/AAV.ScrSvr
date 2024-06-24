@@ -44,7 +44,7 @@
       <TextBlock x:Name="tbkTitle" Text="123" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26" Foreground="#606" Margin="0 0 0 36"/>
       <Viewbox Stretch="Uniform">
         <Grid>
-          <Canvas x:Name="Canvas1" Background="#3000" Height="205" Width="400">
+          <Canvas x:Name="Canvas1" Height="205" Width="400">
             <local:UnitF1View x:Name="UnitF1"  Tag="Flag" ClientId="{Binding ClientId}" />
             <local:UnitF2View x:Name="UnitF2"  Tag="Weather"/>
             <local:UnitF3View x:Name="UnitF3"  Tag="Progress"/>

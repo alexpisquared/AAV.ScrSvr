@@ -9,11 +9,12 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
+      <!-- //*864: animations draw CPU time, ... even when paused !!!      
       <Duration x:Key="ExecutionDuration2">0:0:10</Duration>
       <DoubleAnimation x:Key="ExecutionDurationDA" x:Name="ExecutionDurationDA" Duration="{StaticResource ExecutionDuration2}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" RepeatBehavior="1x" />
-      <Storyboard x:Key="ExecutionDurationSB" Timeline.DesiredFrameRate="3" >
+      <Storyboard x:Key="ExecutionDurationSB" Timeline.DesiredFrameRate="1" >
         <StaticResource ResourceKey="ExecutionDurationDA" />
-      </Storyboard>
+      </Storyboard>-->
 
     </ResourceDictionary>
   </UserControl.Resources>

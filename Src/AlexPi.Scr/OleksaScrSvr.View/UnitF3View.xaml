@@ -9,7 +9,6 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
     </ResourceDictionary>
   </lnk:UnitContainerBase.Resources>
   <Grid>
@@ -22,6 +21,5 @@
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
       <MenuItem Header="_Z 3" IsCheckable="True" IsChecked="{Binding IsOpenState, ElementName=wnd}" Height="32" x:Name="MenuIsOn" />
     </Menu>
-
   </Grid>
 </lnk:UnitContainerBase>
