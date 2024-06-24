@@ -180,7 +180,7 @@ public partial class DailyChart
   static int _ssto = -1;
   readonly SortedList<DateTime, int> _thisDayEois;
 
-  //[Obsolete]
+  //// [Obsolete] :why Copilot decides to mark it such?
   public static int ScrSvrTimeoutSec
   {
     get {

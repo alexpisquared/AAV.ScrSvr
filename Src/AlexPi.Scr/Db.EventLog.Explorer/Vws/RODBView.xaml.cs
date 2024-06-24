@@ -85,7 +85,7 @@ public partial class RODBView
     return n;
   }
 
-  [Obsolete]
+  // [Obsolete] :why Copilot decides to mark it such?
   public static async Task<int> UpdateDbWithNewLogEvents(DateTime trgDate, A0DbModel db) //todo: remove the dupes into central space
   {
     var rowsAddedSaved = 0;

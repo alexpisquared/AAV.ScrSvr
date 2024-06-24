@@ -182,7 +182,7 @@ public partial class WebScraper : WebScraperBase
     //77 Debug.WriteLine(c.ToString(), "DnLd Finished: ");     //MessageBox.Show("Download finished...");
   }
 
-  [Obsolete]
+  // [Obsolete] :why Copilot decides to mark it such?
   public static string GetHtmlCached(string url, TimeSpan rotTime)
   {
     var fn = GetCachedFileNameFromUrl(url);
