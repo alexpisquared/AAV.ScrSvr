@@ -17,8 +17,6 @@
       "..\\..\\..\\Radar\\Src\\Radar22.Lib\\Radar22.Lib.csproj",
       "Db.EventLog\\Db.EventLog.csproj",
       "MSGraphSlideshow\\MSGraphSlideshow.csproj",
-      "OleksaScrSvr.Contract\\OleksaScrSvr.Contract.csproj",
-      "OleksaScrSvr.VM\\OleksaScrSvr.VM.csproj",
       "OleksaScrSvr.View\\OleksaScrSvr.View.csproj",
       "OleksaScrSvr\\OleksaScrSvr.csproj",
       "PostScrSvr\\PostScrSvr.csproj",
