@@ -47,7 +47,7 @@ public partial class WebScraperBitmap : WebScraper
     {
       try
       {
-        Debug.Write("c");
+        //Debug.Write("c");
         return new Bitmap(fn);
       }
       catch (Exception ex)
@@ -55,12 +55,12 @@ public partial class WebScraperBitmap : WebScraper
         Debug.WriteLine(ex.Message + " - " + url, MethodInfo.GetCurrentMethod()?.DeclaringType.Name + "." + MethodInfo.GetCurrentMethod()?.Name);
         File.Delete(fn); // delete corrupt images
       }
-      Debug.Write("?");
+      //Debug.Write("?");
       return new Bitmap(5, 5);
     }
     else
     {
-      Debug.Write("n");
+      //Debug.Write("n");
       return SaveWebImageToFile(url, fn);
     }
   }

@@ -108,7 +108,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
       if ((lst.Min(r => r.Key) - min).TotalSeconds > +30) // only if > 30 sec
         lst.Add(min, (int)EvOfIntFlag.Day1stAmbiguos);
       else
-        Debug.Write(" +??? ");
+        Debug.Write(" +???* ");
     }
 
     if (lst.Count < 1)
