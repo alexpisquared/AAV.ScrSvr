@@ -355,10 +355,12 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
     }
   }
 
-  public static string GetCachedFileNameFromUrl(string url)
+  public static string GetCachedFileNameFromUrl(string url, bool needToShareThroughOneDrive = false)
   {
     var fn = url.Replace("https://", "").Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
-    var folder = Path.Combine(StandardLib.Helpers.OneDrive.VpdbFolder, fn.Split('-')[0]);
+
+    var folder = Path.Combine(needToShareThroughOneDrive ? StandardLib.Helpers.OneDrive.VpdbFolder : StandardLib.Helpers.OneDrive.WebCacheFolder, fn.Split('-')[0]);
+
     //#if CS8
     //    fn = fn[(fn.IndexOf("-") + 1)..]; // == fn = fn.Substring(fn.IndexOf("-") + 1);
     //#else
