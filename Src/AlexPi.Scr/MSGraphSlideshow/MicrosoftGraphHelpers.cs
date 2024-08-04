@@ -14,7 +14,7 @@
   {
     var same = " ____.____";
     var minValid = new DateTimeOffset(new DateTime(1980, 01, 01));
-    var min = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > minValid).Min(d => d.HasValue ? d.Value : minValid);
+    var min = new[] { taken, created, lastModified, createdFSI, lastModifiedFSI, DateTimeOffset.Now }.Where(d => d.HasValue && d > minValid).Min(d => d ?? minValid);
     var all = // $"{taken:yy-MM-dd}  {created:yy-MM-dd}  {lastModified:yy-MM-dd}  {createdFSI:yy-MM-dd}  {lastModifiedFSI:yy-MM-dd}   {min:yy-MM-dd HH:mm}";
       (taken == min ? same : $"{((taken ?? min) - min).TotalDays,10:####.###0}") +
       (created == min ? same : $"{((created ?? min) - min).TotalDays,10:####.###0}") +

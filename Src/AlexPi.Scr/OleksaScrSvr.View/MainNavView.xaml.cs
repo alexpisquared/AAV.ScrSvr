@@ -1,5 +1,4 @@
-﻿using System.Speech.Recognition;
-using AmbienceLib;
+﻿using AmbienceLib;
 
 namespace OleksaScrSvr;
 
@@ -13,8 +12,7 @@ public partial class MainNavView : WindowBase
   {
     InitializeComponent();
 
-    PreviewKeyDown += (s, ves) => logger.LogInformation($"::PreviewKeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
-    KeyDown += (s, ves) => logger.LogInformation($"::KeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
+    KeyDown        += (s, ves) => logger.LogInformation($"::       KeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.    PreviewKeyDown += (s, ves) => logger.LogInformation($"::PreviewKeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
 
     KeepOpenReason = "";
 
@@ -31,13 +29,13 @@ public partial class MainNavView : WindowBase
     btnExit.IsCancel = VersionHelper.IsDbg;
   }
 
-  async void OnLoaded(object s, RoutedEventArgs e)
+  void OnLoaded(object s, RoutedEventArgs e)
   {
     themeSelector1.SetCurThemeToMenu(Thm); //dnf theming 2/2//_logger.LogInformation($"mVl{(DateTime.Now - _mvwStarted).TotalSeconds,4:N1}s  {VersionHelper.DevDbgAudit(_config)}");
 
     //Speech.SpeakFAF("Loading...");
 
-    var max = 16;
+    //var max = 16;
 
     if (DevOps.IsDbg)
     {
