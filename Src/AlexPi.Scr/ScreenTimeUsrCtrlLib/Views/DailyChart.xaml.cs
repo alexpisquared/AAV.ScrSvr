@@ -46,7 +46,7 @@ public partial class DailyChart
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     //..Trace.Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
-    tbSummary.Text = "$@#";
+    tbDaySummary.Text = "$@#";
     try
     {
       _ah = canvasBar.ActualHeight;
@@ -54,7 +54,7 @@ public partial class DailyChart
       Write($">>>-\t{trgDate} \n"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
-        tbSummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
+        tbDaySummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
       else
       {
         if (trgDate >= DateTime.Today)
@@ -79,12 +79,10 @@ public partial class DailyChart
 
         _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
 
-        tbSummary.Text = $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm} /{_timesplit.TotalDaysUp,5:h\\:mm}"
-          //+ $"  ==  {_timesplit.WorkedFor,5:h\\:mm} + {_timesplit.IdleOrOff,5:h\\:mm} = {_timesplit.WorkedFor+_timesplit.IdleOrOff,5:h\\:mm}"
-          ;
+        GetDaySummary(trgDate);
       }
 
-      //tbSummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
+      //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
 
       if (trgDate >= DateTime.Today)
@@ -96,9 +94,13 @@ public partial class DailyChart
       }
     }
     catch (Exception ex) { ex.Pop(); }
-    finally { WriteLine($" ==> {tbSummary.Text} "); }
+    finally { WriteLine($" ==> {tbDaySummary.Text} "); }
   }
 
+  void GetDaySummary(DateTime trgDate) => tbDaySummary.Text = $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}"
+            // /{_timesplit.TotalDaysUp,5:h\\:mm}"
+            //+ $"  ==  {_timesplit.WorkedFor,5:h\\:mm} + {_timesplit.IdleOrOff,5:h\\:mm} = {_timesplit.WorkedFor+_timesplit.IdleOrOff,5:h\\:mm}"
+            ;
   void OnTimer_AddRectangle()
   {
     addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
@@ -107,7 +109,7 @@ public partial class DailyChart
 
     _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
 
-    tbSummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm} /{_timesplit.TotalDaysUp,5:h\\:mm}";
+    GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
   }
 
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
