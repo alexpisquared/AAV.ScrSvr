@@ -1,6 +1,6 @@
 ﻿<lnk:WindowBase xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Db.EventLog.Explorer.MainEvLogExplr"
                 xmlns:stm="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" 
-                Title="Event Viewer" Height="160" Width="1600" Loaded="onLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
+                Title="Event Viewer" Height="160" Width="1600" Loaded="OnLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" />
   </WindowChrome.WindowChrome>

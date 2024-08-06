@@ -1,7 +1,15 @@
-﻿namespace Db.EventLog.Explorer;
+﻿using System.Runtime.InteropServices;
 
-public partial class MainEvLogExplr 
+namespace Db.EventLog.Explorer;
+
+public partial class MainEvLogExplr
 {
+  [DllImport("user32.dll")][return: MarshalAs(UnmanagedType.Bool)] static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+  static readonly IntPtr HWND_BOTTOM = new(1);
+  const uint SWP_NOSIZE = 0x0001;
+  const uint SWP_NOMOVE = 0x0002;
+  const uint SWP_NOACTIVATE = 0x0010;
+
   public MainEvLogExplr()
   {
     InitializeComponent();
@@ -15,16 +23,23 @@ public partial class MainEvLogExplr
     };
   }
 
-  void onLoaded(object s, RoutedEventArgs e)
+  async void OnLoaded(object s, RoutedEventArgs e)
   {
     vizroot.IsEnabled = false;
     try
     {
-      //tbCurVer.Text = $"{VersionHelper.CurVerStr("")}";
+      if (Environment.CommandLine.Contains("Schedule") == false) return;
+
+      await Task.Delay(1_000); // wait for showing up first.
+      SendToBack();
+
+      await Task.Delay(1_800_000); // close after 30 minutes.
+      Close();
     }
     catch (Exception ex) { ex.Pop(); ; }
     finally { vizroot.IsEnabled = true; }
   }
+
   async void Window_SizeChanged(object s, SizeChangedEventArgs e)
   {
     var lastSize = e.NewSize;
@@ -32,4 +47,6 @@ public partial class MainEvLogExplr
     if (lastSize.Width == e.NewSize.Width) // if finished resizing.
       stuc.RedrawOnResize_todo(s, null);
   }
+
+  void SendToBack() { SetWindowPos(new System.Windows.Interop.WindowInteropHelper(this).Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE); }
 }
