@@ -17,8 +17,8 @@ public partial class MainEvLogExplr
     {
       switch (ves.Key)
       {
-        default: System.Diagnostics.Trace.WriteLine($"::>>{ves} \t {ves.Key}"); break;
-        case Key.Escape: { Close(); System.Diagnostics.Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();p"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
+        default: Trace.WriteLine($"{DateTime.Now:HH:mm:ss.fff} KeyDown:  {ves} \t Key:{ves.Key}"); break;
+        case Key.Escape: { Close(); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();p"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
       }
     };
   }
@@ -28,12 +28,14 @@ public partial class MainEvLogExplr
     vizroot.IsEnabled = false;
     try
     {
+      tbInfo.Text = tbCurVer.Text = $"{DateTime.Now:HH:mm}";
+
       if (Environment.CommandLine.Contains("Schedule") == false) return;
 
       await Task.Delay(1_000); // wait for showing up first.
       SendToBack();
 
-      await Task.Delay(1_800_000); // close after 30 minutes.
+      await Task.Delay(1_780_000); // close after 30 minutes - 20 seconds for smooth restart.
       Close();
     }
     catch (Exception ex) { ex.Pop(); ; }

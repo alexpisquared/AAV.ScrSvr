@@ -17,7 +17,7 @@ namespace Db.EventLog.Main
         File.SetAttributes(mdfDataFile, (fa = RmvAttribute(fa, FileAttributes.ReadOnly)));
       }
 
-      Trace.WriteLine($"::>>{mdfDataFile}: {File.GetAttributes(mdfDataFile)}");
+      Trace.WriteLine($"{DateTime.Now:HH:mm:ss.fff} ::>>{mdfDataFile}: {File.GetAttributes(mdfDataFile)}");
     }
 
     public static string GetLocalDbFilePath(DbContext dbc)

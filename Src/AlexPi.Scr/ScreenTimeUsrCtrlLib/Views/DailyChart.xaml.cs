@@ -51,7 +51,7 @@ public partial class DailyChart
     {
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
-      Write($">>>-\t{trgDate} \n"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
+      if (Debugger.IsAttached) Write($">>> {trgDate}:\n"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
         tbDaySummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
@@ -79,7 +79,7 @@ public partial class DailyChart
 
         _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
 
-        GetDaySummary(trgDate);
+        tbDaySummary.Text = GetDaySummary(trgDate);
       }
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
@@ -94,10 +94,10 @@ public partial class DailyChart
       }
     }
     catch (Exception ex) { ex.Pop(); }
-    finally { WriteLine($" ==> {tbDaySummary.Text} "); }
+    finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummary.Text} "); }
   }
 
-  void GetDaySummary(DateTime trgDate) => tbDaySummary.Text = $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}"
+  string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}"
             // /{_timesplit.TotalDaysUp,5:h\\:mm}"
             //+ $"  ==  {_timesplit.WorkedFor,5:h\\:mm} + {_timesplit.IdleOrOff,5:h\\:mm} = {_timesplit.WorkedFor+_timesplit.IdleOrOff,5:h\\:mm}"
             ;
@@ -109,7 +109,7 @@ public partial class DailyChart
 
     _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
 
-    GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
+    tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
   }
 
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
@@ -146,18 +146,17 @@ public partial class DailyChart
     var wid = Math.Abs(yB - yA);
 
     var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,8:h\\:mm\\:ss} - {tB,8:h\\:mm\\:ss} = {dTime,8:h\\:mm\\:ss} ";
-    Write($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
+    var report1 = ($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
 
     //if (isLabor)
-    Write($"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}");
+    var report2 = ($"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}");
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);
 
     if (wid <= 10)
-      Write($"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ");
+      report2 += ($"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ");
     else
     {
-      Write($"");
       var isOver1hr = dTime > TimeSpan.FromHours(1);
       addUiElnt(
         isUp ? 2 : -1,
@@ -172,7 +171,7 @@ public partial class DailyChart
         });
     }
 
-    Write($"\n");
+    if (Debugger.IsAttached) Write($"{report1} {report2}\n");
   }
   void addUiElnt(double top, double left, UIElement el) { Canvas.SetLeft(el, left); Canvas.SetTop(el, top); _ = canvasBar.Children.Add(el); }
   public static readonly DependencyProperty TrgDateCProperty = DependencyProperty.Register("TrgDateC", typeof(DateTime), typeof(DailyChart)); public DateTime TrgDateC { get => (DateTime)GetValue(TrgDateCProperty); set => SetValue(TrgDateCProperty, value); }
