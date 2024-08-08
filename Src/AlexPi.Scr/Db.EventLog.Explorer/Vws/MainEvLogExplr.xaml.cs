@@ -13,12 +13,13 @@ public partial class MainEvLogExplr
   public MainEvLogExplr()
   {
     InitializeComponent();
-    KeyDown += (s, ves) =>
+    KeyDown += (s, keyEventArgs) =>
     {
-      switch (ves.Key)
+      Trace.Write($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f}  KeyDown:  Key:{keyEventArgs.Key}  ");
+      switch (keyEventArgs.Key)
       {
-        default: Trace.WriteLine($"{DateTime.Now:HH:mm:ss.fff} KeyDown:  {ves} \t Key:{ves.Key}"); break;
-        case Key.Escape: { Close(); Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} => ::>Application.Current.Shutdown();p"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
+        default: Trace.WriteLine(""); break;
+        case Key.Escape: { Close(); Trace.WriteLine($"=> Application.Current.Shutdown();"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
       }
     };
   }

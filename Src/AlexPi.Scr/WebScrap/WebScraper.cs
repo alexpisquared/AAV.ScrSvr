@@ -344,7 +344,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
 
   public static string CacheHtmlToUniqueFile(string url)
   {
-    var fn = GetCachedFileNameFromUrl(url) + DateTime.Now.ToString("-[yyyy.MM.dd-HH]-") + ".HTML";
+    var fn = GetCachedFileNameFromUrl(url) + DateTime.Now.ToString("-[yyyy-MM-dd-HH]-") + ".HTML";
     if (File.Exists(fn))
       return File.ReadAllText(fn);
     else

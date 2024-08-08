@@ -18,8 +18,8 @@
         <stm:ScreenTimeUsrCtrl DaysBack="8" DelaySec="0"  Name="stuc"/>
 
       </Grid>
-      <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
-      <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="42 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
+      <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" FontSize="20" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
+      <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="10 0" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
       <Button Content="X" HorizontalAlignment="Right" IsCancel="True" VerticalAlignment="Top"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" />
       <Rectangle Fill="Transparent" x:Name="MouseDragger" Margin="7 7 7 30" Cursor="Hand"/>
     </Grid>

@@ -12,7 +12,7 @@ public partial class App : Application
       //todo: use serilog:
       AAV.Sys.Helpers.Tracer.SetupTracingOptions("EvLogExplr", new TraceSwitch("OnlyUsedWhenInConfig", "This is the trace for all               messages... but who cares?") { Level = TraceLevel.Verbose });
 
-      Trace.WriteLine($"\r\n{DateTime.Now:yy.MM.dd HH:mm:ss.f} App.OnStartup() -- e.Args.Length:{e.Args.Length}, e.Args[0]:{e.Args.FirstOrDefault()}, {Environment.CommandLine}");
+      Trace.WriteLine($"\r\n{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- e.Args.Length:{e.Args.Length}, e.Args[0]:{e.Args.FirstOrDefault()}, {Environment.CommandLine}");
 
       if (e.Args.Length > 0 && File.Exists(e.Args.First()))
         new RODBView(e.Args.First()).ShowDialog();
@@ -22,6 +22,6 @@ public partial class App : Application
       //Bpr.BeepEnd3();
     }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} App.OnStartup() -- _END_"); }
+    finally { Trace.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- _END_"); }
   }
 }

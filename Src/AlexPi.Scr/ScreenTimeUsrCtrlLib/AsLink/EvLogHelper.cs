@@ -898,7 +898,7 @@ Kernel-General 12 - up
   public async Task<int> UpdateEvLogToDb(int daysback, string msg) //todo: should not it be in the Db.EventLog project? (Jun2019)
   {
     try
-    {//Trace.WriteLine($"{DateTime.Now:yy.MM.dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    UpdateEvLogToDb(): {msg}");
+    {//Trace.WriteLine($"{DateTime.Now:yy-MM-dd HH:mm:ss.f} +{(DateTime.Now - App.Started):mm\\:ss\\.ff}    UpdateEvLogToDb(): {msg}");
 
       if (!/*VerHelper.*/IsVIP) return -1; // let go ctrl-alt-del
 
