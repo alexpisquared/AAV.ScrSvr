@@ -1,6 +1,4 @@
-﻿using WpfUserControlLib.Base;
-
-namespace ScreenTimeUsrCtrlLib.Views;
+﻿namespace ScreenTimeUsrCtrlLib.Views;
 
 public partial class ScreenTimeUsrCtrl
 {
@@ -17,18 +15,18 @@ public partial class ScreenTimeUsrCtrl
       Loaded += onDrawDays; //note: needs Tag on the user control
   }
   async void onDrawDays(object s, RoutedEventArgs e) => await repopulateUsrCtrlCharts(((FrameworkElement)s).Tag?.ToString() ?? _daysBack.ToString());
-  async Task repopulateUsrCtrlCharts(string str) => await repopulateUsrCtrlCharts(int.TryParse(str, out _daysBack) ? _daysBack : 21);
+  async Task repopulateUsrCtrlCharts(string str) { /*_bpr.Click();*/ await repopulateUsrCtrlCharts(int.TryParse(str, out _daysBack) ? _daysBack : 21); }
+
   async Task repopulateUsrCtrlCharts(int daysBack)
   {
     try
     {
       await Task.Delay(11); // time to show up.
       ctrlpnl.Visibility = Visibility.Collapsed;
-      _bpr.Click();
       //tmi: tbInfo.Text = $"► going {daysBack} days back...";      //var sw = Stopwatch.StartNew();
 
       spArrayHolder.Children.Clear();
-      var eois =new  EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
+      var eois = new EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysBack), DateTime.Today.AddDays(.9999999));
       for (var i = 0; i < daysBack; i++)
       {
         var day_i = DateTime.Today.AddDays(-i);
@@ -45,11 +43,11 @@ public partial class ScreenTimeUsrCtrl
     finally
     {
       ctrlpnl.Visibility = Visibility.Visible;
-      _bpr.Tick();
+      //_bpr.Tick();
       await Task.Delay(100);
     }
   }
-  public void RedrawOnResize_todo(object s, RoutedEventArgs e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }
+  public void RedrawOnResize_todo(object s, RoutedEventArgs? e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }
 
   public static readonly DependencyProperty ZVProperty = DependencyProperty.Register("ZV", typeof(double), typeof(ScreenTimeUsrCtrl), new PropertyMetadata(1.5)); public double ZV { get => (double)GetValue(ZVProperty); set => SetValue(ZVProperty, value); }
 }

@@ -36,7 +36,9 @@ public partial class MainEvLogExplr
       await Task.Delay(1_000); // wait for showing up first.
       SendToBack();
 
-      await Task.Delay(1_780_000); // close after 30 minutes - 20 seconds for smooth restart.
+      vizroot.IsEnabled = true;
+
+      await Task.Delay(1_740_000); // close after 29 minutes.
       Close();
     }
     catch (Exception ex) { ex.Pop(); ; }

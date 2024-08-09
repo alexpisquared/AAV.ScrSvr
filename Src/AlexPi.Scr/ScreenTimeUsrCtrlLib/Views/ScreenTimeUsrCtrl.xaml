@@ -12,27 +12,6 @@
   </UserControl.Resources>
   <ScrollViewer VerticalScrollBarVisibility="Auto" >
     <Grid>
-      <Grid x:Name="ZoomablePanel">
-        <Grid.LayoutTransform>
-          <ScaleTransform ScaleX="{Binding ZV, ElementName=ths, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=ths, FallbackValue=1}" />
-        </Grid.LayoutTransform>
-        <StackPanel VerticalAlignment="Top">
-          <StackPanel x:Name="spArrayHolder" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" x:Name="ctrlpnl" >
-          <Label  Content=" Re-Draw days back:" VerticalAlignment="Center" FontSize="8" Foreground="#4af" />
-          <Button Content=" _1 " Click="onDrawDays" Tag="1" />
-          <Button Content=" _5 " Click="onDrawDays" Tag="5" />
-          <Button Content=" _8 " Click="onDrawDays" Tag="8" />
-          <Button Content="_32"  Click="onDrawDays" Tag="32" />
-          <Button Content="_99"  Click="onDrawDays" Tag="99" />
-          <Button Content="600"  Click="onDrawDays" Tag="600" />
-          <TextBlock x:Name="tbInfo" d:Text="◄◄◄ " Margin="10 0" Foreground="#4af" />
-          <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=ths, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />
-        </StackPanel>
-
-      </Grid>
       <Grid>
         <Grid.Resources>
           <Style TargetType="{x:Type TextBlock}">
@@ -164,6 +143,27 @@
         <Rectangle Grid.Column="15" />
         <Rectangle Grid.Column="18" />
         <Rectangle Grid.Column="21" />
+      </Grid>
+      <Grid x:Name="ZoomablePanel">
+        <Grid.LayoutTransform>
+          <ScaleTransform ScaleX="{Binding ZV, ElementName=ths, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=ths, FallbackValue=1}" />
+        </Grid.LayoutTransform>
+        <StackPanel VerticalAlignment="Top">
+          <StackPanel x:Name="spArrayHolder" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" x:Name="ctrlpnl" >
+          <Label  Content=" Re-Draw days back:" VerticalAlignment="Center" FontSize="8" Foreground="#4af" />
+          <Button Content=" _1 " Click="onDrawDays" Tag="1" />
+          <Button Content=" _5 " Click="onDrawDays" Tag="5" />
+          <Button Content=" _8 " Click="onDrawDays" Tag="8" />
+          <Button Content="_32"  Click="onDrawDays" Tag="32" />
+          <Button Content="_99"  Click="onDrawDays" Tag="99" />
+          <Button Content="600"  Click="onDrawDays" Tag="600" />
+          <TextBlock x:Name="tbInfo" d:Text="◄◄◄ " Margin="10 0" Foreground="#4af" />
+          <xui:Zoomer x:Name="ZoomSlider2" ZmValue="{Binding ZV, ElementName=ths, Mode=TwoWay}"	VerticalAlignment="Top" Margin="5 0" />
+        </StackPanel>
+
       </Grid>
     </Grid>
   </ScrollViewer>
