@@ -13,9 +13,9 @@
       <Setter Property="Height"           Value="10"    />
     </Style>
   </UserControl.Resources>
-  <Grid Name="gridvroot">
-    <Canvas     x:Name="canvasBar"  ToolTip="canvasBar" />
-    <TextBlock  x:Name="tbDaySummary"  ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" >
+  <Grid Name="gridvroot" Opacity="1">
+    <Canvas     x:Name="canvasBar"    ToolTip="canvasBar" />
+    <TextBlock  x:Name="tbDaySummary" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" >
     </TextBlock>
   </Grid>
 </UserControl>

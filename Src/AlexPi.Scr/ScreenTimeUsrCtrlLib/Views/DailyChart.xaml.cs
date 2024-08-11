@@ -1,9 +1,9 @@
-﻿using StandardLib.Services;
+﻿using static UpTimeChart.DailyChart;
 
 namespace UpTimeChart;
 public partial class DailyChart
 {
-  public struct TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
+  public class TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
   TimeSplit _timesplit;
   double _ah = 30, _aw = 30;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28));
@@ -22,14 +22,15 @@ public partial class DailyChart
     Loaded += async (s, e) =>
     {
       while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
-      await ClearDrawAllSegmentsForSinglePC();
+      await ClearDrawAllSegmentsForSinglePC(true);
     };
   }
 
-  public async Task ClearDrawAllSegmentsForSinglePC()
+  public async Task ClearDrawAllSegmentsForSinglePC(bool startIfNeeded)
   {
     try
     {
+      _timesplit = new();
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
       canvasBar.Children.Clear();
@@ -39,6 +40,14 @@ public partial class DailyChart
       //for (var i = 0.25; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
 
       await DrawUpDnLine(TrgDateC);
+
+      if (TrgDateC >= DateTime.Today && startIfNeeded)
+      {
+        //await OnTimer_AddRectangle();
+        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
+        await Task.Delay(300);
+        //await bt.StopAsync();
+      }
     }
     catch (Exception ex) { ex.Pop(); }
   }
@@ -84,32 +93,32 @@ public partial class DailyChart
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
-
-      if (trgDate >= DateTime.Today)
-      {
-        OnTimer_AddRectangle();
-        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(1), OnTimer_AddRectangle);
-        await Task.Delay(300);
-        //await bt.StopAsync();
-      }
     }
     catch (Exception ex) { ex.Pop(); }
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummary.Text} "); }
   }
 
-  string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}"
-            // /{_timesplit.TotalDaysUp,5:h\\:mm}"
-            //+ $"  ==  {_timesplit.WorkedFor,5:h\\:mm} + {_timesplit.IdleOrOff,5:h\\:mm} = {_timesplit.WorkedFor+_timesplit.IdleOrOff,5:h\\:mm}"
-            ;
-  void OnTimer_AddRectangle()
+  double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .05 : 1.0;
+  string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}";
+  async void OnTimer_AddRectangle()
   {
-    addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+    if (Environment.CommandLine.Contains("Schedule"))
+    {
+      await ClearDrawAllSegmentsForSinglePC(false);
+      //Console.Beep(333, 333);
+    }
+    else
+    {
+      //Console.Beep(3333, 333);
+      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
 
-    var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
+      var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
-    _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
+      _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
+      _timesplit.WorkedFor += TimeSpan.FromMinutes(_updatePeriodMin);
 
-    tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
+      tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
+    }
   }
 
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
