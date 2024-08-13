@@ -2,7 +2,7 @@
   "profiles": {
     "Db.EventLog.Explorer": {
       "commandName": "Project",
-      "commandLineArgs": "NotScheduler"
+      "commandLineArgs": "Scheduler 29.5 min"
     }
   }
 }

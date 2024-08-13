@@ -38,7 +38,14 @@ public partial class MainEvLogExplr
 
       vizroot.IsEnabled = true;
 
-      await Task.Delay(1_740_000); // close after 29 minutes.
+      if (Environment.CommandLine.Contains("min") && Environment.CommandLine.Split(" ").Length > 3)
+      {
+        var sdf = Environment.CommandLine.Split(" ");
+        var exitAfterMin = double.TryParse(sdf[sdf.Length - 2], out var min) ? min : 28.25;
+        await Task.Delay(TimeSpan.FromMinutes(exitAfterMin)); // close after 29 minutes.
+      }
+
+
       Close();
     }
     catch (Exception ex) { ex.Pop(); ; }

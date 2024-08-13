@@ -22,11 +22,18 @@ public partial class DailyChart
     Loaded += async (s, e) =>
     {
       while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
-      await ClearDrawAllSegmentsForSinglePC(true);
+
+      if (trgDate >= DateTime.Today)
+        _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.StillWorkingOn); // current moment of checking the stuff for today.
+
+      await ClearDrawAllSegmentsForSinglePC();
+
+      if (TrgDateC >= DateTime.Today)
+        new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
     };
   }
 
-  public async Task ClearDrawAllSegmentsForSinglePC(bool startIfNeeded)
+  async Task ClearDrawAllSegmentsForSinglePC()
   {
     try
     {
@@ -34,24 +41,13 @@ public partial class DailyChart
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
       canvasBar.Children.Clear();
+      await Task.Delay(0);
 
-      //for (var i = .125; i < 1; i += .041666) addRectangle(0, _ah, _aw * i, 1, b1); //addRectangle(0, _ah * .2, _aw * i, 1, b1);
-      //for (var i = .125; i < 1; i += .125000) addRectangle(0, _ah, _aw * i, 1, b3); //addRectangle(_ah * .2, _ah * .3, _aw * i, 1, b3);
-      //for (var i = 0.25; i < 1; i += .250000) addRectangle(0, _ah, _aw * i, 1, b6); //addRectangle(_ah * .5, _ah * .5, _aw * i, 1, b6);
-
-      await DrawUpDnLine(TrgDateC);
-
-      if (TrgDateC >= DateTime.Today && startIfNeeded)
-      {
-        //await OnTimer_AddRectangle();
-        var bt = new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
-        await Task.Delay(300);
-        //await bt.StopAsync();
-      }
+      DrawUpDnLine(TrgDateC);
     }
     catch (Exception ex) { ex.Pop(); }
   }
-  async Task DrawUpDnLine(DateTime trgDate)
+  void DrawUpDnLine(DateTime trgDate)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     //..Trace.Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
@@ -67,7 +63,10 @@ public partial class DailyChart
       else
       {
         if (trgDate >= DateTime.Today)
+        {
+          _thisDayEois.RemoveAt(_thisDayEois.Count - 1);
           _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.StillWorkingOn); // current moment of checking the stuff for today.
+        }
 
         var eoi0 = _thisDayEois.FirstOrDefault();
         var prevEoiF = eoi0.Value == (int)EvOfIntFlag.ScreenSaverrDn ? EvOfIntFlag.ScreenSaverrUp :
@@ -87,6 +86,7 @@ public partial class DailyChart
         var finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
         _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
+        _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
         tbDaySummary.Text = GetDaySummary(trgDate);
       }
@@ -98,19 +98,19 @@ public partial class DailyChart
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummary.Text} "); }
   }
 
-  double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .05 : 1.0;
+  double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
   string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}";
   async void OnTimer_AddRectangle()
   {
     if (Environment.CommandLine.Contains("Schedule"))
     {
-      await ClearDrawAllSegmentsForSinglePC(false);
-      //Console.Beep(333, 333);
+      if (StandardLib.Helpers.DevOps.IsDbg) Console.Beep(333, 333);
+      await ClearDrawAllSegmentsForSinglePC();
     }
     else
     {
-      //Console.Beep(3333, 333);
-      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm\\:ss}"); // now line
+      if (StandardLib.Helpers.DevOps.IsDbg) Console.Beep(3333, 333);
+      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
       var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
