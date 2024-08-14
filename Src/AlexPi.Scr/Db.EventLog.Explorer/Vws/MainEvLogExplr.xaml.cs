@@ -15,11 +15,11 @@ public partial class MainEvLogExplr
     InitializeComponent();
     KeyDown += (s, keyEventArgs) =>
     {
-      Trace.Write($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f}  KeyDown:  Key:{keyEventArgs.Key}  ");
+      Write($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f}  KeyDown:  Key:{keyEventArgs.Key}  ");
       switch (keyEventArgs.Key)
       {
-        default: Trace.WriteLine(""); break;
-        case Key.Escape: { Close(); Trace.WriteLine($"=> Application.Current.Shutdown();"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
+        default: WriteLine(""); break;
+        case Key.Escape: { Close(); WriteLine($"=> Application.Current.Shutdown();"); Application.Current.Shutdown(); } App.Current.Shutdown(); break;
       }
     };
   }

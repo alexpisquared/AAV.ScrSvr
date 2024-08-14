@@ -50,13 +50,13 @@ public partial class DailyChart
   void DrawUpDnLine(DateTime trgDate)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
-    //..Trace.Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
+    //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
     tbDaySummary.Text = "$@#";
     try
     {
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
-      if (Debugger.IsAttached) Write($">>> {trgDate}:\n"); // Trace.WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
+      if (Debugger.IsAttached) Write($">>> {trgDate}:\n"); // WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
         tbDaySummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
