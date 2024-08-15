@@ -115,7 +115,6 @@ public partial class DailyChart
       var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
       _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
-      _timesplit.WorkedFor += TimeSpan.FromMinutes(_updatePeriodMin);
 
       tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
     }
