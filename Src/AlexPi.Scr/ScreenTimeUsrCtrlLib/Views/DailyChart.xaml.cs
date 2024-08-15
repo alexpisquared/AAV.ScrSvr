@@ -102,7 +102,7 @@ public partial class DailyChart
   string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}";
   async void OnTimer_AddRectangle()
   {
-    if (Environment.CommandLine.Contains("Schedule"))
+    if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
     {
       if (StandardLib.Helpers.DevOps.IsDbg) Console.Beep(333, 333);
       await ClearDrawAllSegmentsForSinglePC();
