@@ -14,13 +14,13 @@ public partial class App : Application
       //tmi: WriteLine($"\r\n{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- e.Args.Length:{e.Args.Length}, e.Args[0]:{e.Args.FirstOrDefault()}, {Environment.CommandLine}");
 
       if (e.Args.Length > 0 && File.Exists(e.Args.First()))
-        new RODBView(e.Args.First()).ShowDialog();
+        new RODBView(e.Args.First(), SeriLogHelper.CreateLogger<RODBView>("EventLog.Explorer", "+Info -Verb +Infi")).ShowDialog();
       else
-        new MainEvLogExplr().ShowDialog();
+        new MainEvLogExplr(SeriLogHelper.CreateLogger<MainEvLogExplr>("EventLog.Explorer", "+Info -Verb +Infi")).ShowDialog();
 
       //Bpr.BeepEnd3();
     }
     catch (Exception ex) { ex.Pop(); ; }
-    finally { WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- _END_"); }
+    //tmi: finally { WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- _END_"); }
   }
 }

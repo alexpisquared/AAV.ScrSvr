@@ -7,10 +7,13 @@ public partial class RODBView
 {
   readonly A0DbModel _db;
   readonly string _localdb;
-  public RODBView(string dbfile)
+  private readonly Microsoft.Extensions.Logging.ILogger _logger;
+
+  public RODBView(string dbfile, Microsoft.Extensions.Logging.ILogger logger)
   {
     InitializeComponent(); KeyDown += (s, ves) => { switch (ves.Key) { case Key.Escape: Close(); break; } };
     _localdb = dbfile;
+    _logger = logger;
     FileAttributeHelper.RmvAttribute(_localdb, FileAttributes.ReadOnly);
     _db = A0DbModel.GetLclFl(dbfile);
     Loaded += onLoaded;
@@ -36,14 +39,14 @@ public partial class RODBView
 
       tbInfo.Text = $"{_db.PcLogics.Local.Count} PCs, {_db.EvOfInts.Local.Count} events in \r\n{_localdb}.";
     }
-    catch (Exception ex) { ex.Pop(); ; }
+    catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
   }
   async void onDbSave(object s, RoutedEventArgs e)
   {
     ZoomablePanel.IsEnabled = false;
     try { tbInfo.ToolTip = tbInfo.Text = (await _db.TrySaveReportAsync()).report; }
-    catch (Exception ex) { ex.Pop(); ; }
+    catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
   }
   async void onLoadEventsForToday(object s, RoutedEventArgs e) => await evLogToDb_days(1);
@@ -64,7 +67,7 @@ public partial class RODBView
 
       tbInfo.Text = $"Events: {before} before, {afterr}/{(await _db.TrySaveReportAsync()).rowsSavedCnt} found/saved, {_db.EvOfInts.Local.Count} after.";
     }
-    catch (Exception ex) { ex.Pop(); ; }
+    catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
   }
   async Task<int> evLogToDb(int daysBack)
@@ -79,14 +82,14 @@ public partial class RODBView
         tbInfo.Text = $"daysBack:{(daysBack - i),4} - rows added/saved:{n,5}.";
       }
     }
-    catch (Exception ex) { ex.Pop(); ; }
+    catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
 
     return n;
   }
 
   // [Obsolete] :why Copilot decides to mark it such?
-  public static async Task<int> UpdateDbWithNewLogEvents(DateTime trgDate, A0DbModel db) //todo: remove the dupes into central space
+  public async Task<int> UpdateDbWithNewLogEvents(DateTime trgDate, A0DbModel db) //todo: remove the dupes into central space
   {
     var rowsAddedSaved = 0;
     try
@@ -103,7 +106,7 @@ public partial class RODBView
           else
             rowsAddedSaved = DbLogHelper.FindNewEventsToSaveToDb(_.Result, Environment.MachineName, $"Db.EvLog.Explr {trgDate}", db);
         }
-        catch (Exception ex) { ex.Pop(); rowsAddedSaved = -5; }
+        catch (Exception ex) { ex.Pop(_logger); rowsAddedSaved = -5; }
       }, TaskScheduler.FromCurrentSynchronizationContext());
     }
     catch (Exception ex) { _ = ex.Log(); rowsAddedSaved = -1; }
@@ -119,7 +122,7 @@ public partial class RODBView
       var (newRows, report, swstopwatch) = new DataTransfer().CopyChunkyAzureSync(_db, A0DbModel.GetExprs); // .GetAzure);
       tbInfo.Text = $"{report}";
     }
-    catch (Exception ex) { ex.Pop(); ; }
+    catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ((Button)s).IsEnabled = true; }
   }
 }
