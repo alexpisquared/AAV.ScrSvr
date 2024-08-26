@@ -1,4 +1,6 @@
-﻿namespace MSGraphSlideshow;
+﻿using Azure.Identity;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
@@ -54,6 +56,7 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = duration;
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
+  public static readonly DependencyProperty ClientSecretProperty = DependencyProperty.Register("ClientSecret", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientSecret { get => (string)GetValue(ClientSecretProperty); set => SetValue(ClientSecretProperty, value); } // public string ClientSecret { get; set; }
   public bool ScaleToHalf { get; set; }
   public void ScheduleShutdown(double minToPcSleep)
   {
@@ -92,11 +95,20 @@ public partial class MsgSlideshowUsrCtrl
       ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
 
-      _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
-      {
-        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
-        await Task.CompletedTask;
-      }));
+
+
+
+
+
+
+
+
+
+
+
+      var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
+
+      _graphServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
 
       while (_notShutdown)
       {
@@ -195,7 +207,7 @@ public partial class MsgSlideshowUsrCtrl
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
-      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(_filename).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      driveItem = await _graphServiceClient.Drives[""].Root.ItemWithPath(_filename).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
@@ -337,7 +349,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+    var stream = await _graphServiceClient.Drives[""].Root.ItemWithPath(file).Content.GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
 #if DEBUG
@@ -408,7 +420,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
           */
 #else
       var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
-      var pathfile = fileinfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      var pathfile = fileinfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrives[""].Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrives[""].Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
 #endif
       if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
 #if DEBUG
@@ -530,13 +542,13 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.Request().GetAsync()))).bitmapImage;
-    _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
-    _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
-    _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
+    ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.GetAsync()))).bitmapImage;
+    _ = await _graphServiceClient.Drives[""].Root.GetAsync();
+    _ = await _graphServiceClient.Drives[""].Root.ItemWithPath("/Pictures").GetAsync();
+    _ = await _graphServiceClient.Drives[""].Root.ItemWithPath(file).GetAsync();
 
-    var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
-    _ = items.ToList()[12].Folder;
+    var items = await _graphServiceClient.Me.Drives[""].GetAsync(); //tu: onedrive root folder items == 16 dirs.
+    //_ = items.ToList()[12].Folder;
   }
 }
 /*
