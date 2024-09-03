@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />
     <PackageReference Include="LibVLCSharp" Version="3.9.0" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.12.3" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
   </ItemGroup>
 
