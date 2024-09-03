@@ -167,6 +167,8 @@ public partial class App : System.Windows.Application
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} OnExit  :logging ???? ...");
+
     if (!_mustLogEORun) return;
 
     _mustLogEORun = false;

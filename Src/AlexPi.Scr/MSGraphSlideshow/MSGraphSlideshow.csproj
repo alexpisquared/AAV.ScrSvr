@@ -12,7 +12,7 @@
     <!-- Do not use newer version yet; this one is the latest which is working:
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />-->
     <PackageReference Include="Azure.Identity" Version="1.12.0" />
-    <PackageReference Include="Microsoft.Graph" Version="5.56.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.56.1" />
     <PackageReference Include="LibVLCSharp" Version="3.9.0" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
