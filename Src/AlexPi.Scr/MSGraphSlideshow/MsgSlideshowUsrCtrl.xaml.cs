@@ -1,4 +1,5 @@
 ﻿using Azure.Identity;
+using Microsoft.Graph.Models;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -207,7 +208,9 @@ public partial class MsgSlideshowUsrCtrl
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
 
-      driveItem = await _graphServiceClient.Drives[""].Root.ItemWithPath(_filename).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      await Testingggggggg("", _filename);
+
+      driveItem = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
@@ -336,7 +339,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _graphServiceClient.Drives[""].Root.ItemWithPath(file).Content.GetAsync();
+    var stream = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(file).Content.GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
 #if DEBUG
@@ -528,14 +531,26 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   async Task Testingggggggg(string thm, string file)
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
-    //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.GetAsync()))).bitmapImage;
-    _ = await _graphServiceClient.Drives[""].Root.GetAsync();
-    _ = await _graphServiceClient.Drives[""].Root.ItemWithPath("/Pictures").GetAsync();
-    _ = await _graphServiceClient.Drives[""].Root.ItemWithPath(file).GetAsync();
+    try
+    {
+      _ = await _graphServiceClient.Admin.GetAsync();
+      var me4 = await _graphServiceClient.Users.GetAsync();
+      var me0 = await _graphServiceClient.Me.Photo.GetAsync();
+      var me3 = await _graphServiceClient.Places.Count.GetAsync();
+      var me2 = await _graphServiceClient.Me.GetAsync();
+      var me1 = await _graphServiceClient.Me.Photo.Content.GetAsync();
+      ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.GetAsync()))).bitmapImage;
+      _ = await _graphServiceClient.Drives["me/drive"].Root.GetAsync();
+      _ = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath("/Pictures").GetAsync();
+      _ = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(file).GetAsync();
 
-    var items = await _graphServiceClient.Me.Drives[""].GetAsync(); //tu: onedrive root folder items == 16 dirs.
-    //_ = items.ToList()[12].Folder;
+      var items = await _graphServiceClient.Me.Drives["me/drive"].GetAsync(); //tu: onedrive root folder items == 16 dirs.
+                                                                              //_ = items.ToList()[12].Folder;
+    }
+    catch (Exception ex)
+    {
+      Trace.WriteLine(ex.Message.Replace(". ", ".\n").Replace(". ", ".\r")); 
+    }
   }
 }
 /*
