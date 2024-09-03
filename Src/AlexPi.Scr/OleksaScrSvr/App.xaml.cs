@@ -56,9 +56,9 @@ public partial class App : System.Windows.Application
   }
   protected override async void OnExit(ExitEventArgs e)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
-
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
+
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
 
     if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
@@ -167,11 +167,15 @@ public partial class App : System.Windows.Application
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} OnExit  :logging ???? ...");
+
     if (!_mustLogEORun) return;
 
     _mustLogEORun = false;
     new AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} OnExit  :logged into the EventLog");
   }
+
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
 
   void LogAllLevels(ILogger lgr)
