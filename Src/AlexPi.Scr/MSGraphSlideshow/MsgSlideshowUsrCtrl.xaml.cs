@@ -310,38 +310,25 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
       return true;
     }
+    catch (AuthenticationFailedException ex)
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     catch (ServiceException ex)
-    {
-      ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
-      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
-
-      return false;
-    }
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     catch (Exception ex)
-    {
-      ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
-      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
-
-      return false;
-    }
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     finally
     {
-      var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
-
-      if (!_alreadyPrintedHeader)
+      if (driveItem is not null)
       {
-        _alreadyPrintedHeader = true;
-        Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        //await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb 1drv.ms/i/s!AGmSfHgV-\n");
+        if (!_alreadyPrintedHeader) { _alreadyPrintedHeader = true; Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!"); }
+
+        Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
+
+        var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
+
+        _currentShowTimeMS = _maxMs;
       }
-
-      Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
-
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
-
-      _currentShowTimeMS = _maxMs;
     }
   }
 
