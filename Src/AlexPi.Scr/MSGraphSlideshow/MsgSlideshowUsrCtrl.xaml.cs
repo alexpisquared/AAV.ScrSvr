@@ -9,6 +9,7 @@ public partial class MsgSlideshowUsrCtrl
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
   GraphServiceClient? _graphServiceClient;
+  Microsoft.Graph.Models.Drive? _drive;
   CancellationTokenSource? _cancellationTokenSource;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   readonly LibVLC? _libVLC;
@@ -110,6 +111,9 @@ public partial class MsgSlideshowUsrCtrl
       var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
 
       _graphServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
+      
+      _drive = await _graphServiceClient.Me.Drive.GetAsync();
+      ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
       while (_notShutdown)
       {
@@ -207,11 +211,12 @@ public partial class MsgSlideshowUsrCtrl
     {
       ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
+      ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
       await Testingggggggg("", _filename);
 
-      driveItem = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
-      if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
+      driveItem = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      if (driveItem is null || driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
       Trace.WriteLine(thmb = driveItem.Thumbnails[0].Large.Url);
@@ -339,7 +344,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(file).Content.GetAsync();
+    var stream = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(file).Content.GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
 #if DEBUG
@@ -540,11 +545,11 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       var me2 = await _graphServiceClient.Me.GetAsync();
       var me1 = await _graphServiceClient.Me.Photo.Content.GetAsync();
       ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.GetAsync()))).bitmapImage;
-      _ = await _graphServiceClient.Drives["me/drive"].Root.GetAsync();
-      _ = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath("/Pictures").GetAsync();
-      _ = await _graphServiceClient.Drives["me/drive"].Root.ItemWithPath(file).GetAsync();
+      _ = await _graphServiceClient.Drives[_drive.Id].Root.GetAsync();
+      _ = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath("/Pictures").GetAsync();
+      _ = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(file).GetAsync();
 
-      var items = await _graphServiceClient.Me.Drives["me/drive"].GetAsync(); //tu: onedrive root folder items == 16 dirs.
+      var items = await _graphServiceClient.Me.Drives[_drive.Id].GetAsync(); //tu: onedrive root folder items == 16 dirs.
                                                                               //_ = items.ToList()[12].Folder;
     }
     catch (Exception ex)
