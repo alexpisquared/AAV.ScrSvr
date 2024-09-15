@@ -1,5 +1,7 @@
 ﻿using Azure.Identity;
 using Microsoft.Graph.Models;
+using MSGraphGetPhotoToTheLatestVersionPOC;
+using Pastel;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -8,13 +10,14 @@ public partial class MsgSlideshowUsrCtrl
   const int _veryQuiet = 33; // 9 is already hardly hearable on max. 26 for Nuc2 is still low since it is usually on 10 there already.
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
-  GraphServiceClient? _graphServiceClient;
+  //GraphServiceClient? _myGraphDriveServiceClient;
+  MyGraphDriveServiceClient? _myGraphDriveServiceClient;
   Microsoft.Graph.Models.Drive? _drive;
   CancellationTokenSource? _cancellationTokenSource;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   readonly LibVLC? _libVLC;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  readonly AuthUsagePOC _authUsagePOC = new();
+  //readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
   const int _maxMs = 12_000;
 #else
@@ -84,19 +87,18 @@ public partial class MsgSlideshowUsrCtrl
     try
     {
       _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
-
-      this.FindParentWindow().WindowState = WindowState.Minimized;
-      var (success, report, result) = await _authUsagePOC.LogInAsync(ClientId);
-      this.FindParentWindow().WindowState = WindowState.Normal;
-      if (!success)
-      {
-        ReportBC.Content = $"{_filename}:- {report}";
-        Logger.Log(LogLevel.Information, $"° {report}");
-      }
-
-      ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
 
+      //this.FindParentWindow().WindowState = WindowState.Minimized;
+      ////var (success, report, result) = await _authUsagePOC.LogInAsync(ClientId);
+      //this.FindParentWindow().WindowState = WindowState.Normal;
+      ////if (!success)
+      ////{
+      ////  ReportBC.Content = $"{_filename}:- {report}";
+      ////  Logger.Log(LogLevel.Information, $"° {report}");
+      ////}
+
+      //ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
 
 
 
@@ -108,11 +110,29 @@ public partial class MsgSlideshowUsrCtrl
 
 
 
-      var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
 
-      _graphServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
+
+
+      _myGraphDriveServiceClient = new MyGraphDriveServiceClient(ClientId);
+      using var stream = await _myGraphDriveServiceClient.GetGraphFileStream(@"Pictures\id.png");//  Pictures\id.png");
+
+      Rs(stream);
+
+      static void Rs(Stream stream)
+      {
+        using var reader = new StreamReader(stream);
+        string? line;
+        while ((line = reader?.ReadLine()) != null)
+        {
+          Trace.WriteLine(line);
+        }
+      }
+
+      //var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
+      //_myGraphDriveServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _myGraphDriveServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
+      //_drive = await _myGraphDriveServiceClient.Me.Drive.GetAsync();
       
-      _drive = await _graphServiceClient.Me.Drive.GetAsync();
+      _drive = _myGraphDriveServiceClient.Drive;
       ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
       while (_notShutdown)
@@ -173,7 +193,7 @@ public partial class MsgSlideshowUsrCtrl
   }
   async void OnSignOut(object s, RoutedEventArgs e)
   {
-    ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
+    //ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
     System.Windows.Application.Current.Shutdown();
   }
   void OnSizeChanged(object s, SizeChangedEventArgs e)
@@ -209,17 +229,17 @@ public partial class MsgSlideshowUsrCtrl
 
     try
     {
-      ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+      ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
       ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
-      await Testingggggggg("", _filename);
+      //await Testingggggggg("", _filename);
 
-      driveItem = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      driveItem = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem is null || driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
         return true;
 
-      Trace.WriteLine(thmb = driveItem.Thumbnails[0].Large.Url);
+      //Trace.WriteLine(thmb = driveItem?.Thumbnails[0]?.Large.Url);
       /*
 https://chi01pap001files.storage.live.com/y4mgPw3S1CXM_o-MciLRv-kvsHUZsaTyaBoHJ1qtwVCgxCsfeHZW7Rg7NzdYcLOmrPrh5rERJ1vC1WIkGy_XDdFJ9XWyG60w1evS0G_cd71_VT_hShJMBfGPy7nwTPgfbizPLOOR-mt2veIElvIN9xVYa6k9bWvJ6cw_3flK4GONGQpNV1gLh-gaicXwwlOZieaBdILqIq9RbApaGeayEs_UHRAgoPs4PRFNv3RTEFTf1Q?width=176&height=132&cropmode=none
 https://sat02pap002files.storage.live.com/y4mmV1qPhwV0gkRdceZ5M2ZzcAK5CrfwO0dr7M6ov6ALMUzQJVfj-LmiZ_FO0wS1jM9g06187J6cJyhQfjfZfRcYoRPXaVb-pCNSnEIfOr2QFIUfcm3iXRal0WMC2Dct16nOavwUZURc3rm_4TMashczqKYLLZVIQf10vFLYMQFtVyRVyvYWlLfqwkmOFB6b5QJN54yfl-IviYFiabxNFqqVpooYdvkjehbZ2iXzMsJrKM?width=176&height=132&cropmode=none
@@ -342,9 +362,9 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
   {
-    ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(file).Content.GetAsync();
+    var stream = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(file).Content.GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
 #if DEBUG
@@ -533,24 +553,11 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       };
   }
 
-  async Task Testingggggggg(string thm, string file)
+  void Testingggggggg(string thm, string file)
   {
-    ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     try
     {
-      _ = await _graphServiceClient.Admin.GetAsync();
-      var me4 = await _graphServiceClient.Users.GetAsync();
-      var me0 = await _graphServiceClient.Me.Photo.GetAsync();
-      var me3 = await _graphServiceClient.Places.Count.GetAsync();
-      var me2 = await _graphServiceClient.Me.GetAsync();
-      var me1 = await _graphServiceClient.Me.Photo.Content.GetAsync();
-      ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.GetAsync()))).bitmapImage;
-      _ = await _graphServiceClient.Drives[_drive.Id].Root.GetAsync();
-      _ = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath("/Pictures").GetAsync();
-      _ = await _graphServiceClient.Drives[_drive.Id].Root.ItemWithPath(file).GetAsync();
-
-      var items = await _graphServiceClient.Me.Drives[_drive.Id].GetAsync(); //tu: onedrive root folder items == 16 dirs.
-                                                                              //_ = items.ToList()[12].Folder;
     }
     catch (Exception ex)
     {

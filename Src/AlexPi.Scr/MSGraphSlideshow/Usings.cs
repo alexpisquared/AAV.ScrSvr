@@ -13,7 +13,7 @@ global using System.Windows.Media.Animation;
 global using System.Windows.Media.Imaging;
 global using System.Windows.Threading;
 global using AmbienceLib;
-global using DemoLibrary;
+//global using DemoLibrary;
 global using LibVLCSharp.Shared;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Graph;

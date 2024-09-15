@@ -12,17 +12,18 @@
     <!-- Do not use newer version yet; this one is the latest which is working:
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" />-->
     <PackageReference Include="Azure.Identity" Version="1.12.0" />
-    <PackageReference Include="Microsoft.Graph" Version="5.56.1" />
+    <PackageReference Include="Microsoft.Graph" Version="5.58.0" />
     <PackageReference Include="LibVLCSharp" Version="3.9.0" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.20" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj" />
-    <ProjectReference Include="..\..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\DemoLibrary\DemoLibrary.csproj" />
+    <ProjectReference Include="..\..\..\..\AiGen\Sln1\MSGraphGetPhotoToTheLatestVersionPOC\MSGraphGetPhotoToTheLatestVersionPOC.csproj" />
   </ItemGroup>
 
 </Project>
