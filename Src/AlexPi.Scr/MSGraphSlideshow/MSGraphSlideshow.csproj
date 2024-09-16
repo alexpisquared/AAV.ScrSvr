@@ -21,9 +21,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj" />
-    <ProjectReference Include="..\..\..\..\AiGen\Sln1\MSGraphGetPhotoToTheLatestVersionPOC\MSGraphGetPhotoToTheLatestVersionPOC.csproj" />
   </ItemGroup>
 
 </Project>

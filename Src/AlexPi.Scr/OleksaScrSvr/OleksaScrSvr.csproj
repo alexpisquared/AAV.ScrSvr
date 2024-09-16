@@ -14,10 +14,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ReadMe.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EvLogHelperBase.cs" Link="AsLink\EvLogHelperBase.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ReadMe.md" />
     <Content Include="Xamarin.Simulator.ico" />
   </ItemGroup>
 
