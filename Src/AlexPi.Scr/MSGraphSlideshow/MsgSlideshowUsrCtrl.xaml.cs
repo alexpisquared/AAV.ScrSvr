@@ -1,7 +1,5 @@
 ﻿using Azure.Identity;
-using Microsoft.Graph.Models;
 using MSGraphGetPhotoToTheLatestVersionPOC;
-using Pastel;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -19,7 +17,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   //readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 12_000;
+  const int _maxMs = 26_000;
 #else
   const int _maxMs = 60_000;
 #endif
@@ -63,17 +61,14 @@ public partial class MsgSlideshowUsrCtrl
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
   public static readonly DependencyProperty ClientSecretProperty = DependencyProperty.Register("ClientSecret", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientSecret { get => (string)GetValue(ClientSecretProperty); set => SetValue(ClientSecretProperty, value); } // public string ClientSecret { get; set; }
   public bool ScaleToHalf { get; set; }
-  public void ScheduleShutdown(double minToPcSleep)
-  {
-    _ = Task.Run(async () =>
-    {
-      await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
-    }).
+  public void ScheduleShutdown(double minToPcSleep) => _ = Task.Run(async () =>
+                                                        {
+                                                          await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
+                                                        }).
     ContinueWith(_ =>
     {
       ShutdownIndicatorStart();
     }, TaskScheduler.FromCurrentSynchronizationContext());
-  }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
@@ -100,19 +95,6 @@ public partial class MsgSlideshowUsrCtrl
 
       //ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       _myGraphDriveServiceClient = new MyGraphDriveServiceClient(ClientId);
       using var stream = await _myGraphDriveServiceClient.GetGraphFileStream(@"Pictures\id.png");//  Pictures\id.png");
 
@@ -131,7 +113,7 @@ public partial class MsgSlideshowUsrCtrl
       //var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
       //_myGraphDriveServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _myGraphDriveServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
       //_drive = await _myGraphDriveServiceClient.Me.Drive.GetAsync();
-      
+
       _drive = _myGraphDriveServiceClient.Drive;
       ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
@@ -162,7 +144,7 @@ public partial class MsgSlideshowUsrCtrl
   void OnLoud(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Volume = ((CheckBox)s).IsChecked == true ? _veryQuiet : 88; }
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
-  void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnEndReached(object? s, EventArgs e) => Trace.WriteLine($" {DateTime.Now:HH:mm:ss.f}  OnEndReached"); // _cancellationTokenSource?.Cancel();
   void OnSnapshotOld(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_Old", false);
   void OnSnapshotNew(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_New", true);
   void OnShutdown(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; ScheduleShutdown(.03); }
@@ -191,11 +173,9 @@ public partial class MsgSlideshowUsrCtrl
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
     }
   }
-  async void OnSignOut(object s, RoutedEventArgs e)
-  {
+  void OnSignOut(object s, RoutedEventArgs e) =>
     //ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
     System.Windows.Application.Current.Shutdown();
-  }
   void OnSizeChanged(object s, SizeChangedEventArgs e)
   {
     if (!ScaleToHalf) return;
@@ -236,7 +216,7 @@ public partial class MsgSlideshowUsrCtrl
       //await Testingggggggg("", _filename);
 
       driveItem = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
-      if (driveItem is null || driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
+      if (driveItem is null || (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null))
         return true;
 
       //Trace.WriteLine(thmb = driveItem?.Thumbnails[0]?.Large.Url);
@@ -265,7 +245,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
         _cancellationTokenSource = new();
         var taskDelay = Task.Delay(_currentShowTimeMS, _cancellationTokenSource.Token);
         await Task.WhenAll(taskStream, taskDelay);
-        dnldTime = taskStream.Result.dnldTime;
+        dnldTime = taskStream is null ? TimeSpan.Zero : taskStream.Result.dnldTime;
       }
       catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
       catch (Exception ex)
@@ -434,33 +414,31 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
           @"Pictures\2016-09\wp_ss_20160915_0001.png"};
           */
 #else
-      var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
-      var pathfile = fileinfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrives[""].Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrives[""].Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      var fileInfo = _sizeWeightedRandomPicker.PickRandomFile();
+      var pathFile = fileInfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrives[""].Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrives[""].Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
 #endif
-      if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
+      if (_blackList.Contains(Path.GetExtension(pathFile).ToLower()) == false
 #if DEBUG
-        //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000     // a big 2gb file on Zoe's account
-        //&&  100_000 < fileinfo.Length && fileinfo.Length < 2_000_000            // tiny pics mostly ... I hope.
-        //&& 12_000_000 < fileinfo.Length && fileinfo.Length < 26_000_000         // small videos
-        && 3_000_000 < fileinfo.Length && fileinfo.Length < 22_000_000            // 50/50 videos/pics mix
+        //&& 500_000_000 < fileInfo.Length && fileInfo.Length < 3_000_000_000     // a big 2gb file on Zoe's account
+        //&&  100_000 < fileInfo.Length && fileInfo.Length < 2_000_000            // tiny pics mostly ... I hope.
+        //&& 12_000_000 < fileInfo.Length && fileInfo.Length < 26_000_000         // small videos
+        && 26_000_000 < fileInfo.Length && fileInfo.Length < 52_000_000           // medium videos
+                                                                                  //&& 3_000_000 < fileInfo.Length && fileInfo.Length < 22_000_000            // 50/50 videos/pics mix
 #endif
         )
-        return pathfile;
+        return pathFile;
     }
 
     throw new Exception("No suitable media files found ▄▀▄▀▄▀▄▀▄▀▄▀");
   }
   async Task<(long durationInMs, bool isExact, string report)> StartPlayingMediaStream(Stream stream, DriveItem driveItem)
   {
-    var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
-
+    Trace.WriteLine($" {DateTime.Now:HH:mm:ss.f}  StartPlayingMediaStream");
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "■555");
 
-    _ = VideoView1.MediaPlayer.Play(media);
+    var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
 
-#if DEBUG
-    Synth?.SpeakFAF("Play!");
-#endif
+    _ = VideoView1.MediaPlayer.Play(media);
 
     VideoView1.MediaPlayer.Volume = _veryQuiet;
     VideoView1.MediaPlayer.Mute = false;
@@ -469,6 +447,10 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     _currentShowTimeMS = Math.Min((int)durationMs, _maxMs);
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
+
+#if DEBUG
+    Synth?.SpeakFAF(durationMs > _currentShowTimeMS ? "Seek!" : "Play!");
+#endif
 
     var report2 = report;
     if (durationMs > _currentShowTimeMS)
@@ -480,15 +462,12 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       var seekToPerc = (double)seekToMSec / durationMs;
       ProgressBar2.Value = seekToPerc;
 
-      await Task.Delay(999); // to demo the seek to a better position.
+      // looks really bad on the new sep 2024 version: => commented out:
+      //await Task.Delay(999); // to demo the seek to a better position.
+      //VideoView1.MediaPlayer.SetPause(true);
 
-      VideoView1.MediaPlayer.SetPause(true);
       VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));
       VideoView1.MediaPlayer.SetPause(false);
-
-#if DEBUG
-      Synth?.SpeakFAF("Seek!");
-#endif
 
       report2 += $"{(int)(seekToMSec * .001),3}/{(int)(durationMs * .001),-3}";
 
@@ -534,8 +513,8 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   }
   static async Task<(long durationMs, bool isExact, string report)> TryGetBetterDuration(DriveItem driveItem, Media media)
   {
-    if (driveItem.Video.Duration > 0)
-      return ((long)driveItem.Video.Duration, true, "drvItm");
+    if (driveItem.Video?.Duration > 0)
+      return (driveItem.Video.Duration.Value, true, "drvItm");
 
     const int maxTries = 101;
     var i = 1; for (; i < maxTries && media.Duration <= 0; i++) await Task.Delay(10);
@@ -545,24 +524,12 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
     return media.Duration > 0
       ? (media.Duration, true, rv)
-      : Path.GetExtension(driveItem.Name).ToLower() switch
+      : Path.GetExtension(driveItem.Name)?.ToLower() switch
       {
         ".m2ts" => ((driveItem.Size ?? 0) / (38208 * 1024 / 13000), false, rv),
         ".mts" => ((driveItem.Size ?? 0) / (20298 * 1024 / 13000), false, rv),
         _ => (0, false, "//todo"),
       };
-  }
-
-  void Testingggggggg(string thm, string file)
-  {
-    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
-    try
-    {
-    }
-    catch (Exception ex)
-    {
-      Trace.WriteLine(ex.Message.Replace(". ", ".\n").Replace(". ", ".\r")); 
-    }
   }
 }
 /*

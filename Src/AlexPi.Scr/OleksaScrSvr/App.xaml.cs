@@ -101,7 +101,7 @@ public partial class App : System.Windows.Application
         new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
         await Task.Delay(TimeSpan.FromMinutes(02)); // SpeakRandomFunMessage();
-        
+
         await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 3)); speech.SpeakFAF($"Turning off in a minute.", volumePercent: 20);
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
@@ -124,8 +124,8 @@ public partial class App : System.Windows.Application
       case 2: speech.SpeakFAF(funMsg, voice: CC.Xiaomo, style: CC.affectionate, role: CC.Girl); break;
       default: break;
     }
-    
-    ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│"); 
+
+    ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│");
   }
   void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
   {
@@ -147,11 +147,11 @@ public partial class App : System.Windows.Application
       await Task.WhenAll(taskDelay, taskScream);
     }).ContinueWith(async t =>
     {
-      await speech.SpeakAsync($"Sorry...");
       if (DevOps.IsDbg)
-        speech.SpeakFAF("That is where PC is sent to sleep in release mode.");
+        speech.SpeakFAF("PC is sent to sleep in release mode only.");
       else
       {
+        await speech.SpeakAsync($"Sweet dreams.");
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
         var sleepStart = DateTimeOffset.Now;
