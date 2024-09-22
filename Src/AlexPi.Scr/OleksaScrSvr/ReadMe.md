@@ -5,4 +5,4 @@
   //todo: remove old ms.graph libs
 
 ## 2024-09-16
-  //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!!
+  //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!! ...or does it?...

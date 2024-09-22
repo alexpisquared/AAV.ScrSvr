@@ -85,4 +85,4 @@ Try if this simple code works as a standalone Console App for me, then Zoe:  htt
 
 
  ## 2024-09-16
-  //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!!
+  //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!! ...or does it?...

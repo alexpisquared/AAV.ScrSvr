@@ -213,8 +213,6 @@ public partial class MsgSlideshowUsrCtrl
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
       ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
-      //await Testingggggggg("", _filename);
-
       driveItem = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
       if (driveItem is null || (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null))
         return true;
@@ -235,7 +233,7 @@ https://dsm04pap002files.storage.live.com/y4mRKHNrX-YhXbWPqv4Ixz3gH6IdzHtiM1oho6
 https://dsm04pap002files.storage.live.com/y4m7kPrdpWp5_Hbr3NT48zolOUVDW6Kptk2aOGnXlwFHI-p-CHBeAftuG5pPONEOhV4dhXtjG4jrX2VlgTQe_TL6kvLow4I3oajmMD_Z_2P-rM-9TcWmbaEepXRwafEageKbAxa_V8_0icqSP-lm5Q70sNbwP2qELeHfbGvCU3zHi-ooRnaUvqkziOVSgbqmUc_aTNJD0xrFvDiIW-vMVIdtwT61o34C-QFuJdoFblsbZY?width=800&height=533&cropmode=none
 https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVKHf_aujRoseNwjmwiEFoqHIILBmVQRX1QHZ7yk6c-hructLqhSqbpxawo7e_TN94YBGRPcv_Fz1rWnO3icDKUb16Lzv6T6jPuHTrf3UoQ0LKHryVfRgKKT_L0PQIYJ4d8utupHaqSOsPyCjEhpRkOSRQ8QwQtuIk4PsPNRT06LaYjnQwWZoFmazbSf2daFdVQJqv8SZik?width=800&height=600&cropmode=none
        */
-      HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
+      HistoryL.Content = $"{.000_001 * driveItem.Size,5:N1}";
 
       var taskStream = TaskDownloadStreamGraph(_filename); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
@@ -245,15 +243,10 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
         _cancellationTokenSource = new();
         var taskDelay = Task.Delay(_currentShowTimeMS, _cancellationTokenSource.Token);
         await Task.WhenAll(taskStream, taskDelay);
-        dnldTime = taskStream is null ? TimeSpan.Zero : taskStream.Result.dnldTime;
+        dnldTime = taskStream.Result.dnldTime;
       }
       catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
-      catch (Exception ex)
-      {
-        ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-
-        ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
-      }
+      catch (Exception ex) { ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}"; ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
@@ -344,12 +337,12 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(file).Content.GetAsync();
+    var stream = await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()      ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
 
-    return (stream ?? throw new ArgumentNullException("■ 897"), dnldTm );
+    return (stream, dnldTm);
   }
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamAPI(string url)
   {
