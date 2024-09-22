@@ -72,7 +72,7 @@ public partial class MsgSlideshowUsrCtrl
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
-  SpeechSynth? _synth; public SpeechSynth? Synth => _synth ??= (DataContext as dynamic)?.Synth;
+  SpeechSynth? _synth; public SpeechSynth Synth => _synth ??= (DataContext as dynamic).Synth;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -347,11 +347,9 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     var stream = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(file).Content.GetAsync();
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
-#if DEBUG
-    Synth?.SpeakFAF("Got it!");
-#endif
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
 
-    return (stream, dnldTm);
+    return (stream ?? throw new ArgumentNullException("■ 897"), dnldTm );
   }
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamAPI(string url)
   {
@@ -448,9 +446,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
 
-#if DEBUG
-    Synth?.SpeakFAF(durationMs > _currentShowTimeMS ? "Seek!" : "Play!");
-#endif
+    if (DevOps.IsDbg) await Synth.SpeakAsync(durationMs > _currentShowTimeMS ? "Seek!" : "Play!");
 
     var report2 = report;
     if (durationMs > _currentShowTimeMS)

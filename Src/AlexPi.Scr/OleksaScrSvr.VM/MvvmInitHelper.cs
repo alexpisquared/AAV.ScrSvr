@@ -15,7 +15,7 @@ public static class MvvmInitHelper
 
     //tu: Start Page Startup Start up Page controller.
     _ = DevOps.IsDbg
-      ?                /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
+      ?                /**/    services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>()
       : Environment.MachineName switch
       {
         "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"

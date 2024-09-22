@@ -1,7 +1,4 @@
-﻿using System.Speech.Recognition;
-using System.Windows.Interop;
-using AmbienceLib;
-using MSGraphSlideshow;
+﻿using MSGraphSlideshow;
 using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
@@ -127,43 +124,40 @@ public partial class App : System.Windows.Application
 
     ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│");
   }
-  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
-  {
-    _ = Task.Run(async () =>
-    {
-      var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      var taskScream =
-      Environment.MachineName switch
-      {
-        "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
-          => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
-        "NUC2"
-          => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
-        "RAZER1"
-          => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
-        _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
-      };
+  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr) => _ = Task.Run(async () =>
+                                                                                                            {
+                                                                                                              var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
+                                                                                                              var taskScream =
+                                                                                                              Environment.MachineName switch
+                                                                                                              {
+                                                                                                                "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
+                                                                                                                  => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "NUC2"
+                                                                                                                  => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "RAZER1"
+                                                                                                                  => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
+                                                                                                                _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
+                                                                                                              };
 
-      await Task.WhenAll(taskDelay, taskScream);
-    }).ContinueWith(async t =>
-    {
-      if (DevOps.IsDbg)
-        speech.SpeakFAF("PC is sent to sleep in release mode only.");
-      else
-      {
-        await speech.SpeakAsync($"Sweet dreams.");
-        LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
+                                                                                                              await Task.WhenAll(taskDelay, taskScream);
+                                                                                                            }).ContinueWith(async t =>
+                                                                                                            {
+                                                                                                              if (DevOps.IsDbg)
+                                                                                                                speech.SpeakFAF("PC is sent to sleep in release mode only.");
+                                                                                                              else
+                                                                                                              {
+                                                                                                                await speech.SpeakAsync($"Sweet dreams.");
+                                                                                                                LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
-        var sleepStart = DateTimeOffset.Now;
-        logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█···                   │"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
-        logger.Log(LogLevel.Information, $"╘══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+                                                                                                                var sleepStart = DateTimeOffset.Now;
+                                                                                                                logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█···                   │"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
+                                                                                                                logger.Log(LogLevel.Information, $"╘══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
 
-        // never gets here: 
-        //Environment.Exit(87);
-        //Environment.FailFast("Environment.FailFast");
-      }
-    }, TaskScheduler.FromCurrentSynchronizationContext());
-  }
+                                                                                                                // never gets here: 
+                                                                                                                //Environment.Exit(87);
+                                                                                                                //Environment.FailFast("Environment.FailFast");
+                                                                                                              }
+                                                                                                            }, TaskScheduler.FromCurrentSynchronizationContext());
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {

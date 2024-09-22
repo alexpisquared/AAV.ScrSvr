@@ -7,8 +7,8 @@ public partial class MainNavView : WindowBase
   public StandardContractsLib.IBpr Bpr { get; }
   public SpeechSynth Speech { get; }
 
-  public MainNavView(ILogger logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : this((ILogger<Window>)logger, config, bpr, speech) { }
-  public MainNavView(ILogger<Window> logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : base(logger)
+  //public MainNavView(ILogger logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : this((ILogger<Window>)logger, config, bpr, speech) { }
+  public MainNavView(ILogger logger, IConfigurationRoot config, StandardContractsLib.IBpr bpr, SpeechSynth speech) : base(logger)
   {
     InitializeComponent();
 

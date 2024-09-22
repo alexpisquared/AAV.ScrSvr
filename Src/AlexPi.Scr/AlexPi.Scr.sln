@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVsOnTheCulpritLine", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsGraphLib", "..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLib.csproj", "{D25B082A-B010-416F-B1BB-127DFFBD0AF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMeteoClient", "..\..\..\Radar\Src\OpenMeteoClient\src\OpenMeteoClient\OpenMeteoClient.csproj", "{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BldRls|Any CPU = BldRls|Any CPU
@@ -700,6 +702,24 @@ Global
 		{D25B082A-B010-416F-B1BB-127DFFBD0AF9}.Release|x64.Build.0 = Release|Any CPU
 		{D25B082A-B010-416F-B1BB-127DFFBD0AF9}.Release|x86.ActiveCfg = Release|Any CPU
 		{D25B082A-B010-416F-B1BB-127DFFBD0AF9}.Release|x86.Build.0 = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|Any CPU.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|x64.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|x64.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|x86.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.BldRls|x86.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|x64.Build.0 = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF6A77A1-AEC4-4826-91A1-6CF1ABE7F7DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
