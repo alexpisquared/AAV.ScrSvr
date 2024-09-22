@@ -337,7 +337,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()      ?? throw new ArgumentNullException("■ 897");
+    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync())      ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
