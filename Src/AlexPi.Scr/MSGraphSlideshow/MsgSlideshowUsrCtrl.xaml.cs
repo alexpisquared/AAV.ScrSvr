@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using MSGraphGetPhotoToTheLatestVersionPOC;
+using MsGraphLib;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
@@ -17,7 +18,7 @@ public partial class MsgSlideshowUsrCtrl
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   //readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 26_000;
+  const int _maxMs = 10_000;
 #else
   const int _maxMs = 60_000;
 #endif
@@ -203,9 +204,9 @@ public partial class MsgSlideshowUsrCtrl
     var driveItem = (DriveItem?)default;
     DateTimeOffset? minDate = null;
 
-    _filename = GetRandomSizeProportionalMediaFile();
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Start");
 
-    //pass:  Logger.Log(LogLevel.Warning, "Test");
+    _filename = GetRandomSizeProportionalMediaFile();    //pass:  Logger.Log(LogLevel.Warning, "Test");
 
     try
     {
@@ -235,9 +236,15 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
        */
       HistoryL.Content = $"{.000_001 * driveItem.Size,5:N1}";
 
-      var taskStream = TaskDownloadStreamGraph(_filename); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+      //var taskStream = TaskDownloadStreamGraph(_filename); 
+      var taskStream = TaskDownloadStreamGraph(driveItem); 
+      //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); 
+      //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
 
+#if !old
+      await taskStream;
+#else
       try
       {
         _cancellationTokenSource = new();
@@ -250,6 +257,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
+#endif
 
       HistoryR.Content += $"\n{ReportBR.Content}";
       ReportBR.Content = $"{driveItem.Name}";
@@ -309,6 +317,13 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
       ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
+#if !old
+      if (DevOps.IsDbg) await Synth.SpeakAsync("Wait");
+      await Task.Delay(_maxMs);
+      if (DevOps.IsDbg) await Synth.SpeakAsync("End");
+#else
+#endif
+
       return true;
     }
     catch (AuthenticationFailedException ex)
@@ -337,7 +352,18 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync())      ?? throw new ArgumentNullException("■ 897");
+    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
+    var dnldTm = Stopwatch.GetElapsedTime(start);
+
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
+
+    return (stream, dnldTm);
+  }
+  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(DriveItem file)
+  {
+    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
+    var start = Stopwatch.GetTimestamp();
+    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Items[file.Id].Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
@@ -430,6 +456,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
 
     _ = VideoView1.MediaPlayer.Play(media);
+    await Task.Delay(1); //tu: DOES NOT WORK WITHOUT IT ... no idea why!!!            tested in: C:\g\AiGen\Sln1\MSGraphVideoStreamPlayWpfPOC\MainWindow.xaml.cs
 
     VideoView1.MediaPlayer.Volume = _veryQuiet;
     VideoView1.MediaPlayer.Mute = false;
