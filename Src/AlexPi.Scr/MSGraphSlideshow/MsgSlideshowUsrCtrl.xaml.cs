@@ -1,5 +1,4 @@
 ﻿using Azure.Identity;
-using MSGraphGetPhotoToTheLatestVersionPOC;
 using MsGraphLib;
 
 namespace MSGraphSlideshow;
@@ -12,13 +11,13 @@ public partial class MsgSlideshowUsrCtrl
   //GraphServiceClient? _myGraphDriveServiceClient;
   MyGraphDriveServiceClient? _myGraphDriveServiceClient;
   Microsoft.Graph.Models.Drive? _drive;
-  CancellationTokenSource? _cancellationTokenSource;
+  readonly CancellationTokenSource? _cancellationTokenSource;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   readonly LibVLC? _libVLC;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
   //readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 10_000;
+  const int _maxMs = 6_000;
 #else
   const int _maxMs = 60_000;
 #endif
@@ -237,7 +236,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       HistoryL.Content = $"{.000_001 * driveItem.Size,5:N1}";
 
       //var taskStream = TaskDownloadStreamGraph(_filename); 
-      var taskStream = TaskDownloadStreamGraph(driveItem); 
+      var taskStream = TaskDownloadStreamGraph(driveItem);
       //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); 
       //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
@@ -352,7 +351,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
+    var stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
@@ -363,7 +362,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   {
     ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    Stream stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Items[file.Id].Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
+    var stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Items[file.Id].Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
     if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
