@@ -22,9 +22,9 @@ Win-App-calling-MsGraph.csproj
 which I seems renamed to MsgSlideshowUsrCtrl
 seems to be a WORKING Option 2 from:
 Tutorial: Sign in users and call Microsoft Graph in Windows Presentation Foundation (WPF) desktop app <https://learn.microsoft.com/en-us/azure/active-directory/develop/tutorial-v2-windows-desktop> 
-#Running this app pops a dialog asking for permission to access OneDrive files…
-…after which ScrSvr seems to work!!!!!!!!
-Yes, it does … BUT on my account ONLY! Mei's still complains about the redirect_url.
+#Running this app pops a dialog asking for permission to access OneDrive filesï¿½
+ï¿½after which ScrSvr seems to work!!!!!!!!
+Yes, it does ï¿½ BUT on my account ONLY! Mei's still complains about the redirect_url.
 Another thing to try:
 	- sing in to Azure as Mei from my account
 
@@ -51,7 +51,7 @@ ClientRequestId: 657d7c00-ac73-4337-9e20-e412a520d3ba
 2023-06-13   UWPs:
 Client ID	Proj	Locn		Date
 UWP-App-calling-MSGraph	Native_UWP_V2
-zip dnld from ??? or active-directory-dotnet-native-uwp-v2/Native_UWP_V2 at msal3x · Azure-Samples/active-directory-dotnet-native-uwp-v2 (github.com)	C:\g\Microsoft-Graph\Src\msgraph-training-uwp\active-directory-dotnet-native-uwp-v2-msal3x\Native_UWP_V2\	Good steps in ReadMe
+zip dnld from ??? or active-directory-dotnet-native-uwp-v2/Native_UWP_V2 at msal3x ï¿½ Azure-Samples/active-directory-dotnet-native-uwp-v2 (github.com)	C:\g\Microsoft-Graph\Src\msgraph-training-uwp\active-directory-dotnet-native-uwp-v2-msal3x\Native_UWP_V2\	Good steps in ReadMe
 still no luck	2020
 	OneDrivePhotoBrowser	C:\gh\s\onedrive-sample-photobrowser-uwp\OneDrivePhotoBrowser\	works !!! No client ID needed/used	2016
 				
@@ -84,5 +84,10 @@ Try if this simple code works as a standalone Console App for me, then Zoe:  htt
  }
 
 
- ## 2024-09-16
+## 2024-09-16
   //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!! ...or does it?...
+
+## 2024-10-05 
+  Branch: Microsoft.Graph-... : is kind of behind; use the MSGraph-5-Fixing-Streaming branch maybe?...
+ 
+ 
