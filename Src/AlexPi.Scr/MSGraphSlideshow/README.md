@@ -107,6 +107,6 @@ Try if this simple code works as a standalone Console App for me, then Zoe:  htt
 	https://github.com/microsoft/kiota
  
  ## 2024-10-05 
-  Branch: MSGraph-5-Fixing-Streaming: seems like the most advanced version of the code.
+  Branch: MSGraph-5-Fixing-Streaming: seems like this is the most advanced version of the code.
  
  
