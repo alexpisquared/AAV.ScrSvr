@@ -1,5 +1,5 @@
 ﻿using Azure.Identity;
-using MsGraphLib;
+using MsGraphLibVer1;
 
 namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
