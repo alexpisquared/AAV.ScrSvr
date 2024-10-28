@@ -1,16 +1,21 @@
-﻿using static UpTimeChart.DailyChart;
+﻿using StandardLib.Helpers;
+using System.IO;
+using System.Xml.Linq;
 
 namespace UpTimeChart;
+public class TimeSplit
+{
+  public string? DaySummary { get; internal set; }
+  public TimeSpan WorkedFor { get; internal set; }
+  public TimeSpan IdleOrOff { get; internal set; }
+  public TimeSpan TotalDaysUp { get; internal set; }
+  public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff;
+};
 public partial class DailyChart
 {
-  public class TimeSplit { public TimeSpan WorkedFor, IdleOrOff, TotalDaysUp; public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff; };
   TimeSplit _timesplit;
   double _ah = 30, _aw = 30;
-  readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28));
-  readonly Brush cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
-  readonly Brush b1 = new SolidColorBrush(Color.FromRgb(0x2c, 0x2c, 0x2c));
-  readonly Brush b3 = new SolidColorBrush(Color.FromRgb(0x3c, 0x3c, 0x3c));
-  readonly Brush b6 = new SolidColorBrush(Color.FromRgb(0x70, 0x70, 0x70));
+  readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28)), cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
 
   public DailyChart(DateTime trgDate, SortedList<DateTime, int> thisDayEois)
   {
@@ -29,7 +34,7 @@ public partial class DailyChart
       await ClearDrawAllSegmentsForSinglePC();
 
       if (TrgDateC >= DateTime.Today)
-        new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
+        _ = new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
     };
   }
 
@@ -47,7 +52,7 @@ public partial class DailyChart
     }
     catch (Exception ex) { ex.Pop(); }
   }
-  void DrawUpDnLine(DateTime trgDate)
+  async void DrawUpDnLine(DateTime trgDate)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
@@ -88,7 +93,10 @@ public partial class DailyChart
         _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
         _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
-        tbDaySummary.Text = GetDaySummary(trgDate);
+        tbDaySummary.Text = _timesplit.DaySummary = GetDaySummary(trgDate);
+
+        var filename = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{DateTime.Today:yyMMdd}-{Environment.MachineName}.json");
+        JsonFileSerializer.Save<TimeSplit>(_timesplit, filename, true);
       }
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
@@ -98,7 +106,7 @@ public partial class DailyChart
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummary.Text} "); }
   }
 
-  double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
+  readonly double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
   string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}";
   async void OnTimer_AddRectangle()
   {
@@ -115,6 +123,7 @@ public partial class DailyChart
       var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
       _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
+      //? try later: _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
       tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
     }
@@ -154,15 +163,15 @@ public partial class DailyChart
     var wid = Math.Abs(yB - yA);
 
     var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,8:h\\:mm\\:ss} - {tB,8:h\\:mm\\:ss} = {dTime,8:h\\:mm\\:ss} ";
-    var report1 = ($">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}");
+    var report1 = $">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}";
 
     //if (isLabor)
-    var report2 = ($"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}");
+    var report2 = $"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _timesplit.WorkedFor.ToString("hh\\:mm") : "")}";
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);
 
     if (wid <= 10)
-      report2 += ($"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ");
+      report2 += $"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ";
     else
     {
       var isOver1hr = dTime > TimeSpan.FromHours(1);
@@ -192,7 +201,8 @@ public partial class DailyChart
   //// [Obsolete] :why Copilot decides to mark it such?
   public static int ScrSvrTimeoutSec
   {
-    get {
+    get
+    {
       if (_ssto == -1)
       {
         _ssto = new EvLogHelper().GetSstoFromRegistry;
