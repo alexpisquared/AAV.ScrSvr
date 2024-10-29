@@ -1,14 +1,21 @@
-﻿using StandardLib.Helpers;
+﻿using Microsoft.VisualStudio.OLE.Interop;
+using StandardLib.Helpers;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace UpTimeChart;
+
+[DataContract]
 public class TimeSplit
 {
-  public string? DaySummary { get; internal set; }
-  public TimeSpan WorkedFor { get; internal set; }
-  public TimeSpan IdleOrOff { get; internal set; }
-  public TimeSpan TotalDaysUp { get; internal set; }
+  //[XmlElement(Type = typeof(XmlTimeSpan))]  
+  [DataMember] public string? DaySummary { get; internal set; }
+  [DataMember] public TimeSpan WorkedFor { get; internal set; }
+  [DataMember] public TimeSpan IdleOrOff { get; internal set; }
+  [DataMember] public TimeSpan TotalDaysUp { get; internal set; }
   public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff;
 };
 public partial class DailyChart
@@ -56,7 +63,7 @@ public partial class DailyChart
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
-    tbDaySummary.Text = "$@#";
+    tbDaySummaryLocal.Text = "$@#";
     try
     {
       _ah = canvasBar.ActualHeight;
@@ -64,7 +71,7 @@ public partial class DailyChart
       if (Debugger.IsAttached) Write($">>> {trgDate}:\n"); // WriteLine($">>>-\t{EvLogHelper.GetAllUpDnEvents(TrgDateC.AddDays(-10000), dTime).Count(),5}");
 
       if (_thisDayEois.Count() < 1)
-        tbDaySummary.Text = $"{trgDate,9:ddd M-dd}   n/a";
+        tbDaySummaryLocal.Text = $"{trgDate,9:ddd M-dd}   n/a";
       else
       {
         if (trgDate >= DateTime.Today)
@@ -93,21 +100,33 @@ public partial class DailyChart
         _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
         _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
-        tbDaySummary.Text = _timesplit.DaySummary = GetDaySummary(trgDate);
+        tbDaySummaryLocal.Text = _timesplit.DaySummary = GetDaySummary(trgDate, _timesplit);
 
-        var filename = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{DateTime.Today:yyMMdd}-{Environment.MachineName}.json");
-        JsonFileSerializer.Save<TimeSplit>(_timesplit, filename, true);
+        if (trgDate >= DateTime.Today)
+        {
+          var filenameLocal = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{Environment.MachineName}.json");
+          JsonFileSerializer.Save<TimeSplit>(_timesplit, filenameLocal, true);
+        }
+
+        var filenameRemot = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
+        if (File.Exists(filenameRemot))
+        {
+          var 
+          timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot));
+            timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot), new JsonSerializerOptions { WriteIndented = true }) ?? throw new ArgumentNullException("@123");
+          tbDaySummaryRemot.Text = GetDaySummary(trgDate, timesplitRmote);
+        }
       }
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
       gridvroot.Background = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? cPnk : cBlk;
     }
     catch (Exception ex) { ex.Pop(); }
-    finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummary.Text} "); }
+    finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummaryLocal.Text} "); }
   }
 
   readonly double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
-  string GetDaySummary(DateTime trgDate) => $"{trgDate,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(_timesplit.WorkedFor.TotalHours * 2.5))}";
+  string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(timesplit.WorkedFor.TotalHours * 2.5))}";
   async void OnTimer_AddRectangle()
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
@@ -125,7 +144,7 @@ public partial class DailyChart
       _timesplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
       //? try later: _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
-      tbDaySummary.Text = GetDaySummary(TrgDateC); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
+      tbDaySummaryLocal.Text = GetDaySummary(TrgDateC, _timesplit); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
     }
   }
 

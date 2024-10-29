@@ -15,7 +15,8 @@
   </UserControl.Resources>
   <Grid Name="gridvroot" Opacity="1">
     <Canvas     x:Name="canvasBar"    ToolTip="canvasBar" />
-    <TextBlock  x:Name="tbDaySummary" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" >
-    </TextBlock>
+    <TextBlock  x:Name="tbDaySummaryLocal" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="002 2 2 2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" />
+    <TextBlock  x:Name="tbDaySummaryRemot" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="300 2 2 2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" />
+
   </Grid>
 </UserControl>
