@@ -1,23 +1,8 @@
-﻿using Microsoft.VisualStudio.OLE.Interop;
-using StandardLib.Helpers;
+﻿using StandardLib.Helpers;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text.Json;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace UpTimeChart;
-
-[DataContract]
-public class TimeSplit
-{
-  //[XmlElement(Type = typeof(XmlTimeSpan))]  
-  [DataMember] public string? DaySummary { get; internal set; }
-  [DataMember] public TimeSpan WorkedFor { get; internal set; }
-  [DataMember] public TimeSpan IdleOrOff { get; internal set; }
-  [DataMember] public TimeSpan TotalDaysUp { get; internal set; }
-  public TimeSpan TtlMinusIdl => TotalDaysUp - IdleOrOff;
-};
 public partial class DailyChart
 {
   TimeSplit _timesplit;
@@ -59,7 +44,7 @@ public partial class DailyChart
     }
     catch (Exception ex) { ex.Pop(); }
   }
-  async void DrawUpDnLine(DateTime trgDate)
+  void DrawUpDnLine(DateTime trgDate)
   {
     var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
     //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
@@ -111,9 +96,9 @@ public partial class DailyChart
         var filenameRemot = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         if (File.Exists(filenameRemot))
         {
-          var 
+          var
           timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot));
-            timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot), new JsonSerializerOptions { WriteIndented = true }) ?? throw new ArgumentNullException("@123");
+          timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot), new JsonSerializerOptions { WriteIndented = true }) ?? throw new ArgumentNullException("@123");
           tbDaySummaryRemot.Text = GetDaySummary(trgDate, timesplitRmote);
         }
       }
