@@ -41,14 +41,14 @@ public partial class MainEvLogExplr
 
       vizroot.IsEnabled = true;
 
-      if (Environment.CommandLine.Contains("min") && Environment.CommandLine.Split(" ").Length > 3)
-      {
-        var sdf = Environment.CommandLine.Split(" ");
-        var exitAfterMin = double.TryParse(sdf[^2], out var min) ? min : 28.25;
-        await Task.Delay(TimeSpan.FromMinutes(exitAfterMin)); // close after 29 minutes.
-      }
-
-      Close();
+      // limit run time to 29 minutes: ... taken care of by the app.xaml.cs by closing other instances prior to running this one.
+      //if (Environment.CommandLine.Contains("min") && Environment.CommandLine.Split(" ").Length > 3)
+      //{
+      //  var sdf = Environment.CommandLine.Split(" ");
+      //  var exitAfterMin = double.TryParse(sdf[^2], out var min) ? min : 28.25;
+      //  await Task.Delay(TimeSpan.FromMinutes(exitAfterMin)); // close after 29 minutes.
+      //  Close();
+      //}
     }
     catch (Exception ex) { ex.Pop(_logger); ; }
     finally { vizroot.IsEnabled = true; }

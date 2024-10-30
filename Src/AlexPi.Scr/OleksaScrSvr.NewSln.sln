@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsGraphLibVer1", "..\..\..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSGraphSlideshow", "MSGraphSlideshow\MSGraphSlideshow.csproj", "{AF457D67-56B9-4709-B0C2-68AC2CF6EA32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventLogHelperLib", "..\..\..\AAV.Shared\Src\NetLts\EventLogHelperLib\EventLogHelperLib.csproj", "{DF1703F3-4411-40D9-92DB-B78BAB056DD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,18 @@ Global
 		{AF457D67-56B9-4709-B0C2-68AC2CF6EA32}.Release|x64.Build.0 = Release|x64
 		{AF457D67-56B9-4709-B0C2-68AC2CF6EA32}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF457D67-56B9-4709-B0C2-68AC2CF6EA32}.Release|x86.Build.0 = Release|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|x64.ActiveCfg = Debug|x64
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|x64.Build.0 = Debug|x64
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Debug|x86.Build.0 = Debug|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|x64.ActiveCfg = Release|x64
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|x64.Build.0 = Release|x64
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF1703F3-4411-40D9-92DB-B78BAB056DD4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

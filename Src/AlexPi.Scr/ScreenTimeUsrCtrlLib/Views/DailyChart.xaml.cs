@@ -5,6 +5,7 @@ using System.Text.Json;
 namespace UpTimeChart;
 public partial class DailyChart
 {
+  readonly double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
   TimeSplit _timesplit;
   double _ah = 30, _aw = 30;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28)), cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
@@ -96,10 +97,7 @@ public partial class DailyChart
         var filenameRemot = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         if (File.Exists(filenameRemot))
         {
-          var
-          timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot));
-          timesplitRmote = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot), new JsonSerializerOptions { WriteIndented = true }) ?? throw new ArgumentNullException("@123");
-          tbDaySummaryRemot.Text = GetDaySummary(trgDate, timesplitRmote);
+          tbDaySummaryRemot.Text = GetDaySummary(trgDate, JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot)) ?? new TimeSplit { DaySummary = "error" });
         }
       }
 
@@ -110,7 +108,6 @@ public partial class DailyChart
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummaryLocal.Text} "); }
   }
 
-  readonly double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
   string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(timesplit.WorkedFor.TotalHours * 2.5))}";
   async void OnTimer_AddRectangle()
   {
