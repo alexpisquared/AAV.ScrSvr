@@ -46,7 +46,7 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55.177" />-->
     <!-- //tu: blend/arc problem fix -->
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

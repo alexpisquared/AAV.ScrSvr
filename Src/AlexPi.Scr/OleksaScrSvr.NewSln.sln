@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardLib", "..\..\..\AAV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUserControlLib", "..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj", "{A55323E3-2A19-48C9-9D43-0F0E09DFF6D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeaLib", "..\..\..\Radar\Src\OpenWeaWpfApp\OpenWeaLib.csproj", "{B21C562D-C1F0-D026-6014-2B7F476A0D47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,18 @@ Global
 		{A55323E3-2A19-48C9-9D43-0F0E09DFF6D8}.Release|x64.Build.0 = Release|x64
 		{A55323E3-2A19-48C9-9D43-0F0E09DFF6D8}.Release|x86.ActiveCfg = Release|Any CPU
 		{A55323E3-2A19-48C9-9D43-0F0E09DFF6D8}.Release|x86.Build.0 = Release|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|x64.ActiveCfg = Debug|x64
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|x64.Build.0 = Debug|x64
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Debug|x86.Build.0 = Debug|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|x64.ActiveCfg = Release|x64
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|x64.Build.0 = Release|x64
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|x86.ActiveCfg = Release|Any CPU
+		{B21C562D-C1F0-D026-6014-2B7F476A0D47}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
