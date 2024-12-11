@@ -99,6 +99,10 @@ public partial class DailyChart
         {
           tbDaySummaryRemot.Text = GetDaySummary(trgDate, JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot)) ?? new TimeSplit { DaySummary = "error" });
         }
+        else
+        {
+          tbDaySummaryRemot.Text = $"n/a:  {filenameRemot} ???";
+        }
       }
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
