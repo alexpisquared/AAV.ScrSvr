@@ -94,15 +94,10 @@ public partial class DailyChart
           JsonFileSerializer.Save<TimeSplit>(_timesplit, filenameLocal, true);
         }
 
-        var filenameRemot = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
-        if (File.Exists(filenameRemot))
-        {
-          tbDaySummaryRemot.Text = GetDaySummary(trgDate, JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(filenameRemot)) ?? new TimeSplit { DaySummary = "error" });
-        }
-        else
-        {
-          tbDaySummaryRemot.Text = $"n/a:  {filenameRemot} ???";
-        }
+        var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
+        tbDaySummaryRemot.Text = File.Exists(remoteLog)
+            ? GetDaySummary(trgDate, JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" })
+            : $"n/a:  ..{System.IO.Path.GetFileName(remoteLog)}";
       }
 
       //tbDaySummary.Foreground = (trgDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) ? Brushes.LightPink : Brushes.CadetBlue;
@@ -112,7 +107,7 @@ public partial class DailyChart
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummaryLocal.Text} "); }
   }
 
-  string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {new string('■', (int)(timesplit.WorkedFor.TotalHours * 2.5))}";
+  string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {new string('☻', (int)(timesplit.WorkedFor.TotalHours * 5))}";
   async void OnTimer_AddRectangle()
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
