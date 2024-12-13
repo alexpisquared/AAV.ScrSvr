@@ -107,7 +107,7 @@ public partial class DailyChart
     finally { if (Debugger.IsAttached) WriteLine($"    ==> {tbDaySummaryLocal.Text} "); }
   }
 
-  string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {new string('☻', (int)(timesplit.WorkedFor.TotalHours * 5))}";
+  string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {"■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|".Substring(0, (int)(timesplit.WorkedFor.TotalHours * 4))}";
   async void OnTimer_AddRectangle()
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)

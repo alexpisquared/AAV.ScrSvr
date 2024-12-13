@@ -90,9 +90,9 @@ public partial class App : System.Windows.Application
       }
       else
       {
-        await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?", volumePercent: 60);
-        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locking...", volumePercent: 20);
-        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locked!", volumePercent: 20);
+        await Task.Delay(TimeSpan.FromSeconds(40)); // speech.SpeakFAF($"Really?", volumePercent: 60);
+        await Task.Delay(TimeSpan.FromSeconds(10)); // speech.SpeakFAF($"Locking...", volumePercent: 20);
+        await Task.Delay(TimeSpan.FromSeconds(10)); // speech.SpeakFAF($"Locked!", volumePercent: 20);
 
         _mustLogEORun = true;
         new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
