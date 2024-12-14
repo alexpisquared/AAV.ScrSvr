@@ -96,7 +96,7 @@ public partial class DailyChart
 
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         tbDaySummaryRemot.Text = File.Exists(remoteLog)
-            ? GetDaySummary(trgDate, JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" })
+            ? GetDaySummary(JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" })
             : $"n/a:  ..{System.IO.Path.GetFileName(remoteLog)}";
       }
 
@@ -108,6 +108,7 @@ public partial class DailyChart
   }
 
   string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  {"■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|".Substring(0, (int)(timesplit.WorkedFor.TotalHours * 4))}";
+  string GetDaySummary(TimeSplit timesplit) => $"{timesplit.WorkedFor,5:h\\:mm}  {"■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|".Substring(0, (int)(timesplit.WorkedFor.TotalHours * 4))}";
   async void OnTimer_AddRectangle()
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
