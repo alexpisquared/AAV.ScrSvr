@@ -392,19 +392,21 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       ".exe",
       ".ini",
       ".log",
+
+// Block videos until streaming Play is fixed or replaced with a better solution:
+      ".3gp", // Video
+      ".mov", // Video
+      ".mp4", // Video
+      ".mpg", // Video
+      ".m2ts",// Video
+      ".mts", // Video
+      ".wmv", // Video
+
 #if DEBUG
-      //".3gp",
-      //".dng",
+      //".dng", // uncompressed image data from Lumai 1020 .. 137 files 42 mb each
       //".jpg",
-      //".mov",
-      //".mp4",
-      //".mpg",
-      //".mpo",
-      //".MPO",
-      //".m2ts",
-      //".mts",
+      //".MPO", // A Multi-Picture Object (MPO) file is an image format that contains multiple images within a single file. This format is commonly used to store stereoscopic 3D images, allowing a 3D effect by using two images—typically one for each eye.
       //".png",
-      //".wmv",
 #endif
       ".manifest",
       ".nar",
