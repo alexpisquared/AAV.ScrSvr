@@ -271,7 +271,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       ReportTL.Content = $"{minDate:yyyy-MM-dd}";
 
       ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, @"VideoView1.MediaPlayer: Move \libvlc\ folder to the target.exe one!!!  ■88"); // 
 
       if (driveItem?.Image is not null)
       {
@@ -340,7 +340,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
         Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
         var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
-        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem?.WebUrl?.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
 
         _currentShowTimeMS = _maxMs;
       }

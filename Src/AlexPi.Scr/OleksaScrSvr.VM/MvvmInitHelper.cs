@@ -14,15 +14,17 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<IsBusyStore>();
 
     //tu: Start Page Startup Start up Page controller.
-    _ = DevOps.IsDbg
-      ?                /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
-      : Environment.MachineName switch
+    _ = 
+      //DevOps.IsDbg      ? 
+      Environment.GetCommandLineArgs().Skip(1).First() switch                                 //?                 /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
       {
         "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
                        /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(), // home
         "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // razer1 or public
-        _              /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev
-      };
+        _              /**/ => NewMethod(services, Environment.MachineName), // new dev
+      }
+      //: NewMethod(services, Environment.MachineName)
+      ;
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
 
@@ -79,6 +81,14 @@ public static class MvvmInitHelper
 
     _ = services.AddTransient<UserSettingsSPM>();
   }
+
+  private static IServiceCollection NewMethod(IServiceCollection services, string MachineName) => MachineName switch
+  {
+    "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
+                   /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(), // home
+    "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // razer1 or public
+    _              /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev
+  };
 }
 
 public class SecForcer : ISecForcer // SecurityEnforcement.Mok. ~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

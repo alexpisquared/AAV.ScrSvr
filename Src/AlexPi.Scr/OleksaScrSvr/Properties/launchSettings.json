@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OleksaScrSvr": {
+      "commandName": "Project",
+      "commandLineArgs": "NUC2\r\n"
+    }
+  }
+}
