@@ -335,7 +335,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     {
       if (driveItem is not null)
       {
-        if (!_alreadyPrintedHeader) { _alreadyPrintedHeader = true; Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!"); }
+        if (!_alreadyPrintedHeader) { _alreadyPrintedHeader = true; Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport               taken____ _created_ lastModif _fsi.crea _fsi.last  the Earliest!!"); }
 
         Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
 
@@ -395,6 +395,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
 // Block videos until streaming Play is fixed or replaced with a better solution:
       ".3gp", // Video
+      ".avi", // Video
       ".mov", // Video
       ".mp4", // Video
       ".mpg", // Video

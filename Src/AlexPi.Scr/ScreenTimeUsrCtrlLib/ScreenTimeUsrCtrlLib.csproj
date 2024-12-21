@@ -19,10 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EvLogHelperBase.cs" Link="AsLink\EvLogHelperBase.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\EventLogHelperLib\EventLogHelperLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\PeriodicTimerLib\PeriodicTimerLib.csproj" />
