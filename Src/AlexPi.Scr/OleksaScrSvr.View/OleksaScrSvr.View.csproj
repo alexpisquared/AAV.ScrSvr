@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\..\..\Radar\Src\OpenWeaWpfApp\OpenWeaLib.csproj" />
     <ProjectReference Include="..\MSGraphSlideshow\MSGraphSlideshow.csproj" />
     <ProjectReference Include="..\OleksaScrSvr.VM\OleksaScrSvr.VM.csproj" />
+    <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

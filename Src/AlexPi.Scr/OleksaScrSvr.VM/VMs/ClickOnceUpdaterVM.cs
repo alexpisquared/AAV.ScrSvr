@@ -20,7 +20,7 @@ public class ClickOnceUpdaterVM : BaseDbVM
     catch (Exception ex) { ex.Pop(Logger); return false; }
     finally { _ = await base.InitAsync(); }
   }
-  public override Task<bool> TryWrapAsync() => base.TryWrapAsync();
+  public override Task<bool> WrapAsync() => base.WrapAsync();
 
   void ReportProgress(string msg) => ReportMessage = msg;
   string _bm = "Hang on...\n\n       ...updating the binaries.\n\n              Will relaunch when done."; public string ReportMessage { get => _bm; set => SetProperty(ref _bm, value); }

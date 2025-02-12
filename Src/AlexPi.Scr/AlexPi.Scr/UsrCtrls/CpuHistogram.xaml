@@ -33,7 +33,6 @@
       <RowDefinition Height="*"/>-->
     </Grid.RowDefinitions>
     <Viewbox Stretch="Fill" MinWidth="400">
-
       <Grid >
         <StackPanel  Height="100" Orientation="Horizontal" x:Name="sp1" Background="#4248">
           <Rectangle Height="90" />
@@ -55,7 +54,7 @@
     
     <Viewbox Stretch="Fill" MinWidth="400" Grid.Row="3"><StackPanel  Height="100" Orientation="Horizontal" x:Name="c4" Background="#4248" /></Viewbox>
     <TextBlock Text="15 % / 1.5e5" Grid.Row="3" Name="t3" />
-    -->
+    -->2
 
   </Grid>
 </UserControl>

@@ -174,7 +174,7 @@ public partial class EnvtCaUsrCtrl
 }
 public static class CartesianChartExt
 {
-  [Obsolete]
+  // [Obsolete] :why Copilot decides to mark it such?
   public static void LoadDataToChart_24hr(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush dodgerBlue0Grad, decimal YMin, List<DtDc> ooo)
   {
     byte nrm = 64, ext = 0, xff = 128, ngt = 0, day = 255;
@@ -258,7 +258,7 @@ public static class CartesianChartExt
     catch (Exception ex) { Debug.WriteLine(ex); if (Debugger.IsAttached) Debugger.Break(); else throw; }
   }
 
-  [Obsolete]
+  // [Obsolete] :why Copilot decides to mark it such?
   public static void LoadDataToChart_Week(this CartesianChart cc, siteData sd, Brush RedBlueOnlyGrad, Brush RedTransBluGrad, Brush DodgerBlue0Grad)
   {
     try

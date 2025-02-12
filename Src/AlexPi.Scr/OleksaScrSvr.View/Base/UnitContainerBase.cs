@@ -4,30 +4,29 @@ public partial class UnitContainerBase : UserControl
 {
   bool isDragging, _isResizing, _isLoaded;
   System.Windows.Point _lastMousePosition, clickPosition;
-  public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, OnPropertyChanged)); public bool WindowState { get => (bool)GetValue(WindowStateProperty); set => SetValue(WindowStateProperty, value); }  static async void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+  public static readonly DependencyProperty IsOpenStateProperty = DependencyProperty.Register("IsOpenState", typeof(bool), typeof(UnitContainerBase), new PropertyMetadata(true, OnPropertyChanged)); public bool IsOpenState { get => (bool)GetValue(IsOpenStateProperty); set => SetValue(IsOpenStateProperty, value); }  static async void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
   {
-    if (d is UnitContainerBase uc && e.NewValue is bool b)
+    if (d is UnitContainerBase uc && e.NewValue is bool isOn)
     {
-      uc.WindowState = b;
+      uc.IsOpenState = isOn;
 
-      if (b)
+      if (isOn)
       {
         await uc.RestorePlacementFromFile();
-        await uc.Store();
       }
       else
       {
-        await uc.Store();
         uc.Width = 210;
-        uc.Height = 80;
+        uc.Height = 52;
       }
     }
   }
 
-  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateFallbackLogger<UnitContainerBase>();
-  string JsonFile => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<UnitContainerBase>();
+  string JsonFil => @$"\temp\_{Name}_{(DevOps.IsDbg ? "dbg" : "")}.json";
+  string JsonFile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @$"AppSettings\{AppDomain.CurrentDomain.FriendlyName}\_{Name}_{(VersionHelper.IsDbg ? "dbg" : "")}.json");
 
-  async Task Store()
+  async Task StorePlacementBackToFile()
   {
     await File.WriteAllTextAsync(JsonFile, JsonSerializer.Serialize(new LayoutVM2
     {
@@ -35,7 +34,7 @@ public partial class UnitContainerBase : UserControl
       Left = Canvas.GetLeft(this),
       Width = Width,
       Height = Height,
-      WindowState = WindowState
+      IsOpenState = IsOpenState
     }));
   }
   async Task RestorePlacementFromFile()
@@ -48,7 +47,7 @@ public partial class UnitContainerBase : UserControl
       Width = layout.Width < 1 ? 512 : layout.Width;
       Height = layout.Height < 1 ? 256 : layout.Height;
       if (!_isLoaded)
-        WindowState = layout.WindowState;
+        IsOpenState = layout.IsOpenState;
     }
     catch (Exception ex)
     {
@@ -73,7 +72,7 @@ public partial class UnitContainerBase : UserControl
       isDragging = false;
       (s as Border)?.ReleaseMouseCapture();
       Panel.SetZIndex(this, 11);
-      await Store();
+      await StorePlacementBackToFile();
     }
     catch (Exception ex) { ex.Pop(Logger); }
   }
@@ -121,7 +120,7 @@ public partial class UnitContainerBase : UserControl
     {
       _isResizing = false;
       _ = Mouse.Capture(null);
-      await Store();
+      await StorePlacementBackToFile();
     }
     catch (Exception ex) { ex.Pop(Logger); }
   }

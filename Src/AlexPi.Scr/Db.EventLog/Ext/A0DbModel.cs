@@ -32,7 +32,7 @@ namespace Db.EventLog.DbModel
     {
       try
       {
-        Trace.Write($"{DateTime.Now:yy.MM.dd HH:mm:ss.f}    {db.ServerDatabase()} -");
+        Trace.Write($"{DateTime.Now:yy-MM-dd HH:mm:ss.f}    {db.ServerDatabase()} -");
         if (!File.Exists(localdbpathfile)) // if (db.Database.Exists())
         {
           Trace.WriteLine($" does NOT exist => creating on the first call.");

@@ -1,23 +1,61 @@
 <UserControl x:Class="MSGraphSlideshow.MsgSlideshowUsrCtrl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF" 
              xmlns:Anime="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-             d:DesignHeight="450" d:DesignWidth="1400" Background="Transparent" Loaded="OnLoaded">
+             d:DesignHeight="1080" d:DesignWidth="1920" Loaded="OnLoaded">
   <UserControl.Resources>
-    <Duration x:Key="inOuTime">0:0:05</Duration>
-    <Duration x:Key="showTime">0:0:59</Duration>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Anime/IsObsoleteBurronStyle.xaml" />
+        <!--     
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
+        <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
+        -->
+        <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
+      </ResourceDictionary.MergedDictionaries>
 
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
-    <DoubleAnimation Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
+      <Style TargetType="{x:Type ProgressBar}" x:Key="TimeOutAnimationStyle_doesnotfire">
+        <Setter Property="Value" Value="1"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Visibility, ElementName=ImageView1}" Value="Collapsed">
+            <DataTrigger.EnterActions>
+              <BeginStoryboard x:Name="sbFinal1m" Storyboard="{StaticResource sbFinal1m}"/>
+            </DataTrigger.EnterActions>
+            <DataTrigger.ExitActions>
+              <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
+            </DataTrigger.ExitActions>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
 
-    <Storyboard x:Key="_sbIntroOutro" Duration="{StaticResource showTime}">
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
-      <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
-      <StaticResource ResourceKey="_d2IntroOutro" />
-      <StaticResource ResourceKey="_d3IntroOutro" />
-    </Storyboard>
+      <Duration x:Key="inOuTime">0:0:05</Duration>
+      <Duration x:Key="showTime">0:1:00</Duration>
+
+      <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Angle"   From="0" To="100" Storyboard.TargetName="progressArc1" x:Key="_d2IntroOutro" Timeline.DesiredFrameRate="30" />
+      <DoubleAnimation   Duration="{StaticResource showTime}" Storyboard.TargetProperty="Value"   From="0" To="100" Storyboard.TargetName="progressBar3" x:Key="_d3IntroOutro" />
+
+      <Storyboard        Duration="{StaticResource showTime}" x:Key="_sbIntroOutro" >
+        <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="0" To="1" Storyboard.TargetName="mediaGrid1"  />
+        <DoubleAnimation Duration="{StaticResource inOuTime}" Storyboard.TargetProperty="Opacity" From="1" To="0" Storyboard.TargetName="mediaGrid1"  BeginTime="0:0:50" />
+        <StaticResource ResourceKey="_d2IntroOutro" />
+        <StaticResource ResourceKey="_d3IntroOutro" />
+      </Storyboard>
+
+      <Storyboard x:Key="sbFinal1m">
+        <DoubleAnimation Storyboard.TargetName="pbFinal1m" Storyboard.TargetProperty="Value"   From="0.0" To="100" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+        <DoubleAnimation Storyboard.TargetName="vbFinal1m" Storyboard.TargetProperty="Opacity" From="0.3" To="1.0" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+      </Storyboard>
+      <Storyboard x:Key="sbDropOu">
+        <DoubleAnimation Storyboard.TargetName="pbFinal1m" Storyboard.TargetProperty="Value" To="1"            Duration="0:0:1" EasingFunction="{StaticResource si}" />
+      </Storyboard>
+      
+    </ResourceDictionary>
   </UserControl.Resources>
   <Grid            x:Name="mediaGrid1" Margin="0" >
-    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
     <vlc:VideoView x:Name="VideoView1" Background="Transparent" SizeChanged="OnSizeChanged" >
       <Grid x:Name="GridVideoControls" Margin="0">
         <Grid.Resources>
@@ -31,20 +69,20 @@
             <Setter Property="Padding"          Value="12 0 12 8" />
             <Setter Property="FontSize"         Value="32" />
             <Setter Property="Foreground"       Value="#fff0" />
-            <Setter Property="Background"       Value="#3000" />
+            <Setter Property="Background"       Value="#3333" />
           </Style>
           <Style TargetType="Button">
             <Setter Property="Padding"          Value="8 0" />
             <Setter Property="FontSize"         Value="26" />
             <Setter Property="Foreground"       Value="#08f" />
-            <Setter Property="Background"       Value="Transparent" />
+            <Setter Property="Background"       Value="#3333" />
             <Setter Property="BorderThickness"  Value="0"/>
           </Style>
           <Style TargetType="CheckBox">
             <Setter Property="Padding"          Value="8 0" />
-            <Setter Property="FontSize"         Value="26" />
+            <Setter Property="FontSize"         Value="10" />
             <Setter Property="Foreground"       Value="#08f" />
-            <Setter Property="Background"       Value="Transparent" />
+            <Setter Property="Background"       Value="#5ff0" />
             <Setter Property="BorderThickness"  Value="0"/>
           </Style>
         </Grid.Resources>
@@ -71,7 +109,7 @@
           </Viewbox>
         </StackPanel>
 
-        <Ellipse                           Width="80" Height="80"            VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8"  Fill="#3000" />
+        <Ellipse                           Width="80" Height="80"            VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8"  Fill="#3333" />
         <Anime:ArcPi x:Name="progressArc1" Width="80" Height="80" Radiu="40" VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="8" Color="#606" Bckgr="#1d0" />
         <Label x:Name="ReportTR" d:Content="231s"                            VerticalAlignment="Top"    HorizontalAlignment="Right" Margin="3 25" Background="Transparent"  />
 
@@ -89,65 +127,38 @@
           <Label x:Name="ReportBL" d:Content="Abc efg 12323 mb/s" />
         </StackPanel>
 
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" >
-          <CheckBox    Content="_On"    IsChecked="True" x:Name="chkIsOn"  />
-          <CheckBox    Content="_Mute"  IsChecked="False" Click="OnMute" />
-        </StackPanel>
+        <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left" Height="60">
+          <StackPanel Background="#3333">
+            <CheckBox  IsChecked="True" x:Name="chkIsOn" >
+              <TextBlock Text="Is On   " FontSize="11" Background="#3333" Foreground="#08f" />
+            </CheckBox>
+            <CheckBox  IsChecked="False" Click="OnMute"  >
+              <TextBlock Text="Mute " FontSize="11" Background="#3333" Foreground="#08f" />
+            </CheckBox>
+            <CheckBox  IsChecked="False" Click="OnLoud"  >
+              <TextBlock Text="Quiet" FontSize="11" Background="#3333" Foreground="#08f" />
+            </CheckBox>
+          </StackPanel>
+        </Viewbox>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
-          <Button      Content="_Prev" IsDefault="False" Click="OnPrev" />
-          <Button      Content="_Next" IsDefault="True"  Click="OnNext" />
-          <Button      Content="_LogO" IsDefault="False" Click="OnSignOut" Foreground="#a00"/>
-          <Button      Content="_Delt" IsDefault="False" Click="OnDelete"  Foreground="#a00"/>
+          <Button      Content="Prev" Click="OnPrev" />
+          <Button      Content="Next" Click="OnNext" IsDefault="True"  />
+          <Button      Content="Delt" Click="OnDelete"   Foreground="#880"/>
+          <Button      Content="LogO" Click="OnSignOut"  Foreground="#840"/>
+          <Button      Content="Shut" Click="OnShutdown" Foreground="#c00" ToolTip="Dev test of shutting down in a minute animation."/>
+          <Button      Content="Snap" Click="OnSnapshotOld" Foreground="#08f" ToolTip="Test saving a snapshot on other PCs...Old"/>
+          <Button      Content="Snap" Click="OnSnapshotNew" Foreground="#08f" ToolTip="Test saving a snapshot on other PCs...New"/>
         </StackPanel>
+
       </Grid>
     </vlc:VideoView>
+    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
+    <Viewbox       x:Name="vbFinal1m"  Visibility="Collapsed" Stretch="Fill">
+      <Grid>
+        <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" BorderThickness="0" Foreground="#500" Background="#008" />
+        <TextBlock Text="The End" FontFamily="Goudy Stout" HorizontalAlignment="Center" Foreground="#080" />
+      </Grid>
+    </Viewbox>
   </Grid>
-  <!--https://stackoverflow.com/questions/60968814/how-to-intercept-errors-and-change-the-style-of-libvlcsharp-xamarin-forms
-    <vlc:MediaPlayerElement x:Name="VideoView"
-                            AbsoluteLayout.LayoutFlags="All"
-                            EnableRendererDiscovery="False"
-                            AbsoluteLayout.LayoutBounds="0,0,1,1">
-
-      <vlc:MediaPlayerElement.PlaybackControls>
-        <vlc:PlaybackControls IsVisible="true"
-                                  IsAspectRatioButtonVisible="True"
-                                  ShowAndHideAutomatically="True"
-                                  IsRewindButtonVisible="True"
-                                  IsCastButtonVisible="True"
-                                  IsLockButtonVisible="True"
-                                  IsSeekBarVisible="True"
-                                  IsSeekButtonVisible="True"
-                                  IsSeekEnabled="True"
-                                  IsTracksButtonVisible="True">
-
-          <vlc:PlaybackControls.RemainingTimeLabelStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-            </Style>
-          </vlc:PlaybackControls.RemainingTimeLabelStyle>
-
-          <vlc:PlaybackControls.MessageStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-              <Setter  Property="TextColor" Value="Transparent"/>
-
-
-              <Setter Property="Text"
-                                Value="0" />
-            </Style>
-          </vlc:PlaybackControls.MessageStyle>
-
-
-          <vlc:PlaybackControls.ElapsedTimeLabelStyle>
-            <Style TargetType="Label">
-              <Setter  Property="IsVisible"
-                                 Value="false" />
-            </Style>
-          </vlc:PlaybackControls.ElapsedTimeLabelStyle>
-        </vlc:PlaybackControls>
-      </vlc:MediaPlayerElement.PlaybackControls>
-    </vlc:MediaPlayerElement>-->
 </UserControl>

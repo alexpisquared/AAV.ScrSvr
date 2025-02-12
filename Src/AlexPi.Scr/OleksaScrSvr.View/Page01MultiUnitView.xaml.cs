@@ -37,13 +37,12 @@ public partial class Page01MultiUnitView : UserControl
 
   void OnResetPlacement(object sender, RoutedEventArgs e)
   {
-    int i = 0, width = 360, height = 160;
+    int i = 0, width = 260;
     foreach (var unitF in Canvas1.Children.OfType<UnitContainerBase>())
     {
-      Canvas.SetTop(unitF, height * i + 100);
-      Canvas.SetLeft(unitF, width * i + 000);
-      Canvas.SetRight(unitF, width * i + width - 10);
-      Canvas.SetBottom(unitF, height * i + 860);
+      unitF.IsOpenState = false;
+      Canvas.SetTop(unitF, 88);
+      Canvas.SetLeft(unitF, width * i + 52);
       i++;
     }
   }

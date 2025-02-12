@@ -1,4 +1,7 @@
-﻿namespace OleksaScrSvr.VM.VMs;
+﻿using AmbienceLib;
+using Microsoft.Extensions.Logging;
+
+namespace OleksaScrSvr.VM.VMs;
 public partial class MainVM : BaseMinVM
 {
   readonly bool _ctored;
@@ -6,13 +9,14 @@ public partial class MainVM : BaseMinVM
   readonly ModalNavgnStore _modalNavgnStore;
   readonly IsBusyStore _IsBusyStore;
   readonly Window _mainWin;
-  public MainVM(NavigationStore navigationStore, ModalNavgnStore modalNavgnStore, IsBusyStore IsBusyStore, ILogger lgr, IBpr bpr, UserSettingsSPM usrStgns, IAddChild wnd)
+  public MainVM(NavigationStore navigationStore, ModalNavgnStore modalNavgnStore, IsBusyStore IsBusyStore, ILogger lgr, IBpr bpr, SpeechSynth synth, UserSettingsSPM usrStgns, IAddChild wnd)
   {
     _navigationStore = navigationStore;
     _modalNavgnStore = modalNavgnStore;
     _IsBusyStore = IsBusyStore;
     Logger = lgr;
     Bpr = bpr;
+    Synth = synth;
     UsrStgns = usrStgns;
     _mainWin = (Window)wnd;
 
@@ -33,8 +37,7 @@ public partial class MainVM : BaseMinVM
   }
   public override async Task<bool> InitAsync()
   {
-    AppVerNumber = VersionHelper.CurVerStrYYMMDD;
-    AppVerToolTip = VersionHelper.CurVerStr("0.M.d.H.m");
+    AppVerToolTip =     AppVerNumber =     VersionHelper.CurVerStr;
 
     Bpr.AppStart();
     await Task.Delay(100);
@@ -43,16 +46,17 @@ public partial class MainVM : BaseMinVM
 
     if (DateTime.Now == DateTime.Today)
       try { await KeepCheckingForUpdatesAndNeverReturn(); } catch (Exception ex) { ex.Pop(Logger); }
+    //try { throw new Exception("LKJL Testing... 132"); } catch (Exception ex) { ex.Pop(Logger); }
 
     return rv;
   }
-  public override Task<bool> TryWrapAsync()
+  public override async Task<bool> WrapAsync()
   {
     _navigationStore.CurrentVMChanged -= OnCurrentVMChanged;
     _modalNavgnStore.CurrentVMChanged -= OnCurrentModalVMChanged;
     _IsBusyStore.IsBusyChanged -= OnIsBusyChanged;
 
-    return base.TryWrapAsync();
+    return await base.WrapAsync();
   }
 
   async Task KeepCheckingForUpdatesAndNeverReturn()
@@ -82,13 +86,14 @@ public partial class MainVM : BaseMinVM
       Logger.Log(IsObsolete ? LogLevel.Warning : LogLevel.Information, $"│   Version check this/depl {VersionHelper.TimedVer:MMdd·HHmm}{(IsObsolete ? "!=" : "==")}{setupExeTime:MMdd·HHmm}   {(IsObsolete ? "Obsolete    ▀▄▀▄▀▄▀▄▀▄▀▄▀" : "The latest  ─╬─  ─╬─  ─╬─")}   .n:{(logNetVer ? VersionHelper.DotNetCoreVersionCmd() : "[skipped]")}   ");
 
       UpgradeUrgency = .6 + Math.Abs((VersionHelper.TimedVer - setupExeTime).TotalDays);
-      AppVerToolTip = IsObsolete ? $" New version is available:   0.{setupExeTime:M.d.HHmm} \n\t         from  {setupExeTime:yyyy-MM-dd HH:mm}.\n Click to update. " : $" This is the latest version  {VersionHelper.CurVerStrYYMMDD} \n\t               from  {VersionHelper.TimedVer:yyyy-MM-dd HH:mm}. ";
+      AppVerToolTip = IsObsolete ? $" New version is available:   0.{setupExeTime:M.d.HHmm} \n\t         from  {setupExeTime:yyyy-MM-dd HH:mm}.\n Click to update. " : $" This is the latest version  {VersionHelper.CurVerStr} \n\t               from  {VersionHelper.TimedVer:yyyy-MM-dd HH:mm}. ";
     }
     catch (Exception ex) { Logger.LogError(ex, "│   ▄─▀─▄─▀─▄ -- Ignore"); }
   }
 
   string? _ds; public string DeploymntSrcExe { get => _ds ?? DeplConst.DeplSrcExe; set => _ds = value; }
   public IBpr Bpr { get; }
+  public SpeechSynth Synth { get; }
   public ILogger Logger { get; }
   public UserSettingsSPM UsrStgns { get; }
   public BaseMinVM? CurrentVM => _navigationStore.CurrentVM;
@@ -99,6 +104,7 @@ public partial class MainVM : BaseMinVM
   [ObservableProperty] string appVerNumber = "0.0";
   [ObservableProperty] object appVerToolTip = "Old";
   [ObservableProperty] string busyMessage = "Loading...";
+  [ObservableProperty] bool isShuttingDown;
   [ObservableProperty] bool isDevDbg;
   [ObservableProperty] bool isObsolete;
   [ObservableProperty] bool isBusy; partial void OnIsBusyChanged(bool value) => _IsBusyStore.ChangIsBusy(value);
@@ -169,4 +175,5 @@ public partial class MainVM : BaseMinVM
       IsObsolete = true;
     }
   }
+  [RelayCommand] void StartShuttingDown(object note) { IsShuttingDown = !IsShuttingDown; Logger.Log(LogLevel.Trace, $"{note}"); }
 }

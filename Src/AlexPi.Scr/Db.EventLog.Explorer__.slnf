@@ -1,0 +1,14 @@
+{
+  "solution": {
+    "path": "AlexPi.Scr.sln",
+    "projects": [
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\Ambience\\AmbienceLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\StandardContractsLib\\StandardContractsLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\StandardLib\\StandardLib.csproj",
+      "..\\..\\..\\AAV.Shared\\Src\\NetLts\\WpfUserControlLib\\WpfUserControlLib.csproj",
+      "Db.EventLog.Explorer\\Db.EventLog.Explorer.csproj",
+      "Db.EventLog\\Db.EventLog.csproj",
+      "ScreenTimeUsrCtrlLib\\ScreenTimeUsrCtrlLib.csproj"
+    ]
+  }
+}

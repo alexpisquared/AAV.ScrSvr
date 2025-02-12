@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SpeechSynthLib;
+using AmbienceLib;
 namespace TtsVoicesPocConsoleApp;
 public class VoiceTester : IDisposable
 {
   public async Task<bool> Test1()
   {
-    using (var _synth = new SpeechSynth())
-    {
-      var m = "Hi there. Hi there! Hi there?";
+    using var _synth = new SpeechSynth("key");
+    var m = "Hi there. Hi there! Hi there?";
 
-      var voices = _voicenames
-       .Where(v => v.EndsWith("ural"))
-       //.Where(v => v.StartsWith("zh-CN-Xia"))
-       //.Where(v => v.StartsWith("en-A"))
-       .ToArray();
+    var voices = _voicenames
+     .Where(v => v.EndsWith("ural"))
+     //.Where(v => v.StartsWith("zh-CN-Xia"))
+     //.Where(v => v.StartsWith("en-A"))
+     .ToArray();
 
-      var speakingStyles = new[] { // https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-synthesis-markup?tabs=csharp#adjust-speaking-styles
+    var speakingStyles = new[] { // https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-synthesis-markup?tabs=csharp#adjust-speaking-styles
          "angry" ,               // XiaoxiaoNeural only
          //"sad" ,               // XiaoxiaoNeural only
          //"affectionate",       // XiaoxiaoNeural only
@@ -29,14 +28,12 @@ public class VoiceTester : IDisposable
          //"empathetic"          // AriaNeural only 
       };
 
-      Console.WriteLine($"v-{voices.Length} x {speakingStyles.Length} styles = ");
+    Console.WriteLine($"v-{voices.Length} x {speakingStyles.Length} styles = ");
 
-      for (var v = 0; v < voices.Length; v++)
-        for (var s = 0; s < speakingStyles.Length; s++)
-          //await _synth.SpeakAsync(m, VMode.Prosody, voices[v], speakingStyle: speakingStyles[s]);
-          await sayIt(_synth, m, voices, speakingStyles, s, v);
-
-    }
+    for (var v = 0; v < voices.Length; v++)
+      for (var s = 0; s < speakingStyles.Length; s++)
+        //await _synth.SpeakAsync(m, VMode.Prosody, voices[v], speakingStyle: speakingStyles[s]);
+        await sayIt(_synth, m, voices, speakingStyles, s, v);
 
     return true;
   }
@@ -44,7 +41,7 @@ public class VoiceTester : IDisposable
   static async Task sayIt(SpeechSynth _synth, string m, string[] voices, string[] speakingStyles, int s, int v)
   {
     Console.WriteLine($" --- {m},   VMode.Express,   {voices[v],-26}   {speakingStyles[s],-16}");
-    await _synth.SpeakAsync(m, VMode.Express, voice: voices[v], styleForExpressOnly: speakingStyles[s]);
+    await _synth.SpeakAsync(m,1, 100, voice: voices[v], speakingStyles[s]);
   }
 
   bool _disposedValue;
@@ -72,13 +69,13 @@ public class VoiceTester : IDisposable
   // https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#text-to-speech:
   //foreign 
       "ar-EG-Hoda", "ar-SA-Naayf",
-  "zh-HK-Danny", 
-  "zh-CN-Kangkang", "zh-CN-Yaoyao", "zh-TW-Yating", "zh-TW-Zhiwei", "hr-HR-Matej", "cs-CZ-Jakub", 
+  "zh-HK-Danny",
+  "zh-CN-Kangkang", "zh-CN-Yaoyao", "zh-TW-Yating", "zh-TW-Zhiwei", "hr-HR-Matej", "cs-CZ-Jakub",
   "en-AU-Catherine", "en-CA-Linda", "en-IN-Heera", "en-IN-Ravi", "en-IE-Sean",
   "en-GB-George",
   "en-GB-George-apollo",
   "en-GB-Susan",
-  "en-gb-susan-apollo", 
+  "en-gb-susan-apollo",
   "fr-CA-Caroline", "fr-FR-Julie", "fr-FR-Paul", "fr-CH-Guillaume", "de-AT-Michael", "de-DE-Stefan", "de-CH-Karsten", "el-GR-Stefanos", "he-IL-Asaf", "hi-IN-Hemant", "hi-IN-Kalpana", "hu-HU-Szabolcs", "id-ID-Andika", "it-IT-Cosimo",
   "ja-JP-Ayumi", "ja-JP-Ichiro", "ms-MY-Rizwan", "pt-BR-Daniel", "ro-RO-Andrei",
   "sk-SK-Filip", "sl-SI-Lado", "es-MX-Raul", "es-ES-Laura", "es-ES-Pablo",
@@ -99,7 +96,7 @@ public class VoiceTester : IDisposable
   "fr-CA-SylvieNeural", "fr-CA-JeanNeural", "fr-FR-DeniseNeural", "fr-FR-HenriNeural", "fr-CH-ArianeNeural", "fr-CH-FabriceNeural", "de-AT-IngridNeural", "de-AT-JonasNeural", "de-DE-KatjaNeural", "de-DE-ConradNeural", "de-CH-LeniNeural", "de-CH-JanNeural", "el-GR-AthinaNeural", "el-GR-NestorasNeural", "he-IL-HilaNeural", "he-IL-AvriNeural", "hi-IN-SwaraNeural", "hi-IN-MadhurNeural", "hu-HU-NoemiNeural", "hu-HU-TamasNeural",
   "id-ID-GadisNeural", "id-ID-ArdiNeural", "it-IT-ElsaNeural", "it-IT-IsabellaNeural", "it-IT-DiegoNeural", "ja-JP-NanamiNeural", "ja-JP-KeitaNeural", "ko-KR-SunHiNeural", "ko-KR-InJoonNeural", "ms-MY-YasminNeural", "ms-MY-OsmanNeural", "nb-NO-IselinNeural", "nb-NO-PernilleNeural", "nb-NO-FinnNeural", "pl-PL-AgnieszkaNeural", "pl-PL-ZofiaNeural", "pl-PL-MarekNeural",
   "pt-BR-FranciscaNeural", "pt-BR-AntonioNeural", "pt-PT-FernandaNeural", "pt-PT-RaquelNeural", "pt-PT-DuarteNeural", "ro-RO-AlinaNeural", "ro-RO-EmilNeural",
-  
+
   "sk-SK-ViktoriaNeural", "sk-SK-LukasNeural", "sl-SI-PetraNeural", "sl-SI-RokNeural", "es-MX-DaliaNeural", "es-MX-JorgeNeural", "es-ES-ElviraNeural", "es-ES-AlvaroNeural",
   "sv-SE-HilleviNeural", "sv-SE-SofieNeural", "sv-SE-MattiasNeural", "ta-IN-PallaviNeural", "ta-IN-ValluvarNeural", "te-IN-ShrutiNeural", "te-IN-MohanNeural", "th-TH-AcharaNeural", "th-TH-PremwadeeNeural", "th-TH-NiwatNeural", "tr-TR-EmelNeural", "tr-TR-AhmetNeural", "vi-VN-HoaiMyNeural", "vi-VN-NamMinhNeural"
     };

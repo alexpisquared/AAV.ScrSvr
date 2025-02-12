@@ -8,5 +8,5 @@ public partial class LayoutVM2 : ObservableValidator
   [ObservableProperty] double right;
   [ObservableProperty] double bottom;
   [ObservableProperty] double zoom;
-  [ObservableProperty] bool windowState;
+  [ObservableProperty] bool isOpenState;
 }

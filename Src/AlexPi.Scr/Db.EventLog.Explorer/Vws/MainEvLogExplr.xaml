@@ -1,6 +1,6 @@
 ﻿<lnk:WindowBase xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Db.EventLog.Explorer.MainEvLogExplr"
-                xmlns:Views="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" 
-                Title="Event Viewer" Height="160" Width="1600" Loaded="onLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
+                xmlns:stm="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" 
+                Title="Event Viewer" Height="160" Width="1600" Loaded="OnLoaded" SizeChanged="Window_SizeChanged" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="12" />
   </WindowChrome.WindowChrome>
@@ -10,153 +10,16 @@
   </lnk:WindowBase.Resources>
   <Border Background="#c0161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
     <Grid x:Name="vizroot" Margin="5" >
-      <Grid    x:Name="ZommablePanel"  >
+      <Grid    x:Name="ZoomablePanel"  >
         <Grid.LayoutTransform>
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" >
-          <Grid>
-          <Views:ScreenTimeUsrCtrl DaysBack="1" DelaySec="0"  Name="stuc"/>
+        <stm:ScreenTimeUsrCtrl DaysBack="8" DelaySec="0"  Name="stuc"/>
 
-        <Grid>
-          <Grid.Resources>
-            <Style TargetType="{x:Type TextBlock}">
-              <Setter Property="HorizontalAlignment" Value="Center"/>
-              <Setter Property="Foreground" Value="#888"/>
-              <Setter Property="FontSize" Value="6"/>
-            </Style>
-            <Style TargetType="{x:Type Rectangle}">
-              <Setter Property="Margin" Value="0 12 0 0"/>
-              <Setter Property="Width" Value=".15"/>
-              <Setter Property="Fill" Value="#fff"/>
-            </Style>
-          </Grid.Resources>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*" />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition  />
-            <ColumnDefinition Width="0.5*" />
-          </Grid.ColumnDefinitions>
-
-          <TextBlock Grid.Column="1"   Text="1"  />
-          <TextBlock Grid.Column="2"   Text="2"  />
-          <TextBlock Grid.Column="4"   Text="4"  />
-          <TextBlock Grid.Column="5"   Text="5"  />
-          <TextBlock Grid.Column="7"   Text="7"  />
-          <TextBlock Grid.Column="8"   Text="8"  />
-          <TextBlock Grid.Column="10"  Text="10"  />
-          <TextBlock Grid.Column="11"  Text="11"  />
-          <TextBlock Grid.Column="13"  Text="13"  />
-          <TextBlock Grid.Column="14"  Text="14"  />
-          <TextBlock Grid.Column="16"  Text="16"  />
-          <TextBlock Grid.Column="17"  Text="17"  />
-          <TextBlock Grid.Column="19"  Text="19"  />
-          <TextBlock Grid.Column="20"  Text="20"  />
-          <TextBlock Grid.Column="22"  Text="22"  />
-          <TextBlock Grid.Column="23"  Text="23"  />
-
-          <Rectangle Grid.Column="1"  />
-          <Rectangle Grid.Column="2"  />
-          <Rectangle Grid.Column="4"  />
-          <Rectangle Grid.Column="5"  />
-          <Rectangle Grid.Column="7"  />
-          <Rectangle Grid.Column="8"  />
-          <Rectangle Grid.Column="10" />
-          <Rectangle Grid.Column="11" />
-          <Rectangle Grid.Column="13" />
-          <Rectangle Grid.Column="14" />
-          <Rectangle Grid.Column="16" />
-          <Rectangle Grid.Column="17" />
-          <Rectangle Grid.Column="19" />
-          <Rectangle Grid.Column="20" />
-          <Rectangle Grid.Column="22" />
-          <Rectangle Grid.Column="23" />
-        </Grid>
-
-            <Grid>
-              <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                  <Setter Property="HorizontalAlignment" Value="Center"/>
-                  <Setter Property="Foreground" Value="#888"/>
-                  <Setter Property="FontSize" Value="8"/>
-                </Style>
-                <Style TargetType="{x:Type Rectangle}">
-                  <Setter Property="Margin" Value="0 12 0 0"/>
-                  <Setter Property="Width" Value=".6"/>
-                  <Setter Property="Fill" Value="#fff"/>
-                </Style>
-              </Grid.Resources>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*" />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition  />
-                <ColumnDefinition Width="0.5*" />
-              </Grid.ColumnDefinitions>
-
-              <TextBlock Grid.Column="3"   Text="3"  />
-              <TextBlock Grid.Column="6"   Text="6"  />
-              <TextBlock Grid.Column="9"   Text="9"  />
-              <TextBlock Grid.Column="12"  Text="12" />
-              <TextBlock Grid.Column="15"  Text="15" />
-              <TextBlock Grid.Column="18"  Text="18" />
-              <TextBlock Grid.Column="21"  Text="21" />
-
-              <Rectangle Grid.Column="3"  />
-              <Rectangle Grid.Column="6"  />
-              <Rectangle Grid.Column="9"  />
-              <Rectangle Grid.Column="12" />
-              <Rectangle Grid.Column="15" />
-              <Rectangle Grid.Column="18" />
-              <Rectangle Grid.Column="21" />
-            </Grid>
-          </Grid>
-        </ScrollViewer>
       </Grid>
-      <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
-      <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="42 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
+      <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" FontSize="20" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
+      <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="10 0" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
       <Button Content="X" HorizontalAlignment="Right" IsCancel="True" VerticalAlignment="Top"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" />
       <Rectangle Fill="Transparent" x:Name="MouseDragger" Margin="7 7 7 30" Cursor="Hand"/>
     </Grid>

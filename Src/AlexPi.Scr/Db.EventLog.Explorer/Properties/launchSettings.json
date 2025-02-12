@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Db.EventLog.Explorer": {
+      "commandName": "Project",
+      "commandLineArgs": "Scheduler 29.5 min"
+    }
+  }
+}

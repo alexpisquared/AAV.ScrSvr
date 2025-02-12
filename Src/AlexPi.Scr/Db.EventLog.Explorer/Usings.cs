@@ -18,3 +18,4 @@ global using Db.EventLog.Main;
 global using StandardLib.Extensions;
 global using StandardLib.Helpers;
 global using WpfUserControlLib.Extensions;
+global using static System.Diagnostics.Trace;

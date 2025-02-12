@@ -1,6 +1,4 @@
-﻿using StandardLib.Extensions;
-
-namespace Db.EventLog.Main;
+﻿namespace Db.EventLog.Main;
 
 [Obsolete("Phasing out LOCAL db ...", false)]
 public class DbLogHelper
@@ -8,13 +6,13 @@ public class DbLogHelper
   public const string _dbSubP = @"Public\AppData\EventLogDb\";
   static readonly string _dbPath = OneDrive.Folder(_dbSubP);
   static List<PcLogic>? _pcLogics;
-  static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = new();
+  static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = [];
 
   public static List<PcLogic> AllPCsSynch()
   {
     if (_pcLogics != null) return _pcLogics;
 
-    _pcLogics = new List<PcLogic>();
+    _pcLogics = [];
     //,,Trace.WriteLine($"-->AllPCs():\t");
 
     foreach (var dbpf in Directory.GetFiles(_dbPath, @"LocalDb(*).mdf", SearchOption.TopDirectoryOnly))
@@ -39,7 +37,7 @@ public class DbLogHelper
   {
     if (_pcLogics != null) return _pcLogics;
 
-    _pcLogics = new List<PcLogic>();
+    _pcLogics = [];
     //,,Trace.WriteLine($"-->AllPCs():\t");
 
     var mdfs = Directory.GetFiles(_dbPath, @"LocalDb(*).mdf", SearchOption.TopDirectoryOnly);

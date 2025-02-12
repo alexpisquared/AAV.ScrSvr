@@ -1,4 +1,12 @@
 ﻿//todo: move to shared somewhere (2020-12)
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using StandardLib.Extensions; //using AAV.Sys.Ext; <== must have ref to StandardLib proj; aav.sys is phased out.
 
 namespace WebScrap;
 
@@ -35,7 +43,7 @@ public partial class WebScraperBase
   protected static void safeFile_WriteAllText(string file, string text)
   {
     try { File.WriteAllText(file, text); }
-    catch (Exception ex) { ex.Log(file); }
+    catch (Exception ex) { _ = ex.Log(file); }
   }
 }
 
@@ -74,10 +82,10 @@ public partial class WebScraper : WebScraperBase
         //feedXML = XDocument.LoadUsing_XDocument(fe.Url);  ==> for behind the proxy domains:
         var wc = getProxyAndCreds(new Uri(url));
         var ms = new MemoryStream(wc.DownloadData(url));
-        var rdr = new XmlTextReader(ms);
+        var rdr = new System.Xml.XmlTextReader(ms);
         feedXML = XDocument.Load(rdr);
       }
-      catch (Exception ex) { ex.Log(); }
+      catch (Exception ex) { _ = ex.Log(); }
       finally { Console.ForegroundColor = fc; }
     }
 
@@ -107,7 +115,7 @@ public partial class WebScraper : WebScraperBase
     }
     catch (Exception ex)
     {
-      ex.Log();
+      _ = ex.Log();
     }
 
     //Debug.WriteLine(strOutput);
@@ -139,7 +147,7 @@ public partial class WebScraper : WebScraperBase
     }
     catch (Exception ex)
     {
-      ex.Log();
+      _ = ex.Log();
       return false;
     }
   }
@@ -157,7 +165,7 @@ public partial class WebScraper : WebScraperBase
     }
     catch (Exception ex)
     {
-      ex.Log();
+      _ = ex.Log();
       return false;
     }
   }
@@ -174,7 +182,7 @@ public partial class WebScraper : WebScraperBase
     //77 Debug.WriteLine(c.ToString(), "DnLd Finished: ");     //MessageBox.Show("Download finished...");
   }
 
-  [Obsolete]
+  // [Obsolete] :why Copilot decides to mark it such?
   public static string GetHtmlCached(string url, TimeSpan rotTime)
   {
     var fn = GetCachedFileNameFromUrl(url);
@@ -262,7 +270,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
       var request = WebRequest.Create(url); // WebRequest request = createWebRequest(new Uri(url));
       request.Timeout = 5000; //ms                //if (Debugger.IsAttached) Debugger.Break();
 
-      using var response = request.GetResponse(); //todo: Nov 2017 : hangs here
+      using var response = request.GetResponse(); //todo: Nov 2017 : hangs here ............... Apr 2024 : still hangs!!!!!!!!?
       using var stream = new StreamReader(response.GetResponseStream());
       return stream.ReadToEnd();
     }
@@ -300,7 +308,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
         if (acptblAge == TimeSpan.MaxValue || DateTime.Now - File.GetLastWriteTime(fn) < acptblAge)
           return File.ReadAllText(fn);
     }
-    catch (Exception ex) { ex.Log(fn); }
+    catch (Exception ex) { _ = ex.Log(fn); }
 
     return GetHtmlFromWeb(url);
   }
@@ -317,7 +325,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
         return File.ReadAllText(fn); //below code renders the same exception:
                                      //string rv = ""; using (FileStream fs = new FileStream(fn, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) { using (StreamReader sr = new StreamReader(fs)) { while (sr.Peek() >= 0) { rv += sr.ReadToEnd(); } } } return rv;
       }
-      catch (Exception ex) { ex.Log(); }
+      catch (Exception ex) { _ = ex.Log(); }
     }
 
     age = TimeSpan.FromTicks(0);
@@ -336,7 +344,7 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
 
   public static string CacheHtmlToUniqueFile(string url)
   {
-    var fn = GetCachedFileNameFromUrl(url) + DateTime.Now.ToString("-[yyyy.MM.dd-HH]-") + ".HTML";
+    var fn = GetCachedFileNameFromUrl(url) + DateTime.Now.ToString("-[yyyy-MM-dd-HH]-") + ".HTML";
     if (File.Exists(fn))
       return File.ReadAllText(fn);
     else
@@ -347,18 +355,20 @@ Console.WriteLine("\nThe HttpHeaders are \n{0}",myWebRequest.Headers);
     }
   }
 
-  public static string GetCachedFileNameFromUrl(string url)
+  public static string GetCachedFileNameFromUrl(string url, bool needToShareThroughOneDrive = false)
   {
     var fn = url.Replace("https://", "").Replace("/", "-").Replace(":", "-").Replace("http", "").Replace("?", "!").Replace("|", "!").Replace("---", "");
-    var folder = Path.Combine(OneDrive.WebCacheFolder, fn.Split('-')[0]);
-#if CS8
-    fn = fn[(fn.IndexOf("-") + 1)..]; // == fn = fn.Substring(fn.IndexOf("-") + 1);
-#else
-    fn = fn[(fn.IndexOf("-") + 1)..];
-#endif
+
+    var folder = Path.Combine(needToShareThroughOneDrive ? StandardLib.Helpers.OneDrive.VpdbFolder : StandardLib.Helpers.OneDrive.WebCacheFolder, fn.Split('-')[0]);
+
+    //#if CS8
+    //    fn = fn[(fn.IndexOf("-") + 1)..]; // == fn = fn.Substring(fn.IndexOf("-") + 1);
+    //#else
+    //    fn = fn[(fn.IndexOf("-") + 1)];
+    //#endif
 
     if (!Directory.Exists(folder))
-      Directory.CreateDirectory(folder);
+      _ = Directory.CreateDirectory(folder);
 
     return Path.Combine(folder, fn);
   }

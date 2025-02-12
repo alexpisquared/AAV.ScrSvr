@@ -5,8 +5,7 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" 
-                d:DesignWidth="1111" d:DesignHeight="222">
+                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333" Background="#5000">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" />
   </WindowChrome.WindowChrome>
@@ -25,9 +24,6 @@
         -->
         <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
-      <sys:Double x:Key="blur">0</sys:Double>
-
     </ResourceDictionary>
   </lnk:WindowBase.Resources>
   <lnk:WindowBase.InputBindings>
@@ -58,17 +54,9 @@
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Left"  CommandParameter="Prev" Modifiers="Ctrl" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Right" CommandParameter="Next" Modifiers="Ctrl" />-->
   </lnk:WindowBase.InputBindings>
-  <Border Style="{StaticResource BorderStyle_Aav0}" BorderThickness="2" BorderBrush="#0c0">
-    <Grid Margin="-6">
-
-      <Grid x:Name="ZommablePanel" >
-        <Grid.Resources>
-          <Style TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius"     Value="4"/>
-            <Setter Property="Padding"          Value="5"/>
-            <Setter Property="Background"       Value="{StaticResource BackBackgroundBrush}" />
-          </Style>
-        </Grid.Resources>
+  <Border Style="{StaticResource BorderStyle_Aav0}" Padding="0" CornerRadius="5" Background="Transparent">
+    <Grid Margin="0">
+      <Grid x:Name="ZoomablePanel">
         <Grid.LayoutTransform>
           <ScaleTransform ScaleX="{Binding ZV, ElementName=wnd, FallbackValue=1}" ScaleY="{Binding ZV, ElementName=wnd, FallbackValue=1}" />
         </Grid.LayoutTransform>
@@ -82,11 +70,43 @@
         <anm:GravityAnimeDropPanel Visibility="{Binding IsAnimeOn, Converter={cnv:UniConverter InvertValue=False}}" IsBusy="{Binding IsBusy}" Prompt="{Binding BusyMessage, FallbackValue='Wait!..  Loading...'}" />
       </Grid>
 
+      <Viewbox Margin="88" x:Name="tbkTheEnd" Visibility="{Binding IsShuttingDown, Converter={cnv:UniConverter}}" d:Visibility="Visible">
+        <Grid>
+          <Grid.Resources>
+            <Storyboard x:Key="sbDropIn">
+              <DoubleAnimation Storyboard.TargetProperty="Value" To="99" Duration="0:1:0" EasingFunction="{StaticResource si}" />
+            </Storyboard>
+            <Storyboard x:Key="sbDropOu">
+              <DoubleAnimation Storyboard.TargetProperty="Value" To="1"  Duration="0:0:1" EasingFunction="{StaticResource si}" />
+            </Storyboard>
+          </Grid.Resources>
+          <ProgressBar x:Name="pb1" Maximum="100" Foreground="#033" Background="#022" BorderThickness="0" >
+            <ProgressBar.Style>
+              <Style TargetType="ProgressBar">
+                <Setter Property="Value" Value="1"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding ElementName=tbkTheEnd, Path=Visibility}" Value="Visible">
+                    <DataTrigger.EnterActions>
+                      <BeginStoryboard x:Name="sbDropIn" Storyboard="{StaticResource sbDropIn}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                      <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
+                    </DataTrigger.ExitActions>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </ProgressBar.Style>
+          </ProgressBar>
+          <TextBlock Text=" The End " Foreground="#0aa" />
+        </Grid>
+      </Viewbox>
+
       <StackPanel x:Name="ControlPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-0" Style="{StaticResource SmartOpacityToggleAnimStyle}" >
         <Menu ToolTip="Settings and such..." Margin="10 0" >
           <MenuItem   Header="_Prim" Click="OnPrimScreens" />
           <MenuItem   Header="_Scnd" Click="OnScndScreens" />
           <MenuItem   Header="_Whol" Click="OnBothScreens" />
+          <MenuItem   Header="S_hut"                      IsChecked="{Binding IsShuttingDown}" Command="{Binding StartShuttingDownCommand}" CommandParameter="Cmnd ■ ■"  ToolTip="Test StartShuttingDown animation++"  />
           <MenuItem   Header="Is Busy" IsCheckable="True" IsChecked="{Binding IsBusy}" ToolTip="DevDbg" />
           <MenuItem Header=" ° ° ° " Padding="16 6 16 0" Foreground="{StaticResource LablForegroundBrush}">
             <xui:ThemeSelectorMenuItem x:Name="themeSelector1" Header="_Dark/Light Mode ..." />

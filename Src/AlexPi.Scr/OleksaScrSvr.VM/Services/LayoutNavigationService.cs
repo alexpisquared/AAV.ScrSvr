@@ -17,7 +17,7 @@ public class LayoutNavSvc<TVM> : INavSvc where TVM : BaseMinVM
   {
     if (_navigationStore.CurrentVM is not null && 
       ((LayoutVM)_navigationStore.CurrentVM).ContentVM is not null &&
-      await ((LayoutVM)_navigationStore.CurrentVM).ContentVM.TryWrapAsync() == false)
+      await ((LayoutVM)_navigationStore.CurrentVM).ContentVM.WrapAsync() == false)
       return;
 
     _navigationStore.CurrentVM = new LayoutVM(_createNavBarVM(), _createVM());

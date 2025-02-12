@@ -12,7 +12,7 @@ public partial class BackgroundWindow : UnCloseableWindow
   {
     Show();
 
-    Title = $"{trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}     {trgScreen.Bounds.Width,5}x{trgScreen.Bounds.Height,-5} @ {trgScreen.Bounds.X,5},{trgScreen.Bounds.Y,-5}     {string.Join('·', Environment.GetCommandLineArgs().Skip(1))}     {VersionHelper.CurVerStr("")}";
+    Title = $"{trgScreen.DeviceName} - {(trgScreen.Primary ? "Primary  " : "Secondary")}     {trgScreen.Bounds.Width,5}x{trgScreen.Bounds.Height,-5} @ {trgScreen.Bounds.X,5},{trgScreen.Bounds.Y,-5}     {string.Join('·', Environment.GetCommandLineArgs().Skip(1))}     {VersionHelper.CurVerStr}";
     var k = DevOps.IsDevMachineO ? .666666666 : 1;
     Left = trgScreen.Bounds.Left * k;
     Top = trgScreen.Bounds.Top * k + 40; // task bar considerations.
