@@ -5,6 +5,9 @@ using System;
 using System.Linq;
 
 // note: ConsoleApp1  registered as web  with:	Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)
+// ^ ?? ^ https://learn.microsoft.com/en-us/security/zero-trust/develop/identity-supported-account-types
+//2025:
+//todo: https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-desktop-app-electron-sample-sign-in?wt.mc_id=knwlserapi_inproduct_azportal#register-desktop-app
 
 const string
   _uri = "AppSettings:AzureKeyVault:Kv_Overview_VaultURI",
@@ -35,9 +38,9 @@ Console.Write($"■ ■ {vb.Length,2} / {va.Length} voices.      {vc}\n\n");
 Console.ForegroundColor = ConsoleColor.DarkGray;
 Console.WriteLine($"** POC:  !!!WTH!!! Any app can have access to any secret:");
 
-listSecretValues(new SecretClient(new Uri(config[_uri]), new ClientSecretCredential(config[_dir], config[_app1], config[_a1v1])), config);
-listSecretValues(new SecretClient(new Uri(config[_uri]), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v1])), config);
-listSecretValues(new SecretClient(new Uri(config[_uri]), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v2])), config);
+listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app1], config[_a1v1])), config);
+listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v1])), config);
+listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v2])), config);
 
 static void listSecretValues(SecretClient client, IConfiguration config)
 {
@@ -50,7 +53,7 @@ static void listSecretValues(SecretClient client, IConfiguration config)
       Console.Write($"{secretName,34}  ");
       Console.Write($"{client.GetSecret(secretName).Value.Value} \n");
     }
-    catch (Exception ex) { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"@@ {ex.Message.Substring(0, 128).Replace("\n", " ").Replace("\r", " ")}"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.White; }
+    catch (Exception ex) { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.White; }
   }
 }
 static void showConsoleColors()
