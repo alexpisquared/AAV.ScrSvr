@@ -7,7 +7,7 @@ SetupAndDisplaySecrets2020();
 
 static void listSecretValues(SecretClient client, string[]? names)
 {
-  Console.ForegroundColor = ConsoleColor.DarkGray; Console.WriteLine("All Secrets:     Name              | Value                            | Type");
+  Console.ForegroundColor = ConsoleColor.DarkGray; Console.WriteLine("All Secrets:     Name             Value                                                Type");
 
   foreach (var secret in client.GetPropertiesOfSecrets())
   {
@@ -17,9 +17,9 @@ static void listSecretValues(SecretClient client, string[]? names)
       Console.ForegroundColor = ConsoleColor.DarkYellow;
       Console.Write($" {secret.Name,-32} ");
       Console.ForegroundColor = ConsoleColor.DarkCyan;
-      Console.Write($" | {(secretValue.Value.Value.Length > 32 ? secretValue.Value.Value.Substring(0, 32).Substring(0, 32) : secretValue.Value.Value),-32}");
+      Console.Write($"{(secretValue.Value.Value.Length > 96 ? secretValue.Value.Value.Substring(0, 96).Substring(0, 96) : secretValue.Value.Value),-96} ");
       Console.ForegroundColor = ConsoleColor.DarkGreen;
-      Console.Write($" | {secretValue.Value.Properties.ContentType,-16}\n");
+      Console.Write($"{secretValue.Value.Properties.ContentType}\n");
     }
     catch (Exception ex) { Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.White; }
   }
