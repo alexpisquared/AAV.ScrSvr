@@ -1,61 +1,30 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Linq;
+using System.Net.Sockets;
 
-// note: ConsoleApp1  registered as web  with:	Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)
-// ^ ?? ^ https://learn.microsoft.com/en-us/security/zero-trust/develop/identity-supported-account-types
-//2025:
-//todo: https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-desktop-app-electron-sample-sign-in?wt.mc_id=knwlserapi_inproduct_azportal#register-desktop-app
+SetupAndDisplaySecrets2020();
 
-const string
-  _uri = "AppSettings:AzureKeyVault:Kv_Overview_VaultURI",
-  _dir = "AppSettings:AzureKeyVault:Kv_Overview_DirectoryId",
-  _app1 = "AppSettings:AzureKeyVault:AppRegs_TestAppWeb_Overview_AppClientId",
-  _app2 = "AppSettings:AzureKeyVault:AppRegs_ConsoleApp1_Overview_AppClientId",
-  _a1v1 = "AppSettings:AzureKeyVault:AppRegs_TestAppWeb_CertAndScrts_Scr_Val",
-  _a2v1 = "AppSettings:AzureKeyVault:AppRegs_ConsoleApp1_CertAndScrts_Sc1_Val",
-  _a2v2 = "AppSettings:AzureKeyVault:AppRegs_ConsoleApp1_CertAndScrts_Sc2_Val",
-  _snms = "AppSettings:AzureKeyVault:SecretNames";
-
-showConsoleColors();
-
-var config = new ConfigurationBuilder()
-  .SetBasePath(AppContext.BaseDirectory)
-  .AddJsonFile("appsettings.json")
-  .AddUserSecrets<WhatIsThatForType>().Build();
-
-Console.Write($"** WhereAmI: '{config["WhereAmI"]}'    =>   "); config["WhereAmI"] = "Changed to this ... but not saved to file"; Console.Write($"'{config["WhereAmI"]}'    \n\n\n");
-
-
-//note: GetSection keeps ignoring secrets.json and always return appsettings.json version
-var va = config.GetSection("VoiceNames").GetChildren().Select(x => x.Value).ToArray();
-var vb = config.GetSection("VoiceNames").Get<string[]>(); // needs Microsoft.Extensions.Configuration.Binder
-var vc = config["VoiceNames"];
-Console.Write($"■ ■ {vb.Length,2} / {va.Length} voices.      {vc}\n\n");
-
-Console.ForegroundColor = ConsoleColor.DarkGray;
-Console.WriteLine($"** POC:  !!!WTH!!! Any app can have access to any secret:");
-
-listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app1], config[_a1v1])), config);
-listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v1])), config);
-listSecretValues(new SecretClient(new Uri(config[_uri]!), new ClientSecretCredential(config[_dir], config[_app2], config[_a2v2])), config);
-
-static void listSecretValues(SecretClient client, IConfiguration config)
+static void listSecretValues(SecretClient client, string[]? names)
 {
-  Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine($"\n{"Ssecret Name",34}  Secret Value"); Console.ForegroundColor = ConsoleColor.White;
+  Console.ForegroundColor = ConsoleColor.DarkGray; Console.WriteLine("All Secrets:     Name              | Value                            | Type");
 
-  foreach (var secretName in config[_snms].Split(' '))
+  foreach (var secret in client.GetPropertiesOfSecrets())
   {
     try
     {
-      Console.Write($"{secretName,34}  ");
-      Console.Write($"{client.GetSecret(secretName).Value.Value} \n");
+      var secretValue = client.GetSecret(secret.Name);
+      Console.ForegroundColor = ConsoleColor.DarkYellow;
+      Console.Write($" {secret.Name,-32} ");
+      Console.ForegroundColor = ConsoleColor.DarkCyan;
+      Console.Write($" | {(secretValue.Value.Value.Length > 32 ? secretValue.Value.Value.Substring(0, 32).Substring(0, 32) : secretValue.Value.Value),-32}");
+      Console.ForegroundColor = ConsoleColor.DarkGreen;
+      Console.Write($" | {secretValue.Value.Properties.ContentType,-16}\n");
     }
-    catch (Exception ex) { Console.ForegroundColor = ConsoleColor.Magenta; Console.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.White; }
+    catch (Exception ex) { Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.White; }
   }
 }
+
 static void showConsoleColors()
 {
   for (var i = 0; i < 8; i++)
@@ -63,7 +32,37 @@ static void showConsoleColors()
     Console.ForegroundColor = (ConsoleColor)(i + 0); Console.Write($"{Console.ForegroundColor} ");
     Console.ForegroundColor = (ConsoleColor)(i + 8); Console.Write($"{Console.ForegroundColor} ");
   }
+
   Console.Write("\n");
 }
 
-public class WhatIsThatForType { public string MyProperty { get; set; } = "<Default Value of Nothing SPecial>"; }
+static void SetupAndDisplaySecrets2020()
+{
+  // note: ConsoleApp1  registered as web  with:	Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)
+  // ^ ?? ^ https://learn.microsoft.com/en-us/security/zero-trust/develop/identity-supported-account-types
+  //2025:
+  //tu: 2025 !!! app registration, key vault, secret, client secret, app id, directory id, tenant id, subscription id, resource group, key vault name, secret name, secret value
+  // https://learn.microsoft.com/en-us/entra/external-id/customers/sample-desktop-wpf-dotnet-sign-in - fails at the end
+  // https://www.c-sharpcorner.com/blogs/fetching-secrets-from-key-vault-in-net-console-app
+  // https://learn.microsoft.com/en-us/entra/external-id/customers/sample-desktop-wpf-dotnet-sign-in#register-the-desktop-app
+  // https://learn.microsoft.com/en-us/entra/external-id/self-service-sign-up-user-flow#enable-self-service-sign-up-for-your-tenant
+
+  var url = new Uri("https://demopockv.vault.azure.net/");
+
+  var c = new ConfigurationBuilder()
+    .SetBasePath(AppContext.BaseDirectory)
+    .AddJsonFile("appsettings.json")
+    .AddUserSecrets<Program>().Build();
+
+  string?
+    _dir0 = c["akv:Kv_Overview_DirectoryId"], _app0 = c["akv:Application_client_ID_2025"], _app1 = c["akv:AppRegs_TestAppWeb_Overview_AppClientId"], _app2 = c["akv:AppRegs_ConsoleApp1_Overview_AppClientId"], _a1v1 = c["akv:AppRegs_TestAppWeb_CertAndScrts_Scr_Val"], _a2v1 = c["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc1_Val"], _a2v2 = c["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc2_Val"];
+  var _snms = c["akv:SecretNames"]?.Split(' ');
+
+  showConsoleColors(); Console.ForegroundColor = ConsoleColor.Gray; Console.WriteLine($"** POC:  [explanation]");
+  listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, c["akv:SecretMgtDevAndProdConsApp2025w_AppId"], c["akv:SecretMgtDevAndProdConsApp2025w_SeVal"])), _snms);
+  //listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, c["akv:Application_client_ID_2025"], c["akv:TestClientSecret5616_Value"])), _snms);
+  //listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, c["akv:Application_client_ID_2025"], c["akv:TestClientSecret5616_SecretId"])), _snms);
+  //listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, _app1, _a1v1)), _snms);
+  //listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, _app2, _a2v1)), _snms);
+  //listSecretValues(new SecretClient(url, new ClientSecretCredential(_dir0, _app2, _a2v2)), _snms);
+}
