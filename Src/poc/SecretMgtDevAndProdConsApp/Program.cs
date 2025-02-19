@@ -13,12 +13,12 @@ static void SetupAndDisplaySecrets2020()
     .AddJsonFile("appsettings.json")
     .AddUserSecrets<Program>().Build();
 
-  string? _dir0 = cfg["akv:Kv_Overview_DirectoryId"], _app0 = cfg["akv:Application_client_ID_2025"], _app1 = cfg["akv:AppRegs_TestAppWeb_Overview_AppClientId"], _app2 = cfg["akv:AppRegs_ConsoleApp1_Overview_AppClientId"], _a1v1 = cfg["akv:AppRegs_TestAppWeb_CertAndScrts_Scr_Val"], _a2v1 = cfg["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc1_Val"], _a2v2 = cfg["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc2_Val"];
+  string? _dir0 = cfg["akv:DirId"], _app0 = cfg["akv:Application_client_ID_2025"], _app1 = cfg["akv:AppRegs_TestAppWeb_Overview_AppClientId"], _app2 = cfg["akv:AppRegs_ConsoleApp1_Overview_AppClientId"], _a1v1 = cfg["akv:AppRegs_TestAppWeb_CertAndScrts_Scr_Val"], _a2v1 = cfg["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc1_Val"], _a2v2 = cfg["akv:AppRegs_ConsoleApp1_CertAndScrts_Sc2_Val"];
 
   showConsoleColors(); Console.ForegroundColor = ConsoleColor.Gray; Console.WriteLine($"** POC:  [explanation]");
 
   if (DateTime.Now != DateTime.Today)
-    listSecretValues(new SecretClient(urlKV, new ClientSecretCredential(_dir0, cfg["akv:EntraKeyVaultPocWpfApp2025_AppId"], cfg["akv:EntraKeyVaultPocWpfApp2025_SeVal"])));
+    listSecretValues(new SecretClient(urlKV, new ClientSecretCredential(_dir0, cfg["akv:AppId"], cfg["akv:SeVal"])));
   else
   {
     listSecretValues(new SecretClient(urlKV, new ClientSecretCredential(_dir0, cfg["akv:Application_client_ID_2025"], cfg["akv:TestClientSecret5616_Value"])));

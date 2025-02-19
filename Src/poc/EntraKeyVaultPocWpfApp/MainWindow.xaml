@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:EntraKeyVaultPocWpfApp"
         Title="MainWindow" Height="450" Width="800" Loaded="OnLoaded">
   <Grid Margin="20">
-    <Viewbox>
+    <Viewbox Margin="0,-1,0,1">
       <TextBlock x:Name="tbk0" Text="Wait ... " FontFamily="Consolas"/>
     </Viewbox>
   </Grid>

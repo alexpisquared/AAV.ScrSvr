@@ -12,13 +12,12 @@ public partial class MainWindow : Window
 
   void SetupAndDisplaySecrets2020()
   {
-
     var cfg = new ConfigurationBuilder().AddUserSecrets<MainWindow>().Build();
 
     listSecretValues(new SecretClient(new Uri("https://demopockv.vault.azure.net/"), new ClientSecretCredential(
-      cfg["akv:Kv_Overview_DirectoryId"],
-      cfg["akv:EntraKeyVaultPocWpfApp2025_AppId"],
-      cfg["akv:EntraKeyVaultPocWpfApp2025_SeVal"])));
+      cfg["akv:DirId"],
+      cfg["akv:AppId"],
+      cfg["akv:SeVal"])));
   }
   void listSecretValues(SecretClient client)
   {
