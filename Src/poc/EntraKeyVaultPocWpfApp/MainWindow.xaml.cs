@@ -14,26 +14,31 @@ public partial class MainWindow : Window
   {
     var cfg = new ConfigurationBuilder().AddUserSecrets<MainWindow>().Build();
 
-    listSecretValues(new SecretClient(new Uri("https://demopockv.vault.azure.net/"), new ClientSecretCredential(
-      cfg["akv:DirId"],
-      cfg["akv:AppId"],
-      cfg["akv:SeVal"])));
-  }
-  void listSecretValues(SecretClient client)
-  {
-    tbk0.Text = (" All Secrets:     \n Name                             Value                                                                                             Type\n\n");
+    tbk0.Text = " All Secrets:     \n Name                             Value                                                                                             Type\n";
 
-    foreach (var secret in client.GetPropertiesOfSecrets())
+    for (int i = 0; i < 5; i++)
     {
-      try
+      tbk0.Text += $"\n{i} ■ \n{listSecretValues(new SecretClient(new Uri("https://demopockv.vault.azure.net/"), new ClientSecretCredential(cfg["roo:DirId"], cfg[$"app{i}:AppId"], cfg[$"app{i}:SeVal"])))}" ;
+    }
+  }
+
+  string listSecretValues(SecretClient client)
+  {
+    var rv = "";
+
+    try
+    {
+      foreach (var secret in client.GetPropertiesOfSecrets())
       {
         var secretValue = client.GetSecret(secret.Name);
-        
-        tbk0.Text += ($" {secret.Name,-32} ");
-        tbk0.Text += ($"{(secretValue.Value.Value.Length > 96 ? secretValue.Value.Value[..96][..96] : secretValue.Value.Value),-96}");
-        tbk0.Text += ($" {secretValue.Value.Properties.ContentType}\n");
+
+        rv += ($" {secret.Name,-32} ");
+        rv += ($"{(secretValue.Value.Value.Length > 96 ? secretValue.Value.Value[..96][..96] : secretValue.Value.Value),-96}");
+        rv += ($" {secretValue.Value.Properties.ContentType}\n");
       }
-      catch (Exception ex) { Trace.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); }
     }
+    catch (Exception ex) { Trace.WriteLine($"@@ {ex.Message.Replace("\n", " ").Replace("\r", " ")}"); return ex.Message; }
+
+    return rv;
   }
 }

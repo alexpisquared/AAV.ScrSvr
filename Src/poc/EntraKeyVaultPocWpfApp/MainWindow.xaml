@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:local="clr-namespace:EntraKeyVaultPocWpfApp"
-        Title="MainWindow" Height="450" Width="800" Loaded="OnLoaded">
+        Title="MainWindow" Height="450" Width="800" Loaded="OnLoaded" Background="#888">
   <Grid Margin="20">
     <Viewbox Margin="0,-1,0,1">
-      <TextBlock x:Name="tbk0" Text="Wait ... " FontFamily="Consolas"/>
+      <TextBlock x:Name="tbk0" Text="Wait ... " FontFamily="Consolas" Foreground="#00f"/>
     </Viewbox>
   </Grid>
 </Window>
