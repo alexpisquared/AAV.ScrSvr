@@ -12,7 +12,7 @@ public partial class MainNavView : WindowBase
   {
     InitializeComponent();
 
-    KeyDown        += (s, ves) => logger.LogInformation($"::       KeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.    PreviewKeyDown += (s, ves) => logger.LogInformation($"::PreviewKeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
+    KeyDown += (s, ves) => logger.LogInformation($"::       KeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.    PreviewKeyDown += (s, ves) => logger.LogInformation($"::PreviewKeyDown>>{ves} \t {ves.Key}"); //info: no effect in real life: does not have focus when launched by the Scheduler.
 
     KeepOpenReason = "";
 
@@ -61,7 +61,7 @@ public partial class MainNavView : WindowBase
   static void StretchToFill(Window window, Rectangle rectangle, int margin = 2)
   {
     window.WindowState = WindowState.Normal;
-    var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;
+    var k = Environment.MachineName.Contains("33") ? .799 : 1; // on 33 any bigger than .799 jumps to a superscale well beyond the screen boundaries .. like good 20%!
     window.Top = rectangle.Top * k - margin;
     window.Left = rectangle.Left * k - margin;
     window.Width = rectangle.Width * k + margin * 2;
