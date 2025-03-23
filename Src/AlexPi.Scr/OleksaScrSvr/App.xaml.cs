@@ -48,9 +48,35 @@ public partial class App : System.Windows.Application
     ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} {_audit}");
 
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
-    _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
+    _ = await mainVM.InitAsync();                 // blocking due to version checker.
+    FromOutlookCrashChecker();
     _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
   }
+  readonly DateTime _prevChange = DateTime.Now;
+  int f = 0;
+
+  async void FromOutlookCrashChecker()
+  {
+    if (!Environment.MachineName.Contains("33")) return;
+
+    double _periodInMin = 14;
+
+    while (true)
+    {
+      var dt = DateTime.Now - _prevChange;
+
+      if ((dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < (_periodInMin * 1 + 1)) ||
+          (dt.TotalMinutes > (_periodInMin * 2) && dt.TotalMinutes < (_periodInMin * 2 + 1)) ||
+          (dt.TotalMinutes > (_periodInMin * 3) && dt.TotalMinutes < (_periodInMin * 3 + 1)) ||
+          (dt.TotalMinutes > (_periodInMin * 4) && dt.TotalMinutes < (_periodInMin * 4 + 1))) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
+      {
+        WinAPI.Beep(200 + 800 * (f % 4), 240 / (1 + (f++ % 4)));
+      }
+
+      await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
+    }
+  }
+
   protected override async void OnExit(ExitEventArgs e)
   {
     LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
