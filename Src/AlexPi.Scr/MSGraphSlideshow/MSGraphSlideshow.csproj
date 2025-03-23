@@ -11,12 +11,12 @@
   <ItemGroup>
     <!-- Do not use newer version yet; this one is the latest which is working:
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" /> branch: MSGraph-5-fixing-streaming -->
-    <PackageReference Include="Microsoft.Graph" Version="5.71.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.74.0" />
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
     <PackageReference Include="LibVLCSharp" Version="3.9.2" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.2" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
