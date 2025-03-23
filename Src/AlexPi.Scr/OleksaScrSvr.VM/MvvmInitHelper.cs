@@ -87,7 +87,8 @@ public static class MvvmInitHelper
     "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
                    /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(), // home
     "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // razer1 or public
-    _              /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev
+    "NewDev"       /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev ?!?!?
+    _              /**/ => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // public
   };
 }
 
