@@ -12,7 +12,8 @@ public static class AppStartHelper
     _ = services.AddTransient(sp => new Contract.OleksaScrSvrModel());
 
     _ = services.AddSingleton<SpeechSynth>(sp => SpeechSynth.Factory(
-      sp.GetRequiredService<IConfigurationRoot>()["AppSecrets:MagicSpeech"] ?? throw new ArgumentNullException("\"AppSecrets:MagicSpeech\" ia not available."),
+      sp.GetRequiredService<IConfigurationRoot>()["AppSecrets:MagicSpeech"] ?? throw new ArgumentNullException("\"AppSecrets:MagicSpeech\" ia not available in " +
+        $"{sp.GetRequiredService<IConfigurationRoot>()["WhereAmI"]}."),
       sp.GetRequiredService<ILogger>()));
 
     OpenWeaWpfApp.AppStartHelper.InitOpenWeaServices(services);
