@@ -89,7 +89,11 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         add1stLast(a, b, sortedList, path);
       }
     }
-    catch (Exception ex) { ex.Pop(); }
+    catch (Exception ex)
+    {
+      new EvLogHelperBase().CheckCreateLogChannel(); // Mar 2025: added to 
+      ex.Pop("Must run AsAdmin for that!!!");
+    }
 
     return sortedList;
   }
@@ -902,7 +906,7 @@ Kernel-General 12 - up
 
       if (!/*VerHelper.*/IsVIP) return -1; // let go ctrl-alt-del
 
-      var dailyEvents =new  EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysback), DateTime.Now);
+      var dailyEvents = new EvLogHelper().GetAllUpDnEvents(DateTime.Today.AddDays(-daysback), DateTime.Now);
       return dailyEvents.Count > 0 ? await DbLogHelper.UpdateDbWithPotentiallyNewEvents(dailyEvents, Environment.MachineName, msg) : -2;
     }
     catch (Exception ex) { _ = ex.Log(); }
