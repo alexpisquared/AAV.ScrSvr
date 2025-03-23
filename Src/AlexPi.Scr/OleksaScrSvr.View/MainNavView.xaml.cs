@@ -44,9 +44,7 @@ public partial class MainNavView : WindowBase
     }
 
     StretchToFill(this, Environment.MachineName == "ASUS2" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
-    Topmost = Environment.CommandLine.Contains("Topmost");
-
-    //for (int i = 1; i <= max; i++) { await Task.Delay(60_000); Opacity = (double)i / max; }
+    Topmost = Environment.CommandLine.Contains("Topmost") || Environment.CommandLine.Contains("Schedule");
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }
