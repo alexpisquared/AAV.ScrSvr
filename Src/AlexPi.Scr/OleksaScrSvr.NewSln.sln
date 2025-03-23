@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelMeasure", "..\..\..\Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeaSvc", "..\..\..\Radar\Src\OpenWeather2022\OpenWeaSvc.csproj", "{5BD7D234-88AE-89D0-E79F-2780A790DF03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleksaScrSvr.View", "OleksaScrSvr.View\OleksaScrSvr.View.csproj", "{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -349,6 +351,18 @@ Global
 		{5BD7D234-88AE-89D0-E79F-2780A790DF03}.Release|x64.Build.0 = Release|x64
 		{5BD7D234-88AE-89D0-E79F-2780A790DF03}.Release|x86.ActiveCfg = Release|Any CPU
 		{5BD7D234-88AE-89D0-E79F-2780A790DF03}.Release|x86.Build.0 = Release|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|x64.ActiveCfg = Debug|x64
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|x64.Build.0 = Debug|x64
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Debug|x86.Build.0 = Debug|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|x64.ActiveCfg = Release|x64
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|x64.Build.0 = Release|x64
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|x86.ActiveCfg = Release|Any CPU
+		{18AB6DCC-3013-5EA1-3AE9-891DC539CEED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
