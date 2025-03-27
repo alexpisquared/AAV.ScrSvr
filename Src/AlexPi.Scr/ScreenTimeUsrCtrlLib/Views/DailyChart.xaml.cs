@@ -90,7 +90,7 @@ public partial class DailyChart
           JsonFileSerializer.Save<TimeSplit>(_dailyTimeSplit, filenameLocal, true);
         }
 
-        addUiElnt(.92 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = _dailyTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0)) });
+        addUiElnt(.92 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = _dailyTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0)) });
 
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         if (File.Exists(remoteLog))
@@ -98,7 +98,7 @@ public partial class DailyChart
           var remoteTimeSplit = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" };
           foreach (var wi in remoteTimeSplit.WorkIntervals) { addWkTimeSegment(wi.TimeA.DateTime, wi.TimeZ.DateTime, new SolidColorBrush(Color.FromArgb(152, 0, 0, 250))); }
 
-          addUiElnt(.0 * _ah, 0, new Rectangle { Height = .1 * _ah, Width = remoteTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255)), ToolTip = "???" });
+          addUiElnt(.0 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = remoteTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 194, 255)), ToolTip = "???" });
 
           tbDaySummaryLocal.Text += File.Exists(remoteLog) ? GetDaySummary(remoteTimeSplit) : "n/a";
         }
