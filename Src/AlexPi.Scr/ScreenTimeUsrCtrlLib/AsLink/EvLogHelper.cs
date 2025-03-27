@@ -79,8 +79,10 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
 
     try
     {
-      collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), (int)EvOfIntFlag.BootAndWakeUps);
-      collect(sortedList, qryBootAndWakeUps_ORGL(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+      if (Environment.MachineName.Contains("33"))
+        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+      else
+        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), (int)EvOfIntFlag.BootAndWakeUps);
       collect(sortedList, qryShutAndSleepDn(a, b), (int)EvOfIntFlag.ShutAndSleepDn);
       collect(sortedList, qryScrSvr(_ssrDn, a, b), (int)EvOfIntFlag.ScreenSaverrDn);
       collect(sortedList, qryScrSvr(_ssrUp, a, b), (int)EvOfIntFlag.ScreenSaverrUp);
