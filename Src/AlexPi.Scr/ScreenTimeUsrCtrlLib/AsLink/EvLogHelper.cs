@@ -79,7 +79,8 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
 
     try
     {
-      collect(sortedList, qryBootAndWakeUps(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+      collect(sortedList, qryBootAndWakeUps_ORGL(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+      collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), (int)EvOfIntFlag.BootAndWakeUps);
       collect(sortedList, qryShutAndSleepDn(a, b), (int)EvOfIntFlag.ShutAndSleepDn);
       collect(sortedList, qryScrSvr(_ssrDn, a, b), (int)EvOfIntFlag.ScreenSaverrDn);
       collect(sortedList, qryScrSvr(_ssrUp, a, b), (int)EvOfIntFlag.ScreenSaverrUp);
@@ -321,7 +322,13 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
   string qryPowerUpsDns(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General' or @Name='Microsoft-Windows-Kernel-Power'] and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
   string qryAll(string path, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{path}'><Select Path='{path}'>*[System[TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
-  string qryBootAndWakeUps(DateTime a, DateTime b) =>
+  string qryBootAndWakeUps_Ctrs(DateTime a, DateTime b) => $@"
+   <QueryList>
+    <Query Id='0' Path='System'>
+      <Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-IsolatedUserMode'] and (EventID=5) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select>
+    </Query>
+  </QueryList>";
+  string qryBootAndWakeUps_ORGL(DateTime a, DateTime b) =>
 //Both wake and boot up:           Kernel-General 12 - up   	OR      Power-TroubleShooter 1 
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID={_bootUp_12} or EventID={_syTime_01})) or 
@@ -442,10 +449,21 @@ Kernel-General 12 - up
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr00ofTheDate;
-    var qry = qryBootAndWakeUps(hr00ofTheDate, hr24ofTheDate);
+    var qryO = qryBootAndWakeUps_ORGL(hr00ofTheDate, hr24ofTheDate);
+    var qryC = qryBootAndWakeUps_Ctrs(hr00ofTheDate, hr24ofTheDate);
+
     try
     {
-      using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, qry));
+      using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, qryC));
+      for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
+        if (rv < er.TimeCreated.Value)
+          rv = er.TimeCreated.Value;
+    }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+
+    try
+    {
+      using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, qryO));
       for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
