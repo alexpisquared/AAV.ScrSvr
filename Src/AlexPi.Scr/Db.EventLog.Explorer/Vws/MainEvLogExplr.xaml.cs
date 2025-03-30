@@ -63,4 +63,8 @@ public partial class MainEvLogExplr
   }
 
   void SendToBack() => SetWindowPos(new System.Windows.Interop.WindowInteropHelper(this).Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+
+  void OnViewTable(object sender, RoutedEventArgs e) { new RODBView("", _logger).ShowDialog(); } // not sure if it'll work without a db file.
+
+  void OnClose(object sender, RoutedEventArgs e) { Close(); }
 }

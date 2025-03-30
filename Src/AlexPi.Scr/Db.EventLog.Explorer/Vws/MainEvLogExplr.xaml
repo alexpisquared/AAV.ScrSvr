@@ -28,7 +28,9 @@
       </Grid>
       <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" FontSize="20" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
       <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="10 0" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
-      <Button Content="X" HorizontalAlignment="Right" IsCancel="True" VerticalAlignment="Top"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" />
+
+      <Button Content="■" HorizontalAlignment="Right" IsDefault="True" VerticalAlignment="Bottom"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnViewTable" />
+      <Button Content="X" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Top"     Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnClose"/>
       
       <Rectangle Fill="Transparent" Tag="MouseDragger" Height="36" Margin="-10" Cursor="Hand" VerticalAlignment="Top" />
     </Grid>

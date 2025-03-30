@@ -6,7 +6,7 @@ public partial class DailyChart
   double _ah = 30, _aw = 30;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28)), cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
 
-  public DailyChart(DateTime trgDate, SortedList<DateTime, int> thisDayEois)
+  public DailyChart(DateTime trgDate, SortedList<DateTime, EventOfInterestFlag> thisDayEois)
   {
     InitializeComponent();
 
@@ -18,7 +18,7 @@ public partial class DailyChart
       while (canvasBar.ActualWidth <= 0) await Task.Delay(1); await Task.Delay(1);        // odd shorter 1at time without this line.
 
       if (trgDate >= DateTime.Today)
-        _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.StillWorkingOn); // current moment of checking the stuff for today.
+        _thisDayEois.Add(DateTime.Now, EventOfInterestFlag.NowBusy); // current moment of checking the stuff for today.
 
       await ClearDrawAllSegmentsForSinglePC();
 
@@ -59,23 +59,24 @@ public partial class DailyChart
         if (trgDate >= DateTime.Today) // if today, add current moment to the list.
         {
           _thisDayEois.RemoveAt(_thisDayEois.Count - 1);
-          _thisDayEois.Add(DateTime.Now, (int)EvOfIntFlag.StillWorkingOn); // current moment of checking the stuff for today.
+          _thisDayEois.Add(DateTime.Now, EventOfInterestFlag.NowBusy); // current moment of checking the stuff for today.
         }
 
         var eoi0 = _thisDayEois.FirstOrDefault();
-        var prevEoiF = eoi0.Value == (int)EvOfIntFlag.ScreenSaverrDn ? EvOfIntFlag.ScreenSaverrUp :
-                       eoi0.Value == (int)EvOfIntFlag.BootAndWakeUps ? EvOfIntFlag.ShutAndSleepDn : EvOfIntFlag.Day1stAmbiguos;
+        var prevEoiF = eoi0.Value == EventOfInterestFlag.IdleFinish ? EventOfInterestFlag.IdleBegin :
+                       eoi0.Value == EventOfInterestFlag.PowerOn ? EventOfInterestFlag.PowerOff : EventOfInterestFlag.Day1stMaybe;
 
+        _dayTableReport = "";
         foreach (var eoi in _thisDayEois)
         {
-          addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, (EvOfIntFlag)eoi.Value, pcClr);
+          _dayTableReport += addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, (EventOfInterestFlag)eoi.Value, pcClr);
 
           TrgDateC = eoi.Key;
-          prevEoiF = (EvOfIntFlag)eoi.Value;
+          prevEoiF = eoi.Value;
         }
 
-        var lastScvrUp = (_thisDayEois.Any(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)) ?
-                        _thisDayEois.Where(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)).Last() : _thisDayEois.Last()).Key;
+        var lastScvrUp = (_thisDayEois.Any(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)) ?
+                        _thisDayEois.Where(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)).Last() : _thisDayEois.Last()).Key;
 
         var finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
@@ -90,7 +91,7 @@ public partial class DailyChart
           JsonFileSerializer.Save<TimeSplit>(_dailyTimeSplit, filenameLocal, true);
         }
 
-        addUiElnt(.92 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = _dailyTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0))});
+        addUiElnt(.92 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = _dailyTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(255, 255, 0)) });
 
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         if (File.Exists(remoteLog))
@@ -136,15 +137,15 @@ public partial class DailyChart
   }
 
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
-  void addWkTimeSegment(DateTime timeA, DateTime timeB, EvOfIntFlag eoiA, EvOfIntFlag eoiB, Brush brh)
+  string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
-    if (eoiA == EvOfIntFlag.ScreenSaverrUp && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
-    if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.ScreenSaverrDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd pwr-on during scrsvr runs.
-    if (eoiA == EvOfIntFlag.BootAndWakeUps && eoiB == EvOfIntFlag.BootAndWakeUps) eoiB = EvOfIntFlag.ShutAndSleepDn; // ignore odd pwr-on during scrsvr runs. 2023-04
-    if (eoiA == EvOfIntFlag.ScreenSaverrDn && eoiB == EvOfIntFlag.ShutAndSleepDn) eoiA = EvOfIntFlag.ScreenSaverrUp; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
+    if (eoiA == EventOfInterestFlag.IdleBegin && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
+    if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.IdleFinish) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
+    if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.PowerOff; // ignore odd pwr-on during scrsvr runs. 2023-04
+    if (eoiA == EventOfInterestFlag.IdleFinish && eoiB == EventOfInterestFlag.PowerOff) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
 
-    var tA = eoiA == EvOfIntFlag.ScreenSaverrUp ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
-    var tB = eoiB == EvOfIntFlag.ScreenSaverrUp ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
+    var tA = eoiA == EventOfInterestFlag.IdleBegin ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
+    var tB = eoiB == EventOfInterestFlag.IdleBegin ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
 
     var dTime = tB - tA;
 
@@ -152,13 +153,13 @@ public partial class DailyChart
     var yB = _aw * tB.TotalDays; // for ss dn - end   work line 2 min prior
 
     var hgt =
-      eoiA == EvOfIntFlag.Day1stAmbiguos ? (_ah / 9) :
-      eoiA == EvOfIntFlag.ScreenSaverrUp ? (_ah / 4) :
-      eoiA == EvOfIntFlag.ScreenSaverrDn ? (_ah / 1) :
-      eoiA == EvOfIntFlag.BootAndWakeUps ? (_ah / 1) :
-      eoiA == EvOfIntFlag.Who_Knows_What ? (_ah / 8) : 0;
+      eoiA == EventOfInterestFlag.Day1stMaybe ? (_ah / 9) :
+      eoiA == EventOfInterestFlag.IdleBegin ? (_ah / 4) :
+      eoiA == EventOfInterestFlag.IdleFinish ? (_ah / 1) :
+      eoiA == EventOfInterestFlag.PowerOn ? (_ah / 1) :
+      eoiA == EventOfInterestFlag.Who_Knows_What ? (_ah / 8) : 0;
 
-    var isLabor = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
+    var isLabor = eoiA is EventOfInterestFlag.IdleFinish or EventOfInterestFlag.PowerOn;
     if (isLabor)
     {
       _dailyTimeSplit.WorkedFor += dTime;
@@ -168,20 +169,18 @@ public partial class DailyChart
     else
       _dailyTimeSplit.IdleOrOff += dTime;
 
-    var isUp = eoiA is EvOfIntFlag.ScreenSaverrDn or EvOfIntFlag.BootAndWakeUps;
+    var isUp = eoiA is EventOfInterestFlag.IdleFinish or EventOfInterestFlag.PowerOn;
     var top = _ah - hgt;
     var wid = Math.Abs(yB - yA);
 
-    var tooltip = $"{(isUp ? $"+++ " : $"--- ")} \n {tA,8:h\\:mm\\:ss} - {tB,8:h\\:mm\\:ss} = {dTime,8:h\\:mm\\:ss} ";
-    var report1 = $">>> from {eoiA} to {eoiB}    {(isLabor ? "++" : "--")}";
-
-    //if (isLabor)
-    var report2 = $"{tooltip.Replace("\n", " ")}    + {(isLabor ? dTime.ToString("hh\\:mm") : "")} = {(isLabor ? _dailyTimeSplit.WorkedFor.ToString("hh\\:mm") : "")}";
+    var tooltip = $"{(isUp ? $"!" : $" ")}\n\t{tA,8:h\\:mm\\:ss}÷{tB,8:h\\:mm\\:ss}:" + (dTime.TotalHours > 1 ? $"{dTime,7:h\\:mm\\:ss}" : dTime.TotalMinutes > 1 ? $"{dTime,8:m\\:ss}" : $"{dTime.TotalSeconds,8:N0}");
+    var report1 = $"{eoiA,-10}÷{eoiB,-10} {tooltip.Replace("\n", " ")}";
+    var report2 = $"\t{(isLabor ? _dailyTimeSplit.WorkedFor.ToString("h\\:mm\\:ss") : "     ")}";
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);
 
     if (wid <= 10)
-      report2 += $"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ";
+      ; // report2 += $"                    ==> width too small to add TEXT to UI: {dTime.TotalMinutes,5:N1} min  =>  {wid:N3} pxl ";
     else
     {
       var isOver1hr = dTime > TimeSpan.FromHours(1);
@@ -198,7 +197,8 @@ public partial class DailyChart
         });
     }
 
-    if (Debugger.IsAttached) Write($"{report1} {report2}\n");
+    if (Debugger.IsAttached) Write($"{report1}{report2}\n");
+    return $"{report1}{report2}\n";
   }
   void addWkTimeSegment(DateTime timeA, DateTime timeB, Brush brh)
   {
@@ -222,7 +222,10 @@ public partial class DailyChart
   #region DUPE_FROM  C:\C\Lgc\ScrSvrs\AlexPi.Scr\App.xaml.cs
   const int GraceEvLogAndLockPeriodSec = 60;
   static int _ssto = -1;
-  readonly SortedList<DateTime, int> _thisDayEois;
+  private string _dayTableReport;
+  readonly SortedList<DateTime, EventOfInterestFlag> _thisDayEois;
+
+  void OnShowDayTableReport(object sender, RoutedEventArgs e) { Clipboard.SetText(_dayTableReport); MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK); }
 
   //// [Obsolete] :why Copilot decides to mark it such?
   public static int ScrSvrTimeoutSec

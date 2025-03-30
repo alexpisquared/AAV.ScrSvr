@@ -30,7 +30,7 @@ public partial class ScreenTimeUsrCtrl
       for (var i = 0; i < daysBack; i++)
       {
         var day_i = DateTime.Today.AddDays(-i);
-        var sortedEois = new SortedList<DateTime, int>();
+        var sortedEois = new SortedList<DateTime, EventOfInterestFlag>();
         eois.Where(r => day_i < r.Key && r.Key < day_i.AddDays(.9999999)).ToList().ForEach(r => sortedEois.Add(r.Key, r.Value));
         if (sortedEois.Count > 0)
         {

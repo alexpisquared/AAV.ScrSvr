@@ -12,12 +12,12 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
 {
   const int _ssrUp = 7101, _ssrDn = 7102, _bootUp_12 = 12, _bootDn_13 = 13, _syTime_01 = 1; // when waking from hibernation: 12 is nowhere to be seen, 1 is there.
 
-  readonly string[] _paths = new[] { _app, _sys };
+  readonly string[] _paths = [_app, _sys];
 
   public async Task<double> GetWkSpanForTheDay(DateTime trgDate)
   {
     double rv = 0;
-    await Task<SortedList<DateTime, int>>.Run(() => GetEoisForTheDay(trgDate)).ContinueWith(_ =>
+    await Task<SortedList<DateTime, EventOfInterestFlag>>.Run(() => GetEoisForTheDay(trgDate)).ContinueWith(_ =>
     {
       var eois = _.Result;
       if (eois.Any())
@@ -35,8 +35,8 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
           lastScvrUp = (DateTime.Now - trgDate).TotalHours < 24
             ? DateTime.Now
             : (
-                        eois.Any(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)) ?
-                      eois.Where(r => r.Value is ((int)EvOfIntFlag.ScreenSaverrUp) or ((int)EvOfIntFlag.ShutAndSleepDn)).Last() : eois.Last()).Key;
+                        eois.Any(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)) ?
+                      eois.Where(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)).Last() : eois.Last()).Key;
 
           rv = ((lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key).TotalHours;
         }
@@ -72,25 +72,28 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     return rv;
   }
 
-  public SortedList<DateTime, int> GetEoisForTheDay(DateTime trgDate) => GetAllUpDnEvents(trgDate, trgDate.AddDays(.999999));
-  public SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b)
+  public SortedList<DateTime, EventOfInterestFlag> GetEoisForTheDay(DateTime trgDate) => GetAllUpDnEvents(trgDate, trgDate.AddDays(.999999));
+  public SortedList<DateTime, EventOfInterestFlag> GetAllUpDnEvents(DateTime a, DateTime b)
   {
-    var sortedList = new SortedList<DateTime, int>();
+    var sortedList = new SortedList<DateTime, EventOfInterestFlag>();
 
     try
     {
       if (Environment.MachineName.Contains("33"))
-        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), (int)EvOfIntFlag.BootAndWakeUps);
+        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.PowerOn);
       else
-        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), (int)EvOfIntFlag.BootAndWakeUps);
-      collect(sortedList, qryShutAndSleepDn(a, b), (int)EvOfIntFlag.ShutAndSleepDn);
-      collect(sortedList, qryScrSvr(_ssrDn, a, b), (int)EvOfIntFlag.ScreenSaverrDn);
-      collect(sortedList, qryScrSvr(_ssrUp, a, b), (int)EvOfIntFlag.ScreenSaverrUp);
+        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
+      collect(sortedList, qryShutAndSleepDn(a, b), EventOfInterestFlag.PowerOff);
+      collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.IdleFinish);
+      collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBegin);
+
+      foreach (var e in sortedList) WriteLine($"■ {e.Key:yy-MM-dd HH:mm:ss} - {e.Value,-16}");
 
       foreach (var path in _paths)
       {
         add1stLast(a, b, sortedList, path);
       }
+      foreach (var e in sortedList) WriteLine($"· {e.Key:yy-MM-dd HH:mm:ss} - {e.Value,-16}");
     }
     catch (Exception ex)
     {
@@ -101,7 +104,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     return sortedList;
   }
 
-  void add1stLast(DateTime a, DateTime b, SortedList<DateTime, int> lst, string path)
+  void add1stLast(DateTime a, DateTime b, SortedList<DateTime, EventOfInterestFlag> lst, string path)
   {
     return; // no events found
     (var min, var max) = get1rstLastEvents(qryAll(path, a, b));
@@ -109,27 +112,27 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
       return; // no events found
 
     if (lst.Count < 1)
-      lst.Add(min, (int)EvOfIntFlag.Day1stAmbiguos);
+      lst.Add(min, EventOfInterestFlag.Day1stMaybe);
     else
     {
       if ((lst.Min(r => r.Key) - min).TotalSeconds > +30) // only if > 30 sec
-        lst.Add(min, (int)EvOfIntFlag.Day1stAmbiguos);
+        lst.Add(min, EventOfInterestFlag.Day1stMaybe);
       else
         Debug.Write(" +???* ");
     }
 
     if (lst.Count < 1)
-      lst.Add(max, (int)EvOfIntFlag.ShutAndSleepDn);
+      lst.Add(max, EventOfInterestFlag.PowerOff);
     else
     {
       if ((lst.Max(r => r.Key) - max).TotalSeconds < -30)
-        lst.Add(max, (int)EvOfIntFlag.ShutAndSleepDn); // any idea what is that for? It adds a ShuDn event ~5 min ago from now ... but why? (Mar2019)
+        lst.Add(max, EventOfInterestFlag.PowerOff); // any idea what is that for? It adds a ShuDn event ~5 min ago from now ... but why? (Mar2019)
       else
         Debug.WriteLine("-???");
     }
   }
 
-  void collect(SortedList<DateTime, int> lst, string qry, int evOfIntFlag)
+  void collect(SortedList<DateTime, EventOfInterestFlag> lst, string qry, EventOfInterestFlag evOfIntFlag)
   {
     using var reader = GetELReader(qry);
     for (var ev = reader.read(); ev != null; ev = reader.read())
