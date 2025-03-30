@@ -379,6 +379,7 @@ Kernel-General 12 - up
 
 */
 
+  public int SystemIdleTimeoutInSec = 240;
   int _ssto = -1; public int GetSstoFromRegistry // ScreenSaveTimeOut 
   {
     get
@@ -493,7 +494,7 @@ Kernel-General 12 - up
     }
     catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
 
-    return rv.AddSeconds(-GetSstoFromRegistry); // actually - earlier.
+    return rv.AddSeconds(-SystemIdleTimeoutInSec); // actually - earlier.
   }
   public DateTime GetDaysLastSsDnTime(DateTime hr00ofTheDate)
   {
@@ -537,7 +538,7 @@ Kernel-General 12 - up
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID &gt;= {_ssrUp} and EventID &lt;= {_ssrDn}) ) and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
-    var tssec = TimeSpan.FromSeconds(GetSstoFromRegistry);
+    var tssec = TimeSpan.FromSeconds(SystemIdleTimeoutInSec);
 
     using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
     {

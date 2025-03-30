@@ -234,7 +234,7 @@ public partial class DailyChart
     {
       if (_ssto == -1)
       {
-        _ssto = new EvLogHelper().GetSstoFromRegistry;
+        _ssto = new EvLogHelper().SystemIdleTimeoutInSec;
       }
 
       return _ssto;
