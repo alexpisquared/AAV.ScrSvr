@@ -1,7 +1,7 @@
 ﻿namespace UpTimeChart;
 public partial class DailyChart
 {
-  readonly double _updatePeriodMin = StandardLib.Helpers.DevOps.IsDbg ? .1 : 1.0;
+  readonly double _updatePeriodMin = DevOps.IsDbg ? 10.0 : 5.0;
   TimeSplit _dailyTimeSplit = new();
   double _ah = 30, _aw = 30;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28)), cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
@@ -140,7 +140,7 @@ public partial class DailyChart
   string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
     if (eoiA == EventOfInterestFlag.IdleBegin && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
-    if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.IdleFinish) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
+    //!!!!!!! 2025-04 if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.IdleFinish) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
     if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.PowerOff; // ignore odd pwr-on during scrsvr runs. 2023-04
     if (eoiA == EventOfInterestFlag.IdleFinish && eoiB == EventOfInterestFlag.PowerOff) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
 

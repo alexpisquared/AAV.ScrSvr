@@ -79,7 +79,7 @@ public partial class App : System.Windows.Application
 
   protected override async void OnExit(ExitEventArgs e)
   {
-    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
+    LogScrSvrUptimeOncePerSession("ScrSvr down - OnExit.");
 
     //tmi: ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
 
