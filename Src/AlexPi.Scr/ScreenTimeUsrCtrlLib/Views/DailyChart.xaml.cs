@@ -63,7 +63,7 @@ public partial class DailyChart
         }
 
         var eoi0 = _thisDayEois.FirstOrDefault();
-        var prevEoiF = eoi0.Value == EventOfInterestFlag.IdleFinish ? EventOfInterestFlag.IdleBegin :
+        var prevEoiF = eoi0.Value == EventOfInterestFlag.IdleEnd ? EventOfInterestFlag.IdleBgn :
                        eoi0.Value == EventOfInterestFlag.PowerOn ? EventOfInterestFlag.PowerOff : EventOfInterestFlag.Day1stMaybe;
 
         _dayTableReport = "";
@@ -75,8 +75,8 @@ public partial class DailyChart
           prevEoiF = eoi.Value;
         }
 
-        var lastScvrUp = (_thisDayEois.Any(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)) ?
-                        _thisDayEois.Where(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)).Last() : _thisDayEois.Last()).Key;
+        var lastScvrUp = (_thisDayEois.Any(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)) ?
+                        _thisDayEois.Where(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)).Last() : _thisDayEois.Last()).Key;
 
         var finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
@@ -139,13 +139,13 @@ public partial class DailyChart
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
   string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
-    if (eoiA == EventOfInterestFlag.IdleBegin && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
+    if (eoiA == EventOfInterestFlag.IdleBgn && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.IdleBgn; // ignore odd pwr-on during scrsvr runs.
     //!!!!!!! 2025-04 if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.IdleFinish) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
     if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.PowerOn) eoiB = EventOfInterestFlag.PowerOff; // ignore odd pwr-on during scrsvr runs. 2023-04
-    if (eoiA == EventOfInterestFlag.IdleFinish && eoiB == EventOfInterestFlag.PowerOff) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
+    if (eoiA == EventOfInterestFlag.IdleEnd && eoiB == EventOfInterestFlag.PowerOff) eoiA = EventOfInterestFlag.IdleBgn; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
 
-    var tA = eoiA == EventOfInterestFlag.IdleBegin ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
-    var tB = eoiB == EventOfInterestFlag.IdleBegin ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
+    var tA = eoiA == EventOfInterestFlag.IdleBgn ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
+    var tB = eoiB == EventOfInterestFlag.IdleBgn ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
 
     var dTime = tB - tA;
 
@@ -154,12 +154,12 @@ public partial class DailyChart
 
     var hgt =
       eoiA == EventOfInterestFlag.Day1stMaybe ? (_ah / 9) :
-      eoiA == EventOfInterestFlag.IdleBegin ? (_ah / 4) :
-      eoiA == EventOfInterestFlag.IdleFinish ? (_ah / 1) :
+      eoiA == EventOfInterestFlag.IdleBgn ? (_ah / 4) :
+      eoiA == EventOfInterestFlag.IdleEnd ? (_ah / 1) :
       eoiA == EventOfInterestFlag.PowerOn ? (_ah / 1) :
       eoiA == EventOfInterestFlag.Who_Knows_What ? (_ah / 8) : 0;
 
-    var isLabor = eoiA is EventOfInterestFlag.IdleFinish or EventOfInterestFlag.PowerOn;
+    var isLabor = eoiA is EventOfInterestFlag.IdleEnd or EventOfInterestFlag.PowerOn;
     if (isLabor)
     {
       _dailyTimeSplit.WorkedFor += dTime;
@@ -169,12 +169,12 @@ public partial class DailyChart
     else
       _dailyTimeSplit.IdleOrOff += dTime;
 
-    var isUp = eoiA is EventOfInterestFlag.IdleFinish or EventOfInterestFlag.PowerOn;
+    var isUp = eoiA is EventOfInterestFlag.IdleEnd or EventOfInterestFlag.PowerOn;
     var top = _ah - hgt;
     var wid = Math.Abs(yB - yA);
 
-    var tooltip = $"{(isUp ? $"!" : $" ")}\n\t{tA,8:h\\:mm\\:ss}÷{tB,8:h\\:mm\\:ss}:" + (dTime.TotalHours > 1 ? $"{dTime,7:h\\:mm\\:ss}" : dTime.TotalMinutes > 1 ? $"{dTime,8:m\\:ss}" : $"{dTime.TotalSeconds,8:N0}");
-    var report1 = $"{eoiA,-10}÷{eoiB,-10} {tooltip.Replace("\n", " ")}";
+    var tooltip = $"{tA,8:h\\:mm\\:ss}÷{tB,8:h\\:mm\\:ss} {(isUp ? $"+" : $" ")}" + (dTime.TotalHours > 1 ? $"{dTime,7:h\\:mm\\:ss}" : dTime.TotalMinutes > 1 ? $"{dTime,8:m\\:ss}" : $"{dTime.TotalSeconds,8:N0}");
+    var report1 = $"{eoiA,-8} {eoiB,-8}\t{tooltip.Replace("\n", " ").Replace("\t", " ")}";
     var report2 = $"\t{(isLabor ? _dailyTimeSplit.WorkedFor.ToString("h\\:mm\\:ss") : "     ")}";
 
     addRectangle(top, hgt, yA, wid, brh, tooltip);

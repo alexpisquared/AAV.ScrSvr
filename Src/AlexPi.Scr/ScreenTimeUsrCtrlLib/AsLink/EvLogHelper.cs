@@ -35,8 +35,8 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
           lastScvrUp = (DateTime.Now - trgDate).TotalHours < 24
             ? DateTime.Now
             : (
-                        eois.Any(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)) ?
-                      eois.Where(r => r.Value is (EventOfInterestFlag.IdleBegin) or (EventOfInterestFlag.PowerOff)).Last() : eois.Last()).Key;
+                        eois.Any(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)) ?
+                      eois.Where(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)).Last() : eois.Last()).Key;
 
           rv = ((lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key).TotalHours;
         }
@@ -84,8 +84,8 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
       else
         collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
       collect(sortedList, qryShutAndSleepDn(a, b), EventOfInterestFlag.PowerOff);
-      collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.IdleFinish);
-      collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBegin);
+      collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.IdleEnd);
+      collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBgn);
 
       foreach (var e in sortedList) WriteLine($"■ {e.Key:yy-MM-dd HH:mm:ss} - {e.Value,-16}");
 
