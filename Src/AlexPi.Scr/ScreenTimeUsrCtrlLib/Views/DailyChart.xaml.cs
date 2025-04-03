@@ -69,14 +69,14 @@ public partial class DailyChart
         _dayTableReport = "";
         foreach (var eoi in _thisDayEois)
         {
-          _dayTableReport += addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, (EventOfInterestFlag)eoi.Value, pcClr);
+          _dayTableReport += addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, eoi.Value, pcClr);
 
           TrgDateC = eoi.Key;
           prevEoiF = eoi.Value;
         }
 
-        var lastScvrUp = (_thisDayEois.Any(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)) ?
-                        _thisDayEois.Where(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)).Last() : _thisDayEois.Last()).Key;
+        var lastScvrUp = (_thisDayEois.Any(r => r.Value is EventOfInterestFlag.IdleBgn or EventOfInterestFlag.PowerOff) ?
+                        _thisDayEois.Where(r => r.Value is EventOfInterestFlag.IdleBgn or EventOfInterestFlag.PowerOff).Last() : _thisDayEois.Last()).Key;
 
         var finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
@@ -225,7 +225,7 @@ public partial class DailyChart
   private string _dayTableReport;
   readonly SortedList<DateTime, EventOfInterestFlag> _thisDayEois;
 
-  void OnShowDayTableReport(object sender, RoutedEventArgs e) { Clipboard.SetText(_dayTableReport); MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK); }
+  void OnShowDayTableReport(object sender, RoutedEventArgs e) { Clipboard.SetText(_dayTableReport); _ = MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK); }
 
   //// [Obsolete] :why Copilot decides to mark it such?
   public static int ScrSvrTimeoutSec
