@@ -87,13 +87,8 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
       collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.IdleEnd);
       collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBgn);
 
-      foreach (var e in sortedList) WriteLine($"■ {e.Key:yy-MM-dd HH:mm:ss} - {e.Value,-16}");
-
-      foreach (var path in _paths)
-      {
-        add1stLast(a, b, sortedList, path);
-      }
-      foreach (var e in sortedList) WriteLine($"· {e.Key:yy-MM-dd HH:mm:ss} - {e.Value,-16}");
+      var prev = sortedList.First().Key;
+      foreach (var e in sortedList) { WriteLine($"  {e.Key:yy-MM-dd HH:mm:ss.fffffff}   {(e.Key - prev).TotalSeconds,10:N0}   {e.Value,-16}"); prev = e.Key; }
     }
     catch (Exception ex)
     {

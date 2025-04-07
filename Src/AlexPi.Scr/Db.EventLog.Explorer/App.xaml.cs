@@ -1,4 +1,6 @@
-﻿namespace Db.EventLog.Explorer;
+﻿using System.Windows.Shapes;
+
+namespace Db.EventLog.Explorer;
 
 public partial class App : Application
 {
@@ -17,6 +19,13 @@ public partial class App : Application
       //todo: use serilog:
       AAV.Sys.Helpers.Tracer.SetupTracingOptions("EvLogExplr", new TraceSwitch("OnlyUsedWhenInConfig", "This is the trace for all               messages... but who cares?") { Level = TraceLevel.Verbose });
       //tmi: WriteLine($"\r\n{DateTime.Now:yyyy-MM-dd HH:mm:ss.f} App.OnStartup() -- e.Args.Length:{e.Args.Length}, e.Args[0]:{e.Args.FirstOrDefault()}, {Environment.CommandLine}");
+
+      if (Debugger.IsAttached) // :for auto time tracker 
+      {
+        var eois = new EvLogHelper().GetAllUpDnEvents(new DateTime(2025, 4, 5, 12, 30, 0), new DateTime(2025, 4, 6, 13, 30, 0));
+        Debugger.Break();
+        Shutdown();
+      }
 
       if (e.Args.Length > 0 && File.Exists(e.Args.First()))
         new RODBView(e.Args.First(), SeriLogHelper.CreateLogger<RODBView>("EventLog.Explorer", "+Info -Verb +Infi")).ShowDialog();
