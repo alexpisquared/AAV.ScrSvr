@@ -88,7 +88,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
       collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBgn);
 
       var prev = sortedList.First().Key;
-      foreach (var e in sortedList) { WriteLine($"  {e.Key:yy-MM-dd HH:mm:ss.fffffff}   {(e.Key - prev).TotalSeconds,10:N0}   {e.Value,-16}"); prev = e.Key; }
+      foreach (var e in sortedList) { WriteLine($"  {e.Key:yy-MM-dd HH:mm:ss.fffffff}   {e.Value,-12}\\{(e.Key - prev).TotalSeconds,11:N1} s"); prev = e.Key; }
     }
     catch (Exception ex)
     {
