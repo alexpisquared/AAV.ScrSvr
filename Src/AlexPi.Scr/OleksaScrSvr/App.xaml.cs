@@ -59,21 +59,22 @@ public partial class App : System.Windows.Application
   async void FromOutlookCrashChecker()
   {
     if (!Environment.MachineName.Contains("33")) { return; }
+
+    var bpr = ServiceProvider.GetRequiredService<IBpr>();
     double _periodInMin = 14;
 
-    while (true)
+    for (int i = 0; i < 2_500; i++)
     {
       TimeSpan dt = DateTime.Now - _prevChange;
 
-      if ((dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < ((_periodInMin * 1) + 1)) ||
-          (dt.TotalMinutes > (_periodInMin * 2) && dt.TotalMinutes < ((_periodInMin * 2) + 1)) ||
-          (dt.TotalMinutes > (_periodInMin * 3) && dt.TotalMinutes < ((_periodInMin * 3) + 1)) ||
-          (dt.TotalMinutes > (_periodInMin * 4) && dt.TotalMinutes < ((_periodInMin * 4) + 1))) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
+      if (dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < ((_periodInMin * 1) + 1)) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
       {
         _ = WinAPI.Beep(200 + (800 * (f % 4)), 240 / (1 + (f++ % 4)));
       }
 
       await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
+      if (i == 2)
+        bpr.Start();
     }
   }
 
