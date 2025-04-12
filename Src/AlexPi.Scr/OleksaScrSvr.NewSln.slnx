@@ -32,6 +32,9 @@
   <Project Path="../../../AAV.Shared/Src/NetLts/StandardLib/StandardLib.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="../../../AAV.Shared/Src/NetLts/WinFormsControlLib/WinFormsControlLib.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="../../../AAV.Shared/Src/NetLts/WpfUserControlLib/WpfUserControlLib.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
