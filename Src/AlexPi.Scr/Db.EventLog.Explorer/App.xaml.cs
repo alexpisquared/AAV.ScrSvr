@@ -22,7 +22,7 @@ public partial class App : Application
 
       if (Debugger.IsAttached) // :for auto time tracker 
       {
-        var eois = new EvLogHelper().GetAllUpDnEvents(new DateTime(2025, 4, 5, 12, 30, 0), new DateTime(2025, 4, 6, 13, 30, 0));
+        var eois = new EvLogHelper().GetAllUpDnEvents(new DateTime(2025, 4, 10, 12, 30, 0), new DateTime(2025, 4, 12, 18, 30, 0)); // on MinisForum Windows update wiped out the event log on 2025-04-12 1730.
         Debugger.Break();
         Shutdown();
       }
