@@ -81,6 +81,11 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     {
       if (Environment.MachineName.Contains("33"))
         collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.PowerOn);
+      else if (Environment.MachineName.Contains("MINISFORUM1"))
+      {
+        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.PowerOn);
+        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
+      }
       else
         collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
       collect(sortedList, qryShutAndSleepDn(a, b), EventOfInterestFlag.PowerOff);
