@@ -99,7 +99,7 @@ public partial class DailyChart
           var remoteTimeSplit = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" };
           foreach (var wi in remoteTimeSplit.WorkIntervals) { addWkTimeSegment(wi.TimeA.DateTime, wi.TimeZ.DateTime, new SolidColorBrush(Color.FromArgb(152, 0, 0, 250))); }
 
-          addUiElnt(.0 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = remoteTimeSplit.WorkedFor.TotalDays * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 194, 255)), ToolTip = "???" });
+          addUiElnt(.0 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = Math.Abs(remoteTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 194, 255)), ToolTip = "???" });
 
           tbDaySummaryLocal.Text += File.Exists(remoteLog) ? GetDaySummary(remoteTimeSplit) : "n/a";
         }
