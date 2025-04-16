@@ -74,7 +74,7 @@ public partial class App : System.Windows.Application
 
       await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
       if (i == 2)
-        bpr.Start();
+        await bpr.WaveAsync3k8k4();
     }
   }
 
