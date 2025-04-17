@@ -4,7 +4,7 @@
                        xmlns:stm="clr-namespace:ScreenTimeUsrCtrlLib.Views;assembly=ScreenTimeUsrCtrlLib" x:Class="OleksaScrSvr.View.UnitF1View" mc:Ignorable="d"
                        d:DesignHeight="180" d:DesignWidth="1800" x:Name="wnd" Loaded="OnLoadedBase">
   <Grid>
-    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="SizeAll" CornerRadius="10" BorderThickness="1.5" Background="#001" BorderBrush="#00a" />
 
     <stm:ScreenTimeUsrCtrl Margin="10 10 1 1" DaysBack="8" DelaySec="0"  Name="stuc"/>
 

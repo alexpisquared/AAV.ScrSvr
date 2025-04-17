@@ -78,7 +78,7 @@ public partial class App : System.Windows.Application
     }
   }
 
-  protected override async void OnExit(ExitEventArgs e)
+  protected override void OnExit(ExitEventArgs e)
   {
     LogScrSvrUptimeOncePerSession("ScrSvr down - OnExit.");
 
@@ -95,7 +95,7 @@ public partial class App : System.Windows.Application
       LogAllLevels(ServiceProvider.GetRequiredService<ILogger>());
     }
 
-    await ServiceProvider.GetRequiredService<IBpr>().AppFinishAsync();
+    ServiceProvider.GetRequiredService<IBpr>().AppFinish();
 
     base.OnExit(e);
   }
