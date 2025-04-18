@@ -75,7 +75,7 @@ public partial class App : System.Windows.Application
 
       await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
       if (i == 1) await bpr.ChockingUhmAsync();
-      if (i == 2) await bpr.AreYouSureAsync();
+      if (i == 2) await bpr.AreYouSure1kAsync();
     }
   }
 
