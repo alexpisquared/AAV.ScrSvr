@@ -206,7 +206,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr24ofTheDate;
-    var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID = {_ssrDn})  and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+    var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID = {_ssrDn})  and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}' and @SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
     try
     {
       using var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr));
@@ -224,7 +224,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
   {
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr24ofTheDate;
-    var sleeps = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] ]]</Select></Query></QueryList>";
+    var sleeps = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}' and @SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] ]]</Select></Query></QueryList>";
 
     try
     {
@@ -278,10 +278,10 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     return rv;
   }
 
-  string BootDnWithin5min(DateTime bootUpTime, int min = -5) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootDn_13}) and TimeCreated[@SystemTime&gt;='{bootUpTime.AddMinutes(min).ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{bootUpTime.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  string qryScrSvr(int upOrDn, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( EventID={upOrDn} and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
-  string qryBootUpsOnly(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
-  string qryBootUpTmChg(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12} or EventID={_syTime_01}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string BootDnWithin5min(DateTime bootUpTime, int min = -5) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootDn_13}) and TimeCreated[@SystemTime&gt;='{bootUpTime.AddMinutes(min).ToUniversalTime():o}' and @SystemTime&lt;='{bootUpTime.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryScrSvr(int upOrDn, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( EventID={upOrDn} and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+  string qryBootUpsOnly(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
+  string qryBootUpTmChg(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp_12} or EventID={_syTime_01}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
   string qryPowerUpsDns(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General' or @Name='Microsoft-Windows-Kernel-Power'] and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
   string qryAll(string path, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{path}'><Select Path='{path}'>*[System[TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
@@ -292,12 +292,12 @@ $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
   string qryBootAndWakeUps_ORGL(DateTime a, DateTime b) => //Both wake and boot up:           Kernel-General 12 - up   	OR      Power-TroubleShooter 1 
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID={_bootUp_12} or EventID={_syTime_01})) or 
-(Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID={_syTime_01}) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
+(Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID={_syTime_01}) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
 
   string qryShutAndSleepDn(DateTime a, DateTime b) => //Both sleep and shut down:
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='User32'] and EventID=1074) or
-(Provider[@Name='Microsoft-Windows-Kernel-Power'] and (EventID=42 or EventID=506) ) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
+(Provider[@Name='Microsoft-Windows-Kernel-Power'] and (EventID=42 or EventID=506) ) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
 
   /*
 pwr off:
@@ -358,7 +358,7 @@ Kernel-General 12 - up
 
      var hr24ofTheDate = hr00ofTheDate.AddDays(1);
      var rv = hr00ofTheDate;
-     var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID = {_scrsvrUp}) and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+     var apl1hr = $@"<QueryList><Query Id='0' Path='{_aavLogName}'><Select Path='{_aavLogName}'>*[System[Provider[@Name='{_aavSource}'] and (Level=4 or Level=0) and ( (EventID = {_scrsvrUp}) and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}' and @SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
      try
      {
        using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
@@ -378,7 +378,7 @@ Kernel-General 12 - up
 
      var hr24ofTheDate = hr00ofTheDate.AddDays(1);
      var rv = hr00ofTheDate;
-     var enteringSleep = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[(EventID=42 and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+     var enteringSleep = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[(EventID=42 and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}' and @SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
      try
      {
        using (var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, enteringSleep)))
@@ -460,7 +460,7 @@ Kernel-General 12 - up
 
     var hr24ofTheDate = hr00ofTheDate.AddDays(1);
     var rv = hr00ofTheDate;
-    var enteringSleep = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[(EventID=42 and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
+    var enteringSleep = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[(EventID=42 and TimeCreated[@SystemTime&gt;='{hr00ofTheDate.ToUniversalTime():o}' and @SystemTime&lt;='{hr24ofTheDate.ToUniversalTime():o}'] )]]</Select></Query></QueryList>";
     try
     {
       using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, enteringSleep));
