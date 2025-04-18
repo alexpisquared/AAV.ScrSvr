@@ -34,17 +34,234 @@
         </StackPanel>
 
       </Grid>
+
+      <Grid Margin="0 0 0 32">
+        <Grid.Resources>
+          <Style TargetType="{x:Type Rectangle}">
+            <Setter Property="Margin"       Value="0 -0 0 0"/>
+            <Setter Property="Width"        Value="1"/>
+            <Setter Property="Height"       Value="10"/>
+            <Setter Property="Fill"         Value="#555"/>
+            <Setter Property="VerticalAlignment"       Value="Top"/>
+          </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="0.5*" />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition  />
+          <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Rectangle Grid.Column="1"  />
+        <Rectangle Grid.Column="2"  />
+        <Rectangle Grid.Column="3"  />
+        <Rectangle Grid.Column="4"  />
+        <Rectangle Grid.Column="5"  />
+        <Rectangle Grid.Column="6"  />
+        <Rectangle Grid.Column="7"  />
+        <Rectangle Grid.Column="8"  />
+        <Rectangle Grid.Column="9"  />
+
+        <Rectangle Grid.Column="10"  />
+        <Rectangle Grid.Column="11"  />
+        <Rectangle Grid.Column="12"  />
+        <Rectangle Grid.Column="13"  />
+        <Rectangle Grid.Column="14"  />
+        <Rectangle Grid.Column="15"  />
+        <Rectangle Grid.Column="16"  />
+        <Rectangle Grid.Column="17"  />
+        <Rectangle Grid.Column="18"  />
+        <Rectangle Grid.Column="19"  />
+
+        <Rectangle Grid.Column="20"  />
+        <Rectangle Grid.Column="21"  />
+        <Rectangle Grid.Column="22"  />
+        <Rectangle Grid.Column="23"  />
+        <Rectangle Grid.Column="24"  />
+        <Rectangle Grid.Column="25"  />
+        <Rectangle Grid.Column="26"  />
+        <Rectangle Grid.Column="27"  />
+        <Rectangle Grid.Column="28"  />
+        <Rectangle Grid.Column="29"  />
+
+        <Rectangle Grid.Column="30"  />
+        <Rectangle Grid.Column="31"  />
+        <Rectangle Grid.Column="32"  />
+        <Rectangle Grid.Column="33"  />
+        <Rectangle Grid.Column="34"  />
+        <Rectangle Grid.Column="35"  />
+        <Rectangle Grid.Column="36"  />
+        <Rectangle Grid.Column="37"  />
+        <Rectangle Grid.Column="38"  />
+        <Rectangle Grid.Column="39"  />
+
+        <Rectangle Grid.Column="40"  />
+        <Rectangle Grid.Column="41"  />
+        <Rectangle Grid.Column="42"  />
+        <Rectangle Grid.Column="43"  />
+        <Rectangle Grid.Column="44"  />
+        <Rectangle Grid.Column="45"  />
+        <Rectangle Grid.Column="46"  />
+        <Rectangle Grid.Column="47"  />
+        <Rectangle Grid.Column="48"  />
+        <Rectangle Grid.Column="49"  />
+
+        <Rectangle Grid.Column="50"  />
+        <Rectangle Grid.Column="51"  />
+        <Rectangle Grid.Column="52"  />
+        <Rectangle Grid.Column="53"  />
+        <Rectangle Grid.Column="54"  />
+        <Rectangle Grid.Column="55"  />
+        <Rectangle Grid.Column="56"  />
+        <Rectangle Grid.Column="57"  />
+        <Rectangle Grid.Column="58"  />
+        <Rectangle Grid.Column="59"  />
+
+        <Rectangle Grid.Column="60"  />
+        <Rectangle Grid.Column="61"  />
+        <Rectangle Grid.Column="62"  />
+        <Rectangle Grid.Column="63"  />
+        <Rectangle Grid.Column="64"  />
+        <Rectangle Grid.Column="65"  />
+        <Rectangle Grid.Column="66"  />
+        <Rectangle Grid.Column="67"  />
+        <Rectangle Grid.Column="68"  />
+        <Rectangle Grid.Column="69"  />
+
+        <Rectangle Grid.Column="70"  />
+        <Rectangle Grid.Column="71"  />
+        <Rectangle Grid.Column="72"  />
+        <Rectangle Grid.Column="73"  />
+        <Rectangle Grid.Column="74"  />
+        <Rectangle Grid.Column="75"  />
+        <Rectangle Grid.Column="76"  />
+        <Rectangle Grid.Column="77"  />
+        <Rectangle Grid.Column="78"  />
+        <Rectangle Grid.Column="79"  />
+
+        <Rectangle Grid.Column="80"  />
+        <Rectangle Grid.Column="81"  />
+        <Rectangle Grid.Column="82"  />
+        <Rectangle Grid.Column="83"  />
+        <Rectangle Grid.Column="84"  />
+        <Rectangle Grid.Column="85"  />
+        <Rectangle Grid.Column="86"  />
+        <Rectangle Grid.Column="87"  />
+        <Rectangle Grid.Column="88"  />
+        <Rectangle Grid.Column="89"  />
+
+        <Rectangle Grid.Column="90"  />
+        <Rectangle Grid.Column="91"  />
+        <Rectangle Grid.Column="92"  />
+        <Rectangle Grid.Column="93"  />
+        <Rectangle Grid.Column="94"  />
+        <Rectangle Grid.Column="95"  />
+
+      </Grid>
       <Grid Margin="0 0 0 32">
         <Grid.Resources>
           <Style TargetType="{x:Type TextBlock}">
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="#888"/>
-            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="Foreground" Value="#ccc"/>
+            <Setter Property="FontSize"   Value="12"/>
           </Style>
           <Style TargetType="{x:Type Rectangle}">
-            <Setter Property="Margin"       Value="0 12 0 0"/>
-            <Setter Property="Width"        Value=".15"/>
-            <Setter Property="Fill"         Value="#888"/>
+            <Setter Property="Margin"       Value="0 20 0 0"/>
+            <Setter Property="Width"        Value="1"/>
+            <Setter Property="Fill"         Value="#555"/>
           </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
@@ -74,6 +291,22 @@
           <ColumnDefinition  />
           <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="3"   Text="3"  FontSize="18" />
+        <TextBlock Grid.Column="6"   Text="6"  FontSize="18" />
+        <TextBlock Grid.Column="9"   Text="9"  FontSize="18" />
+        <TextBlock Grid.Column="12"  Text="12" FontSize="18" />
+        <TextBlock Grid.Column="15"  Text="15" FontSize="18" />
+        <TextBlock Grid.Column="18"  Text="18" FontSize="18" />
+        <TextBlock Grid.Column="21"  Text="21" FontSize="18" />
+
+        <Rectangle Grid.Column="3"  Width=".5" />
+        <Rectangle Grid.Column="6"  Width=".5" />
+        <Rectangle Grid.Column="9"  Width=".5" />
+        <Rectangle Grid.Column="12" Width=".5" />
+        <Rectangle Grid.Column="15" Width=".5" />
+        <Rectangle Grid.Column="18" Width=".5" />
+        <Rectangle Grid.Column="21" Width=".5" />
 
         <TextBlock Grid.Column="1"   Text="1"  />
         <TextBlock Grid.Column="2"   Text="2"  />
@@ -108,63 +341,6 @@
         <Rectangle Grid.Column="20" />
         <Rectangle Grid.Column="22" />
         <Rectangle Grid.Column="23" />
-      </Grid>
-      <Grid Margin="0 0 0 32">
-        <Grid.Resources>
-          <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="#888"/>
-            <Setter Property="FontSize" Value="12"/>
-          </Style>
-          <Style TargetType="{x:Type Rectangle}">
-            <Setter Property="Margin"       Value="0 16 0 0"/>
-            <Setter Property="Width"        Value=".3"/>
-            <Setter Property="Fill"         Value="#888"/>
-          </Style>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="0.5*" />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition  />
-          <ColumnDefinition Width="0.5*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Column="3"   Text="3"  />
-        <TextBlock Grid.Column="6"   Text="6"  />
-        <TextBlock Grid.Column="9"   Text="9"  />
-        <TextBlock Grid.Column="12"  Text="12" />
-        <TextBlock Grid.Column="15"  Text="15" />
-        <TextBlock Grid.Column="18"  Text="18" />
-        <TextBlock Grid.Column="21"  Text="21" />
-
-        <Rectangle Grid.Column="3"  />
-        <Rectangle Grid.Column="6"  />
-        <Rectangle Grid.Column="9"  />
-        <Rectangle Grid.Column="12" />
-        <Rectangle Grid.Column="15" />
-        <Rectangle Grid.Column="18" />
-        <Rectangle Grid.Column="21" />
       </Grid>
     </Grid>
   </ScrollViewer>

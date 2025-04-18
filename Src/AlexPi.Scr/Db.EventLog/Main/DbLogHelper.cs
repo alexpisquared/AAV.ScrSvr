@@ -74,7 +74,7 @@ public class DbLogHelper
 
       var lastRecTime = db.PcLogics.FirstOrDefault(r => r.MachineName.Equals(pcname, StringComparison.OrdinalIgnoreCase))?.LogReadAt;
       if (lastRecTime != null && a < lastRecTime && lastRecTime < b)
-        rv.Add(lastRecTime.Value, EventOfInterestFlag.PowerOff);
+        rv.Add(lastRecTime.Value, EventOfInterestFlag.___Pwr);
     }
 
     _dict.Add((a, b, pcname), rv);

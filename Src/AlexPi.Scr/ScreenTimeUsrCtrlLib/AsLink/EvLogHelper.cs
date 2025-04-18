@@ -1,12 +1,9 @@
-﻿using StandardLib.Helpers;
-
-namespace AsLink;
+﻿namespace ScreenTimeUsrCtrlLib.AsLink;
 
 public static class EventRecordExt
 {
   public static EventRecord? read(this EventLogReader reader) { try { return reader.ReadEvent(); } catch (Exception ex) { _ = ex.Log(); return null; } }
 }
-
 
 public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to replace with C:\g\TimeTracking\N50\TimeTracking50\TimeTracker\AsLink\EvLogMngr.cs - too many diffs. 
 {
@@ -17,11 +14,10 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
   public async Task<double> GetWkSpanForTheDay(DateTime trgDate)
   {
     double rv = 0;
-    await Task<SortedList<DateTime, EventOfInterestFlag>>.Run(() => GetEoisForTheDay(trgDate)).ContinueWith(_ =>
+    await Task.Run(() => GetEoisForTheDay(trgDate)).ContinueWith(_ =>
     {
       var eois = _.Result;
       if (eois.Any())
-      {
         if (eois.Count() == 1)
         {
           var start = eois.First().Key;
@@ -35,38 +31,11 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
           lastScvrUp = (DateTime.Now - trgDate).TotalHours < 24
             ? DateTime.Now
             : (
-                        eois.Any(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)) ?
-                      eois.Where(r => r.Value is (EventOfInterestFlag.IdleBgn) or (EventOfInterestFlag.PowerOff)).Last() : eois.Last()).Key;
+                        eois.Any(r => r.Value is EventOfInterestFlag.Idle___ or EventOfInterestFlag.___Pwr) ?
+                      eois.Where(r => r.Value is EventOfInterestFlag.Idle___ or EventOfInterestFlag.___Pwr).Last() : eois.Last()).Key;
 
           rv = ((lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key).TotalHours;
         }
-
-        //if ((DateTime.Now - trgDate).TotalHours < 24) // if today
-        //{
-        //    if (eois.Count() == 1)
-        //    {
-        //        var start = eois.First().Key;
-        //        rv = (DateTime.Now - start).TotalHours;
-        //    }
-        //    else if (eois.Count() > 1)
-        //    {
-        //        var finalEvent = eois.Last().Key;
-        //        var lastScvrUp = DateTime.Now;
-
-        //        rv = ((lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key).TotalHours;
-        //    }
-        //    else
-        //    {
-        //        var finalEvent = eois.Last().Key;
-        //        var lastScvrUp = (
-        //                  eois.Any(r => r.Value == (int)EvOfIntFlag.ScreenSaverrUp || r.Value == (int)EvOfIntFlag.ShutAndSleepDn) ?
-        //                eois.Where(r => r.Value == (int)EvOfIntFlag.ScreenSaverrUp || r.Value == (int)EvOfIntFlag.ShutAndSleepDn).Last() : eois.Last()).Key;
-
-        //        rv = ((lastScvrUp < finalEvent ? lastScvrUp : finalEvent) - eois.First().Key).TotalHours;
-        //    }
-
-        //}
-      }
     }, TaskScheduler.FromCurrentSynchronizationContext());
 
     return rv;
@@ -80,27 +49,28 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     try
     {
       if (Environment.MachineName.Contains("33"))
-        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.PowerOn);
+        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.Pwr___);
       else if (Environment.MachineName.Contains("MINISFORUM1"))
       {
-        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.PowerOn);
-        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
+        collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.Pwr___);
+        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.Pwr___);
       }
       else
-        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.PowerOn);
-      collect(sortedList, qryShutAndSleepDn(a, b), EventOfInterestFlag.PowerOff);
-      collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.IdleEnd);
-      collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.IdleBgn);
+        collect(sortedList, qryBootAndWakeUps_ORGL(a, b), EventOfInterestFlag.Pwr___);
+
+      collect(sortedList, qryShutAndSleepDn(a, b), EventOfInterestFlag.___Pwr);
+      collect(sortedList, qryScrSvr(_ssrDn, a, b), EventOfInterestFlag.___Idle);
+      collect(sortedList, qryScrSvr(_ssrUp, a, b), EventOfInterestFlag.Idle___);
 
       if (sortedList.Count > 0)
       {
         var prev = sortedList.First().Key;
-        foreach (var e in sortedList) { WriteLine($"  {e.Key:yy-MM-dd HH:mm:ss.fffffff}   {e.Value,-12}\\{(e.Key - prev).TotalSeconds,11:N1} s"); prev = e.Key; }
+        foreach (var e in sortedList) { WriteLine($"  {e.Key:yy-MM-dd HH:mm:ss.f}   {e.Value,-12}\\{(e.Key - prev).TotalSeconds,11:N1} s"); prev = e.Key; }
       }
     }
     catch (Exception ex)
     {
-      new EvLogHelperBase().CheckCreateLogChannel(); // Mar 2025: added to 
+      _ = new EvLogHelperBase().CheckCreateLogChannel(); // Mar 2025: added to 
       ex.Pop("Must run AsAdmin for that!!!");
     }
 
@@ -117,29 +87,24 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     if (lst.Count < 1)
       lst.Add(min, EventOfInterestFlag.Day1stMaybe);
     else
-    {
       if ((lst.Min(r => r.Key) - min).TotalSeconds > +30) // only if > 30 sec
-        lst.Add(min, EventOfInterestFlag.Day1stMaybe);
-      else
-        Debug.Write(" +???* ");
-    }
+      lst.Add(min, EventOfInterestFlag.Day1stMaybe);
+    else
+      Debug.Write(" +???* ");
 
     if (lst.Count < 1)
-      lst.Add(max, EventOfInterestFlag.PowerOff);
+      lst.Add(max, EventOfInterestFlag.___Pwr);
     else
-    {
       if ((lst.Max(r => r.Key) - max).TotalSeconds < -30)
-        lst.Add(max, EventOfInterestFlag.PowerOff); // any idea what is that for? It adds a ShuDn event ~5 min ago from now ... but why? (Mar2019)
-      else
-        Debug.WriteLine("-???");
-    }
+      lst.Add(max, EventOfInterestFlag.___Pwr); // any idea what is that for? It adds a ShuDn event ~5 min ago from now ... but why? (Mar2019)
+    else
+      Debug.WriteLine("-???");
   }
 
   void collect(SortedList<DateTime, EventOfInterestFlag> lst, string qry, EventOfInterestFlag evOfIntFlag)
   {
     using var reader = GetELReader(qry);
     for (var ev = reader.read(); ev != null; ev = reader.read())
-    {
       //32 Debug.Write($" *** ev time: {ev.TimeCreated.Value:yy-MM-dd HH:mm:ss.fff} - {evOfIntFlag}={(EvOfIntFlag)evOfIntFlag,}:"); Debug.Assert(!sortedList.ContainsKey(ev.TimeCreated.Value), $" -- already added {ev.TimeCreated.Value} - {evOfIntFlag}");
 
       if (lst.Any(r => r.Value == evOfIntFlag) && (ev.TimeCreated.Value - lst.Where(r => r.Value == evOfIntFlag).Max(r => r.Key)).TotalSeconds < 60) // if same last one is < 60 sec ago.
@@ -147,22 +112,16 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         //32 Debug.WriteLine($" -- IGNORING  to allow power-offs (which are out of order in ev.log!!!) to flag the actual state.");
       }
       else
-      {
         //32 Debug.WriteLine($" -- LOGGING.");
         lst.Add(ev.TimeCreated.Value, evOfIntFlag);
-      }
-    }
   }
-
 
   (DateTime min, DateTime max) get1rstLastEvents(string qry)
   {
     var lst = new List<DateTime>();
     using (var reader = GetELReader(qry))
-    {
       for (var ev = reader.read(); ev != null; ev = reader.read())
         lst.Add(ev.TimeCreated.Value);
-    }
 
     return lst.Count < 1 ? (DateTime.MaxValue, DateTime.MinValue) : (lst.Min(), lst.Max());
   }
@@ -187,14 +146,10 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
 
     using var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, apl1hr));
     for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
-    {
       //77 Debug.Write($"\n {er.TimeCreated}  {er.TaskDisplayName}    {er.ProviderName}");
 
       for (var i = 0; i < er.Properties.Count; i++)
-      {
         Debug.Write($"\t {er.Properties[i].Value} ");
-      }
-    }
   }
 
   public string DailyReport(DateTime hr00ofTheDate, out TimeSpan tup, out TimeSpan tdn)
@@ -203,7 +158,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
     {
       tup = GetTotalPowerUpTimeForTheDay(hr00ofTheDate);
       tdn = GetTotalIdlePlusScrsvrUpTimeForTheDate(hr00ofTheDate);
-      return ($"{hr00ofTheDate:ddd}:{tup,5:h\\:mm} -{tdn,5:h\\:mm} ={(tup - tdn),5:h\\:mm}");
+      return $"{hr00ofTheDate:ddd}:{tup,5:h\\:mm} -{tdn,5:h\\:mm} ={tup - tdn,5:h\\:mm}";
     }
     catch (Exception ex) { tup = tdn = TimeSpan.MinValue; return ex.Message; } // ex.Log(); }
   }
@@ -261,7 +216,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
             if (rv > er.TimeCreated.Value)
               rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -278,7 +233,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -293,7 +248,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -318,7 +273,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
           rv = er.TimeCreated.Value;
       }
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -388,24 +343,15 @@ Kernel-General 12 - up
     get
     {
       if (_ssto < 0)
-      {
         try
         {
           const string key = "ScreenSaveTimeOut";
           if (_ssto == -1)
-          {
             if (!int.TryParse(Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\Desktop", key, 299).ToString(), out _ssto) || _ssto == 299)
               if (!int.TryParse(Registry.GetValue(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Control Panel\Desktop", key, 298).ToString(), out _ssto))
                 _ssto = 300;
-
-            ////https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registrykey.getvalue?view=netframework-4.8
-            //var registryKey = Registry.CurrentUser.CreateSubKey(@"Software\Policies\Microsoft\Windows\Control Panel\Desktop"); // UnauthorizedAccessException: Access to the registry key 'HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Control Panel\Desktop' is denied.
-            //Console.WriteLine("Unexpanded: \"{0}\"", registryKey.GetValue(key, "No Value", RegistryValueOptions.DoNotExpandEnvironmentNames));
-            //Console.WriteLine("  Expanded: \"{0}\"", registryKey.GetValue(key));
-          }
         }
-        catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); _ssto = 299; }
-      }
+        catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); _ssto = 299; }
 
       return _ssto;
     }
@@ -468,7 +414,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     try
     {
@@ -477,7 +423,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -495,7 +441,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv.AddSeconds(-SystemIdleTimeoutInSec); // actually - earlier.
   }
@@ -510,7 +456,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -528,7 +474,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodInfo.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
 
     return rv;
   }
@@ -544,15 +490,14 @@ Kernel-General 12 - up
     var tssec = TimeSpan.FromSeconds(SystemIdleTimeoutInSec);
 
     using (var reader = new EventLogReader(new EventLogQuery(_aavLogName, PathType.LogName, apl1hr)))
-    {
       for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
       {
         if (er.TimeCreated.Value > hr24ofTheDate)
         {
           if (t1 > t2) // if last event was up - add this range to uptime
-            ttlUpTime += (hr24ofTheDate - t1);
+            ttlUpTime += hr24ofTheDate - t1;
           else
-            ttlDnTime += (hr24ofTheDate - t2);
+            ttlDnTime += hr24ofTheDate - t2;
 
           break;
         }
@@ -573,19 +518,16 @@ Kernel-General 12 - up
           Debug.Write($"\r\n           - {er.TimeCreated:ddd HH:mm} :  dt: {dt,8:h\\:mm\\:ss}  ");
         }
 
-        Debug.Write($"   ttl up + ttl dn :   {ttlUpTime,8:h\\:mm\\:ss}  +  {ttlDnTime,8:h\\:mm\\:ss}  =  {(ttlUpTime + ttlDnTime),8:h\\:mm\\:ss}");
+        Debug.Write($"   ttl up + ttl dn :   {ttlUpTime,8:h\\:mm\\:ss}  +  {ttlDnTime,8:h\\:mm\\:ss}  =  {ttlUpTime + ttlDnTime,8:h\\:mm\\:ss}");
       }
-    }
 
     if (now < hr24ofTheDate) // if this is today 
-    {
       if (t1 > t2) // if last event was up - add this range to uptime
-        ttlUpTime += (now - t1);
+        ttlUpTime += now - t1;
       else
-        _ = (now - t2);
-    }
+        _ = now - t2;
 
-    Debug.Write($"  ==> {ttlUpTime,8:h\\:mm\\:ss}  +  {ttlIdleTm,8:h\\:mm\\:ss}  =  {(ttlUpTime + ttlIdleTm),8:h\\:mm\\:ss}  \t  {sw.ElapsedMilliseconds,5}ms ");
+    Debug.Write($"  ==> {ttlUpTime,8:h\\:mm\\:ss}  +  {ttlIdleTm,8:h\\:mm\\:ss}  =  {ttlUpTime + ttlIdleTm,8:h\\:mm\\:ss}  \t  {sw.ElapsedMilliseconds,5}ms ");
 
     return ttlUpTime + ttlIdleTm;
   }
@@ -599,7 +541,6 @@ Kernel-General 12 - up
     var sleeps = $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and TimeCreated[@SystemTime &gt;= '{hr00ofTheDate.ToUniversalTime():o}' ]]]</Select></Query></QueryList>";
 
     using (var reader = new EventLogReader(new EventLogQuery("System", PathType.LogName, sleeps)))
-    {
       for (var er = (EventLogRecord?)reader.read(); null != er; er = (EventLogRecord?)reader.read())
       {
         if (er.Properties[0] == null || er.Properties[0].Value is not DateTime || er.Properties[1] == null || er.Properties[1].Value is not DateTime) throw new Exception("Not a datetime !!! (AP)");
@@ -608,14 +549,12 @@ Kernel-General 12 - up
         var wakenAt = (DateTime)er.Properties[1].Value;
 
         if (prevWaken == DateTime.MinValue && sleepAt > hr00ofTheDate) //ie: worked past midnight
-        {
-          ttlwd += (sleepAt - GetDays1rstBootUpTime(hr00ofTheDate));
-        }
+          ttlwd += sleepAt - GetDays1rstBootUpTime(hr00ofTheDate);
 
         //if (wakenTime > hr00ofTheDate)
         {
           if (prevWaken != DateTime.MinValue)
-            ttlwd += (sleepAt - prevWaken);
+            ttlwd += sleepAt - prevWaken;
 
           prevWaken = wakenAt;
         }
@@ -625,10 +564,9 @@ Kernel-General 12 - up
         if (wakenAt > hr24ofTheDate)
           break;
       }
-    }
 
     if (now < hr24ofTheDate) // if today - then consider now as t2.
-      ttlwd += (now - prevWaken);
+      ttlwd += now - prevWaken;
     else
       Debug.Write($"");
 
@@ -656,27 +594,17 @@ Kernel-General 12 - up
         var rv = trg.Date.AddDays(1).AddMilliseconds(-1);
 
         for (var i = _eventLog.Entries.Count - 1; i > 0; i--)
-        {
-          //ermsg = string.Format("going for {0} out of {1} =elog.Entries.Count", i, elog.Entries.Count);
-
-          //if (elog.Entries[i].Source == "Microsoft-Windows-Power-Troubleshooter" || // The system has resumed from sleep.
-          //	 (elog.Entries[i].Source == "EventLog" && elog.Entries[i].InstanceId == 2147489653))//Started
-          {
-            if (_eventLog.Entries[i].TimeGenerated > trg)
-            {
-              rv = _eventLog.Entries[i].TimeGenerated;
-            }
-            else
-              break;
-          }
-        }
+          if (_eventLog.Entries[i].TimeGenerated > trg)
+            rv = _eventLog.Entries[i].TimeGenerated;
+          else
+            break;
 
         return rv;
       }
-      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodInfo.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod().ToString()); }
 
       try { return new DailyBoundaries(trg).DayStart; }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodInfo.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
 
       return DateTime.Today.AddHours(9);
     }
@@ -689,25 +617,15 @@ Kernel-General 12 - up
         if (trg == DateTime.MinValue || trg >= DateTime.Today) return DateTime.Now;
 
         for (var i = _eventLog.Entries.Count - 1; i > 0; i--)
-        {
-          //	ermsg = string.Format("going for {0} out of {1} =elog.Entries.Count", i, elog.Entries.Count);
-
-          //if (elog.Entries[i].Source == "Microsoft-Windows-Kernel-Power" && elog.Entries[i].InstanceId == 42 ||// The system is entering sleep.
-          //	 (elog.Entries[i].Source == "EventLog" && elog.Entries[i].InstanceId == 2147489654)) // Off 
-          {
-            if (_eventLog.Entries[i].TimeGenerated < trg.AddDays(1))
-            {
-              return _eventLog.Entries[i].TimeGenerated;
-            }
-          }
-        }
+          if (_eventLog.Entries[i].TimeGenerated < trg.AddDays(1))
+            return _eventLog.Entries[i].TimeGenerated;
 
         return trg.Date;
       }
-      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodInfo.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod().ToString()); }
 
       try { return new DailyBoundaries(trg).DayFinish; }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodInfo.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
 
       return DateTime.Today.AddHours(18);
     }
@@ -726,14 +644,12 @@ Kernel-General 12 - up
         var elog = new EventLog(evn);
 
         for (var i = elog.Entries.Count - 1; i > 0; i--)
-        {
           if (elog.Entries[i].TimeGenerated > trg)
             rv0.Add(elog.Entries[i].TimeGenerated);
           else
             break;
-        }
       }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodInfo.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
 
       return rv0;
     }
@@ -749,7 +665,7 @@ Kernel-General 12 - up
           "<QueryList>" +
           "  <Query Id=\"0\" Path=\"System\">" +
           "    <Select Path=\"System\">" +
-          "        *[System[TimeCreated[timediff(@SystemTime) &gt; " + (msToTrg - 86400000).ToString() + "] and TimeCreated[timediff(@SystemTime) &lt; " + (msToTrg).ToString() + "] ]]" +
+          "        *[System[TimeCreated[timediff(@SystemTime) &gt; " + (msToTrg - 86400000).ToString() + "] and TimeCreated[timediff(@SystemTime) &lt; " + msToTrg.ToString() + "] ]]" +
           "    </Select>" +
           "  </Query>" +
           "</QueryList>";
@@ -761,9 +677,7 @@ Kernel-General 12 - up
       populateStartFinish(logReader);
     }
 
-    DateTime finish = DateTime.MinValue;
-
-    public DateTime DayFinish { get => finish; set => finish = value; }
+    public DateTime DayFinish { get; set; } = DateTime.MinValue;
     public DateTime DayStart { get; set; } = DateTime.MinValue;
 
     public List<DateTime?> LastHour
@@ -828,7 +742,7 @@ Kernel-General 12 - up
           "<QueryList>" +
           "  <Query Id=\"0\" Path=\"" + logName + "\">" +
           "    <Select Path=\"System\">" +
-          "        *[System[" + lvl + " TimeCreated[timediff(@SystemTime) &gt; " + (d1 - 86400000).ToString() + "] and TimeCreated[timediff(@SystemTime) &lt; " + (d1).ToString() + "] ]]" +
+          "        *[System[" + lvl + " TimeCreated[timediff(@SystemTime) &gt; " + (d1 - 86400000).ToString() + "] and TimeCreated[timediff(@SystemTime) &lt; " + d1.ToString() + "] ]]" +
           "    </Select>" +
           "  </Query>" +
           "</QueryList>";
@@ -916,16 +830,17 @@ Kernel-General 12 - up
           DayStart = (DateTime)er.TimeCreated;
 
         if (er.TimeCreated != null)
-          finish = (DateTime)er.TimeCreated;
+          DayFinish = (DateTime)er.TimeCreated;
       }
 
       sw.Stop();
-      Console.WriteLine("{0} - {1} = {2,-22}   (took: {3})", DayStart, finish, finish - DayStart, sw.Elapsed);
+      Console.WriteLine("{0} - {1} = {2,-22}   (took: {3})", DayStart, DayFinish, DayFinish - DayStart, sw.Elapsed);
     }
   }
 
   #endregion
 
+  [Obsolete]
   public async Task<int> UpdateEvLogToDb(int daysback, string msg) //todo: should not it be in the Db.EventLog project? (Jun2019)
   {
     try
@@ -937,6 +852,7 @@ Kernel-General 12 - up
       return dailyEvents.Count > 0 ? await DbLogHelper.UpdateDbWithPotentiallyNewEvents(dailyEvents, Environment.MachineName, msg) : -2;
     }
     catch (Exception ex) { _ = ex.Log(); }
+
     return -888;
   }
 

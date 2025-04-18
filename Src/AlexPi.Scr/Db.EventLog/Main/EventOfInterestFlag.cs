@@ -3,10 +3,10 @@
 [Flags]
 public enum EventOfInterestFlag
 {
-  PowerOff = 1,    // including sleep mode state
-  IdleBgn = 2,   // Off ss
-  IdleEnd = 4,  // On  ss
-  PowerOn = 8,     // including wake up state
+  ___Pwr = 1,    // including sleep mode state
+  Idle___ = 2,   // Off ss
+  ___Idle = 4,  // On  ss
+  Pwr___ = 8,     // including wake up state
   Day1stMaybe = 16,    // PC was on whole night ... but nobody's was there
   WasOffIgnore = 32,    // Off ignore
   WasOn_Ignore = 64,    // On  ignore
