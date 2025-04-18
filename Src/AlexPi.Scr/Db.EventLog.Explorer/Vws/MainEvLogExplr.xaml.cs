@@ -1,5 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 namespace Db.EventLog.Explorer;
 
@@ -36,8 +36,11 @@ public partial class MainEvLogExplr
 
       if (Environment.CommandLine.Contains("Schedule") == false) return;
 
-      await Task.Delay(1_000); // wait for showing up first.
-      SendToBack();
+      if (!DevOps.IsDbg)
+      {
+        await Task.Delay(1_000); // wait for showing up first.
+        SendToBack();
+      }
 
       vizroot.IsEnabled = true;
 
@@ -64,7 +67,7 @@ public partial class MainEvLogExplr
 
   void SendToBack() => SetWindowPos(new System.Windows.Interop.WindowInteropHelper(this).Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 
-  void OnViewTable(object sender, RoutedEventArgs e) { new RODBView("", _logger).ShowDialog(); } // not sure if it'll work without a db file.
+  void OnViewTable(object sender, RoutedEventArgs e) => new RODBView("", _logger).ShowDialog();  // not sure if it'll work without a db file.
 
-  void OnClose(object sender, RoutedEventArgs e) { Close(); }
+  void OnClose(object sender, RoutedEventArgs e) => Close();
 }

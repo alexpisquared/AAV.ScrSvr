@@ -1,4 +1,5 @@
 ﻿using MSGraphSlideshow;
+using ScreenTimeUsrCtrlLib.AsLink;
 using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
@@ -128,7 +129,7 @@ public partial class App : System.Windows.Application
         await Task.Delay(TimeSpan.FromSeconds(10)); // speech.SpeakFAF($"Locked!", volumePercent: 20);
 
         _mustLogEORun = true;
-        new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
+        new EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
         await Task.Delay(TimeSpan.FromMinutes(02)); // SpeakRandomFunMessage();
 
@@ -202,7 +203,7 @@ public partial class App : System.Windows.Application
     if (_mustLogEORun)
     {
       _mustLogEORun = false; // prevent multiple logging per session (Mar 31, 2025)
-      new AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
+      new EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
       ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■\n██");
     }
     else

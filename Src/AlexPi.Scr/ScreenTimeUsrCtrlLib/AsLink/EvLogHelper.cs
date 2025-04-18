@@ -285,25 +285,19 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
   string qryPowerUpsDns(DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General' or @Name='Microsoft-Windows-Kernel-Power'] and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
   string qryAll(string path, DateTime a, DateTime b) => $@"<QueryList><Query Id='0' Path='{path}'><Select Path='{path}'>*[System[TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>";
 
-  string qryBootAndWakeUps_Ctrs(DateTime a, DateTime b) => $@"
-   <QueryList>
-    <Query Id='0' Path='System'>
-      <Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-IsolatedUserMode'] and (EventID=5) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select>
-    </Query>
-  </QueryList>";
-  string qryBootAndWakeUps_ORGL(DateTime a, DateTime b) =>
-//Both wake and boot up:           Kernel-General 12 - up   	OR      Power-TroubleShooter 1 
+  string qryBootAndWakeUps_Ctrs(DateTime a, DateTime b) => // + MinisForum1: ' or EventID=507'
+$@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
+  (Provider[@Name='Microsoft-Windows-IsolatedUserMode'] and EventID=5) or 
+  (Provider[@Name='Microsoft-Windows-Kernel-Power'] and EventID=507) )                  and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}' and @SystemTime&lt;='{b.ToUniversalTime():o}'] ]]</Select></Query></QueryList>";
+  string qryBootAndWakeUps_ORGL(DateTime a, DateTime b) => //Both wake and boot up:           Kernel-General 12 - up   	OR      Power-TroubleShooter 1 
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID={_bootUp_12} or EventID={_syTime_01})) or 
-(Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID={_syTime_01}) )  
-and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";//   <QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]]</Select></Query></QueryList>";
+(Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID={_syTime_01}) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
 
-  string qryShutAndSleepDn(DateTime a, DateTime b) =>
-//Both sleep and shut down:
+  string qryShutAndSleepDn(DateTime a, DateTime b) => //Both sleep and shut down:
 $@"<QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[ (
 (Provider[@Name='User32'] and EventID=1074) or
-(Provider[@Name='Microsoft-Windows-Kernel-Power'] and EventID=42 ) )
-and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";//   <QueryList><Query Id='0' Path='System'><Select Path='System'>*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (Level=4 or Level=0) and (EventID={_bootUp}) and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}']]]</Select></Query></QueryList>
+(Provider[@Name='Microsoft-Windows-Kernel-Power'] and (EventID=42 or EventID=506) ) )   and TimeCreated[@SystemTime&gt;='{a.ToUniversalTime():o}'] and TimeCreated[@SystemTime&lt;='{b.ToUniversalTime():o}'] ]] </Select></Query></QueryList>";
 
   /*
 pwr off:

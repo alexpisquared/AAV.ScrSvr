@@ -17,6 +17,6 @@
     <Canvas     x:Name="canvasBar"    ToolTip="canvasBar" />
     <TextBlock  x:Name="tbDaySummaryLocal" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Medium" Margin="002 2 2 2" FontSize="12" HorizontalAlignment="Left" Foreground="#aaa" />
     <!--<TextBlock  x:Name="tbDaySummaryRemot" ToolTip="tbDaySummary" Text="..." FontFamily="Consolas" FontWeight="Bold" Margin="400 2 2 2" FontSize="13" HorizontalAlignment="Left" Foreground="#666" />-->
-    <Button Content="■" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Click="OnShowDayTableReport" Width="16" Opacity="0.3" />
+    <Button Content="■" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Click="OnShowDayTableReport" Width="26" Opacity="0.3" />
   </Grid>
 </UserControl>

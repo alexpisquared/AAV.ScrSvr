@@ -1,6 +1,4 @@
-﻿using System.Windows.Shapes;
-
-namespace Db.EventLog.Explorer;
+﻿namespace Db.EventLog.Explorer;
 
 public partial class App : Application
 {
