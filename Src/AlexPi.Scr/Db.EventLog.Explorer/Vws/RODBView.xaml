@@ -2,7 +2,7 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:cnv="clr-namespace:AsLink" 
         xmlns:DbModel="clr-namespace:Db.EventLog.DbModel;assembly=Db.EventLog" x:Class="Db.EventLog.Explorer.RODBView" mc:Ignorable="d"
-        Title="RODBView" Height="800" Width="450" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd" >
+        Title="RO DB View" Height="800" Width="450" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" x:Name="wnd" >
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="10" />
   </WindowChrome.WindowChrome>
