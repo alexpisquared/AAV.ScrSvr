@@ -200,15 +200,19 @@ public partial class App : System.Windows.Application
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
-    if (_mustLogEORun)
+    if (!Environment.CommandLine.Contains("Sched", StringComparison.OrdinalIgnoreCase))
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine.Contains(\"Sched\", StringComparison.OrdinalIgnoreCase))\n██");
+    }
+    else if (!_mustLogEORun)
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀\n██");
+    }
+    else
     {
       _mustLogEORun = false; // prevent multiple logging per session (Mar 31, 2025)
       new EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
       ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■\n██");
-    }
-    else
-    {
-      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀\n██");
     }
   }
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
