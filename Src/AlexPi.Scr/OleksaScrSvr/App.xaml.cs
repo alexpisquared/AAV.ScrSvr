@@ -202,7 +202,11 @@ public partial class App : System.Windows.Application
   {
     if (!Environment.CommandLine.Contains("Sched", StringComparison.OrdinalIgnoreCase))
     {
-      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine.Contains(\"Sched\", StringComparison.OrdinalIgnoreCase))\n██");
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine. ! Contains(\"Sched\"))\n██");
+    }
+    else if (Environment.CommandLine.Contains("idle", StringComparison.OrdinalIgnoreCase) && (DateTimeOffset.Now - _appStarted).TotalMinutes < 1)
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :too early - discarded by the user\n██");
     }
     else if (!_mustLogEORun)
     {
