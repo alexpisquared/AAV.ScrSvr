@@ -225,7 +225,12 @@ public partial class DailyChart
   private string _dayTableReport;
   readonly SortedList<DateTime, EventOfInterestFlag> _thisDayEois;
 
-  void OnShowDayTableReport(object sender, RoutedEventArgs e) { Clipboard.SetText(_dayTableReport); _ = MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK); }
+  void OnShowDayTableReport(object sender, RoutedEventArgs e)
+  {
+    EventLogView evl = new(_thisDayEois, FindParentWindow());
+    evl.Show();
+    Clipboard.SetText(_dayTableReport); _ = MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK);
+  }
 
   //// [Obsolete] :why Copilot decides to mark it such?
   public static int ScrSvrTimeoutSec
@@ -242,5 +247,16 @@ public partial class DailyChart
   }
 
   public static int Ssto_GpSec => ScrSvrTimeoutSec + GraceEvLogAndLockPeriodSec;  // ScreenSaveTimeOut + Grace Period
+
+  public Window? FindParentWindow()
+  {
+    DependencyObject parent = this;
+    while (parent != null && parent is not Window)
+    {
+      parent = VisualTreeHelper.GetParent(parent);
+    }
+    
+    return parent as Window;
+  }
   #endregion
 }

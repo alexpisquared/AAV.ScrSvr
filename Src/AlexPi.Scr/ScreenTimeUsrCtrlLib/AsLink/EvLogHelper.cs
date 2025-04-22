@@ -216,7 +216,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
             if (rv > er.TimeCreated.Value)
               rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -233,7 +233,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -248,7 +248,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
         if (rv > er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -273,7 +273,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
           rv = er.TimeCreated.Value;
       }
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -345,7 +345,7 @@ Kernel-General 12 - up
               if (!int.TryParse(Registry.GetValue(@"HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Control Panel\Desktop", key, 298).ToString(), out _ssto))
                 _ssto = 300;
         }
-        catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); _ssto = 299; }
+        catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); _ssto = 299; }
 
       return _ssto;
     }
@@ -408,7 +408,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     try
     {
@@ -417,7 +417,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -435,7 +435,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv.AddSeconds(-SystemIdleTimeoutInSec); // actually - earlier.
   }
@@ -450,7 +450,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -468,7 +468,7 @@ Kernel-General 12 - up
         if (rv < er.TimeCreated.Value)
           rv = er.TimeCreated.Value;
     }
-    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().ToString()); }
+    catch (Exception ex) { _ = MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod()?.ToString()); }
 
     return rv;
   }
@@ -595,10 +595,10 @@ Kernel-General 12 - up
 
         return rv;
       }
-      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod()?.ToString()); }
 
       try { return new DailyBoundaries(trg).DayStart; }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod()?.ToString()); }
 
       return DateTime.Today.AddHours(9);
     }
@@ -616,10 +616,10 @@ Kernel-General 12 - up
 
         return trg.Date;
       }
-      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ermsg + ex, MethodBase.GetCurrentMethod()?.ToString()); }
 
       try { return new DailyBoundaries(trg).DayFinish; }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod()?.ToString()); }
 
       return DateTime.Today.AddHours(18);
     }
@@ -643,7 +643,7 @@ Kernel-General 12 - up
           else
             break;
       }
-      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod().ToString()); }
+      catch (Exception ex) { _ = MessageBox.Show(ex.ToString(), MethodBase.GetCurrentMethod()?.ToString()); }
 
       return rv0;
     }
