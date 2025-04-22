@@ -49,8 +49,8 @@
 
     <Viewbox Height="80" HorizontalAlignment="Left" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" >
       <Grid>
-        <Anime:ArcPi Radiu="16" Width="32" Height="32" x:Name="progressArc1" HorizontalAlignment="Left" Margin="10" Angle="33" Bckgr="#000" Color="{StaticResource FlagUkraineBackground}" />
-        <TextBlock   Margin="52 0 52 6" FontSize="26" Text="{Binding Path=Title}" x:Name="tbk1" VerticalAlignment="Center" Foreground="#c08" />
+        <Anime:ArcPi Radiu="16" Width="32" Height="32" x:Name="progressArc1" HorizontalAlignment="Left" Margin="10" Angle="0" Bckgr="#000" Color="{StaticResource FlagUkraineBackground}" />
+        <TextBlock   Margin="52 0 52 6" FontSize="26" Text="{Binding Path=Title}" d:Text="Title" x:Name="tbk1" VerticalAlignment="Center" Foreground="#c08" />
       </Grid>
     </Viewbox>
 
