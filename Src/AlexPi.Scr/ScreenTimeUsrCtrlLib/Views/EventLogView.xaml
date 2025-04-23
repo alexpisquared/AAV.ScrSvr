@@ -1,6 +1,6 @@
 ﻿<Window x:Class="ScreenTimeUsrCtrlLib.Views.EventLogView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:local="clr-namespace:ScreenTimeUsrCtrlLib.Views"
-        Title="EventLogView" Height="950" Width="800" Background="#333" WindowStartupLocation="CenterOwner">
+        Title="Event Log View" d:Height="950" Width="800" Background="#333" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Grid>
     <DataGrid ItemsSource="{Binding PageCvs}" Margin="0" Grid.Row="1" AutoGenerateColumns="False" VerticalAlignment="Top" Background="#222" x:Name="dg1" FontSize="16"
               AlternatingRowBackground="#555">
