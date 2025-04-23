@@ -42,17 +42,17 @@
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="SizeAll" CornerRadius="10" BorderThickness="1.5 2.5 1.5 1.5" Background="#001" BorderBrush="#005" />
     <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Cross" CornerRadius="08" Background="{StaticResource FlagUkraineBackground}" x:Name="wnd2" Opacity=".000000" Margin="1.5"/>
 
-    <Button Margin="52" MouseEnter="OnMouseEnter" Opacity=".2" />
+    <Button Margin="26" MouseEnter="OnMouseEnter" Opacity=".2" />
     
     <TextBlock Text="Unit is On"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="52" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" Foreground="#060" />
     <TextBlock Text="Unit is OFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=True}}"  Foreground="#800" />
 
-    <Viewbox Height="80" HorizontalAlignment="Left" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" >
+    <!--<Viewbox Height="80" HorizontalAlignment="Left" Visibility="{Binding ElementName=MenuIsOn, Path=IsChecked, Converter={cnv:UniConverter InvertValue=False}}" >
       <Grid>
         <Anime:ArcPi Radiu="16" Width="32" Height="32" x:Name="progressArc1" HorizontalAlignment="Left" Margin="10" Angle="0" Bckgr="#000" Color="{StaticResource FlagUkraineBackground}" />
-        <TextBlock   Margin="52 0 52 6" FontSize="26" Text="{Binding Path=Title}" d:Text="Title" x:Name="tbk1" VerticalAlignment="Center" Foreground="#c08" />
+        <TextBlock   Margin="52 0 52 6" FontSize="26" Text="{Binding Path=Title}" d:Text="Title" x:Name="tbk1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#c08" />
       </Grid>
-    </Viewbox>
+    </Viewbox>-->
 
     <Rectangle MouseLeftButtonDown="Rectng_MouseLeftButtonDown" MouseLeftButtonUp="Rectng_MouseLeftButtonUp" MouseMove="Rectng_MouseMove" Width="32" Height="32" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE" Fill="Transparent" />
     <Menu VerticalAlignment="Top" HorizontalAlignment="Left">
