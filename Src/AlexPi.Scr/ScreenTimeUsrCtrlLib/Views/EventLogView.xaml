@@ -1,8 +1,8 @@
 ﻿<Window x:Class="ScreenTimeUsrCtrlLib.Views.EventLogView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:local="clr-namespace:ScreenTimeUsrCtrlLib.Views"
-        Title="Event Log View" d:Height="950" Width="800" Background="#333" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+        Title="Event Log View" d:Height="950" Width="630" Background="#333" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Grid>
-    <DataGrid ItemsSource="{Binding PageCvs}" Margin="0" Grid.Row="1" AutoGenerateColumns="False" VerticalAlignment="Top" Background="#222" x:Name="dg1" FontSize="16"
+    <DataGrid ItemsSource="{Binding PageCvs}" Margin="0" Grid.Row="1" AutoGenerateColumns="False" VerticalAlignment="Top" Background="#111" x:Name="dg1" FontSize="16"
               AlternatingRowBackground="#555">
       <DataGrid.Columns>
         <DataGridTextColumn Header=" PubXml File " Binding="{Binding ThisTime,        StringFormat='{}{0:HH\\:mm\\:ss}'}" Width="70" FontWeight="Medium" >
@@ -19,18 +19,16 @@
             </Style>
           </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
-        <DataGridTextColumn Header="   Work                        Idle                    Off " Binding="{Binding TimeSpentFormatted}" Width="210" FontWeight="Medium" />
-        <DataGridTextColumn Header=" ActivityAsIs " Binding="{Binding ActivityAsIs}"   FontWeight="Medium" />
-        <DataGridTextColumn Header=" ActivityCorrected " Binding="{Binding ActivityCorrected}"  FontWeight="Medium" />
-
-        <DataGridTextColumn Header=" Spent Total " Binding="{Binding TimeSpentTotal,  StringFormat='{}{0:h\\:mm\\:ss}'}" Width="70" FontWeight="Medium" />
-        <DataGridTextColumn Header=" ActivityAsIs" Binding="{Binding ActivityAsIs}" Width="*">
+        <DataGridTextColumn Header="   Work                        Idle                    Off " Binding="{Binding TimeSpentFormatted}" Width="210" FontWeight="Medium" >
           <DataGridTextColumn.ElementStyle>
             <Style TargetType="TextBlock">
               <Setter Property="Foreground" Value="{Binding ColorCode, FallbackValue=#f0f}" />
             </Style>
           </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
+        <DataGridTextColumn Header=" ActivityAsIs " Binding="{Binding ActivityAsIs}"   FontWeight="Medium" />
+        <DataGridTextColumn Header=" ActivityCorrected " Binding="{Binding ActivityCorrected}"  FontWeight="Medium" />
+        <DataGridTextColumn Header=" Spent Total " Binding="{Binding TimeSpentTotal,  StringFormat='{}{0:h\\:mm\\:ss}'}" Width="70" FontWeight="Medium" />
       </DataGrid.Columns>
     </DataGrid>
     <Button IsCancel="True" Click="OnClose" VerticalAlignment="Bottom" HorizontalAlignment="Right" />

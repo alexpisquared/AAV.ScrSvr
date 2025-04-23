@@ -46,7 +46,13 @@ public partial class MainVM : ObservableObject //tu: !*\bin\*;!*\obj\*;!*\.*\*;!
         GetActivityFromFinishedEOI(prevEoi.Value),
         act2,
         $"{new string('\t', ActivityProjected.Busy - act2)} {(eoi.Key - prevEoi.Key):h\\:mm\\:ss}",
-        "#888");
+        act2 switch
+        {
+          ActivityProjected.Busy => "#0d0",
+          ActivityProjected.Idle => "#c70",
+          ActivityProjected.Off => "#d28",
+          _ => "#888"
+        });
 
       eventOfInterestList.Add(ww);
 
