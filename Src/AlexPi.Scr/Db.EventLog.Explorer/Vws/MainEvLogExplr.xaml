@@ -32,7 +32,7 @@
       <Button Content="■" HorizontalAlignment="Right" IsDefault="True" VerticalAlignment="Bottom"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnViewTable" />
       <Button Content="X" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Top"     Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnClose"/>
       
-      <Rectangle Fill="Transparent" Tag="MouseDragger" Height="36" Margin="-10" Cursor="Hand" VerticalAlignment="Top" />
+      <Rectangle Fill="Transparent" Tag="MouseDragger" Height="36" Margin="36 -10" Cursor="Hand" VerticalAlignment="Top" />
     </Grid>
   </Border>
 </lnk:WindowBase>

@@ -14,11 +14,10 @@ public enum EventOfInterestFlag
   Who_Knows_What = 1024,
 }
 
-[Flags]
 public enum ActivityProjected
 {
   Unknown = 0,
   Off = 1,
   Idle = 2,
-  Busy = 4,
+  Busy = 3,
 }

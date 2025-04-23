@@ -229,7 +229,7 @@ public partial class DailyChart
   {
     EventLogView evl = new(_thisDayEois, FindParentWindow());
     evl.Show();
-    Clipboard.SetText(_dayTableReport); _ = MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK);
+    //Clipboard.SetText(_dayTableReport); _ = MessageBox.Show(_dayTableReport, _dailyTimeSplit.DaySummary, MessageBoxButton.OK);
   }
 
   //// [Obsolete] :why Copilot decides to mark it such?
