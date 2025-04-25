@@ -219,6 +219,7 @@ public partial class App : System.Windows.Application
       ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■\n██");
     }
   }
+
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";
 
   void LogAllLevels(ILogger lgr)
