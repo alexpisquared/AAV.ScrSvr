@@ -6,7 +6,7 @@ public class DbLogHelper
   public const string _dbSubP = @"Public\AppData\EventLogDb\";
   static readonly string _dbPath = OneDrive.Folder(_dbSubP);
   static List<PcLogic>? _pcLogics;
-  static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, int>> _dict = [];
+  static readonly Dictionary<(DateTime a, DateTime b, string pcname), SortedList<DateTime, EventOfInterestFlag>> _dict = [];
 
   public static List<PcLogic> AllPCsSynch()
   {
@@ -61,27 +61,27 @@ public class DbLogHelper
     //,,Trace.WriteLine("");
     return _pcLogics;
   }
-  public static SortedList<DateTime, int> GetAllUpDnEvents(DateTime a, DateTime b, string pcname)
+  public static SortedList<DateTime, EventOfInterestFlag> GetAllUpDnEvents(DateTime a, DateTime b, string pcname)
   {
     if (_dict.ContainsKey((a, b, pcname))) return _dict[(a, b, pcname)];
 
-    var rv = new SortedList<DateTime, int>();
+    var rv = new SortedList<DateTime, EventOfInterestFlag>();
 
     using (var db = A0DbModel.GetLclFl(OneDrive.Folder($@"{_dbSubP}LocalDb({pcname}).mdf")))
     {
       foreach (var eoi in db.EvOfInts.Where(r => a < r.TimeID && r.TimeID < b && r.MachineName.Equals(pcname, StringComparison.OrdinalIgnoreCase)))
-        rv.Add(eoi.TimeID, eoi.EvOfIntFlag);
+        rv.Add(eoi.TimeID, (EventOfInterestFlag)eoi.EvOfIntFlag);
 
       var lastRecTime = db.PcLogics.FirstOrDefault(r => r.MachineName.Equals(pcname, StringComparison.OrdinalIgnoreCase))?.LogReadAt;
       if (lastRecTime != null && a < lastRecTime && lastRecTime < b)
-        rv.Add(lastRecTime.Value, (int)EvOfIntFlag.ShutAndSleepDn);
+        rv.Add(lastRecTime.Value, EventOfInterestFlag.___Pwr);
     }
 
     _dict.Add((a, b, pcname), rv);
 
     return rv;
   }
-  public static async Task<int> UpdateDbWithPotentiallyNewEvents(SortedList<DateTime, int> evlst, string pcname, string note)
+  public static async Task<int> UpdateDbWithPotentiallyNewEvents(SortedList<DateTime, EventOfInterestFlag> evlst, string pcname, string note)
   {
     var localdb = OneDrive.Folder($@"{_dbSubP}LocalDb({pcname}).mdf");
     try
@@ -98,7 +98,7 @@ public class DbLogHelper
     return -4;
   }
 
-  public static int FindNewEventsToSaveToDb(SortedList<DateTime, int> evlst, string pcname, string note, A0DbModel db)
+  public static int FindNewEventsToSaveToDb(SortedList<DateTime, EventOfInterestFlag> evlst, string pcname, string note, A0DbModel db)
   {
     var addedCount = 0;
     try
@@ -112,7 +112,7 @@ public class DbLogHelper
       pcLogic.LogReadAt = now;
       pcLogic.Note = note;
 
-      var timeRoundedList = new SortedList<DateTime, int>();
+      var timeRoundedList = new SortedList<DateTime, EventOfInterestFlag>();
       foreach (var ev in evlst)
       {
         var rounded = new DateTime(ev.Key.Year, ev.Key.Month, ev.Key.Day, ev.Key.Hour, ev.Key.Minute, ev.Key.Second);
@@ -124,7 +124,7 @@ public class DbLogHelper
       foreach (var timeRoundedEv in timeRoundedList)
         if (!db.EvOfInts.Any(r => r.TimeID == timeRoundedEv.Key && r.MachineName.Equals(pcname, StringComparison.OrdinalIgnoreCase)))
         {
-          _ = db.EvOfInts.Add(new EvOfInt { TimeID = timeRoundedEv.Key, EvOfIntFlag = timeRoundedEv.Value, MachineName = pcname });
+          _ = db.EvOfInts.Add(new EvOfInt { TimeID = timeRoundedEv.Key, EvOfIntFlag = (int)timeRoundedEv.Value, MachineName = pcname });
           addedCount++;
         }
     }

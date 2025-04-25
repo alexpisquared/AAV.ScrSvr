@@ -4,6 +4,7 @@ public partial class Page02SlideshowVM : BaseDbVM
   public Page02SlideshowVM(INavSvc loginNavSvc, ILogger lgr, IConfigurationRoot cfg, IBpr bpr, SpeechSynth synth, ISecForcer sec, IAddChild win, UserSettingsSPM usrStgns, AllowSaveStore allowSaveStore, IsBusyStore IsBusyStore) : base(lgr, cfg, bpr, sec, null, win, allowSaveStore, IsBusyStore, usrStgns, 8110)
   {
     ClientId = Config[$"ClientId_{Environment.UserName}"] ?? $"no  'ClientId_{Environment.UserName}'  in cfg!!!";
+    ClientSecret = Config["ClientSecret"] ?? $"no  'ClientSecret'  in cfg!!!";
     Synth = synth;
   }
   public override async Task<bool> InitAsync()
@@ -26,6 +27,7 @@ public partial class Page02SlideshowVM : BaseDbVM
   }
 
   [ObservableProperty] string clientId;
+  [ObservableProperty] string clientSecret;
 
   public SpeechSynth Synth { get; }
 }

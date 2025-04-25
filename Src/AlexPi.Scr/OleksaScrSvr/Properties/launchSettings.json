@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OleksaScrSvr": {
+      "commandName": "Project",
+      "commandLineArgs": "VS2022 Dev See what works"
+    }
+  }
+}

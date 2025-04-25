@@ -10,19 +10,21 @@
 
   <ItemGroup>
     <!-- Do not use newer version yet; this one is the latest which is working:
-    <PackageReference Include="Microsoft.Graph" Version="4.54.0" /> branch: main -->
-    <PackageReference Include="Microsoft.Graph" Version="5.58.0" />
-    <PackageReference Include="LibVLCSharp" Version="3.9.0" />
-    <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
-    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.13.0" />
+    <PackageReference Include="Microsoft.Graph" Version="4.54.0" /> branch: MSGraph-5-fixing-streaming -->
+    <PackageReference Include="Microsoft.Graph" Version="5.76.0" />
+    <PackageReference Include="Azure.Identity" Version="1.13.2" />
+    <PackageReference Include="LibVLCSharp" Version="3.9.2" />
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.9.2" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLibVer1.csproj" />
+    <!--<ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLib.csproj" />-->
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj" />
-    <ProjectReference Include="..\..\..\..\Microsoft-Graph\Src\msgraph-training-uwp\DemoLibrary\DemoLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,9 @@
+global using Db.EventLog.DbModel;
+global using Db.EventLog.Main;
+global using ScreenTimeUsrCtrlLib.AsLink;
+global using StandardLib.Extensions;
+global using StandardLib.Helpers;
 global using System;
-global using System.Data.Entity;
 global using System.Diagnostics;
 global using System.Globalization;
 global using System.IO;
@@ -11,11 +15,5 @@ global using System.Windows.Controls;
 global using System.Windows.Data;
 global using System.Windows.Input;
 global using System.Windows.Media;
-global using AsLink;
-global using Db.EventLog.DbModel;
-//obal using System.Text.Json; //tu: new and very performant Json lib (Dec 2021)
-global using Db.EventLog.Main;
-global using StandardLib.Extensions;
-global using StandardLib.Helpers;
 global using WpfUserControlLib.Extensions;
 global using static System.Diagnostics.Trace;

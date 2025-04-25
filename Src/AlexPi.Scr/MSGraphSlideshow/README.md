@@ -83,4 +83,33 @@ Try if this simple code works as a standalone Console App for me, then Zoe:  htt
      }
  }
 
-Branch: main: Kind of not working; if in trouble, branch off the LAST GOOD WORKING version committ and have fun
+
+## 2024-09-16
+  //tu: for MsGraphSlideshow: must use x64 :libVLC does not work with CPU ANY!!!!!!!!! ...or does it?...
+
+
+## 2024-09-22
+	https://learn.microsoft.com/en-us/graph/sdks/sdks-overview  Follow all the links in the tree at this level
+	
+	auth: Choose a Microsoft Graph authentication provider based on the scenario	https://learn.microsoft.com/en-us/graph/sdks/choose-authentication-providers?tabs=csharp
+
+	api gen: https://github.com/darrelmiller/KiotaApp
+
+	Dnld:
+	https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=csharp
+	https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-beta&tabs=csharp#code-try-1
+	contentStream:
+	https://learn.microsoft.com/en-us/graph/api/driveitem-get-contentstream?view=graph-rest-beta&tabs=csharp
+
+	4 =>5:
+	https://github.com/microsoftgraph/msgraph-sdk-dotnet/blob/main/docs/upgrade-to-v5.md
+
+	https://github.com/microsoft/kiota
+ 
+ ## 2024-10-05 
+  This branch - MSGraph-5-Fixing-Streaming - seems like the most advanced version of the code.
+ 
+ ## 2024-11-10
+	Updated nuget versions & vulnerabilities
+ 
+ 

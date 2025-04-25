@@ -1,5 +1,5 @@
-﻿using System.Runtime.InteropServices;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 namespace Db.EventLog.Explorer;
 
@@ -36,19 +36,22 @@ public partial class MainEvLogExplr
 
       if (Environment.CommandLine.Contains("Schedule") == false) return;
 
-      await Task.Delay(1_000); // wait for showing up first.
-      SendToBack();
+      if (!DevOps.IsDbg)
+      {
+        await Task.Delay(1_000); // wait for showing up first.
+        SendToBack();
+      }
 
       vizroot.IsEnabled = true;
 
-      if (Environment.CommandLine.Contains("min") && Environment.CommandLine.Split(" ").Length > 3)
-      {
-        var sdf = Environment.CommandLine.Split(" ");
-        var exitAfterMin = double.TryParse(sdf[^2], out var min) ? min : 28.25;
-        await Task.Delay(TimeSpan.FromMinutes(exitAfterMin)); // close after 29 minutes.
-      }
-
-      Close();
+      // limit run time to 29 minutes: ... taken care of by the app.xaml.cs by closing other instances prior to running this one.
+      //if (Environment.CommandLine.Contains("min") && Environment.CommandLine.Split(" ").Length > 3)
+      //{
+      //  var sdf = Environment.CommandLine.Split(" ");
+      //  var exitAfterMin = double.TryParse(sdf[^2], out var min) ? min : 28.25;
+      //  await Task.Delay(TimeSpan.FromMinutes(exitAfterMin)); // close after 29 minutes.
+      //  Close();
+      //}
     }
     catch (Exception ex) { ex.Pop(_logger); ; }
     finally { vizroot.IsEnabled = true; }
@@ -63,4 +66,8 @@ public partial class MainEvLogExplr
   }
 
   void SendToBack() => SetWindowPos(new System.Windows.Interop.WindowInteropHelper(this).Handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+
+  void OnViewTable(object sender, RoutedEventArgs e) => new RODBView("", _logger).ShowDialog();  // not sure if it'll work without a db file.
+
+  void OnClose(object sender, RoutedEventArgs e) => Close();
 }

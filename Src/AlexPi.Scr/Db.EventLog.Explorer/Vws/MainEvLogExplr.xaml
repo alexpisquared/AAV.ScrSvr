@@ -7,6 +7,14 @@
   <lnk:WindowBase.Resources>
     <SolidColorBrush x:Key="h1" Color="#333" />
     <SolidColorBrush x:Key="h3" Color="#555" />
+    <Style TargetType="{x:Type ToolTip}" >
+      <Setter Property="FontSize"                         Value="18" />
+      <Setter Property="Foreground"                       Value="#fff" />
+      <Setter Property="Background"                       Value="#026" />
+      <Setter Property="ToolTipService.InitialShowDelay"  Value="100" />
+      <Setter Property="ToolTipService.ShowDuration"      Value="180000" />
+      <Setter Property="ToolTipService.ShowOnDisabled"    Value="True" />
+    </Style>
   </lnk:WindowBase.Resources>
   <Border Background="#c0161616" BorderThickness="1" BorderBrush="#157" CornerRadius="10" >
     <Grid x:Name="vizroot" Margin="5" >
@@ -20,8 +28,11 @@
       </Grid>
       <TextBlock d:Text="Loading..." x:Name="tbInfo"   Margin="10 0" FontSize="20" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Foreground="#999" />
       <TextBlock d:Text="v 123.23"   x:Name="tbCurVer" Margin="10 0" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="DodgerBlue" />
-      <Button Content="X" HorizontalAlignment="Right" IsCancel="True" VerticalAlignment="Top"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" />
-      <Rectangle Fill="Transparent" x:Name="MouseDragger" Margin="7 7 7 30" Cursor="Hand"/>
+
+      <Button Content="■" HorizontalAlignment="Right" IsDefault="True" VerticalAlignment="Bottom"  Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnViewTable" />
+      <Button Content="X" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Top"     Width="30" Height="30" FontSize="14" Background="Transparent" Foreground="#c00" Margin="3 1" BorderThickness="0" Click="OnClose"/>
+      
+      <Rectangle Fill="Transparent" Tag="MouseDragger" Height="36" Margin="36 -10" Cursor="Hand" VerticalAlignment="Top" />
     </Grid>
   </Border>
 </lnk:WindowBase>

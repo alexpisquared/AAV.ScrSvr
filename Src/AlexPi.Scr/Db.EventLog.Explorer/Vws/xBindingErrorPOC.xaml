@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Db.EventLog.Explorer"
         xmlns:DbModel="clr-namespace:Db.EventLog.DbModel;assembly=Db.EventLog" x:Class="Db.EventLog.Explorer.xBindingErrorPOC"
         mc:Ignorable="d"
-        Title="xBindingErrorPOC" Height="300" Width="300" Loaded="Window_Loaded">
+        Title="xBinding Error POC" Height="300" Width="300" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="pcLogicViewSource" d:DesignSource="{d:DesignInstance {x:Type DbModel:PcLogic}, CreateList=True}"/>
     </Window.Resources>

@@ -14,15 +14,16 @@ public static class MvvmInitHelper
     _ = services.AddSingleton<IsBusyStore>();
 
     //tu: Start Page Startup Start up Page controller.
-    _ = DevOps.IsDbg
-      ?                /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
-      : Environment.MachineName switch
+    var rr_ =
+      Environment.GetCommandLineArgs().Count() > 1 ?
+      Environment.GetCommandLineArgs().Skip(1)?.First() switch                                 //?                 /**/    services.AddSingleton<INavSvc, Page02SlideshowNavSvc>()
       {
         "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
                        /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(), // home
         "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // razer1 or public
-        _              /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev
-      };
+        null           /**/ => SwitchByPcName(services, Environment.MachineName), 
+        _              /**/ => SwitchByPcName(services, Environment.MachineName), 
+      } :              /**/    SwitchByPcName(services, Environment.MachineName);
 
     _ = services.AddSingleton<ICompositeNavSvc, CompositeNavSvc>();
 
@@ -79,6 +80,15 @@ public static class MvvmInitHelper
 
     _ = services.AddTransient<UserSettingsSPM>();
   }
+
+  private static IServiceCollection SwitchByPcName(IServiceCollection services, string MachineName) => MachineName switch
+  {
+    "ASUS2" or "YOGA1" or "NUC2" or "BEELINK1"
+                   /**/ => services.AddSingleton<INavSvc, Page02SlideshowNavSvc>(), // home
+    "RAZER1" or "GRAM1" => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // razer1 or public
+    "NewDev"       /**/ => services.AddSingleton<INavSvc, Page03RazerScSvNavSvc>(), // new dev ?!?!?
+    _              /**/ => services.AddSingleton<INavSvc, Page01MultiUnitNavSvc>(), // public
+  };
 }
 
 public class SecForcer : ISecForcer // SecurityEnforcement.Mok. ~~~~~~~~~~~~~~~        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

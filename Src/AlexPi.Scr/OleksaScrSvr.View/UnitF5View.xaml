@@ -18,7 +18,7 @@
       </ResourceDictionary>
     </Grid.Resources>
 
-    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="Hand" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground0}" BorderBrush="#00a" />
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseLeftButtonUp="Border_MouseLeftButtonUp" MouseMove="Border_MouseMove" Cursor="SizeAll" CornerRadius="10" BorderThickness="1.5" Background="{StaticResource FlagUkraineBackground0}" BorderBrush="#00a" />
 
     <TextBlock Text="UnitF5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#c08" />
 

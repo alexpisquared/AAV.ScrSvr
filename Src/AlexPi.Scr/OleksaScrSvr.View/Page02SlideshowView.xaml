@@ -5,7 +5,7 @@
              MouseLeftButtonDown="OnDragMove" Cursor="Hand" ToolTip="The only draggable surface" 
              d:DesignHeight="600" d:DesignWidth="1600" >
   <Grid>
-    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" />
+    <MSGraphSlideshow:MsgSlideshowUsrCtrl x:Name="MsgSlideshowUsrCtrl1" ClientId="{Binding ClientId}" ClientSecret="{Binding ClientSecret}" />
     <Special:TimeTillClose Width="120" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0 0 0 180"/>
   </Grid>
 </UserControl>

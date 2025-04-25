@@ -1,25 +1,26 @@
 ﻿using Db.EventLog.Ext;
 using StandardLib.Helpers;
+using System.Collections.Generic;
 
 namespace Db.EventLog.Explorer;
 
 public partial class RODBView 
 {
   readonly A0DbModel _db;
-  readonly string _localdb;
+  //readonly string _localdb;
   private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
   public RODBView(string dbfile, Microsoft.Extensions.Logging.ILogger logger)
   {
     InitializeComponent(); KeyDown += (s, ves) => { switch (ves.Key) { case Key.Escape: Close(); break; } };
-    _localdb = dbfile;
+    //_localdb = dbfile;
     _logger = logger;
-    FileAttributeHelper.RmvAttribute(_localdb, FileAttributes.ReadOnly);
-    _db = A0DbModel.GetLclFl(dbfile);
+    //FileAttributeHelper.RmvAttribute(_localdb, FileAttributes.ReadOnly);
+    //_db = A0DbModel.GetLclFl(dbfile);
     Loaded += onLoaded;
-    samePC.IsEnabled = _localdb.Contains(Environment.MachineName);
+    //samePC.IsEnabled = _localdb.Contains(Environment.MachineName);
   } // using AsLink.UI;
-  protected override void OnClosing(System.ComponentModel.CancelEventArgs e) { base.OnClosing(e); FileAttributeHelper.AddAttribute(_localdb, FileAttributes.ReadOnly); }
+  //protected override void OnClosing(System.ComponentModel.CancelEventArgs e) { base.OnClosing(e); FileAttributeHelper.AddAttribute(_localdb, FileAttributes.ReadOnly); }
   //public static readonly DependencyProperty ZVProperty = DependencyProperty.Register("ZV", typeof(double), typeof(RODBView), new PropertyMetadata(1d)); public double ZV { get { return (double)GetValue(ZVProperty); } set { SetValue(ZVProperty, value); } }
 
   async void onLoaded(object s, RoutedEventArgs e)
@@ -27,17 +28,17 @@ public partial class RODBView
     ZoomablePanel.IsEnabled = false;
     try
     {
-      tbInfo.Text = $"Loading ... {_localdb}";
+      //tbInfo.Text = $"Loading ... {_localdb}";
       tbCurVer.Text = $"{VersionHelper.CurVerStr}";
 
-      await _db.PcLogics.LoadAsync();
-      await _db.EvOfInts.OrderByDescending(r => r.TimeID).LoadAsync(); //tu: error "'EditItem' is not allowed for this view." if Order is done on Local !!!!!!!!!!!!!!
+      //await _db.PcLogics.LoadAsync();
+      //await _db.EvOfInts.OrderByDescending(r => r.TimeID).LoadAsync(); //tu: error "'EditItem' is not allowed for this view." if Order is done on Local !!!!!!!!!!!!!!
 
-      ((CollectionViewSource)(this.FindResource("pcLogicViewSource"))).Source = _db.PcLogics.Local;
-      ((CollectionViewSource)(this.FindResource("pcLogicEvOfIntsViewSource"))).Source = _db.EvOfInts.Local;
-      ((CollectionViewSource)(this.FindResource("pcLogicEvOfIntsViewSourRO"))).Source = _db.EvOfInts.Local;
+      ((CollectionViewSource)(this.FindResource("pcLogicViewSource"))).Source = new List<PcLogic>(); // _db.PcLogics.Local;
+      ((CollectionViewSource)(this.FindResource("pcLogicEvOfIntsViewSource"))).Source = new List<EvOfInt>(); // _db.EvOfInts.Local;
+      ((CollectionViewSource)(this.FindResource("pcLogicEvOfIntsViewSourRO"))).Source = new List<EvOfInt>(); // _db.EvOfInts.Local;
 
-      tbInfo.Text = $"{_db.PcLogics.Local.Count} PCs, {_db.EvOfInts.Local.Count} events in \r\n{_localdb}.";
+      //tbInfo.Text = $"{_db.PcLogics.Local.Count} PCs, {_db.EvOfInts.Local.Count} events in \r\n{_localdb}.";
     }
     catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
@@ -45,9 +46,9 @@ public partial class RODBView
   async void onDbSave(object s, RoutedEventArgs e)
   {
     ZoomablePanel.IsEnabled = false;
-    try { tbInfo.ToolTip = tbInfo.Text = (await _db.TrySaveReportAsync()).report; }
-    catch (Exception ex) { ex.Pop(_logger); ; }
-    finally { ZoomablePanel.IsEnabled = true; }
+    //try { tbInfo.ToolTip = tbInfo.Text = (await _db.TrySaveReportAsync()).report; }
+    //catch (Exception ex) { ex.Pop(_logger); ; }
+    //finally { ZoomablePanel.IsEnabled = true; }
   }
   async void onLoadEventsForToday(object s, RoutedEventArgs e) => await evLogToDb_days(1);
   async void onLoadEventsForAWeek(object s, RoutedEventArgs e) => await evLogToDb_days(7);
@@ -59,13 +60,13 @@ public partial class RODBView
     ZoomablePanel.IsEnabled = false;
     try
     {
-      var before = _db.EvOfInts.Local.Count;
+      //var before = _db.EvOfInts.Local.Count;
       var afterr = await evLogToDb(daysBack);
 
       ((CollectionViewSource)(this.FindResource("pcLogicViewSource"))).View.Refresh();
       ((CollectionViewSource)(this.FindResource("pcLogicEvOfIntsViewSource"))).View.Refresh();
 
-      tbInfo.Text = $"Events: {before} before, {afterr}/{(await _db.TrySaveReportAsync()).rowsSavedCnt} found/saved, {_db.EvOfInts.Local.Count} after.";
+      //tbInfo.Text = $"Events: {before} before, {afterr}/{(await _db.TrySaveReportAsync()).rowsSavedCnt} found/saved, {_db.EvOfInts.Local.Count} after.";
     }
     catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ZoomablePanel.IsEnabled = true; }
@@ -78,7 +79,7 @@ public partial class RODBView
       tbInfo.Text = $"Loading...";
       for (var i = 0; i < daysBack; i++)
       {
-        n += await UpdateDbWithNewLogEvents(DateTime.Today.AddDays(-i), _db);
+        //n += await UpdateDbWithNewLogEvents(DateTime.Today.AddDays(-i), _db);
         tbInfo.Text = $"daysBack:{(daysBack - i),4} - rows added/saved:{n,5}.";
       }
     }
@@ -119,8 +120,8 @@ public partial class RODBView
     ((Button)s).IsEnabled = false;
     try
     {
-      var (newRows, report, swstopwatch) = new DataTransfer().CopyChunkyAzureSync(_db, A0DbModel.GetExprs); // .GetAzure);
-      tbInfo.Text = $"{report}";
+      //var (newRows, report, swstopwatch) = new DataTransfer().CopyChunkyAzureSync(_db, A0DbModel.GetExprs); // .GetAzure);
+      //tbInfo.Text = $"{report}";
     }
     catch (Exception ex) { ex.Pop(_logger); ; }
     finally { ((Button)s).IsEnabled = true; }

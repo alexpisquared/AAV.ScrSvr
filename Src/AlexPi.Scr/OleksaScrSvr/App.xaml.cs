@@ -1,14 +1,12 @@
-﻿using System.Speech.Recognition;
-using System.Windows.Interop;
-using AmbienceLib;
-using MSGraphSlideshow;
+﻿using MSGraphSlideshow;
+using ScreenTimeUsrCtrlLib.AsLink;
 using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class App : System.Windows.Application
 {
-  bool _mustLogEORun;
+  bool _mustLogEORun = !DevOps.IsDbg;
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
 
@@ -36,6 +34,7 @@ public partial class App : System.Windows.Application
     Current.DispatcherUnhandledException += UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
     EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox ?? new TextBox()).SelectAll(); }));
     ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15000));
+    ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15));
 
     //if (Debugger.IsAttached) while (true) { await AppStartHelper.Testc(); Debugger.Break(); }
 
@@ -48,33 +47,65 @@ public partial class App : System.Windows.Application
 
     base.OnStartup(e);
 
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} {_audit}");
+    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"┌──{TimeSoFar} {_audit}");
 
-    var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
-    _ = await mainVM.InitAsync();                 // blocking due to vesrion checker.
+    MainVM mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
+    _ = await mainVM.InitAsync();                 // blocking due to version checker.
+    FromOutlookCrashChecker();
     _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
   }
-  protected override async void OnExit(ExitEventArgs e)
+  readonly DateTime _prevChange = DateTime.Now;
+  int f = 0;
+
+  async void FromOutlookCrashChecker()
   {
-    LogScrSvrUptimeOncePerSession("ScrSvr - Dn - OnExit.");
+    if (!Environment.MachineName.Contains("33")) { return; }
 
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
+    var bpr = ServiceProvider.GetRequiredService<IBpr>();
+    double _periodInMin = 14;
 
-    if (Current is not null) Current.DispatcherUnhandledException -= UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
+    for (int i = 0; i < 2_500; i++)
+    {
+      TimeSpan dt = DateTime.Now - _prevChange;
+
+      if (dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < ((_periodInMin * 1) + 1)) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
+      {
+        _ = WinAPI.Beep(200 + (800 * (f % 4)), 240 / (1 + (f++ % 4)));
+      }
+
+      await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
+      if (i == 1) await bpr.ChockingUhmAsync();
+      if (i == 2) await bpr.AreYouSure1kAsync();
+    }
+  }
+
+  protected override void OnExit(ExitEventArgs e)
+  {
+    LogScrSvrUptimeOncePerSession("ScrSvr down - OnExit.");
+
+    //tmi: ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit  :on manual action\n██");
+
+    if (Current is not null)
+    {
+      Current.DispatcherUnhandledException -= UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
+    }
     //_serviceProvider.GetRequiredService<OleksaScrSvrModel>().Dispose();
 
-    if (DateTime.Now == DateTime.Today) LogAllLevels(ServiceProvider.GetRequiredService<ILogger>());
+    if (DateTime.Now == DateTime.Today)
+    {
+      LogAllLevels(ServiceProvider.GetRequiredService<ILogger>());
+    }
 
-    await ServiceProvider.GetRequiredService<IBpr>().AppFinishAsync();
+    ServiceProvider.GetRequiredService<IBpr>().AppFinish();
 
     base.OnExit(e);
   }
 
   async Task<bool> TimedSleepAndExit(double minToPcSleep)
   {
-    var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
-    var logger = ServiceProvider.GetRequiredService<ILogger>();
-    var beeper = ServiceProvider.GetRequiredService<IBpr>();
+    SpeechSynth speech = ServiceProvider.GetRequiredService<SpeechSynth>();
+    ILogger logger = ServiceProvider.GetRequiredService<ILogger>();
+    IBpr beeper = ServiceProvider.GetRequiredService<IBpr>();
 
     Current.Resources["ExecutionDuration"] = new Duration(TimeSpan.FromMinutes(minToPcSleep));
 
@@ -93,15 +124,15 @@ public partial class App : System.Windows.Application
       }
       else
       {
-        await Task.Delay(TimeSpan.FromSeconds(40)); speech.SpeakFAF($"Really?", volumePercent: 60);
-        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locking...", volumePercent: 20);
-        await Task.Delay(TimeSpan.FromSeconds(10)); speech.SpeakFAF($"Locked!", volumePercent: 20);
+        await Task.Delay(TimeSpan.FromSeconds(40)); // speech.SpeakFAF($"Really?", volumePercent: 60);
+        await Task.Delay(TimeSpan.FromSeconds(10)); // speech.SpeakFAF($"Locking...", volumePercent: 20);
+        await Task.Delay(TimeSpan.FromSeconds(10)); // speech.SpeakFAF($"Locked!", volumePercent: 20);
 
         _mustLogEORun = true;
-        new AsLink.EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
+        new EvLogHelper().LogScrSvrBgn(300); // 300 sec of idle has passed
 
         await Task.Delay(TimeSpan.FromMinutes(02)); // SpeakRandomFunMessage();
-        
+
         await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 3)); speech.SpeakFAF($"Turning off in a minute.", volumePercent: 20);
 
         LastMinuteChanceToCancelShutdown(speech, 1, logger, beeper);
@@ -113,8 +144,8 @@ public partial class App : System.Windows.Application
   }
   void SpeakRandomFunMessage()
   {
-    var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
-    var funMsg = new FunMessages().RandomMessage;
+    SpeechSynth speech = ServiceProvider.GetRequiredService<SpeechSynth>();
+    string funMsg = new FunMessages().RandomMessage;
 
     switch (new Random(DateTime.Now.Microsecond).Next(4))
     {
@@ -124,15 +155,15 @@ public partial class App : System.Windows.Application
       case 2: speech.SpeakFAF(funMsg, voice: CC.Xiaomo, style: CC.affectionate, role: CC.Girl); break;
       default: break;
     }
-    
-    ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│"); 
+
+    ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│");
   }
   void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
   {
     _ = Task.Run(async () =>
     {
-      var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      var taskScream =
+      Task taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
+      Task taskScream =
       Environment.MachineName switch
       {
         "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
@@ -147,14 +178,16 @@ public partial class App : System.Windows.Application
       await Task.WhenAll(taskDelay, taskScream);
     }).ContinueWith(async t =>
     {
-      await speech.SpeakAsync($"Sorry...");
       if (DevOps.IsDbg)
-        speech.SpeakFAF("That is where PC is sent to sleep in release mode.");
+      {
+        speech.SpeakFAF("PC is sent to sleep in release mode only.");
+      }
       else
       {
+        await speech.SpeakAsync($"Sweet dreams.");
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
-        var sleepStart = DateTimeOffset.Now;
+        DateTimeOffset sleepStart = DateTimeOffset.Now;
         logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█···                   │"); _ = SetSuspendState(hiberate: false, forceCritical: false, disableWakeEvent: false);
         logger.Log(LogLevel.Information, $"╘══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
 
@@ -167,13 +200,24 @@ public partial class App : System.Windows.Application
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} OnExit  :logging ???? ...");
-
-    if (!_mustLogEORun) return;
-
-    _mustLogEORun = false;
-    new AsLink.EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
-    ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╞══{TimeSoFar} OnExit  :logged into the EventLog");
+    if (!Environment.CommandLine.Contains("Sched", StringComparison.OrdinalIgnoreCase))
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine. ! Contains(\"Sched\"))\n██");
+    }
+    else if (Environment.CommandLine.Contains("idle", StringComparison.OrdinalIgnoreCase) && (DateTimeOffset.Now - _appStarted).TotalMinutes < 1)
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :too early - discarded by the user\n██");
+    }
+    else if (!_mustLogEORun)
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀\n██");
+    }
+    else
+    {
+      _mustLogEORun = false; // prevent multiple logging per session (Mar 31, 2025)
+      new EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■\n██");
+    }
   }
 
   string TimeSoFar => $"{VersionHelper.TimeAgo(DateTimeOffset.Now - _appStarted),8}";

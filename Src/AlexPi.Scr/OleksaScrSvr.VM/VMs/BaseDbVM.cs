@@ -26,7 +26,7 @@ public partial class BaseDbVM : BaseMinVM
     AllowSave = IsDevDbg && _secForcer.CanEdit && (
       UserSetgs.PrefSrvrName is not null && !UserSetgs.PrefSrvrName.Contains("PROD", StringComparison.OrdinalIgnoreCase) && UserSetgs.AllowSave);
 
-    Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26}       PageRank:{oid}     IsAudible:{UserSetgs.IsAudible} ");
+    //tmi: Logger.LogInformation($"┌── eo-ctor {GetType().Name,-26}       PageRank:{oid}     IsAudible:{UserSetgs.IsAudible} ");
   }
 
   public override async Task<bool> InitAsync()

@@ -15,11 +15,11 @@ public class EarliestDateTests
       },
       CreatedDateTime = new DateTimeOffset(new DateTime(2022, 2, 1)),
       LastModifiedDateTime = new DateTimeOffset(new DateTime(2022, 3, 1)),
-      FileSystemInfo = new Microsoft.Graph.FileSystemInfo
-      {
-        CreatedDateTime = new DateTimeOffset(new DateTime(2022, 4, 1)),
-        LastModifiedDateTime = new DateTimeOffset(new DateTime(2022, 5, 1))
-      }
+      //FileSystemInfo = new Microsoft.Graph.FileSystemInfo
+      //{
+      //  CreatedDateTime = new DateTimeOffset(new DateTime(2022, 4, 1)),
+      //  LastModifiedDateTime = new DateTimeOffset(new DateTime(2022, 5, 1))
+      //}
     };
 
     var expectedMinDate = new DateTimeOffset(new DateTime(2022, 1, 1));

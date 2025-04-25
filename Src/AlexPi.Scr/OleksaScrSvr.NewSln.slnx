@@ -1,0 +1,95 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/OleksaScrSvr_/" Id="34925c08-e769-433a-8edd-55da49103cbd">
+    <Project Path="Db.EventLog/Db.EventLog.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="MSGraphSlideshow/MSGraphSlideshow.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="OleksaScrSvr.Contract/OleksaScrSvr.Contract.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="OleksaScrSvr.View/OleksaScrSvr.View.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="OleksaScrSvr.VM/OleksaScrSvr.VM.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="ScreenTimeUsrCtrlLib/ScreenTimeUsrCtrlLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="__DeleteMe/__DeleteMe.csproj" />
+  </Folder>
+  <Folder Name="/Radar/" Id="78fae4ff-bd48-4a39-8c53-dea947d4b5f7">
+    <Project Path="../../../Radar/Src/DB.WeatherX.PwrTls/DB.WeatherX.PwrTls.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../Radar/Src/OpenMeteoClient/src/OpenMeteoClient/OpenMeteoClient.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../Radar/Src/OpenWeather2022/OpenWeaSvc.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../Radar/Src/OpenWeaWpfApp/OpenWeaLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../Radar/Src/PixelMeasure/PixelMeasure.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../Radar/Src/Radar22.Lib/Radar22.Lib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/Shared/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">
+    <Project Path="../../../AAV.Shared/Src/NetLts/Ambience/AmbienceLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/EventLogHelperLib/EventLogHelperLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/LibraryImportLib/LibraryImportLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/MsGraphLib/MsGraphLibVer1.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/MsGraphLibBeta/MsGraphLibBeta.csproj">
+      <Platform Solution="Debug|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/PeriodicTimerLib/PeriodicTimerLib.csproj">
+      <Platform Solution="Debug|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/PhoneAreaCoder/PhoneAreaCoder.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/StandardContractsLib/StandardContractsLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/StandardLib/StandardLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/WinFormsControlLib/WinFormsControlLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../../AAV.Shared/Src/NetLts/WpfUserControlLib/WpfUserControlLib.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/Util/" Id="f4d7b6c8-25fa-44b6-b0ba-20a9229970f0">
+    <Project Path="../../../Util/Src/OpenVsOnTheCulpritLine/OpenVsOnTheCulpritLine.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
+  <Project Path="Db.EventLog.Explorer/Db.EventLog.Explorer.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="OleksaScrSvr/OleksaScrSvr.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>

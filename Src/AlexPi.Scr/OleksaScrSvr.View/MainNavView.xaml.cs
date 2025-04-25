@@ -44,9 +44,7 @@ public partial class MainNavView : WindowBase
     }
 
     StretchToFill(this, Environment.MachineName == "ASUS2" ? ScreenHelper.PrimaryScreen.Bounds : ScreenHelper.GetSumOfAllBounds);
-    Topmost = Environment.CommandLine.Contains("Topmost");
-
-    //for (int i = 1; i <= max; i++) { await Task.Delay(60_000); Opacity = (double)i / max; }
+    Topmost = Environment.CommandLine.Contains("Topmost") || Environment.CommandLine.Contains("Schedule");
   }
 
   void OnWindowRestoree(object s, RoutedEventArgs e) { wr.Visibility = Visibility.Collapsed; wm.Visibility = Visibility.Visible; WindowState = WindowState.Normal; }
@@ -61,7 +59,7 @@ public partial class MainNavView : WindowBase
   static void StretchToFill(Window window, Rectangle rectangle, int margin = 2)
   {
     window.WindowState = WindowState.Normal;
-    var k = Environment.MachineName == "LR6WV43X" ? .6666666 : 1;
+    var k = Environment.MachineName.Contains("33") ? .799 : 1; // on 33 any bigger than .799 jumps to a superscale well beyond the screen boundaries .. like good 20%!
     window.Top = rectangle.Top * k - margin;
     window.Left = rectangle.Left * k - margin;
     window.Width = rectangle.Width * k + margin * 2;

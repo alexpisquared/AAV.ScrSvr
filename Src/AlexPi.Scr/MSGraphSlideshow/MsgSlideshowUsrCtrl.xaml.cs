@@ -1,18 +1,23 @@
-﻿namespace MSGraphSlideshow;
+﻿using Azure.Identity;
+using MsGraphLibVer1;
+
+namespace MSGraphSlideshow;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public partial class MsgSlideshowUsrCtrl
 {
   const int _veryQuiet = 33; // 9 is already hardly hearable on max. 26 for Nuc2 is still low since it is usually on 10 there already.
   const string _thumbnails = "thumbnails,children($expand=thumbnails)";
   Storyboard? _sbIntroOutro;
-  GraphServiceClient? _graphServiceClient;
-  CancellationTokenSource? _cancellationTokenSource;
+  //GraphServiceClient? _myGraphDriveServiceClient;
+  MyGraphDriveServiceClient? _myGraphDriveServiceClient;
+  Microsoft.Graph.Models.Drive? _drive;
+  readonly CancellationTokenSource? _cancellationTokenSource;
   readonly Random _random = new(Guid.NewGuid().GetHashCode());
   readonly LibVLC? _libVLC;
   readonly SizeWeightedRandomPicker _sizeWeightedRandomPicker = new(OneDrive.Folder("Pictures"));
-  readonly AuthUsagePOC _authUsagePOC = new();
+  //readonly AuthUsagePOC _authUsagePOC = new();
 #if DEBUG
-  const int _maxMs = 12_000;
+  const int _maxMs = 6_000;
 #else
   const int _maxMs = 60_000;
 #endif
@@ -54,22 +59,20 @@ public partial class MsgSlideshowUsrCtrl
     ((DoubleAnimation)FindResource("_d3IntroOutro")).Duration = duration;
   }
   public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register("ClientId", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientId { get => (string)GetValue(ClientIdProperty); set => SetValue(ClientIdProperty, value); } // public string ClientId { get; set; }
+  public static readonly DependencyProperty ClientSecretProperty = DependencyProperty.Register("ClientSecret", typeof(string), typeof(MsgSlideshowUsrCtrl)); public string ClientSecret { get => (string)GetValue(ClientSecretProperty); set => SetValue(ClientSecretProperty, value); } // public string ClientSecret { get; set; }
   public bool ScaleToHalf { get; set; }
-  public void ScheduleShutdown(double minToPcSleep)
-  {
-    _ = Task.Run(async () =>
-    {
-      await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
-    }).
+  public void ScheduleShutdown(double minToPcSleep) => _ = Task.Run(async () =>
+                                                        {
+                                                          await Task.Delay(TimeSpan.FromMinutes(minToPcSleep));
+                                                        }).
     ContinueWith(_ =>
     {
       ShutdownIndicatorStart();
     }, TaskScheduler.FromCurrentSynchronizationContext());
-  }
 
   ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
-  SpeechSynth? _synth; public SpeechSynth? Synth => _synth ??= (DataContext as dynamic)?.Synth;
+  SpeechSynth? _synth; public SpeechSynth Synth => _synth ??= (DataContext as dynamic).Synth;
 
   void OnMoveProgressBarTimerTick(object? s, EventArgs e) => ProgressBar2.Value = VideoView1.MediaPlayer?.Position ?? 0;
   async void OnLoaded(object s, RoutedEventArgs e)
@@ -79,24 +82,40 @@ public partial class MsgSlideshowUsrCtrl
     try
     {
       _sbIntroOutro = (Storyboard)FindResource("_sbIntroOutro");
-
-      this.FindParentWindow().WindowState = WindowState.Minimized;
-      var (success, report, result) = await _authUsagePOC.LogInAsync(ClientId);
-      this.FindParentWindow().WindowState = WindowState.Normal;
-      if (!success)
-      {
-        ReportBC.Content = $"{_filename}:- {report}";
-        Logger.Log(LogLevel.Information, $"° {report}");
-      }
-
-      ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, $"▀▄▀▄▀▄ {nameof(_sbIntroOutro)}");
 
-      _graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) =>
+      //this.FindParentWindow().WindowState = WindowState.Minimized;
+      ////var (success, report, result) = await _authUsagePOC.LogInAsync(ClientId);
+      //this.FindParentWindow().WindowState = WindowState.Normal;
+      ////if (!success)
+      ////{
+      ////  ReportBC.Content = $"{_filename}:- {report}";
+      ////  Logger.Log(LogLevel.Information, $"° {report}");
+      ////}
+
+      //ArgumentNullException.ThrowIfNull(result, $"▀▄▀▄▀▄ {report}");
+
+      _myGraphDriveServiceClient = new MyGraphDriveServiceClient(ClientId);
+      using var stream = await _myGraphDriveServiceClient.GetGraphFileStream(@"Pictures\id.png");//  Pictures\id.png");
+
+      Rs(stream);
+
+      static void Rs(Stream stream)
       {
-        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken);
-        await Task.CompletedTask;
-      }));
+        using var reader = new StreamReader(stream);
+        string? line;
+        while ((line = reader?.ReadLine()) != null)
+        {
+          Trace.WriteLine(line);
+        }
+      }
+
+      //var clientSecretCredential = new ClientSecretCredential(tenantId: "common", ClientId, clientSecret: ClientSecret, new TokenCredentialOptions { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud });
+      //_myGraphDriveServiceClient = new GraphServiceClient(clientSecretCredential, new[] { "https://graph.microsoft.com/.default" }); // _myGraphDriveServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider(async (requestMessage) => { requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", result.AccessToken); await Task.CompletedTask; }));
+      //_drive = await _myGraphDriveServiceClient.Me.Drive.GetAsync();
+
+      _drive = _myGraphDriveServiceClient.Drive;
+      ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
       while (_notShutdown)
       {
@@ -125,7 +144,7 @@ public partial class MsgSlideshowUsrCtrl
   void OnLoud(object s, RoutedEventArgs e) { if (VideoView1.MediaPlayer is not null) VideoView1.MediaPlayer.Volume = ((CheckBox)s).IsChecked == true ? _veryQuiet : 88; }
   void OnPrev(object s, RoutedEventArgs e) { }
   void OnNext(object s, RoutedEventArgs e) => _cancellationTokenSource?.Cancel();
-  void OnEndReached(object? s, EventArgs e) => _cancellationTokenSource?.Cancel();
+  void OnEndReached(object? s, EventArgs e) => Trace.WriteLine($" {DateTime.Now:HH:mm:ss.f}  OnEndReached"); // _cancellationTokenSource?.Cancel();
   void OnSnapshotOld(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_Old", false);
   void OnSnapshotNew(object s, RoutedEventArgs e) => new GuiCapture(Logger).StoreActiveWindowScreenshotToFile("ManualTest_New", true);
   void OnShutdown(object s, RoutedEventArgs e) { ((Button)s).Visibility = Visibility.Collapsed; ScheduleShutdown(.03); }
@@ -154,11 +173,9 @@ public partial class MsgSlideshowUsrCtrl
       ex.Pop(Logger, $"ERR {ReportBC.Content} ");
     }
   }
-  async void OnSignOut(object s, RoutedEventArgs e)
-  {
-    ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
+  void OnSignOut(object s, RoutedEventArgs e) =>
+    //ReportBC.Content = await _authUsagePOC.SignOut(); // LogOut
     System.Windows.Application.Current.Shutdown();
-  }
   void OnSizeChanged(object s, SizeChangedEventArgs e)
   {
     if (!ScaleToHalf) return;
@@ -186,20 +203,21 @@ public partial class MsgSlideshowUsrCtrl
     var driveItem = (DriveItem?)default;
     DateTimeOffset? minDate = null;
 
-    _filename = GetRandomSizeProportionalMediaFile();
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Start");
 
-    //pass:  Logger.Log(LogLevel.Warning, "Test");
+    _filename = GetRandomSizeProportionalMediaFile();    //pass:  Logger.Log(LogLevel.Warning, "Test");
 
     try
     {
-      ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+      ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
       ArgumentNullException.ThrowIfNull(_sbIntroOutro, nameof(_sbIntroOutro));
+      ArgumentNullException.ThrowIfNull(_drive, nameof(_drive));
 
-      driveItem = await _graphServiceClient.Drive.Root.ItemWithPath(_filename).Request().Expand(_thumbnails).GetAsync();      // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
-      if (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null)
+      driveItem = await _myGraphDriveServiceClient.DriveClient.Drives[_drive.Id].Root.ItemWithPath(_filename).GetAsync(); // ~200 ms    Write($"** {.000001 * driveItem.Size,8:N1}mb   sec:{Stopwatch.GetElapsedTime(start).TotalSeconds,5:N2}");
+      if (driveItem is null || (driveItem.Video is null && driveItem.Image is null && driveItem.Photo is null))
         return true;
 
-      Trace.WriteLine(thmb = driveItem.Thumbnails[0].Large.Url);
+      //Trace.WriteLine(thmb = driveItem?.Thumbnails[0]?.Large.Url);
       /*
 https://chi01pap001files.storage.live.com/y4mgPw3S1CXM_o-MciLRv-kvsHUZsaTyaBoHJ1qtwVCgxCsfeHZW7Rg7NzdYcLOmrPrh5rERJ1vC1WIkGy_XDdFJ9XWyG60w1evS0G_cd71_VT_hShJMBfGPy7nwTPgfbizPLOOR-mt2veIElvIN9xVYa6k9bWvJ6cw_3flK4GONGQpNV1gLh-gaicXwwlOZieaBdILqIq9RbApaGeayEs_UHRAgoPs4PRFNv3RTEFTf1Q?width=176&height=132&cropmode=none
 https://sat02pap002files.storage.live.com/y4mmV1qPhwV0gkRdceZ5M2ZzcAK5CrfwO0dr7M6ov6ALMUzQJVfj-LmiZ_FO0wS1jM9g06187J6cJyhQfjfZfRcYoRPXaVb-pCNSnEIfOr2QFIUfcm3iXRal0WMC2Dct16nOavwUZURc3rm_4TMashczqKYLLZVIQf10vFLYMQFtVyRVyvYWlLfqwkmOFB6b5QJN54yfl-IviYFiabxNFqqVpooYdvkjehbZ2iXzMsJrKM?width=176&height=132&cropmode=none
@@ -215,11 +233,17 @@ https://dsm04pap002files.storage.live.com/y4mRKHNrX-YhXbWPqv4Ixz3gH6IdzHtiM1oho6
 https://dsm04pap002files.storage.live.com/y4m7kPrdpWp5_Hbr3NT48zolOUVDW6Kptk2aOGnXlwFHI-p-CHBeAftuG5pPONEOhV4dhXtjG4jrX2VlgTQe_TL6kvLow4I3oajmMD_Z_2P-rM-9TcWmbaEepXRwafEageKbAxa_V8_0icqSP-lm5Q70sNbwP2qELeHfbGvCU3zHi-ooRnaUvqkziOVSgbqmUc_aTNJD0xrFvDiIW-vMVIdtwT61o34C-QFuJdoFblsbZY?width=800&height=533&cropmode=none
 https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVKHf_aujRoseNwjmwiEFoqHIILBmVQRX1QHZ7yk6c-hructLqhSqbpxawo7e_TN94YBGRPcv_Fz1rWnO3icDKUb16Lzv6T6jPuHTrf3UoQ0LKHryVfRgKKT_L0PQIYJ4d8utupHaqSOsPyCjEhpRkOSRQ8QwQtuIk4PsPNRT06LaYjnQwWZoFmazbSf2daFdVQJqv8SZik?width=800&height=600&cropmode=none
        */
-      HistoryL.Content = $"{.000001 * driveItem.Size,5:N1}";
+      HistoryL.Content = $"{.000_001 * driveItem.Size,5:N1}";
 
-      var taskStream = TaskDownloadStreamGraph(_filename); //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
+      //var taskStream = TaskDownloadStreamGraph(_filename); 
+      var taskStream = TaskDownloadStreamGraph(driveItem);
+      //todo: TaskDownloadStreamAPI($"https://graph.microsoft.com/v1.0/me/drive/items/{driveItem.Id}/content"); 
+      //todo: Partial range downloads   from   https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http#code-try-1
       ArgumentNullException.ThrowIfNull(taskStream, nameof(taskStream));
 
+#if !old
+      await taskStream;
+#else
       try
       {
         _cancellationTokenSource = new();
@@ -228,15 +252,11 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
         dnldTime = taskStream.Result.dnldTime;
       }
       catch (OperationCanceledException) { cancelReport = "Canceled ~end reached"; }
-      catch (Exception ex)
-      {
-        ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}";
-
-        ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); // Logger.Log(LogLevel.Error, $"ERR inn {ReportBC.Content} ");        Bpr?.Error(); // System.Media.SystemSounds.Hand.Play();
-      }
+      catch (Exception ex) { ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem.Size,5:N1}mb   {driveItem.Name}"; ex.Pop(Logger, $"ERR inn {ReportBC.Content}"); }
       finally { _cancellationTokenSource?.Dispose(); _cancellationTokenSource = null; }
 
       if (VideoView1?.MediaPlayer?.IsPlaying == true) VideoView1?.MediaPlayer.Stop(); // hangs if is not playing  //if (VideoView1.MediaPlayer.CanPause == true)        VideoView1.MediaPlayer.Pause();
+#endif
 
       HistoryR.Content += $"\n{ReportBR.Content}";
       ReportBR.Content = $"{driveItem.Name}";
@@ -251,7 +271,7 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       ReportTL.Content = $"{minDate:yyyy-MM-dd}";
 
       ArgumentNullException.ThrowIfNull(VideoView1, "VideoView1... ■321");
-      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "VideoView1.MediaPlayer ... ■321");
+      ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, @"VideoView1.MediaPlayer: Move \libvlc\ folder to the target.exe one!!!  ■88"); // 
 
       if (driveItem?.Image is not null)
       {
@@ -296,53 +316,56 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
       ReportBC.FontSize = 4 + (ReportBC.FontSize / 2);
 
+#if !old
+      if (DevOps.IsDbg) await Synth.SpeakAsync("Wait");
+      await Task.Delay(_maxMs);
+      if (DevOps.IsDbg) await Synth.SpeakAsync("End");
+#else
+#endif
+
       return true;
     }
+    catch (AuthenticationFailedException ex)
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     catch (ServiceException ex)
-    {
-      ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
-      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
-
-      return false;
-    }
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     catch (Exception ex)
-    {
-      ReportBC.FontSize = 16;
-      ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}";
-      ex.Pop(Logger, $"ERR out {ReportBC.Content} ");
-
-      return false;
-    }
+    { ReportBC.FontSize = 16; ReportBC.Content = $"{_filename}:- {ex.Message}  {.000001 * driveItem?.Size,5:N1}mb   {driveItem?.Name ?? _filename}"; ex.Pop(Logger, $"ERR out {ReportBC.Content} "); return false; }
     finally
     {
-      var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
-
-      if (!_alreadyPrintedHeader)
+      if (driveItem is not null)
       {
-        _alreadyPrintedHeader = true;
-        Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport              taken     created   lastModi  fsi.crea  fsi.last    the Earliest!!");
-        //await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:ddd MM-dd} the Earliest!!    Mb 1drv.ms/i/s!AGmSfHgV-\n");
+        if (!_alreadyPrintedHeader) { _alreadyPrintedHeader = true; Logger?.Log(LogLevel.Information, "dld mb/sec  Media  len by to/drn s Posn%                                                     driveItem.Name  takenYMD  cancelReport               taken____ _created_ lastModif _fsi.crea _fsi.last  the Earliest!!"); }
+
+        Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
+
+        var videoLogFile = OneDrive.Folder(@"Public\Logs\OleksaScrSvr.Video.log"); //nogo: ...= OneDrive.Folder(@"Documents\Logs\OleksaScrSvr.Video.log"); // logs for private use only :since URL is in the log.
+        await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem?.WebUrl?.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
+
+        _currentShowTimeMS = _maxMs;
       }
-
-      Logger?.Log(LogLevel.Information, $"{.000001 * driveItem?.Size,6:N0}/{dnldTime.TotalSeconds,2:N0}{mediaType,8}  {streamReport,-26}{driveItem?.Name,62}  {minDate:yy-MM-dd}  {cancelReport,-26}{allDates}");
-
-      await System.IO.File.AppendAllTextAsync(videoLogFile, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{minDate:yyyy-MM-dd HH:mm}\t{.000001 * driveItem?.Size,6:N0}\t{new string('■', (int)(.00000001 * driveItem?.Size ?? 0)),-9}\t{driveItem.WebUrl.Replace("https://1drv.ms/i/s!AGmSfHgV-", "")}\t{_filename}\t{thmb}\n"); /////////////////////////////////////////////
-
-      _currentShowTimeMS = _maxMs;
     }
   }
 
   async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(string file)
   {
-    ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
+    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
     var start = Stopwatch.GetTimestamp();
-    var stream = await _graphServiceClient.Drive.Root.ItemWithPath(file).Content.Request().GetAsync();
+    var stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Root.ItemWithPath(file).Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
     var dnldTm = Stopwatch.GetElapsedTime(start);
 
-#if DEBUG
-    Synth?.SpeakFAF("Got it!");
-#endif
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
+
+    return (stream, dnldTm);
+  }
+  async Task<(Stream stream, TimeSpan dnldTime)> TaskDownloadStreamGraph(DriveItem file)
+  {
+    ArgumentNullException.ThrowIfNull(_myGraphDriveServiceClient, nameof(_myGraphDriveServiceClient));
+    var start = Stopwatch.GetTimestamp();
+    var stream = (await _myGraphDriveServiceClient.DriveClient.Drives[_drive?.Id].Items[file.Id].Content.GetAsync()) ?? throw new ArgumentNullException("■ 897");
+    var dnldTm = Stopwatch.GetElapsedTime(start);
+
+    if (DevOps.IsDbg) await Synth.SpeakAsync("Got it!");
 
     return (stream, dnldTm);
   }
@@ -369,19 +392,22 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       ".exe",
       ".ini",
       ".log",
+
+// Block videos until streaming Play is fixed or replaced with a better solution:
+      ".3gp", // Video
+      ".avi", // Video
+      ".mov", // Video
+      ".mp4", // Video
+      ".mpg", // Video
+      ".m2ts",// Video
+      ".mts", // Video
+      ".wmv", // Video
+
 #if DEBUG
-      //".3gp",
-      //".dng",
+      //".dng", // uncompressed image data from Lumai 1020 .. 137 files 42 mb each
       //".jpg",
-      //".mov",
-      //".mp4",
-      //".mpg",
-      //".mpo",
-      //".MPO",
-      //".m2ts",
-      //".mts",
+      //".MPO", // A Multi-Picture Object (MPO) file is an image format that contains multiple images within a single file. This format is commonly used to store stereoscopic 3D images, allowing a 3D effect by using two images—typically one for each eye.
       //".png",
-      //".wmv",
 #endif
       ".manifest",
       ".nar",
@@ -407,33 +433,32 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
           @"Pictures\2016-09\wp_ss_20160915_0001.png"};
           */
 #else
-      var fileinfo = _sizeWeightedRandomPicker.PickRandomFile();
-      var pathfile = fileinfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrive.Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrive.Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
+      var fileInfo = _sizeWeightedRandomPicker.PickRandomFile();
+      var pathFile = fileInfo.FullName[OneDrive.Root.Length..];      //file = @"C:\Users\alexp\OneDrive\Pictures\Main\_New\2013-07-14 Lumia520\Lumia520 014.mp4"[OneDrives[""].Root.Length..]; //100mb      //file = @"C:\Users\alexp\OneDrive\Pictures\Camera imports\2018-07\VID_20180610_191622.mp4"[OneDrives[""].Root.Length..]; //700mb takes ~1min to download on WiFi and only then starts playing.
 #endif
-      if (_blackList.Contains(Path.GetExtension(pathfile).ToLower()) == false
+      if (_blackList.Contains(Path.GetExtension(pathFile).ToLower()) == false
 #if DEBUG
-        //&& 500_000_000 < fileinfo.Length && fileinfo.Length < 3_000_000_000     // a big 2gb file on Zoe's account
-        //&&  100_000 < fileinfo.Length && fileinfo.Length < 2_000_000            // tiny pics mostly ... I hope.
-        //&& 12_000_000 < fileinfo.Length && fileinfo.Length < 26_000_000         // small videos
-        && 3_000_000 < fileinfo.Length && fileinfo.Length < 22_000_000            // 50/50 videos/pics mix
+        //&& 500_000_000 < fileInfo.Length && fileInfo.Length < 3_000_000_000     // a big 2gb file on Zoe's account
+        //&&  100_000 < fileInfo.Length && fileInfo.Length < 2_000_000            // tiny pics mostly ... I hope.
+        //&& 12_000_000 < fileInfo.Length && fileInfo.Length < 26_000_000         // small videos
+        && 26_000_000 < fileInfo.Length && fileInfo.Length < 52_000_000           // medium videos
+                                                                                  //&& 3_000_000 < fileInfo.Length && fileInfo.Length < 22_000_000            // 50/50 videos/pics mix
 #endif
         )
-        return pathfile;
+        return pathFile;
     }
 
     throw new Exception("No suitable media files found ▄▀▄▀▄▀▄▀▄▀▄▀");
   }
   async Task<(long durationInMs, bool isExact, string report)> StartPlayingMediaStream(Stream stream, DriveItem driveItem)
   {
-    var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
-
+    Trace.WriteLine($" {DateTime.Now:HH:mm:ss.f}  StartPlayingMediaStream");
     ArgumentNullException.ThrowIfNull(VideoView1.MediaPlayer, "■555");
 
-    _ = VideoView1.MediaPlayer.Play(media);
+    var media = new Media(_libVLC ?? throw new ArgumentNullException("_libVLC"), new StreamMediaInput(stream));
 
-#if DEBUG
-    Synth?.SpeakFAF("Play!");
-#endif
+    _ = VideoView1.MediaPlayer.Play(media);
+    await Task.Delay(1); //tu: DOES NOT WORK WITHOUT IT ... no idea why!!!            tested in: C:\g\AiGen\Sln1\MSGraphVideoStreamPlayWpfPOC\MainWindow.xaml.cs
 
     VideoView1.MediaPlayer.Volume = _veryQuiet;
     VideoView1.MediaPlayer.Mute = false;
@@ -442,6 +467,8 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
     _currentShowTimeMS = Math.Min((int)durationMs, _maxMs);
     SetAnimeDurationInMS(_currentShowTimeMS);
     _sbIntroOutro?.Begin();
+
+    if (DevOps.IsDbg) await Synth.SpeakAsync(durationMs > _currentShowTimeMS ? "Seek!" : "Play!");
 
     var report2 = report;
     if (durationMs > _currentShowTimeMS)
@@ -453,15 +480,12 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
       var seekToPerc = (double)seekToMSec / durationMs;
       ProgressBar2.Value = seekToPerc;
 
-      await Task.Delay(999); // to demo the seek to a better position.
+      // looks really bad on the new sep 2024 version: => commented out:
+      //await Task.Delay(999); // to demo the seek to a better position.
+      //VideoView1.MediaPlayer.SetPause(true);
 
-      VideoView1.MediaPlayer.SetPause(true);
       VideoView1.MediaPlayer.SeekTo(TimeSpan.FromMilliseconds(seekToMSec));
       VideoView1.MediaPlayer.SetPause(false);
-
-#if DEBUG
-      Synth?.SpeakFAF("Seek!");
-#endif
 
       report2 += $"{(int)(seekToMSec * .001),3}/{(int)(durationMs * .001),-3}";
 
@@ -507,8 +531,8 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
   }
   static async Task<(long durationMs, bool isExact, string report)> TryGetBetterDuration(DriveItem driveItem, Media media)
   {
-    if (driveItem.Video.Duration > 0)
-      return ((long)driveItem.Video.Duration, true, "drvItm");
+    if (driveItem.Video?.Duration > 0)
+      return (driveItem.Video.Duration.Value, true, "drvItm");
 
     const int maxTries = 101;
     var i = 1; for (; i < maxTries && media.Duration <= 0; i++) await Task.Delay(10);
@@ -518,25 +542,12 @@ https://chi01pap001files.storage.live.com/y4mb1b0drT4MbnDiSRBHRQ98y2otL-SGpdelVK
 
     return media.Duration > 0
       ? (media.Duration, true, rv)
-      : Path.GetExtension(driveItem.Name).ToLower() switch
+      : Path.GetExtension(driveItem.Name)?.ToLower() switch
       {
         ".m2ts" => ((driveItem.Size ?? 0) / (38208 * 1024 / 13000), false, rv),
         ".mts" => ((driveItem.Size ?? 0) / (20298 * 1024 / 13000), false, rv),
         _ => (0, false, "//todo"),
       };
-  }
-
-  async Task Testingggggggg(string thm, string file)
-  {
-    ArgumentNullException.ThrowIfNull(_graphServiceClient, nameof(_graphServiceClient));
-    //var me = await graphServiceClient.Me.Request().GetAsync();
-    ImageView1.Source = (await GetBipmapFromStream((await _graphServiceClient.Me.Photo.Content.Request().GetAsync()))).bitmapImage;
-    _ = await _graphServiceClient.Drive.Root.Request().Expand(thm).GetAsync();
-    _ = await _graphServiceClient.Drive.Root.ItemWithPath("/Pictures").Request().Expand(thm).GetAsync();
-    _ = await _graphServiceClient.Drive.Root.ItemWithPath(file).Request().Expand(thm).GetAsync();
-
-    var items = await _graphServiceClient.Me.Drive.Root.Children.Request().GetAsync(); //tu: onedrive root folder items == 16 dirs.
-    _ = items.ToList()[12].Folder;
   }
 }
 /*

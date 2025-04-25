@@ -5,7 +5,7 @@
                 xmlns:vms="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" d:DataContext="{d:DesignInstance Type=vms:MainVM}"       
                 xmlns:lnk="clr-namespace:WpfUserControlLib.Base;assembly=WpfUserControlLib"         
                 xmlns:anm="clr-namespace:WpfUserControlLib.Anime;assembly=WpfUserControlLib" 
-                Title="OleksaScrSvr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333" Background="#5000">
+                Title="Oleksa Scr Svr" MinWidth="60" MinHeight="26" Style="{DynamicResource WindowStyle_Aav0}" Loaded="OnLoaded" d:DesignWidth="1111" d:DesignHeight="333" Background="#5000">
   <WindowChrome.WindowChrome>
     <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" />
   </WindowChrome.WindowChrome>

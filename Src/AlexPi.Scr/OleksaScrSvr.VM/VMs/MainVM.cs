@@ -37,10 +37,10 @@ public partial class MainVM : BaseMinVM
   }
   public override async Task<bool> InitAsync()
   {
-    AppVerToolTip =     AppVerNumber =     VersionHelper.CurVerStr;
+    AppVerToolTip = AppVerNumber = VersionHelper.CurVerStr;
 
     Bpr.AppStart();
-    await Task.Delay(100);
+    await Task.Delay(1).ConfigureAwait(false);
 
     var rv = await base.InitAsync();
 
