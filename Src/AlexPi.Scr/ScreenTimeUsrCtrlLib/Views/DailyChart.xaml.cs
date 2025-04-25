@@ -140,9 +140,9 @@ public partial class DailyChart
   string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
     if (eoiA == EventOfInterestFlag.Idle___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.
-    //!!!!!!! 2025-04 if (eoiA == EventOfInterestFlag.PowerOn && eoiB == EventOfInterestFlag.IdleFinish) eoiA = EventOfInterestFlag.IdleBegin; // ignore odd pwr-on during scrsvr runs.
-    if (eoiA == EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.___Pwr; // ignore odd pwr-on during scrsvr runs. 2023-04
-    if (eoiA == EventOfInterestFlag.___Idle && eoiB == EventOfInterestFlag.___Pwr) eoiA = EventOfInterestFlag.Idle___; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04
+    //if(eoiA== EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.___Idle) eoiA = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.                         :overruled 2025-04-~8
+    if (eoiA == EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.___Pwr;   // ignore odd pwr-on during scrsvr runs. 2023-04
+    //if(eoiA== EventOfInterestFlag.___Idle && eoiB == EventOfInterestFlag.___Pwr) eoiA = EventOfInterestFlag.Idle___; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04.  :overruled 2025-04-25
 
     var tA = eoiA == EventOfInterestFlag.Idle___ ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
     var tB = eoiB == EventOfInterestFlag.Idle___ ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
@@ -255,7 +255,7 @@ public partial class DailyChart
     {
       parent = VisualTreeHelper.GetParent(parent);
     }
-    
+
     return parent as Window;
   }
   #endregion
