@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
     <UserSecretsId>f0662977-c0c7-4b93-8d37-62fcb71fd167</UserSecretsId>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <!--<UseWindowsForms>true</UseWindowsForms>-->
