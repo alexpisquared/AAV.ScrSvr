@@ -188,8 +188,17 @@ public partial class App : System.Windows.Application
         LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver.");
 
         DateTimeOffset sleepStart = DateTimeOffset.Now;
-        logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1 \n█···                   │"); _ = SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
-        logger.Log(LogLevel.Information, $"╘══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} \n██··"); Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+        logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1, MF1. On MF1 this is EOIdle  \n█·                     │");
+
+        if (Environment.MachineName.Contains("33")) // no sleep needed on 33 .. right? (May 2025)
+          logger.Log(LogLevel.Information, $"╞══{TimeSoFar} what to do here on PC33? ··");
+        else
+        {
+          _ = SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
+
+          logger.Log(LogLevel.Information, $"╞══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} ··");
+          Process.GetCurrentProcess().Close();        //gger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+        }
 
         // never gets here: 
         //Environment.Exit(87);
@@ -216,7 +225,7 @@ public partial class App : System.Windows.Application
     {
       _mustLogEORun = false; // prevent multiple logging per session (Mar 31, 2025)
       new EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
-      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■\n██");
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■ .. on MF1 - it keeps running ..");
     }
   }
 
