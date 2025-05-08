@@ -1,5 +1,6 @@
 ﻿using MSGraphSlideshow;
 using ScreenTimeUsrCtrlLib.AsLink;
+using System.Speech.Recognition;
 using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
@@ -172,6 +173,10 @@ public partial class App : System.Windows.Application
           => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
         "RAZER1"
           => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
+        "MINISFORUM1"
+          => bpr.GradientAsync(52, 3_800, 19, (int)(120_000 * oneMinute)),
+        "CETLAP33"
+          => bpr.GradientAsync(52, 8_800, 19, (int)(120_000 * oneMinute)),
         _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
       };
 
@@ -227,6 +232,7 @@ public partial class App : System.Windows.Application
       _mustLogEORun = false; // prevent multiple logging per session (Mar 31, 2025)
       new EvLogHelper().LogScrSvrEnd(_appStarted.DateTime.AddSeconds(-240), msg);
       ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   logged into the EventLog ■ ■ ■ .. on MF1 - it keeps running ..");
+      ServiceProvider.GetRequiredService<SpeechSynth>().SpeakFAF($"End-of-idling event logged.");
     }
   }
 
