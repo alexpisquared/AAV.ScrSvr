@@ -196,7 +196,7 @@ public partial class App : System.Windows.Application
         else
         {
           await speech.SpeakAsync($"Sweet dreams.");
-          LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver."); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver."); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Log ScrSvr Uptime (___Idle) Once Per Session
 
           DateTimeOffset sleepStart = DateTimeOffset.Now;
           logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1, MF1. On MF1 this is EOIdle  \n█·                     │");
