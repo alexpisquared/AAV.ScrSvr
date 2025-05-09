@@ -174,9 +174,9 @@ public partial class App : System.Windows.Application
         "RAZER1"
           => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
         "MINISFORUM1"
-          => bpr.GradientAsync(52, 3_800, 19, (int)(120_000 * oneMinute)),
+          => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
         "CETLAP33"
-          => bpr.GradientAsync(52, 8_800, 19, (int)(120_000 * oneMinute)),
+          => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
         _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
       };
 
