@@ -1,6 +1,5 @@
 ﻿using MSGraphSlideshow;
 using ScreenTimeUsrCtrlLib.AsLink;
-using System.Speech.Recognition;
 using static AmbienceLib.SpeechSynth;
 
 namespace OleksaScrSvr;
@@ -50,7 +49,7 @@ public partial class App : System.Windows.Application
 
     ServiceProvider.GetRequiredService<ILogger>().LogInformation($"┌──{TimeSoFar} {_audit}");
 
-    MainVM mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
+    var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to version checker.
     FromOutlookCrashChecker();
     _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
@@ -65,9 +64,9 @@ public partial class App : System.Windows.Application
     var bpr = ServiceProvider.GetRequiredService<IBpr>();
     double _periodInMin = 14;
 
-    for (int i = 0; i < 2_500; i++)
+    for (var i = 0; i < 2_500; i++)
     {
-      TimeSpan dt = DateTime.Now - _prevChange;
+      var dt = DateTime.Now - _prevChange;
 
       if (dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < ((_periodInMin * 1) + 1)) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
       {
@@ -75,8 +74,8 @@ public partial class App : System.Windows.Application
       }
 
       await Task.Delay(DevOps.IsDbg ? 5_950 : 14_960);
-      if (i == 1) await bpr.ChockingUhmAsync();
-      if (i == 2) await bpr.AreYouSure1kAsync();
+      if (i == 1) await bpr.AreYouSure1kAsync();
+      if (i == 2) await bpr.ChockingUhmAsync();
     }
   }
 
@@ -104,9 +103,9 @@ public partial class App : System.Windows.Application
 
   async Task<bool> TimedSleepAndExit(double minToPcSleep)
   {
-    SpeechSynth speech = ServiceProvider.GetRequiredService<SpeechSynth>();
-    ILogger logger = ServiceProvider.GetRequiredService<ILogger>();
-    IBpr beeper = ServiceProvider.GetRequiredService<IBpr>();
+    var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
+    var logger = ServiceProvider.GetRequiredService<ILogger>();
+    var beeper = ServiceProvider.GetRequiredService<IBpr>();
 
     Current.Resources["ExecutionDuration"] = new Duration(TimeSpan.FromMinutes(minToPcSleep));
 
@@ -145,8 +144,8 @@ public partial class App : System.Windows.Application
   }
   void SpeakRandomFunMessage()
   {
-    SpeechSynth speech = ServiceProvider.GetRequiredService<SpeechSynth>();
-    string funMsg = new FunMessages().RandomMessage;
+    var speech = ServiceProvider.GetRequiredService<SpeechSynth>();
+    var funMsg = new FunMessages().RandomMessage;
 
     switch (new Random(DateTime.Now.Microsecond).Next(4))
     {
@@ -159,59 +158,56 @@ public partial class App : System.Windows.Application
 
     ServiceProvider.GetRequiredService<ILogger>().Log(LogLevel.Information, $"╞══  Played this '{funMsg}'│");
   }
-  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr)
-  {
-    _ = Task.Run(async () =>
-    {
-      Task taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
-      Task taskScream =
-      Environment.MachineName switch
-      {
-        "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
-          => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
-        "NUC2"
-          => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
-        "RAZER1"
-          => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
-        "MINISFORUM1"
-          => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
-        "CETLAP33"
-          => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
-        _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
-      };
+  void LastMinuteChanceToCancelShutdown(SpeechSynth speech, double oneMinute, ILogger logger, IBpr bpr) => _ = Task.Run(async () =>
+                                                                                                            {
+                                                                                                              var taskDelay = Task.Delay(TimeSpan.FromMinutes(oneMinute)); // must go first, or else it will be scheduled AFTER! completion of the scream.
+                                                                                                              var taskScream =
+                                                                                                              Environment.MachineName switch
+                                                                                                              {
+                                                                                                                "origin" // or "NUC2" // or "GRAM1" or "ASUS2" or "YOGA1" or "BEELINK1"
+                                                                                                                  => bpr.GradientAsync(52, 9_000, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "NUC2"
+                                                                                                                  => bpr.GradientAsync(52, 0_500, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "RAZER1"
+                                                                                                                  => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "MINISFORUM1"
+                                                                                                                  => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
+                                                                                                                "CETLAP33"
+                                                                                                                  => bpr.GradientAsync(52, 1_100, 19, (int)(120_000 * oneMinute)),
+                                                                                                                _ => bpr.GradientAsync(52, 0_800, 19, (int)(120_000 * oneMinute))
+                                                                                                              };
 
-      await Task.WhenAll(taskDelay, taskScream);
-    }).ContinueWith(async t =>
-    {
-      if (DevOps.IsDbg)
-      {
-        speech.SpeakFAF("PC is sent to sleep in release mode only.");
-      }
-      else
-      {
-        if (Environment.MachineName.Contains("33")) // no sleep needed on 33 .. right? (May 2025)
-        {
-          logger.Log(LogLevel.Information, $"╞══{TimeSoFar} what to do here on PC33? ·· nothing; the PC keeps idling until scrsvr is closed.");
-        }
-        else
-        {
-          await speech.SpeakAsync($"Sweet dreams.");
-          LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver."); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Log ScrSvr Uptime (___Idle) Once Per Session
+                                                                                                              await Task.WhenAll(taskDelay, taskScream);
+                                                                                                            }).ContinueWith(async t =>
+                                                                                                            {
+                                                                                                              if (DevOps.IsDbg)
+                                                                                                              {
+                                                                                                                speech.SpeakFAF("PC is sent to sleep in release mode only.");
+                                                                                                              }
+                                                                                                              else
+                                                                                                              {
+                                                                                                                if (Environment.MachineName.Contains("33")) // no sleep needed on 33 .. right? (May 2025)
+                                                                                                                {
+                                                                                                                  logger.Log(LogLevel.Information, $"╞══{TimeSoFar} what to do here on PC33? ·· nothing; the PC keeps idling until scrsvr is closed.");
+                                                                                                                }
+                                                                                                                else
+                                                                                                                {
+                                                                                                                  await speech.SpeakAsync($"Sweet dreams.");
+                                                                                                                  LogScrSvrUptimeOncePerSession("ScrSvr - Dn - PC sleep enforced by the screen saver."); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Log ScrSvr Uptime (___Idle) Once Per Session
 
-          DateTimeOffset sleepStart = DateTimeOffset.Now;
-          logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1, MF1. On MF1 this is EOIdle  \n█·                     │");
-          _ = SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
+                                                                                                                  var sleepStart = DateTimeOffset.Now;
+                                                                                                                  logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1, MF1. On MF1 this is EOIdle  \n█·                     │");
+                                                                                                                  _ = SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
 
-          logger.Log(LogLevel.Information, $"╞══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} ··");
-          Process.GetCurrentProcess().Close();        //logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
-        }
+                                                                                                                  logger.Log(LogLevel.Information, $"╞══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} ··");
+                                                                                                                  Process.GetCurrentProcess().Close();        //logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
+                                                                                                                }
 
-        // never gets here: 
-        //Environment.Exit(87);
-        //Environment.FailFast("Environment.FailFast");
-      }
-    }, TaskScheduler.FromCurrentSynchronizationContext());
-  }
+                                                                                                                // never gets here: 
+                                                                                                                //Environment.Exit(87);
+                                                                                                                //Environment.FailFast("Environment.FailFast");
+                                                                                                              }
+                                                                                                            }, TaskScheduler.FromCurrentSynchronizationContext());
 
   void LogScrSvrUptimeOncePerSession(string msg)
   {
