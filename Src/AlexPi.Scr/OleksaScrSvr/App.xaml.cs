@@ -9,6 +9,7 @@ public partial class App : System.Windows.Application
   bool _mustLogEORun = !DevOps.IsDbg;
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
+  int f = 0;
 
   public IServiceProvider ServiceProvider { get; }
 
@@ -17,7 +18,6 @@ public partial class App : System.Windows.Application
     IServiceCollection services = new ServiceCollection();
 
     AppStartHelper.InitAppSvcs(services);
-
     MvvmInitHelper.InitMVVM(services);
 
     _ = services.AddSingleton<IAddChild, MainNavView>();
@@ -36,8 +36,6 @@ public partial class App : System.Windows.Application
     ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15000));
     ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15));
 
-    //if (Debugger.IsAttached) while (true) { await AppStartHelper.Testc(); Debugger.Break(); }
-
     ServiceProvider.GetRequiredService<INavSvc>().Navigate();
 
     MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
@@ -54,8 +52,6 @@ public partial class App : System.Windows.Application
     FromOutlookCrashChecker();
     _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
   }
-  readonly DateTime _prevChange = DateTime.Now;
-  int f = 0;
 
   async void FromOutlookCrashChecker()
   {
@@ -66,8 +62,7 @@ public partial class App : System.Windows.Application
 
     for (var i = 0; i < 2_500; i++)
     {
-      var dt = DateTime.Now - _prevChange;
-
+      var dt = DateTime.Now - _appStarted;
       if (dt.TotalMinutes > (_periodInMin * 1) && dt.TotalMinutes < ((_periodInMin * 1) + 1)) // check/restart Outlook every ~15 minutes <== should be sufficient for never missing a meeting.
       {
         _ = WinAPI.Beep(200 + (800 * (f % 4)), 240 / (1 + (f++ % 4)));
@@ -113,10 +108,6 @@ public partial class App : System.Windows.Application
     {
       if (DevOps.IsDbg)
       {
-        ////await speech.SpeakAsync($"Last minute!");
-        ////await speech.SpeakAsync($"Time to change!");
-        //        var taskScream = beeper.GradientAsync(52, 9_000, 19, (int)(120_000 ));
-
         new EarliestDateTests().TestEarliestDate();
         await Task.Delay(TimeSpan.FromMinutes(minToPcSleep - 0)); speech.SpeakFAF($"Turning off in 15 seconds.");
 
