@@ -13,7 +13,7 @@ public partial class UnitF4View
     if (++count < 3)
     {
       WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {count,2}   MouseEnter   <   3");
-      Console.Beep(260, 60);
+      Console.Beep(260 * count, 60);
       return;
     }
 
