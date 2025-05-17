@@ -119,12 +119,12 @@ public partial class DailyChart
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) Console.Beep(333, 333);
+      if (StandardLib.Helpers.DevOps.IsDbg) WinAPI.Beep(333, 333);
       await ClearDrawAllSegmentsForSinglePC();
     }
     else
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) Console.Beep(3333, 111);
+      if (StandardLib.Helpers.DevOps.IsDbg) WinAPI.Beep(3333, 111);
       addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
       var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;

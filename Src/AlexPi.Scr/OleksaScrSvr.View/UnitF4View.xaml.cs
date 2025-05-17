@@ -13,12 +13,12 @@ public partial class UnitF4View
     if (++count < 3)
     {
       WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {count,2}   MouseEnter   <   3");
-      Console.Beep(260 * count, 60);
+      WinAPI.Beep(260 * count, 60);
       return;
     }
 
     WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {count,2}   MouseEnter");
-    Console.Beep(1260, 160);
+    WinAPI.Beep(1260, 160);
     WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {count,2}   MouseEnter   =>   Application.Current.Shutdown();     ");
 
     Application.Current.Shutdown();     //Close();
