@@ -139,15 +139,14 @@ public partial class DailyChart
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
   string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
-    if (eoiA == EventOfInterestFlag.Idle___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.
-    //if(eoiA== EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.___Idle) eoiA = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.                         :overruled 2025-04-~8
-    if (eoiA == EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.___Pwr;   // ignore odd pwr-on during scrsvr runs. 2023-04
-    //if(eoiA== EventOfInterestFlag.___Idle && eoiB == EventOfInterestFlag.___Pwr) eoiA = EventOfInterestFlag.Idle___; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04.  :overruled 2025-04-25
-
     var tA = eoiA == EventOfInterestFlag.Idle___ ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
     var tB = eoiB == EventOfInterestFlag.Idle___ ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
-
     var dTime = tB - tA;
+
+    //if(eoiA== EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.___Idle) eoiA = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.                         :overruled 2025-04-~8
+    //if(eoiA== EventOfInterestFlag.___Idle && eoiB == EventOfInterestFlag.___Pwr) eoiA = EventOfInterestFlag.Idle___; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04.  :overruled 2025-04-25
+    if (eoiA == EventOfInterestFlag.Idle___ && eoiB == EventOfInterestFlag.Pwr___) eoiB = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.
+    if (eoiA == EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.Pwr___ && dTime.TotalHours > 3) eoiA = EventOfInterestFlag.Idle___; // odd pwr-on 1 sec after pwr-off. 2025-05-18.
 
     var yA = _aw * tA.TotalDays; // for ss up - start idle line 2 min prior
     var yB = _aw * tB.TotalDays; // for ss dn - end   work line 2 min prior
