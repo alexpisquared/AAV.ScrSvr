@@ -35,7 +35,7 @@ public partial class DailyChart
       _ah = canvasBar.ActualHeight;
       _aw = canvasBar.ActualWidth;
       canvasBar.Children.Clear();
-      await Task.Delay(0);
+      await Task.Yield();
 
       DrawUpDnLine(TrgDateC);
     }
@@ -43,8 +43,7 @@ public partial class DailyChart
   }
   void DrawUpDnLine(DateTime trgDate)
   {
-    var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00));
-    //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
+    var pcClr = new SolidColorBrush(Color.FromRgb(0x00, 0x60, 0x00)); //..Write($">>>-\tdrawUpDnLine():  {trgDate:d} ->> {pc,-16} \t");
     tbDaySummaryLocal.Text = "$@#";
     try
     {
@@ -62,12 +61,14 @@ public partial class DailyChart
           _thisDayEois.Add(DateTime.Now, EventOfInterestFlag.NowBusy); // current moment of checking the stuff for today.
         }
 
-        var eoi0 = _thisDayEois.FirstOrDefault();
-        var prevEoiF = eoi0.Value == EventOfInterestFlag.___Idle ? EventOfInterestFlag.Idle___ :
-                       eoi0.Value == EventOfInterestFlag.Pwr___ ? EventOfInterestFlag.___Pwr : EventOfInterestFlag.Day1stMaybe;
+        KeyValuePair<DateTime, EventOfInterestFlag> eoi0 = _thisDayEois.FirstOrDefault();
+        EventOfInterestFlag prevEoiF = 
+          eoi0.Value == EventOfInterestFlag.___Idle ? EventOfInterestFlag.Idle___ :
+          eoi0.Value == EventOfInterestFlag.Pwr___ ? EventOfInterestFlag.___Pwr : 
+                                                    EventOfInterestFlag.Day1stMaybe;
 
         _dayTableReport = "";
-        foreach (var eoi in _thisDayEois)
+        foreach (KeyValuePair<DateTime, EventOfInterestFlag> eoi in _thisDayEois)
         {
           _dayTableReport += addWkTimeSegment(TrgDateC, eoi.Key, prevEoiF, eoi.Value, pcClr);
 
@@ -75,10 +76,10 @@ public partial class DailyChart
           prevEoiF = eoi.Value;
         }
 
-        var lastScvrUp = (_thisDayEois.Any(r => r.Value is EventOfInterestFlag.Idle___ or EventOfInterestFlag.___Pwr) ?
+        DateTime lastScvrUp = (_thisDayEois.Any(r => r.Value is EventOfInterestFlag.Idle___ or EventOfInterestFlag.___Pwr) ?
                         _thisDayEois.Where(r => r.Value is EventOfInterestFlag.Idle___ or EventOfInterestFlag.___Pwr).Last() : _thisDayEois.Last()).Key;
 
-        var finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
+        DateTime finalEvent = trgDate >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
         _dailyTimeSplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
         _dailyTimeSplit.WorkedFor = _dailyTimeSplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
@@ -96,8 +97,8 @@ public partial class DailyChart
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "RAZER1" ? "NUC2" : "RAZER1")}.json");
         if (File.Exists(remoteLog))
         {
-          var remoteTimeSplit = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" };
-          foreach (var wi in remoteTimeSplit.WorkIntervals) { addWkTimeSegment(wi.TimeA.DateTime, wi.TimeZ.DateTime, new SolidColorBrush(Color.FromArgb(152, 0, 0, 250))); }
+          TimeSplit remoteTimeSplit = JsonSerializer.Deserialize<TimeSplit>(File.ReadAllText(remoteLog)) ?? new TimeSplit { DaySummary = "error" };
+          foreach (WorkInterval wi in remoteTimeSplit.WorkIntervals) { addWkTimeSegment(wi.TimeA.DateTime, wi.TimeZ.DateTime, new SolidColorBrush(Color.FromArgb(152, 0, 0, 250))); }
 
           addUiElnt(.0 * _ah, 0, new Rectangle { Height = .08 * _ah, Width = Math.Abs(remoteTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(0, 194, 255)), ToolTip = "???" });
 
@@ -119,15 +120,15 @@ public partial class DailyChart
   {
     if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) WinAPI.Beep(333, 333);
+      if (StandardLib.Helpers.DevOps.IsDbg) _ = WinAPI.Beep(333, 333);
       await ClearDrawAllSegmentsForSinglePC();
     }
     else
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) WinAPI.Beep(3333, 111);
+      if (StandardLib.Helpers.DevOps.IsDbg) _ = WinAPI.Beep(3333, 111);
       addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
-      var finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
+      DateTime finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
       _dailyTimeSplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
       //? try later: _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
@@ -139,9 +140,9 @@ public partial class DailyChart
   void addRectangle(double top, double hgt, double left, double width, Brush brush, string? tooltip = null) => addUiElnt(top, left, new Rectangle { Width = width < 1 ? 1 : width, Height = hgt, /*Fill = brush,*/ ToolTip = tooltip ?? $"thlw: {top:N0}-{hgt:N0}-{left:N0}-{width:N0}." }); //addArcDtl(hgt, left, width);
   string addWkTimeSegment(DateTime timeA, DateTime timeB, EventOfInterestFlag eoiA, EventOfInterestFlag eoiB, Brush brh)
   {
-    var tA = eoiA == EventOfInterestFlag.Idle___ ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
-    var tB = eoiB == EventOfInterestFlag.Idle___ ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
-    var dTime = tB - tA;
+    TimeSpan tA = eoiA == EventOfInterestFlag.Idle___ ? timeA.AddSeconds(-Ssto_GpSec).TimeOfDay : timeA.TimeOfDay;
+    TimeSpan tB = eoiB == EventOfInterestFlag.Idle___ ? timeB.AddSeconds(-Ssto_GpSec).TimeOfDay : timeB.TimeOfDay;
+    TimeSpan dTime = tB - tA;
 
     //if(eoiA== EventOfInterestFlag.Pwr___ && eoiB == EventOfInterestFlag.___Idle) eoiA = EventOfInterestFlag.Idle___; // ignore odd pwr-on during scrsvr runs.                         :overruled 2025-04-~8
     //if(eoiA== EventOfInterestFlag.___Idle && eoiB == EventOfInterestFlag.___Pwr) eoiA = EventOfInterestFlag.Idle___; // ignore odd scrsvr down in the middle of scrsvr run. 2023-04.  :overruled 2025-04-25
@@ -201,9 +202,9 @@ public partial class DailyChart
   }
   void addWkTimeSegment(DateTime timeA, DateTime timeB, Brush brh)
   {
-    var tA = timeA.TimeOfDay;
-    var tB = timeB.TimeOfDay;
-    var dTime = tB - tA;
+    TimeSpan tA = timeA.TimeOfDay;
+    TimeSpan tB = timeB.TimeOfDay;
+    TimeSpan dTime = tB - tA;
     var yA = _aw * tA.TotalDays; // for ss up - start idle line 2 min prior
     var yB = _aw * tB.TotalDays; // for ss dn - end   work line 2 min prior
     var hgt = .6 * _ah;
@@ -250,7 +251,7 @@ public partial class DailyChart
   public Window? FindParentWindow()
   {
     DependencyObject parent = this;
-    while (parent != null && parent is not Window)
+    while (parent is not null and not Window)
     {
       parent = VisualTreeHelper.GetParent(parent);
     }
