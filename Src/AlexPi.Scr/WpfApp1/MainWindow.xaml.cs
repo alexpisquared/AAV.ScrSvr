@@ -30,7 +30,6 @@ public partial class MainWindow : Window
       var targetTime = currentTime.Add(targetWait);
       tbk1.Text = $"{currentTime:H:mm:ss.fffffff}\n{targetTime:H:mm:ss.fffffff}";
       await Task.Delay(targetWait);
-      tbk1.Text = $"{DateTime.Now:H:mm:ss.fffffff}\n{targetTime:H:mm:ss.fffffff}";
     }
 
 
