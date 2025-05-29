@@ -3,22 +3,41 @@
 namespace WpfApp1;
 public partial class MainWindow : Window
 {
+  const int periodInSeconds = 5;
   public MainWindow() => InitializeComponent();
 
-  async void OnLoaded(object sender, RoutedEventArgs e)
+  void OnLoaded(object sender, RoutedEventArgs e)
   {
+    TimeSpan targetWait = GetNextPeriodWaitTime();
 
-    tbk1.Text = $"{DateTime.Now:H:mm:ss.fffffff}";
+    DateTime now = DateTime.Now;
+    _ = Task.Run(async () => await Task.Delay(targetWait)
+     ).ContinueWith(_ => Dispatcher.Invoke(() => UpdateTextBlockPeriodicallyAsync()), TaskScheduler.FromCurrentSynchronizationContext());
+  }
 
-    const int periodInMinutes = 10;
+  private async Task UpdateTextBlockPeriodicallyAsync()
+  {
     while (true)
     {
-      // update tbk1.Text periodically every periodInMinutes minutes but such that each update happens exactly on 0 second, like:  at 3:00:00.000 3:10:00.000 3:20:00.000 3:20:00.000, etc.
-      DateTime currentTime = DateTime.Now;
-      TimeSpan targetWait = TimeSpan.FromMinutes(periodInMinutes - (currentTime.Minute % periodInMinutes)).Subtract(currentTime - currentTime.AddSeconds(-currentTime.Second - 0.001 * currentTime.Millisecond - 0.000001 * currentTime.Microsecond));
-      DateTime targetTime = currentTime.Add(targetWait);
-      tbk1.Text = $"{currentTime:H:mm:ss.ffffff}\n{targetTime:H:mm:ss.ffffff}";
+      // update tbk1.Text periodically every periodInSeconds minutes but such that each update happens exactly on 0 second, like:  at 3:00:00.000 3:10:00.000 3:20:00.000 3:20:00.000, etc.
+      TimeSpan targetWait = GetNextPeriodWaitTime();
       await Task.Delay(targetWait);
     }
+  }
+
+  private TimeSpan GetNextPeriodWaitTime()
+  {
+    DateTime now = DateTime.Now;
+    TimeSpan targetWait = TimeSpan.FromSeconds(periodInSeconds - (now.Second % periodInSeconds)).Subtract(now - now.AddSeconds(-(0.001 * now.Millisecond) - (0.000001 * now.Microsecond)));
+    DateTime targetTime = now.Add(targetWait);
+    tbk1.Text = $"{now:H:mm:ss.ffffff}\n{targetWait}\n{targetTime:H:mm:ss.ffffff}";
+    return targetWait;
+  }
+
+  void OnToggleTopmost(object sender, RoutedEventArgs e) => Topmost = !Topmost;
+
+  private void OnClose(object sender, RoutedEventArgs e)
+  {
+    Close();
   }
 }

@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="#200" Loaded="OnLoaded">
-    <Grid>
+  <Grid>
     <Viewbox>
       <TextBlock Text="11:22:33.45678" x:Name="tbk1" Foreground="#999" />
     </Viewbox>
-    </Grid>
+    <ToggleButton x:Name="tb1" Content="_Topmost" Width="100" Height="30" Margin="3" Click="OnToggleTopmost" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+    <Button IsCancel="True" Click="OnClose" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+  </Grid>
 </Window>
