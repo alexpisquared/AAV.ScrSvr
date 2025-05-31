@@ -35,9 +35,5 @@ public partial class MainWindow : Window
   }
 
   void OnToggleTopmost(object sender, RoutedEventArgs e) => Topmost = !Topmost;
-
-  private void OnClose(object sender, RoutedEventArgs e)
-  {
-    Close();
-  }
+  void OnClose(object sender, RoutedEventArgs e) => Close();
 }

@@ -10,7 +10,7 @@
     <Viewbox>
       <TextBlock Text="11:22:33.45678" x:Name="tbk1" Foreground="#999" />
     </Viewbox>
-    <ToggleButton x:Name="tb1" Content="_Topmost" Width="100" Height="30" Margin="3" Click="OnToggleTopmost" VerticalAlignment="Top" HorizontalAlignment="Right"/>
     <Button IsCancel="True" Click="OnClose" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+    <ToggleButton x:Name="tb1" Content="_T■M" Margin="3" Click="OnToggleTopmost" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="topmost toggle"/>
   </Grid>
 </Window>
