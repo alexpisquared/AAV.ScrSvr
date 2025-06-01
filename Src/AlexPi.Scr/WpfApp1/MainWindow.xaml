@@ -11,6 +11,6 @@
       <TextBlock Text="11:22:33.45678" x:Name="tbk1" Foreground="#999" />
     </Viewbox>
     <Button IsCancel="True" Click="OnClose" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-    <ToggleButton x:Name="tb1" Content="_T■M" Margin="3" Click="OnToggleTopmost" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="topmost toggle"/>
+    <ToggleButton x:Name="tb1" Content="_T■M" Margin="3" Click="OnToggleTopmost" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="topmost toggle" Foreground="#08f" Background="Transparent"/>
   </Grid>
 </Window>
