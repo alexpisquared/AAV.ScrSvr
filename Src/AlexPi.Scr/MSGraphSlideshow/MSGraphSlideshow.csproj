@@ -11,7 +11,7 @@
   <ItemGroup>
     <!-- Do not use newer version yet; this one is the latest which is working:
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" /> branch: MSGraph-5-fixing-streaming -->
-    <PackageReference Include="Microsoft.Graph" Version="5.79.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.80.0" />
     <PackageReference Include="Azure.Identity" Version="1.14.0" />
     <PackageReference Include="LibVLCSharp" Version="3.9.3" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.3" />
