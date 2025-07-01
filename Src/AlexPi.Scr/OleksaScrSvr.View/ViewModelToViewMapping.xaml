@@ -1,13 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
                     xmlns:vm="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
-                    xmlns:vv="clr-namespace:OleksaScrSvr.VM.VMs;assembly=OleksaScrSvr.VM" 
                     xmlns:view___________________________="clr-namespace:OleksaScrSvr.View" 
-                    xmlns:local0="clr-namespace:OpenWeaWpfApp;assembly=OpenWeaWpfApp" 
-                    xmlns:local1="clr-namespace:OpenWeaWpfApp.Views;assembly=OpenWeaWpfApp"
+                    xmlns:local0="clr-namespace:OpenWeaWpfApp;assembly=OpenWeaLib" 
+                    xmlns:local1="clr-namespace:OpenWeaWpfApp.Views;assembly=OpenWeaLib"
                     >
-  <!--<DataTemplate DataType="{x:Type local0:PlotViewModel}">
+  <DataTemplate DataType="{x:Type local0:PlotViewModel}">
     <local1:MainPlotViewUsrCtrl/>
-  </DataTemplate>-->
+  </DataTemplate>
   <DataTemplate DataType="{x:Type vm:ZeroVM}">
     <view___________________________:ZeroView />
   </DataTemplate>
@@ -35,7 +34,7 @@
   <DataTemplate DataType="{x:Type vm:LayoutVM}">
     <view___________________________:Layout />
   </DataTemplate>
-  <DataTemplate DataType="{x:Type vv:Page03RazerScSvVM}">
+  <DataTemplate DataType="{x:Type vm:Page03RazerScSvVM}">
     <view___________________________:Page03RazerScSvView/>
   </DataTemplate>
 </ResourceDictionary>

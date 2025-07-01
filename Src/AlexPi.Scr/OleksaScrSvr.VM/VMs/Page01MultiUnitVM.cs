@@ -22,4 +22,6 @@ public partial class Page01MultiUnitVM : BaseDbVM
     }
     finally { IsBusy = false; }
   }
+
+  [ObservableProperty] string clientId; // what is this for (2025)
 }
