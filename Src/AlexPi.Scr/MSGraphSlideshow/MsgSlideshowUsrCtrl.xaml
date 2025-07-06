@@ -14,8 +14,8 @@
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/ColorScheme/Theme.Color.Dark.Gray.xaml" />
-        -->
         <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
+        -->
       </ResourceDictionary.MergedDictionaries>
 
       <Style TargetType="{x:Type ProgressBar}" x:Key="TimeOutAnimationStyle_doesnotfire">
