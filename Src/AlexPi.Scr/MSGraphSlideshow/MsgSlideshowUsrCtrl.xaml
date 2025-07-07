@@ -6,10 +6,10 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/BasicDefaultsLayout.xaml" />
-        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Anime/SmartOpacityToggleAnimStyle.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Anime/IsObsoleteBurronStyle.xaml" />
         <!--     
+        <ResourceDictionary Source="/WpfUserControlLib;component/Base/Anime.Base.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/ComboBox.Base.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Base.xaml" />
         <ResourceDictionary Source="/WpfUserControlLib;component/Base/DataGrid.Anime.xaml" />
@@ -17,20 +17,6 @@
         <ResourceDictionary Source="/OleksaScrSvr.View;component/ViewModelToViewMapping.xaml" />
         -->
       </ResourceDictionary.MergedDictionaries>
-
-      <Style TargetType="{x:Type ProgressBar}" x:Key="TimeOutAnimationStyle_doesnotfire">
-        <Setter Property="Value" Value="1"/>
-        <Style.Triggers>
-          <DataTrigger Binding="{Binding Visibility, ElementName=ImageView1}" Value="Collapsed">
-            <DataTrigger.EnterActions>
-              <BeginStoryboard x:Name="sbFinal1m" Storyboard="{StaticResource sbFinal1m}"/>
-            </DataTrigger.EnterActions>
-            <DataTrigger.ExitActions>
-              <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
-            </DataTrigger.ExitActions>
-          </DataTrigger>
-        </Style.Triggers>
-      </Style>
 
       <Duration x:Key="inOuTime">0:0:05</Duration>
       <Duration x:Key="showTime">0:1:00</Duration>
@@ -52,7 +38,21 @@
       <Storyboard x:Key="sbDropOu">
         <DoubleAnimation Storyboard.TargetName="pbFinal1m" Storyboard.TargetProperty="Value" To="1"            Duration="0:0:1" EasingFunction="{StaticResource si}" />
       </Storyboard>
-      
+
+      <Style TargetType="{x:Type ProgressBar}" x:Key="TimeOutAnimationStyle_doesnotfire">
+        <Setter Property="Value" Value="1"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Visibility, ElementName=ImageView1}" Value="Collapsed">
+            <DataTrigger.EnterActions>
+              <BeginStoryboard x:Name="sbFinal1m" Storyboard="{StaticResource sbFinal1m}"/>
+            </DataTrigger.EnterActions>
+            <DataTrigger.ExitActions>
+              <BeginStoryboard x:Name="sbDropOu" Storyboard="{StaticResource sbDropOu}"/>
+            </DataTrigger.ExitActions>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid            x:Name="mediaGrid1" Margin="0" >
