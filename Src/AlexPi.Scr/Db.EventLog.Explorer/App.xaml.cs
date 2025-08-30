@@ -25,10 +25,12 @@ public partial class App : Application
       //  Shutdown();
       //}
 
+      //static Microsoft.Extensions.Logging.ILogger Logger => field ??= SerilogHelperLib.SeriLogHelper.CreateLogger<App>();
+
       if (e.Args.Length > 0 && File.Exists(e.Args.First()))
-        new RODBView(e.Args.First(), SeriLogHelper.CreateLogger<RODBView>("EventLog.Explorer", "+Info -Verb +Infi")).ShowDialog();
+        new RODBView(e.Args.First(), SerilogHelperLib.SeriLogHelper.CreateLogger<RODBView>()).ShowDialog();
       else
-        new MainEvLogExplr(SeriLogHelper.CreateLogger<MainEvLogExplr>("EventLog.Explorer", "+Info -Verb +Infi")).ShowDialog();
+        new MainEvLogExplr(SerilogHelperLib.SeriLogHelper.CreateLogger<MainEvLogExplr>()).ShowDialog();
 
       //Bpr.BeepEnd3();
     }

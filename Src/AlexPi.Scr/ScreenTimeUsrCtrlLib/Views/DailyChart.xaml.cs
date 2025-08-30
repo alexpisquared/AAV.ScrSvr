@@ -1,7 +1,7 @@
 ﻿namespace UpTimeChart;
 public partial class DailyChart
 {
-  readonly double _updatePeriodMin = DevOps.IsDbg ? 10.0 : 5.0;
+  readonly double _updatePeriodMin = DevOps.IsDbg ? 0.5 : 2.5;
   TimeSplit _dailyTimeSplit = new();
   double _ah = 30, _aw = 30;
   readonly Brush cBlk = new SolidColorBrush(Color.FromRgb(0, 0, 0x28)), cPnk = new SolidColorBrush(Color.FromRgb(0x30, 0, 0));
@@ -23,7 +23,7 @@ public partial class DailyChart
       await ClearDrawAllSegmentsForSinglePC();
 
       if (TrgDateC >= DateTime.Today)
-        _ = new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_AddRectangle);
+        _ = new BackgroundTaskDisposable(TimeSpan.FromMinutes(_updatePeriodMin), OnTimer_UpdateTodayUpDnLine);
     };
   }
 
@@ -92,7 +92,7 @@ public partial class DailyChart
           JsonFileSerializer.Save<TimeSplit>(_dailyTimeSplit, filenameLocal, true);
         }
 
-        addUiElnt(.82 * _ah, 0, new Rectangle { Height = .18 * _ah, Width = Math.Abs(_dailyTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(155, 155, 0)) });
+        addUiElnt(.82 * _ah, 0, new Rectangle { Height = .18 * _ah, Width = Math.Abs(_dailyTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(8, 160, 0)) });
 
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "MINISFORUM1" ? "NUC2" : "MINISFORUM1")}.json");
         if (File.Exists(remoteLog))
@@ -116,22 +116,22 @@ public partial class DailyChart
   string GetDaySummary(DateTime trgDate, TimeSplit timesplit) => $"{trgDate,9:ddd M-dd}  {timesplit.WorkedFor,5:h\\:mm}  / ";
   string GetDaySummar_(TimeSplit timeSplit) => $"{timeSplit.WorkedFor,5:h\\:mm}  {"■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|■■■|"[..(int)(timeSplit.WorkedFor.TotalHours * 4)]}";
   string GetDaySummary(TimeSplit timeSplit) => $"{timeSplit.WorkedFor,5:h\\:mm}  ";
-  async void OnTimer_AddRectangle()
+  async void OnTimer_UpdateTodayUpDnLine()
   {
-    if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true)
+    if (Assembly.GetEntryAssembly()?.GetName().Name?.Contains("EventLog") == true) // redraw whole day for the event log explorer/viewer app.
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) _ = WinAPI.Beep(333, 333);
+      if (DevOps.IsDbg) _ = WinAPI.Beep(333, 333);
       await ClearDrawAllSegmentsForSinglePC();
     }
     else
     {
-      if (StandardLib.Helpers.DevOps.IsDbg) _ = WinAPI.Beep(3333, 111);
-      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
+      if (DevOps.IsDbg) _ = WinAPI.Beep(3333, 111);
+      
+      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, width: 8, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
       DateTime finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
-      _dailyTimeSplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;
-      //? try later: _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
+      _dailyTimeSplit.TotalDaysUp = finalEvent - _thisDayEois.First().Key;      //? try later: _timesplit.WorkedFor = _timesplit.WorkedFor.Add(finalEvent - _thisDayEois.Last().Key);
 
       tbDaySummaryLocal.Text = GetDaySummary(TrgDateC, _dailyTimeSplit); // tbDaySummary.Text = $"{TrgDateC,9:ddd M-dd}  {_timesplit.WorkedFor,5:h\\:mm}"; // /{_timesplit.TotalDaysUp,5:h\\:mm}";
     }

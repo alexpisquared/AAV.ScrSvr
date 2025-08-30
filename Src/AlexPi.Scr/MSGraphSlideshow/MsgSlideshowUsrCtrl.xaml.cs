@@ -70,7 +70,7 @@ public partial class MsgSlideshowUsrCtrl
       ShutdownIndicatorStart();
     }, TaskScheduler.FromCurrentSynchronizationContext());
 
-  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
+  ILogger? _logger; public ILogger Logger => _logger ??= (DataContext as dynamic)?.Logger ?? SerilogHelperLib.SeriLogHelper.CreateLogger<MsgSlideshowUsrCtrl>();
   IBpr? _bpr; public IBpr? Bpr => _bpr ??= (DataContext as dynamic)?.Bpr;
   SpeechSynth? _synth; public SpeechSynth Synth => _synth ??= (DataContext as dynamic).Synth;
 

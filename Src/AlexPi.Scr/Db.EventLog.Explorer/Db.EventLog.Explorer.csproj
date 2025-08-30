@@ -59,6 +59,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
+		<ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\SerilogHelperLib\SerilogHelperLib.csproj" />
 		<ProjectReference Include="..\Db.EventLog\Db.EventLog.csproj" />
 		<ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
 	</ItemGroup>

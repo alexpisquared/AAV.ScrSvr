@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLibVer1.csproj" />
+    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\SerilogHelperLib\SerilogHelperLib.csproj" />
     <!--<ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLib.csproj" />-->
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\WpfUserControlLib\WpfUserControlLib.csproj" />
