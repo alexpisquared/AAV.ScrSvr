@@ -62,9 +62,9 @@ public partial class DailyChart
         }
 
         KeyValuePair<DateTime, EventOfInterestFlag> eoi0 = _thisDayEois.FirstOrDefault();
-        EventOfInterestFlag prevEoiF = 
+        EventOfInterestFlag prevEoiF =
           eoi0.Value == EventOfInterestFlag.___Idle ? EventOfInterestFlag.Idle___ :
-          eoi0.Value == EventOfInterestFlag.Pwr___ ? EventOfInterestFlag.___Pwr : 
+          eoi0.Value == EventOfInterestFlag.Pwr___ ? EventOfInterestFlag.___Pwr :
                                                     EventOfInterestFlag.Day1stMaybe;
 
         _dayTableReport = "";
@@ -126,8 +126,10 @@ public partial class DailyChart
     else
     {
       if (DevOps.IsDbg) _ = WinAPI.Beep(3333, 111);
-      
-      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, width: 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
+
+      var periodInPixels = _aw * _updatePeriodMin / (24 * 60);
+
+      addRectangle(3 * _ah / 4, _ah / 4, Math.Abs(_aw * DateTime.Now.TimeOfDay.TotalDays - periodInPixels), width: periodInPixels, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
       DateTime finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
