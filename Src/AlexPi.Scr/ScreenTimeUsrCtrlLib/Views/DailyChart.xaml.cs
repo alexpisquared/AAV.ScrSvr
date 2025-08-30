@@ -127,7 +127,7 @@ public partial class DailyChart
     {
       if (DevOps.IsDbg) _ = WinAPI.Beep(3333, 111);
       
-      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, width: 8, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
+      addRectangle(3 * _ah / 4, _ah / 4, _aw * DateTime.Now.TimeOfDay.TotalDays, width: 3, Brushes.Gray, $"{DateTime.Now.TimeOfDay:h\\:mm}"); // now line
 
       DateTime finalEvent = TrgDateC >= DateTime.Today ? DateTime.Now : _thisDayEois.Last().Key;
 
