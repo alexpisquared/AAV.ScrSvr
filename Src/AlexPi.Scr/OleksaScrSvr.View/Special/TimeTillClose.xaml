@@ -26,9 +26,9 @@
       </Grid.RowDefinitions>
 
       <Ellipse     Width="32" Height="32" Margin="1" Fill="#a000" Grid.RowSpan="2" />
-      <Anime:ArcPi Width="32" Height="32" Margin="1" Radiu="16" x:Name="progressArc1" Angle="33"    Color="#905" Bckgr="#300" Grid.RowSpan="2" />
+      <Anime:ArcPi Width="32" Height="32" Margin="1" Radiu="16" x:Name="progressArc1"    Angle="33" Color="#905" Bckgr="#200" Grid.RowSpan="2" />
       <TextBlock   Grid.Row="0" d:Text="8:88:   "  FontSize="8" x:Name="ProgressTime"          Foreground="#905" Margin="0 2 0 -2" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-      <Anime:ArcPi Width="5" Height="5" Radiu="2.5" x:Name="progressArc2" Angle="25" Margin="6.3 0" Color="#905" Bckgr="#333"    HorizontalAlignment="Right"  VerticalAlignment="Bottom" />
+      <Anime:ArcPi Width="5" Height="5" Radiu="2.5" x:Name="progressArc2" Margin="6.3 0" Angle="33" Color="#905" Bckgr="#200"    HorizontalAlignment="Right"  VerticalAlignment="Bottom" />
 
       <TextBlock   Grid.Row="1" d:Text="0:15" FontSize="6" x:Name="ProgressTimB" HorizontalAlignment="Center" VerticalAlignment="Top"    Foreground="#700" Margin="0 1 0 -1"/>
 
