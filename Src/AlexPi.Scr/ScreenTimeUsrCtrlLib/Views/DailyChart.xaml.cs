@@ -92,7 +92,7 @@ public partial class DailyChart
           JsonFileSerializer.Save<TimeSplit>(_dailyTimeSplit, filenameLocal, true);
         }
 
-        addUiElnt(.82 * _ah, 0, new Rectangle { Height = .18 * _ah, Width = Math.Abs(_dailyTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(8, 160, 0)) });
+        addUiElnt(.82 * _ah, 0, new Rectangle { Height = .18 * _ah, Width = Math.Abs(_dailyTimeSplit.WorkedFor.TotalDays) * _aw, Fill = new SolidColorBrush(Color.FromRgb(128, 160, 0)) });
 
         var remoteLog = OneDrive.Folder($@"Public\AppData\EventLogDb\DayLog-{trgDate:yyMMdd}-{(Environment.MachineName == "MINISFORUM1" ? "NUC2" : "MINISFORUM1")}.json");
         if (File.Exists(remoteLog))
