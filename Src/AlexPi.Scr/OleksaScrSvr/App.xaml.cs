@@ -38,7 +38,8 @@ public partial class App : System.Windows.Application
 
     ServiceProvider.GetRequiredService<INavSvc>().Navigate();
 
-    MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
+    //MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
+    //MainWindow.Hide(); // too annoying to see it appearing partially, then fully. Better to have it appear after all initialization is done.
 
     _audit = VersionHelper.DevDbgAudit(ServiceProvider.GetRequiredService<IConfigurationRoot>(), "°");
 
@@ -46,6 +47,8 @@ public partial class App : System.Windows.Application
 
     ServiceProvider.GetRequiredService<ILogger>().LogInformation($"┌──{TimeSoFar} {_audit}");
 
+    MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
+    MainWindow.Hide(); // too annoying to see it appearing partially, then fully. Better to have it appear after all initialization is done.
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to version checker.
     FromOutlookCrashChecker();
