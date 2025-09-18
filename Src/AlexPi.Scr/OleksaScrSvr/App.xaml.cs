@@ -50,7 +50,7 @@ public partial class App : System.Windows.Application
     _ = await mainVM.InitAsync();                 // blocking due to version checker.
     FromOutlookCrashChecker();
 
-    //await Task.Delay(5_000);
+    await Task.Delay(1_500);
     
     MainWindow.Show(); // too annoying to see it appearing partially, then fully. Better to have it appear after all initialization is done.
 
