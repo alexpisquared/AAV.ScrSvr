@@ -39,7 +39,6 @@ public partial class App : System.Windows.Application
     ServiceProvider.GetRequiredService<INavSvc>().Navigate();
 
     MainWindow = ServiceProvider.GetRequiredService<MainNavView>();
-    MainWindow.Show();
 
     _audit = VersionHelper.DevDbgAudit(ServiceProvider.GetRequiredService<IConfigurationRoot>(), "°");
 
@@ -50,6 +49,11 @@ public partial class App : System.Windows.Application
     var mainVM = (MainVM)MainWindow.DataContext;  // mainVM.DeploymntSrcExe = Settings.Default.DeplSrcExe; //todo: for future only.    
     _ = await mainVM.InitAsync();                 // blocking due to version checker.
     FromOutlookCrashChecker();
+
+    //await Task.Delay(5_000);
+    
+    MainWindow.Show(); // too annoying to see it appearing partially, then fully. Better to have it appear after all initialization is done.
+
     _ = await TimedSleepAndExit(StandardLib.Consts.ScrSvrPresets.MinToPcSleep);
   }
 
