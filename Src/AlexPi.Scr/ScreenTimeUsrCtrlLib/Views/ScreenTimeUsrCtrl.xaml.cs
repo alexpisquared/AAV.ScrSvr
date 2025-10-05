@@ -49,5 +49,5 @@ public partial class ScreenTimeUsrCtrl
   }
   public void RedrawOnResize_todo(object s, RoutedEventArgs? e) { }//foreach (var uc in spArrayHolder.Children) if (uc is DailyChart) ((DailyChart)uc).clearDrawAllSegmentsForAllPCsAsync(s, e); }
 
-  public static readonly DependencyProperty ZVProperty = DependencyProperty.Register("ZV", typeof(double), typeof(ScreenTimeUsrCtrl), new PropertyMetadata(1.5)); public double ZV { get => (double)GetValue(ZVProperty); set => SetValue(ZVProperty, value); }
+  public static readonly DependencyProperty ZVProperty = DependencyProperty.Register("ZV", typeof(double), typeof(ScreenTimeUsrCtrl), new PropertyMetadata(2.5)); public double ZV { get => (double)GetValue(ZVProperty); set => SetValue(ZVProperty, value); } // Zoom Value is 2.5 by default .. hardcoded and not saved anywhere (2026-10)
 }
