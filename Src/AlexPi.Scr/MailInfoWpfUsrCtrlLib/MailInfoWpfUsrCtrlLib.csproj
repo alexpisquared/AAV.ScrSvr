@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
-    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
     <UseWPF>true</UseWPF>
 	  <Nullable>enable</Nullable>
 	  <LangVersion>latest</LangVersion>
