@@ -39,7 +39,7 @@ public partial class MainVM : BaseMinVM
   {
     AppVerToolTip = AppVerNumber = VersionHelper.CurVerStr;
 
-    Bpr.AppStart();
+    //too soon: Bpr.AppStart();
     await Task.Delay(1).ConfigureAwait(false);
 
     var rv = await base.InitAsync();
