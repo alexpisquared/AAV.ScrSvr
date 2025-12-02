@@ -86,7 +86,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Project Path="../../../AAV.Shared/Src/NetLts/ArcLib/ArcLib.csproj" />
   <Project Path="../../../AAV.Shared/Src/NetLts/SerilogHelperLib/SerilogHelperLib.csproj" />
+  <Project Path="../../../AiGen/Sln1/MsGraphLibContract/MsGraphLibContract.csproj" />
   <Project Path="Db.EventLog.Explorer/Db.EventLog.Explorer.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
