@@ -48,7 +48,7 @@ public class EvLogHelper : EvLogHelperBase //2021-09: old RO version. Tried to r
 
     try
     {
-      if (Environment.MachineName.Contains("33"))
+      if (Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22"))
         collect(sortedList, qryBootAndWakeUps_Ctrs(a, b), EventOfInterestFlag.Pwr___);
       else if (Environment.MachineName.Contains("MINISFORUM1"))
       {

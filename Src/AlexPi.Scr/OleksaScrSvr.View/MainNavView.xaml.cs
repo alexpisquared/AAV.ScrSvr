@@ -59,7 +59,7 @@ public partial class MainNavView : WindowBase
   static void StretchToFill(Window window, Rectangle rectangle, int margin = 2)
   {
     window.WindowState = WindowState.Normal;
-    var k = Environment.MachineName.Contains("33") ? .799 : 1; // on 33 any bigger than .799 jumps to a superscale well beyond the screen boundaries .. like good 20%!
+    var k = Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22") ? .799 : 1; // on 33 any bigger than .799 jumps to a superscale well beyond the screen boundaries .. like good 20%!
     window.Top = rectangle.Top * k - margin;
     window.Left = rectangle.Left * k - margin;
     window.Width = rectangle.Width * k + margin * 2;
