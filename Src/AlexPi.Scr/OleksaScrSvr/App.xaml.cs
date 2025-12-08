@@ -62,7 +62,7 @@ public partial class App : System.Windows.Application
 
   async void FromOutlookCrashChecker()
   {
-    if (!Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22")) { return; }
+    if (!((Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22")))) { return; }
 
     var bpr = ServiceProvider.GetRequiredService<IBpr>();
     double _periodInMin = 14;
@@ -186,7 +186,7 @@ public partial class App : System.Windows.Application
                                                                                                               }
                                                                                                               else
                                                                                                               {
-                                                                                                                if (Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22")) // no sleep needed on 33 .. right? (May 2025)
+                                                                                                                if (((Environment.MachineName.Contains("33") || Environment.MachineName.Contains("P22")))) // no sleep needed on 33 .. right? (May 2025)
                                                                                                                 {
                                                                                                                   logger.Log(LogLevel.Information, $"╞══{TimeSoFar} what to do here on PC33? ·· nothing; the PC keeps idling until scrsvr is closed.");
                                                                                                                 }
