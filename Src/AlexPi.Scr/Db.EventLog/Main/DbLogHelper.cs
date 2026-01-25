@@ -1,7 +1,7 @@
 ﻿namespace Db.EventLog.Main;
 
 [Obsolete("Phasing out LOCAL db ...", false)]
-public class DbLogHelper
+public class DbLogHelper // ..actually, I think this one is more obsolete C:\g\TimeTracking\N50\TimeTracking50\Db.EventLog\Main\DbLogHelper.cs  Jan-2026
 {
   public const string _dbSubP = @"Public\AppData\EventLogDb\";
   static readonly string _dbPath = OneDrive.Folder(_dbSubP);
@@ -131,5 +131,14 @@ public class DbLogHelper
     catch (Exception ex) { _ = ex.Log(); }
 
     return addedCount;
+  }
+
+  public static SortedList<DateTime, int> GetAllEventsOfInterest(DateTime a, DateTime b, string pcname) // binary compat with C:\g\TimeTracking\N50\TimeTracking50\Db.EventLog\Main\DbLogHelper.cs   Jan-2026
+  {
+    var dict = GetAllUpDnEvents(a, b, pcname)
+        .ToDictionary(kv => kv.Key, kv => (int)kv.Value);
+
+    var sortedList = new SortedList<DateTime, int>(dict);
+    return sortedList;
   }
 }
