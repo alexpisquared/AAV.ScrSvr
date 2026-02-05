@@ -16,8 +16,8 @@ public partial class MainWindow
       Trace.WriteLine(Title = $"{ex.Message}:  {Settings.Default.VM}");
       //DataContext = new VM();
     }
-    canvas.Width = WinFormHelper.GetSumOfAllBounds.Width;
-    canvas.Height = WinFormHelper.GetSumOfAllBounds.Height;
+    canvas.Width = ScreenHelper.GetSumOfAllBounds.Width;
+    canvas.Height = ScreenHelper.GetSumOfAllBounds.Height;
     Trace.WriteLine(Title = $"{Environment.MachineName}:   canvas.Width: {canvas.Width}, canvas.Height: {canvas.Height}");
   }
 
@@ -36,9 +36,9 @@ public partial class MainWindow
   }
 
   void OnClose(object sender, RoutedEventArgs e) => Close();
-  void OnPrimScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.PrimaryScreen.Bounds);
-  void OnScndScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.SecondaryScreen.Bounds);
-  void OnBothScreens(object sender, RoutedEventArgs e) => StretchToFill(this, WinFormHelper.GetSumOfAllBounds);
+  void OnPrimScreens(object sender, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.PrimaryScreen.Bounds);
+  void OnScndScreens(object sender, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.SecondaryScreen.Bounds);
+  void OnBothScreens(object sender, RoutedEventArgs e) => StretchToFill(this, ScreenHelper.GetSumOfAllBounds);
 
   void StretchToFill(Window window, Rectangle rectangle)
   {

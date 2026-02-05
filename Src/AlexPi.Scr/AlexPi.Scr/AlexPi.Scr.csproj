@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
@@ -14,28 +13,23 @@
     <Deterministic>false</Deterministic>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Images\UkraineFlag\ukraine-flag-animated.gif" />
     <None Remove="Images\UkraineFlag\ukraine-realistic-wavy-flag-free-vector %280%29.webp" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EnvCanRadarUrlHelper.cs" Link="AsLink\EnvCanRadarUrlHelper.cs" />
     <Compile Include="..\..\..\..\AAV.Shared\Src\Net6.0\AAV.Sys\Helpers\Tracer.cs" Link="AsLink\Tracer.cs" />
     <Compile Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml.cs" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <!--<PackageReference Include="Expression.Blend.Sdk" Version="1.0.2" />-->
     <!--<PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />-->
@@ -45,15 +39,13 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55.177" />-->
     <!-- //tu: blend/arc problem fix -->
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Page Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\StandardLib\StandardLib.csproj" />
@@ -66,12 +58,10 @@
     <ProjectReference Include="..\ScreenTimeUsrCtrlLib\ScreenTimeUsrCtrlLib.csproj" />
     <ProjectReference Include="..\WebScrapEnvironmentCanada\WebScrapEnvironmentCanada.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="Images\UkraineFlag\ukraine-flag-animated.gif" />
     <Resource Include="Images\UkraineFlag\ukraine-realistic-wavy-flag-free-vector (0).webp" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.AlexPi.Scr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -80,15 +70,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Page Update="Vws\ContainerL.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="rem move $(OutDir)$(TargetName).exe $(OutDir)$(TargetName)" />
   </Target>
-
 </Project>

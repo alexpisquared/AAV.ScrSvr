@@ -95,5 +95,6 @@
   <Project Path="OleksaScrSvr/OleksaScrSvr.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="ScreenUnionPOC/ScreenUnionPOC.csproj" />
   <Project Path="WpfApp1/WpfApp1.csproj" Id="be3c154f-f184-4247-8e2e-cae2d789c44d" />
 </Solution>

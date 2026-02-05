@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
@@ -12,27 +11,22 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="ReadMe.md" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="..\..\..\..\AAV.Shared\Src\AsLink\PlatformNeutral\EvLogHelperBase.cs" Link="AsLink\EvLogHelperBase.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="ReadMe.md" />
     <Content Include="doNotDisturb.ico" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="System.Formats.Asn1" Version="10.0.1" />
+    <PackageReference Include="System.Formats.Asn1" Version="10.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\MsGraphLib\MsGraphLibVer1.csproj" />
@@ -44,7 +38,6 @@
     <ProjectReference Include="..\OleksaScrSvr.View\OleksaScrSvr.View.csproj" />
     <ProjectReference Include="..\OleksaScrSvr.VM\OleksaScrSvr.VM.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -52,7 +45,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.OleksaScrSvr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -62,5 +54,4 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
 </Project>
