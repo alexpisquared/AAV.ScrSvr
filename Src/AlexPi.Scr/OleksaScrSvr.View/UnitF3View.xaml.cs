@@ -2,7 +2,7 @@
 
 public partial class UnitF3View
 {
-  TimeSpan _ts;
+  //TimeSpan _ts;
   readonly DateTime _idleStart;
 
   public UnitF3View()
