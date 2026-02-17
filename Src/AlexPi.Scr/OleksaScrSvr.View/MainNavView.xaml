@@ -42,8 +42,7 @@
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="F8"    CommandParameter="Page03RazerScSvVM" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="F9"    CommandParameter="ImportRifLifXlsxVM" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="F12"   CommandParameter="ZeroGravitiesNewVM" />
-    <Key
-      Binding Command="{Binding CheckDbCommand}"    Gesture="F11"   CommandParameter="DevDbg"             Modifiers="Ctrl" />
+    <KeyBinding Command="{Binding CheckDbCommand}"    Gesture="F11"   CommandParameter="DevDbg"             Modifiers="Ctrl" />
     <KeyBinding Command="{Binding TglAdmnCommand}"    Gesture="F12"   CommandParameter="F12"   Modifiers="Ctrl" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Left"  CommandParameter="Left"  Modifiers="Alt" />
     <KeyBinding Command="{Binding UpdateViewCommand}" Gesture="Right" CommandParameter="Right" Modifiers="Alt" />

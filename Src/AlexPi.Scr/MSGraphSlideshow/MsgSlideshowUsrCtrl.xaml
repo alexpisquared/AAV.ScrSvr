@@ -153,7 +153,7 @@
 
       </Grid>
     </vlc:VideoView>
-    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" />
+    <Image         x:Name="ImageView1" Source="https://ctlocalhub.com/wp-content/themes/directorytheme/images/Listing-Placeholder.png" d:Visibility="Collapsed" />
     <Viewbox       x:Name="vbFinal1m"  Visibility="Collapsed" Stretch="Fill">
       <Grid>
         <ProgressBar x:Name="pbFinal1m" Width="136" Maximum="100" Value="33" BorderThickness="0" Foreground="#500" Background="#008" />

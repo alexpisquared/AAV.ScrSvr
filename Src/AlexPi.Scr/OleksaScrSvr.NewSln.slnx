@@ -23,7 +23,6 @@
     <Project Path="ScreenTimeUsrCtrlLib/ScreenTimeUsrCtrlLib.csproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="__DeleteMe/__DeleteMe.csproj" />
   </Folder>
   <Folder Name="/Radar/" Id="78fae4ff-bd48-4a39-8c53-dea947d4b5f7">
     <Project Path="../../../Radar/Src/DB.WeatherX.PwrTls/DB.WeatherX.PwrTls.csproj">
