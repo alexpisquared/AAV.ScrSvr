@@ -39,7 +39,7 @@
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55.177" />-->
     <!-- //tu: blend/arc problem fix -->
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml">
