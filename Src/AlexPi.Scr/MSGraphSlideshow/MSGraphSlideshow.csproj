@@ -14,7 +14,7 @@
     <PackageReference Include="LibVLCSharp" Version="3.9.6" />
     <PackageReference Include="LibVLCSharp.WPF" Version="3.9.6" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.23" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
