@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="../../../../AAV.Shared/Src/NetLts/Ambience/AmbienceLib.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="../../../../AAV.Shared/Src/NetLts/StandardContractsLib/StandardContractsLib.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="TtsVoicesPocConsoleApp.csproj" />
+</Solution>

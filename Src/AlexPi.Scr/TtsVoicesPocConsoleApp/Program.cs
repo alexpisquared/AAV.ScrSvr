@@ -1,7 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AmbienceLib;
+﻿using AmbienceLib;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+//using AmbienceLib;
+//using Microsoft.Extensions.Logging;
 
 /// <summary>
 /// Apparently, 
