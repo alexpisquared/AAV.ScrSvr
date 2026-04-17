@@ -1,22 +1,17 @@
-﻿using System.Text;
+﻿using AmbienceLib;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TtsVoicesPocWpfApp;
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
-  public MainWindow()
+  readonly SpeechSynth _synth = new("key");
+
+  public MainWindow() => InitializeComponent();
+
+  void OnClose(object sender, RoutedEventArgs e) => Close();
+
+  async void OnSpeak(object sender, RoutedEventArgs e)
   {
-    InitializeComponent();
+   await _synth.SpeakAsync(tbSpeech.Text);
   }
 }

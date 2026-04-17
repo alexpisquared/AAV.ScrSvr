@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TtsVoicesPocWpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800" Background="#333">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="183*"/>
+      <RowDefinition Height="8"/>
+      <RowDefinition Height="247*"/>
+    </Grid.RowDefinitions>
+    <TextBox Margin="8" TextWrapping="Wrap" Text="Hi there. Hi there! Hi there? Hi there." x:Name="tbSpeech" Background="#222" Foreground="#FFF" />
+    <WrapPanel Grid.Row="2">
+      <Label Content="Speak" />
+      <Button Content="_Polina" Tag="" Click="OnSpeak" IsDefault="True"/>
+      <Button Content="_Ostap" Tag="" Click="OnSpeak" />
+      <Button Content="_Aria" Tag="" Click="OnSpeak" />
+      <Button Content="_Ryan" Tag="" Click="OnSpeak" />
+      <Button Content="_Sonia" Tag="" Click="OnSpeak" />
+      <Button Content="_Xiaomo" Tag="" Click="OnSpeak" />
+      
+    </WrapPanel>
+      <Button VerticalAlignment="Top" HorizontalAlignment="Right" IsCancel="True" Click="OnClose"/>
 
-    </Grid>
+  </Grid>
 </Window>
