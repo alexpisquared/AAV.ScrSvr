@@ -9,7 +9,4 @@
   <ItemGroup>
     <PackageReference Include="System.DirectoryServices" Version="10.0.6" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\Ambience\AmbienceLib.csproj" />
-  </ItemGroup>
 </Project>

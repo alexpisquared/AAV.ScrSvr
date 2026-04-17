@@ -9,5 +9,6 @@
   <Project Path="../../../../AAV.Shared/Src/NetLts/StandardContractsLib/StandardContractsLib.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="../TtsVoicesPocWpfApp/TtsVoicesPocWpfApp.csproj" Id="fcb5af30-ea86-41ad-bd20-176b8ed59850" />
   <Project Path="TtsVoicesPocConsoleApp.csproj" />
 </Solution>
