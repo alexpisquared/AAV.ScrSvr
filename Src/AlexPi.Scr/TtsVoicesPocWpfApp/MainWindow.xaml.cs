@@ -17,12 +17,18 @@ public partial class MainWindow : Window
   async void OnSpeak(object sender, RoutedEventArgs e)
   {
     _synth.SpeakAsyncCancelAll();
-    await _synth.SpeakAsync(tbSpeech.Text, voice: GetTheVoiceMatchingButtonContentWhichIsPresumablyExactlyMatchesTheCC_Names(((Button)sender)?.Content?.ToString()?.Replace("_", "")));
+    await _synth.SpeakAsync(tbSpeech.Text,
+      voice: GetVoice((sender as Button)?.Tag?.ToString()),
+      style: GetStyle((sender as Button)?.Tag?.ToString()));
   }
 
-  static string GetTheVoiceMatchingButtonContentWhichIsPresumablyExactlyMatchesTheCC_Names(string? voice) =>
+  static string GetVoice(string? voiceDotStyle) =>
     typeof(SpeechSynth.CC)
-      .GetField(voice ?? "", BindingFlags.Public | BindingFlags.Static)?
+      .GetField(voiceDotStyle?.Split('.')[0] ?? "", BindingFlags.Public | BindingFlags.Static)?
       .GetValue(null) as string
     ?? SpeechSynth.CC.Polina;
+  static string GetStyle(string? voiceDotStyle) =>
+    voiceDotStyle?.Contains('.') is true
+      ? voiceDotStyle.Split('.')[1]
+      : "";
 }
