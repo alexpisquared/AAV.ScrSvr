@@ -5,25 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TtsVoicesPocWpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="#333">
+        Title="MainWindow" Height="450" Width="800" Background="#1E1E1E">
+  <Window.Resources>
+    <Style TargetType="Button" x:Key="MacButton">
+      <Setter Property="Background" Value="#323232"/>
+      <Setter Property="Foreground" Value="#E0E0E0"/>
+      <Setter Property="BorderBrush" Value="#4A4A4A"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="14,6"/>
+      <Setter Property="Margin" Value="4"/>
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#3A3A3A"/>
+                <Setter TargetName="border" Property="BorderBrush" Value="#5A5A5A"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#505050"/>
+              </Trigger>
+              <Trigger Property="IsDefault" Value="True">
+                <Setter TargetName="border" Property="Background" Value="#0A84FF"/>
+                <Setter TargetName="border" Property="BorderBrush" Value="#409CFF"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="Button" x:Key="MacCloseButton">
+      <Setter Property="Width" Value="14"/>
+      <Setter Property="Height" Value="14"/>
+      <Setter Property="Margin" Value="8"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Ellipse x:Name="dot" Fill="#FF5F57" Width="14" Height="14"/>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="dot" Property="Fill" Value="#FF3B30"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="183*"/>
       <RowDefinition Height="8"/>
       <RowDefinition Height="247*"/>
     </Grid.RowDefinitions>
-    <TextBox Margin="8" TextWrapping="Wrap" Text="Hi there. Hi there! Hi there? Hi there." x:Name="tbSpeech" Background="#222" Foreground="#FFF" />
-    <WrapPanel Grid.Row="2">
-      <Label Content="Speak" />
-      <Button Content="_Polina" Tag="" Click="OnSpeak" IsDefault="True"/>
-      <Button Content="_Ostap" Tag="" Click="OnSpeak" />
-      <Button Content="_Aria" Tag="" Click="OnSpeak" />
-      <Button Content="_Ryan" Tag="" Click="OnSpeak" />
-      <Button Content="_Sonia" Tag="" Click="OnSpeak" />
-      <Button Content="_Xiaomo" Tag="" Click="OnSpeak" />
-      
+    <TextBox Margin="12" TextWrapping="Wrap" Text="Hi there. Hi there! Hi there? Hi there." x:Name="tbSpeech"
+             Background="#2A2A2A" Foreground="#E0E0E0" CaretBrush="#E0E0E0" SelectionBrush="#0A84FF"
+             BorderBrush="#3A3A3A" BorderThickness="1" Padding="8" FontSize="14"
+             FontFamily="SF Pro Text, Segoe UI, sans-serif"/>
+    <WrapPanel Grid.Row="2" Margin="8,0">
+      <Label Content="Speak" Foreground="#8E8E93" FontSize="13" VerticalAlignment="Center" Margin="4"/>
+      <Button Content="_Polina" Style="{StaticResource MacButton}" Click="OnSpeak" IsDefault="True"/>
+      <Button Content="_Ostap" Style="{StaticResource MacButton}" Click="OnSpeak"/>
+      <Button Content="_Aria" Style="{StaticResource MacButton}" Click="OnSpeak"/>
+      <Button Content="_Ryan" Style="{StaticResource MacButton}" Click="OnSpeak"/>
+      <Button Content="_Sonia" Style="{StaticResource MacButton}" Click="OnSpeak"/>
+      <Button Content="_Xiaomo" Style="{StaticResource MacButton}" Click="OnSpeak"/>
     </WrapPanel>
-      <Button VerticalAlignment="Top" HorizontalAlignment="Right" IsCancel="True" Click="OnClose"/>
-
+    <Button VerticalAlignment="Top" HorizontalAlignment="Left" IsCancel="True" Click="OnClose"
+            Style="{StaticResource MacCloseButton}"/>
   </Grid>
 </Window>
