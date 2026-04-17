@@ -19,7 +19,8 @@ public partial class MainWindow : Window
     _synth.SpeakAsyncCancelAll();
     await _synth.SpeakAsync(tbSpeech.Text,
       voice: GetVoice((sender as Button)?.Tag?.ToString()),
-      style: GetStyle((sender as Button)?.Tag?.ToString()));
+      style: GetStyle((sender as Button)?.Tag?.ToString()),
+      volumePercent: int.TryParse(tbVolume.Text, out var volume) ? volume : 33);
   }
 
   static string GetVoice(string? voiceDotStyle) =>
