@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TtsVoicesPocWpfApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="780" Width="800" Background="#1E1E1E">
+        Title="MainWindow" Height="780" Width="700" Background="#1E1E1E">
   <Window.Resources>
     <Style TargetType="Label" >
-      <Setter Property="Foreground" Value="#E0E0E0"/>
+      <Setter Property="Foreground" Value="#8E8E93"/>
     </Style>
     
     <Style TargetType="Button" x:Key="MacButton">
@@ -67,8 +67,8 @@
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="183*"/>
-      <RowDefinition Height="8"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="0"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
              <!--Text="Hi there. Hi there! Hi there? Hi there."--> 
@@ -79,7 +79,7 @@
              BorderBrush="#3A3A3A" BorderThickness="1" Padding="8" FontSize="14"
              FontFamily="SF Pro Text, Segoe UI, sans-serif"/>
     <WrapPanel Grid.Row="2" Margin="8,0">
-      <Label Content="Speak" Foreground="#8E8E93" FontSize="13" VerticalAlignment="Center" Margin="4"/>
+      <Label Content="Speak" FontSize="13" VerticalAlignment="Top" Margin="8 0"/>
       <StackPanel >
         <Label Content="Polina"  />
         <Button Content="cheerful"  Tag="Polina.cheerful"   Click="OnSpeak" />
