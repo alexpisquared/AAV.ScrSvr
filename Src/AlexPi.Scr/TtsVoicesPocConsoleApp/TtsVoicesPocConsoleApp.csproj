@@ -7,6 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.DirectoryServices" Version="10.0.7" />
+    <PackageReference Include="System.DirectoryServices" Version="10.0.8" />
   </ItemGroup>
 </Project>
