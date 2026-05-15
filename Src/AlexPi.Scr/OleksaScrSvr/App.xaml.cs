@@ -194,7 +194,13 @@ public partial class App : System.Windows.Application
 
                var sleepStart = DateTimeOffset.Now;
                logger.Log(LogLevel.Information, $"╞══{TimeSoFar} SetSuspendState(); ■ never?! goes beyond this on NUC2, GRAM1; only on RAZER1, MF1. On MF1 this is EOIdle  \n█·                     │");
-               _ = SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
+               {
+                 // 2026-05: Schaduler fails to wake up after this:   SetSuspendState(hibernate: false, forceCritical: true, disableWakeEvent: true); //2025: was all false: did not work on MinisForum. Trying also prevent periodic wake-ups.
+                 // => trying the tested methods from the  C:\g\CtrsPoc\ConcurentCollective\SleepStarterWpfApp\MainWindow.xaml.cs:
+                 logger.Log(LogLevel.Information, "Trying method 1/4: PInvoke SetSuspendState(false, false, false) ...");
+                 if (!SetSuspendState(false, false, false))
+                   logger.Log(LogLevel.Information, "Method 1/4 failed !!!");
+               }
 
                logger.Log(LogLevel.Information, $"╞══{TimeSoFar} Process()..Close();  !!! Wake time !!!  Slept for {VersionHelper.TimeAgo(DateTimeOffset.Now - sleepStart),8} ··");
                Process.GetCurrentProcess().Close();        //logger.Log(LogLevel.Information, $"+{TimeSoFar}  Process().Kill();    \n███·"); Process.GetCurrentProcess().Kill();
