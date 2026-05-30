@@ -1,4 +1,5 @@
-﻿using MSGraphSlideshow;
+﻿using System.Threading;
+using MSGraphSlideshow;
 using ScreenTimeUsrCtrlLib.AsLink;
 using static AmbienceLib.SpeechSynth;
 
@@ -11,6 +12,7 @@ public partial class App : System.Windows.Application
   string _audit = "audit is unassigned";
   readonly DateTimeOffset _appStarted = DateTimeOffset.Now;
   int f = 0;
+  Mutex? _singleInstanceMutex;
 
   public IServiceProvider ServiceProvider { get; }
 
@@ -33,6 +35,15 @@ public partial class App : System.Windows.Application
   {
     UnhandledExceptionHndlrUI.Logger = ServiceProvider.GetRequiredService<ILogger>();
     Current.DispatcherUnhandledException += UnhandledExceptionHndlrUI.OnCurrentDispatcherUnhandledException;
+
+    _singleInstanceMutex = new Mutex(initiallyOwned: true, "OleksaScrSvr_SingleInstanceMutex", out var isNewInstance);
+    if (!isNewInstance)
+    {
+      ServiceProvider.GetRequiredService<ILogger>().LogWarning($"╘══ Another instance is already running. Exiting.");
+      Shutdown();
+      return;
+    }
+
     EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotFocusEvent, new RoutedEventHandler((s, re) => { (s as TextBox ?? new TextBox()).SelectAll(); }));
     ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15000));
     ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(15));
@@ -100,6 +111,9 @@ public partial class App : System.Windows.Application
     }
 
     ServiceProvider.GetRequiredService<IBpr>().AppFinish();
+
+    _singleInstanceMutex?.ReleaseMutex();
+    _singleInstanceMutex?.Dispose();
 
     base.OnExit(e);
   }
