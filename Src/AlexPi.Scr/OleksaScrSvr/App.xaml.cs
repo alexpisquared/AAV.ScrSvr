@@ -39,7 +39,8 @@ public partial class App : System.Windows.Application
     _singleInstanceMutex = new Mutex(initiallyOwned: true, "OleksaScrSvr_SingleInstanceMutex", out var isNewInstance);
     if (!isNewInstance)
     {
-      ServiceProvider.GetRequiredService<ILogger>().LogWarning($"╘══ Another instance is already running. Exiting.");
+      await ServiceProvider.GetRequiredService<SpeechSynth>().SpeakAsync($"Another instance is already running. Exiting.");
+      ServiceProvider.GetRequiredService<ILogger>().LogWarning($"╘══ Another instance is already running. Exiting.\n██  ██  ██");
       Shutdown();
       return;
     }
@@ -230,7 +231,7 @@ public partial class App : System.Windows.Application
   {
     if (!Environment.CommandLine.Contains("Sched", StringComparison.OrdinalIgnoreCase))
     {
-      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine. ! Contains(\"Sched\"))\n██");
+      ServiceProvider.GetRequiredService<ILogger>().LogInformation($"╘══{TimeSoFar} OnExit   '{msg}'   *NOT* logged into the EventLog ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ :(Environment.CommandLine. !!!Contains(\"Sched\"))\n██");
     }
     else if (Environment.CommandLine.Contains("idle", StringComparison.OrdinalIgnoreCase) && (DateTimeOffset.Now - _appStarted).TotalMinutes < 1)
     {
