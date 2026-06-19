@@ -11,8 +11,8 @@
     <PackageReference Include="Microsoft.Graph" Version="4.54.0" /> branch: MSGraph-5-fixing-streaming -->
     <PackageReference Include="Microsoft.Graph" Version="6.2.0" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
-    <PackageReference Include="LibVLCSharp" Version="3.9.7.1" />
-    <PackageReference Include="LibVLCSharp.WPF" Version="3.9.7.1" />
+    <PackageReference Include="LibVLCSharp" Version="3.10.0" />
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.10.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.23.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.9" />
   </ItemGroup>
