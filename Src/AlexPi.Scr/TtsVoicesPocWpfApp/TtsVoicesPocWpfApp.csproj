@@ -6,7 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UserSecretsId>b3b743a4-b20a-4bfc-a75f-8a5b86677a7e</UserSecretsId>
+    <ApplicationIcon>lwarranty1.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="lwarranty1.ico" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.10" />
   </ItemGroup>
