@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net11.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,8 +7,8 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.2.0" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AAV.Shared\Src\NetLts\PeriodicTimerLib\PeriodicTimerLib.csproj" />

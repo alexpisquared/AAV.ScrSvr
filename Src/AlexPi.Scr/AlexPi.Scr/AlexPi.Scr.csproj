@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net11.0-windows</TargetFramework>
@@ -36,10 +36,10 @@
     <!-- LiveCharts V2: ..or OxyPlot maybe
     <PackageReference Include="CoelWu.LiveCharts.Core.SkiaSharpView.WPF" Version="1.0.0" />
     -->
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" />
     <!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55.177" />-->
     <!-- //tu: blend/arc problem fix -->
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\..\..\Radar\Src\Radar\View\PermaZoomFrameUsrCtrl.xaml" Link="UsrCtrls\PermaZoomFrameUsrCtrl.xaml">
