@@ -24,7 +24,7 @@
     <PackageVersion Include="Microsoft.Identity.Client" Version="4.92.0" />
     <PackageVersion Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.3.0" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="11.0.0" />
     <PackageVersion Include="System.DirectoryServices" Version="11.0.0" />
     <PackageVersion Include="System.Drawing.Common" Version="11.0.0" />
     <PackageVersion Include="VideoLAN.LibVLC.Windows" Version="3.0.24" />
